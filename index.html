@@ -3,683 +3,401 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MAIA: Music Adversarial Inpainting Attack - Importance-Driven Adversarial Attacks via Music Inpainting">
-    <meta name="keywords" content="Music Information Retrieval, Adversarial Attacks, Music Inpainting, GACELA, MIR Security">
-    <title>MAIA: Music Adversarial Inpainting Attack</title>
-    
-    <!-- Base URL for GitHub Pages - auto-detect -->
-    <script>
-        // Auto-detect base path for GitHub Pages
-        if (window.location.hostname === 'github.io' || window.location.hostname === 'github.com') {
-            const path = window.location.pathname.split('/').slice(0, -1).join('/');
-            document.write('<base href="' + (path || '/') + '/">');
-        }
-    </script>
+    <meta name="description" content="Yuxuan Liu - Research on AI Security and Music Information Retrieval">
+    <meta name="keywords" content="AI Security, Music IR, Membership Inference, Adversarial Attacks, Diffusion Models">
+    <meta name="author" content="Yuxuan Liu">
+    <title>Yuxuan Liu - Research Portfolio</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/audio-player.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    
-    <!-- External Libraries -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <!-- Styles -->
+    <style>
+        :root {
+            --color-bg: #0a0a0a;
+            --color-text: #ffffff;
+            --color-text-dim: #a0a0a0;
+            --color-card-bg: #1a1a1a;
+            --color-maia: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --color-lsa: linear-gradient(135deg, #0173B2 0%, #029E73 100%);
+            --color-ts: linear-gradient(135deg, #DE8F05 0%, #D55E00 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 4rem 2rem;
+        }
+        
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--color-text-dim);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        
+        .hero-affiliation {
+            font-size: 1.2rem;
+            color: var(--color-text-dim);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+        
+        .hero-cta {
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--color-text-dim);
+            animation: bounce 2s infinite;
+        }
+        
+        /* Papers Section */
+        .papers-section {
+            padding: 6rem 0;
+            min-height: 100vh;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--color-text-dim);
+            margin-bottom: 4rem;
+        }
+        
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .paper-card {
+            background: var(--color-card-bg);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .paper-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        
+        .paper-header {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .paper-header.maia {
+            background: var(--color-maia);
+        }
+        
+        .paper-header.lsa {
+            background: var(--color-lsa);
+        }
+        
+        .paper-header.ts {
+            background: var(--color-ts);
+        }
+        
+        .paper-venue {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .paper-body {
+            padding: 2rem;
+        }
+        
+        .paper-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .paper-authors {
+            font-size: 0.9rem;
+            color: var(--color-text-dim);
+            margin-bottom: 1rem;
+        }
+        
+        .paper-description {
+            font-size: 1rem;
+            color: var(--color-text-dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .paper-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .metric-badge.highlight {
+            background: rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-demo {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+            color: var(--color-text);
+        }
+        
+        .paper-card.maia .btn-demo:hover {
+            background: var(--color-maia);
+            border-color: transparent;
+        }
+        
+        .paper-card.lsa .btn-demo:hover {
+            background: var(--color-lsa);
+            border-color: transparent;
+        }
+        
+        .paper-card.ts .btn-demo:hover {
+            background: var(--color-ts);
+            border-color: transparent;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 4rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-link {
+            color: var(--color-text-dim);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: var(--color-text);
+        }
+        
+        .footer-copyright {
+            color: var(--color-text-dim);
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .papers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="nav-brand">MAIA</div>
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#motivation">Problem</a></li>
-                <li><a href="#method">Method</a></li>
-                <li><a href="#demo">Demo</a></li>
-                <li><a href="#results">Results</a></li>
-                <li><a href="#resources">Resources</a></li>
-            </ul>
+            <h1 class="hero-title">Yuxuan Liu</h1>
+            <p class="hero-subtitle">PhD Candidate in AI Security & Music Information Retrieval</p>
+            <p class="hero-affiliation">Xi'an Jiaotong-Liverpool University</p>
+            <div class="hero-cta">
+                <a href="#papers" class="btn-demo" style="background: rgba(255,255,255,0.1);">
+                    View Research →
+                </a>
+            </div>
         </div>
-    </nav>
-
-    <!-- Section 1: Hero Landing -->
-    <section id="hero" class="hero-section">
-        <canvas id="particles-canvas"></canvas>
-        <div class="container hero-content">
-            <h1 class="hero-title" data-aos="fade-up">
-                MAIA
-            </h1>
-            <h2 class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                Music Adversarial Inpainting Attack
-            </h2>
-            <p class="hero-description" data-aos="fade-up" data-aos-delay="400">
-                Importance-Driven Adversarial Attacks via Music Inpainting
-            </p>
-            <div class="hero-meta" data-aos="fade-up" data-aos-delay="600">
-                <span class="venue">ISMIR 2025</span>
-                <span class="separator">•</span>
-                <span class="authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Shengchen Li</span>
-            </div>
-            <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="800">
-                <div class="mouse">
-                    <div class="wheel"></div>
-                </div>
-                <p>Scroll to explore</p>
-            </div>
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke-width="2" stroke-linecap="round"/>
+            </svg>
         </div>
     </section>
 
-    <!-- Section 2: Problem & Motivation -->
-    <section id="motivation" class="motivation-section section-padding">
+    <!-- Papers Section -->
+    <section id="papers" class="papers-section">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Why MAIA?</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                Exposing vulnerabilities in Music Information Retrieval systems
-            </p>
+            <h2 class="section-title">Research Projects</h2>
+            <p class="section-subtitle">Interactive demonstrations of cutting-edge research in AI security and music analysis</p>
             
-            <div class="motivation-grid">
-                <div class="motivation-left" data-aos="fade-right">
-                    <div class="problem-statement">
-                        <h3>The Problem</h3>
-                        <p>
-                            Music Information Retrieval (MIR) systems are increasingly deployed in 
-                            commercial applications, from music recommendation to copyright detection. 
-                            However, their robustness against adversarial attacks remains largely unexplored.
+            <div class="papers-grid">
+                <!-- MAIA Card -->
+                <div class="paper-card maia" onclick="location.href='maia/'">
+                    <div class="paper-header maia">
+                        <div class="paper-venue">ISMIR 2025</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">MAIA: Music Adversarial Inpainting Attack</h3>
+                        <p class="paper-authors">Y. Liu, P. Zhang, R. Sang, Z. Li, S. Li</p>
+                        <p class="paper-description">
+                            Importance-driven adversarial attacks via music inpainting for MIR systems. 
+                            Uses GACELA inpainting model with adversarial guidance for targeted modifications.
                         </p>
-                        <div class="stat-boxes">
-                            <div class="stat-box">
-                                <div class="stat-number">92.8%</div>
-                                <div class="stat-label">White-box ASR</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-number">80.1%</div>
-                                <div class="stat-label">Black-box ASR</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-number">4.0/5</div>
-                                <div class="stat-label">Perceptual Quality</div>
-                            </div>
+                        <div class="paper-metrics">
+                            <span class="metric-badge highlight">92.8% ASR</span>
+                            <span class="metric-badge">MOS: 4.0/5</span>
+                            <span class="metric-badge">8 Audio Samples</span>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="motivation-right" data-aos="fade-left">
-                    <div class="comparison-card">
-                        <h3>Attack Approaches</h3>
-                        <div class="approach-comparison">
-                            <div class="approach-item noise-based">
-                                <div class="approach-icon">🔊</div>
-                                <h4>Noise-Based</h4>
-                                <ul>
-                                    <li>Adds imperceptible perturbations</li>
-                                    <li>Lacks interpretability</li>
-                                    <li>Ignores music structure</li>
-                                    <li>High-frequency artifacts</li>
-                                </ul>
-                                <span class="approach-tag">Traditional</span>
-                            </div>
-                            <div class="approach-item semantic-based">
-                                <div class="approach-icon">🎵</div>
-                                <h4>MAIA (Ours)</h4>
-                                <ul>
-                                    <li>Inpainting-based modifications</li>
-                                    <li>Preserves musical coherence</li>
-                                    <li>Importance-driven targeting</li>
-                                    <li>Natural audio quality</li>
-                                </ul>
-                                <span class="approach-tag highlight">Novel</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="key-insight" data-aos="zoom-in">
-                <div class="insight-icon">💡</div>
-                <div class="insight-content">
-                    <h4>Key Insight</h4>
-                    <p>
-                        By selectively inpainting the most important music segments identified through 
-                        Grad-CAM analysis, MAIA achieves higher attack success rates while maintaining 
-                        superior perceptual quality compared to noise-based methods.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 3: Method Overview -->
-    <section id="method" class="method-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">How MAIA Works</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                A three-step importance-driven adversarial inpainting framework
-            </p>
-            
-            <div class="method-steps">
-                <!-- Step 1: Importance Analysis -->
-                <div class="method-step" data-aos="fade-up" data-aos-delay="200">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3>Importance Analysis</h3>
-                        <p>
-                            Identify critical time-frequency regions that most influence the model's decision
-                        </p>
-                        <div class="step-details">
-                            <div class="detail-item">
-                                <h4>White-box: Grad-CAM</h4>
-                                <p>
-                                    Uses gradient-weighted class activation mapping to locate influential segments
-                                    with full model access
-                                </p>
-                                <div class="formula">
-                                    M<sub>c</sub>(x,y) = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> F<sub>k</sub><sup>l</sup>(x,y))
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Black-box: Coarse-to-Fine</h4>
-                                <p>
-                                    Iteratively queries the model to identify important regions through a 
-                                    hierarchical refinement process
-                                </p>
-                                <div class="formula">
-                                    I(C<sub>i</sub>) = [L(M(x̃<sub>-C<sub>i</sub></sub>), y) - L(M(x), y)] / duration(C<sub>i</sub>)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-visualization">
-                            <div class="viz-placeholder" id="gradcam-viz">
-                                <div class="spectrogram-mock">
-                                    <div class="heatmap-overlay"></div>
-                                </div>
-                                <p class="viz-caption">Grad-CAM heatmap on mel-spectrogram</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Step 2: Segment Selection -->
-                <div class="method-step" data-aos="fade-up" data-aos-delay="300">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3>Segment Selection</h3>
-                        <p>
-                            Select top-k most important segments for adversarial modification
-                        </p>
-                        <div class="step-details">
-                            <div class="detail-item">
-                                <h4>Priority-based Selection</h4>
-                                <p>
-                                    Rank segments by importance scores and select the top-k regions 
-                                    that contribute most to classification
-                                </p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Refinement Strategy</h4>
-                                <p>
-                                    Hierarchically refine coarse segments into finer granularity 
-                                    to pinpoint precise attack locations
-                                </p>
-                            </div>
-                        </div>
-                        <div class="step-visualization">
-                            <div class="segment-timeline" id="segment-viz">
-                                <div class="timeline-bar">
-                                    <div class="segment high" style="left: 15%; width: 8%;">
-                                        <span class="segment-label">High</span>
-                                    </div>
-                                    <div class="segment medium" style="left: 42%; width: 6%;">
-                                        <span class="segment-label">Med</span>
-                                    </div>
-                                    <div class="segment high" style="left: 72%; width: 10%;">
-                                        <span class="segment-label">High</span>
-                                    </div>
-                                </div>
-                                <p class="viz-caption">Selected important segments for inpainting</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Step 3: Adversarial Inpainting -->
-                <div class="method-step" data-aos="fade-up" data-aos-delay="400">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3>Adversarial Inpainting</h3>
-                        <p>
-                            Reconstruct selected segments using GACELA with adversarial guidance
-                        </p>
-                        <div class="step-details">
-                            <div class="detail-item">
-                                <h4>GACELA Inpainting Model</h4>
-                                <p>
-                                    Generative Adversarial Context Encoder for Long Audio inpainting 
-                                    ensures musically coherent reconstruction
-                                </p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Loss Function</h4>
-                                <p>
-                                    Balance reconstruction quality and attack effectiveness through 
-                                    weighted loss combination
-                                </p>
-                                <div class="formula">
-                                    L = λ<sub>rec</sub> L<sub>rec</sub> + λ<sub>att</sub> L<sub>attack</sub>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-visualization">
-                            <div class="inpainting-comparison" id="inpainting-viz">
-                                <div class="comparison-item">
-                                    <div class="waveform-mock before"></div>
-                                    <p>Before Inpainting</p>
-                                </div>
-                                <div class="arrow">→</div>
-                                <div class="comparison-item">
-                                    <div class="waveform-mock after"></div>
-                                    <p>After Inpainting</p>
-                                </div>
-                            </div>
-                            <p class="viz-caption">Adversarial inpainting maintains audio quality</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 4: Interactive Audio Demo -->
-    <section id="demo" class="demo-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Interactive Demo</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                Listen to adversarial attacks in action
-            </p>
-            
-            <div class="demo-container">
-                <!-- Sample Selector -->
-                <div class="demo-controls" data-aos="fade-up" data-aos-delay="200">
-                    <div class="control-group">
-                        <label for="sample-select">Select Audio Sample:</label>
-                        <select id="sample-select" class="sample-dropdown">
-                            <option value="0">Blues #1 → Jazz (Success)</option>
-                            <option value="1">Blues #2 → Rock (Success)</option>
-                            <option value="2">Classical #1 → Ambient (Success)</option>
-                            <option value="3">Classical #2 → Classical (Failed)</option>
-                            <option value="4">Country #1 → Folk (Success)</option>
-                            <option value="5">Country #2 → Pop (Success)</option>
-                            <option value="6">Pop #1 → Dance (Success)</option>
-                            <option value="7">Pop #2 → Pop (Failed)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Audio Players -->
-                <div class="audio-players-grid" data-aos="fade-up" data-aos-delay="300">
-                    <div class="player-card">
-                        <h3>Original Audio</h3>
-                        <div id="waveform-original" class="waveform"></div>
-                        <div class="player-controls">
-                            <button id="play-original" class="btn-play">▶ Play</button>
-                            <input type="range" id="volume-original" class="volume-slider" min="0" max="100" value="80">
-                            <span class="time-display" id="time-original">0:00 / 0:00</span>
-                        </div>
-                    </div>
-                    
-                    <div class="player-card">
-                        <h3>Adversarial Audio</h3>
-                        <div id="waveform-adversarial" class="waveform"></div>
-                        <div class="player-controls">
-                            <button id="play-adversarial" class="btn-play">▶ Play</button>
-                            <input type="range" id="volume-adversarial" class="volume-slider" min="0" max="100" value="80">
-                            <span class="time-display" id="time-adversarial">0:00 / 0:00</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Synchronized Playback -->
-                <div class="sync-controls" data-aos="fade-up" data-aos-delay="400">
-                    <button id="btn-sync-play" class="btn-sync">
-                        <span class="icon">🔄</span> Synchronized A/B Comparison
-                    </button>
-                </div>
-                
-                <!-- Attack Info Panel -->
-                <div class="attack-info-panel" data-aos="fade-up" data-aos-delay="500">
-                    <div class="info-grid">
-                        <div class="info-card prediction-card">
-                            <h4>Original Prediction</h4>
-                            <div class="prediction-content">
-                                <div class="genre-label" id="original-genre">Blues</div>
-                                <div class="confidence-bar">
-                                    <div class="confidence-fill" id="original-confidence" style="width: 89%"></div>
-                                </div>
-                                <div class="confidence-text" id="original-confidence-text">89%</div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card prediction-card adversarial">
-                            <h4>Adversarial Prediction</h4>
-                            <div class="prediction-content">
-                                <div class="genre-label adversarial" id="adversarial-genre">Jazz</div>
-                                <div class="confidence-bar">
-                                    <div class="confidence-fill adversarial" id="adversarial-confidence" style="width: 67%"></div>
-                                </div>
-                                <div class="confidence-text" id="adversarial-confidence-text">67%</div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card status-card">
-                            <h4>Attack Status</h4>
-                            <div class="status-content" id="attack-status">
-                                <span class="status-icon success">✅</span>
-                                <span class="status-text">Success</span>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card metrics-card">
-                            <h4>Perceptual Metrics</h4>
-                            <div class="metrics-list">
-                                <div class="metric-item">
-                                    <span class="metric-label">FAD:</span>
-                                    <span class="metric-value" id="metric-fad">11.25</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">LSD:</span>
-                                    <span class="metric-value" id="metric-lsd">1.58</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">MOS:</span>
-                                    <span class="metric-value" id="metric-mos">4.0/5</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Inpainting Regions Timeline -->
-                <div class="regions-timeline" data-aos="fade-up" data-aos-delay="600">
-                    <h4>Inpainting Regions</h4>
-                    <div class="timeline-container" id="regions-timeline">
-                        <div class="timeline-track">
-                            <div class="region-marker" data-start="5.0" data-end="5.4" style="left: 16.67%; width: 1.33%;">
-                                <div class="region-tooltip">5.0-5.4s</div>
-                            </div>
-                            <div class="region-marker" data-start="12.0" data-end="12.3" style="left: 40%; width: 1%;">
-                                <div class="region-tooltip">12.0-12.3s</div>
-                            </div>
-                            <div class="region-marker" data-start="18.0" data-end="18.5" style="left: 60%; width: 1.67%;">
-                                <div class="region-tooltip">18.0-18.5s</div>
-                            </div>
-                        </div>
-                        <div class="timeline-labels">
-                            <span>0s</span>
-                            <span>10s</span>
-                            <span>20s</span>
-                            <span>30s</span>
-                        </div>
-                    </div>
-                    <p class="timeline-hint">Click on regions to jump to that time in the audio</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 5: Results Showcase -->
-    <section id="results" class="results-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Results</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                MAIA outperforms existing adversarial attack methods
-            </p>
-            
-            <!-- Performance Cards -->
-            <div class="performance-grid" data-aos="fade-up" data-aos-delay="200">
-                <div class="perf-card whitebox">
-                    <div class="card-header">
-                        <h3>MAIA White-Box</h3>
-                        <span class="card-badge">Best</span>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value large">92.8%</div>
-                        <div class="metric-label">Attack Success Rate</div>
-                    </div>
-                    <div class="metric-list">
-                        <div class="metric-row">
-                            <span>mAP Degradation:</span>
-                            <span class="value">0.845 → 0.488</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>FAD:</span>
-                            <span class="value">11.25</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>MOS:</span>
-                            <span class="value">4.0/5</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="perf-card baseline">
-                    <div class="card-header">
-                        <h3>Baselines (WB)</h3>
-                        <span class="card-badge">PGD / C&W</span>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value large">82-88%</div>
-                        <div class="metric-label">Attack Success Rate</div>
-                    </div>
-                    <div class="metric-list">
-                        <div class="metric-row">
-                            <span>mAP Degradation:</span>
-                            <span class="value">0.560 - 0.619</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>FAD:</span>
-                            <span class="value">12.11 - 12.64</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>MOS:</span>
-                            <span class="value">3.1 - 3.4/5</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="perf-card blackbox">
-                    <div class="card-header">
-                        <h3>MAIA Black-Box</h3>
-                        <span class="card-badge">Best</span>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value large">80.1%</div>
-                        <div class="metric-label">Attack Success Rate</div>
-                    </div>
-                    <div class="metric-list">
-                        <div class="metric-row">
-                            <span>mAP Degradation:</span>
-                            <span class="value">0.845 → 0.594</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>FAD:</span>
-                            <span class="value">12.56</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>MOS:</span>
-                            <span class="value">3.6/5</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Interactive Charts -->
-            <div class="charts-container">
-                <div class="chart-card" data-aos="fade-up" data-aos-delay="300">
-                    <h3>Attack Success Rate Comparison</h3>
-                    <div id="chart-asr" class="chart"></div>
-                </div>
-                
-                <div class="chart-card" data-aos="fade-up" data-aos-delay="400">
-                    <h3>Perceptual Quality vs. Attack Success</h3>
-                    <div id="chart-quality" class="chart"></div>
-                </div>
-            </div>
-            
-            <!-- Detailed Metrics Table -->
-            <div class="metrics-table-container" data-aos="fade-up" data-aos-delay="500">
-                <h3>Detailed Performance Metrics</h3>
-                <div class="table-responsive">
-                    <table class="metrics-table">
-                        <thead>
-                            <tr>
-                                <th>Method</th>
-                                <th>ASR ↑</th>
-                                <th>mAP ↓</th>
-                                <th>FAD ↓</th>
-                                <th>LSD ↓</th>
-                                <th>MOS ↑</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="section-header">
-                                <td colspan="6"><strong>White-Box Attacks (CSI)</strong></td>
-                            </tr>
-                            <tr>
-                                <td>PGD</td>
-                                <td>82.1%</td>
-                                <td>0.619</td>
-                                <td>12.64</td>
-                                <td>2.10</td>
-                                <td>3.1</td>
-                            </tr>
-                            <tr>
-                                <td>C&W</td>
-                                <td>88.5%</td>
-                                <td>0.560</td>
-                                <td>12.11</td>
-                                <td>1.94</td>
-                                <td>3.4</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td><strong>MAIA-WB</strong></td>
-                                <td><strong>92.8%</strong></td>
-                                <td><strong>0.488</strong></td>
-                                <td><strong>11.25</strong></td>
-                                <td><strong>1.58</strong></td>
-                                <td><strong>4.0</strong></td>
-                            </tr>
-                            <tr class="section-header">
-                                <td colspan="6"><strong>Black-Box Attacks (CSI)</strong></td>
-                            </tr>
-                            <tr>
-                                <td>NES</td>
-                                <td>70.2%</td>
-                                <td>0.682</td>
-                                <td>13.93</td>
-                                <td>2.27</td>
-                                <td>2.8</td>
-                            </tr>
-                            <tr>
-                                <td>ZOO</td>
-                                <td>74.9%</td>
-                                <td>0.639</td>
-                                <td>13.51</td>
-                                <td>2.12</td>
-                                <td>3.0</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td><strong>MAIA-BB</strong></td>
-                                <td><strong>80.1%</strong></td>
-                                <td><strong>0.594</strong></td>
-                                <td><strong>12.56</strong></td>
-                                <td><strong>1.90</strong></td>
-                                <td><strong>3.6</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 6: Resources & Impact -->
-    <section id="resources" class="resources-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Resources & Impact</h2>
-            
-            <div class="resources-grid">
-                <!-- Applications -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Applications</h3>
-                    <div class="application-cards">
-                        <div class="app-card">
-                            <div class="app-icon">🛡️</div>
-                            <h4>Copyright Protection</h4>
-                            <p>Test robustness of music copyright detection systems against adversarial attacks</p>
-                        </div>
-                        <div class="app-card">
-                            <div class="app-icon">🔍</div>
-                            <h4>Model Auditing</h4>
-                            <p>Evaluate security vulnerabilities in deployed MIR models before production</p>
-                        </div>
-                        <div class="app-card">
-                            <div class="app-icon">🔒</div>
-                            <h4>Privacy Evaluation</h4>
-                            <p>Assess privacy risks in music generation and recommendation systems</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Code & Paper -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="300">
-                    <h3>Code & Paper</h3>
-                    <div class="resource-links">
-                        <a href="https://anonymous.4open.science/" class="resource-link" target="_blank">
-                            <div class="link-icon">💻</div>
-                            <div class="link-content">
-                                <h4>GitHub Repository</h4>
-                                <p>Anonymous submission - Code and models</p>
-                            </div>
-                            <div class="link-arrow">→</div>
-                        </a>
-                        <a href="#" class="resource-link" target="_blank">
-                            <div class="link-icon">📄</div>
-                            <div class="link-content">
-                                <h4>Paper (ISMIR 2025)</h4>
-                                <p>Full technical details and experiments</p>
-                            </div>
-                            <div class="link-arrow">→</div>
+                        <a href="maia/" class="btn-demo">
+                            View Interactive Demo →
                         </a>
                     </div>
                 </div>
                 
-                <!-- Citation -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="400">
-                    <h3>Citation</h3>
-                    <div class="citation-box">
-                        <pre><code>@inproceedings{maia2025,
-  title={MAIA: Music Adversarial Inpainting Attack},
-  author={Liu, Yuxuan and Zhang, Peihong and Sang, Rui and Li, Zhixin and Li, Shengchen},
-  booktitle={Proceedings of the International Society for Music Information Retrieval Conference},
-  year={2025}
-}</code></pre>
-                        <button class="btn-copy" id="btn-copy-citation">
-                            <span class="copy-icon">📋</span> Copy Citation
-                        </button>
+                <!-- LSA-Probe Card -->
+                <div class="paper-card lsa" onclick="location.href='lsa-probe/'">
+                    <div class="paper-header lsa">
+                        <div class="paper-venue">ICASSP 2026</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">LSA-Probe: Latent Stability Adversarial Probe</h3>
+                        <p class="paper-authors">Y. Liu, P. Zhang, R. Sang, Z. Li, Y. Tan, Y. Cai, S. Li</p>
+                        <p class="paper-description">
+                            Membership inference for music diffusion models via generative manifold perturbation. 
+                            Measures adversarial cost across diffusion timesteps for robust detection.
+                        </p>
+                        <div class="paper-metrics">
+                            <span class="metric-badge highlight">TPR@1%FPR: +8%</span>
+                            <span class="metric-badge">AUC: 0.67</span>
+                            <span class="metric-badge">Interactive Timestep Slider</span>
+                        </div>
+                        <a href="lsa-probe/" class="btn-demo">
+                            Explore Algorithm →
+                        </a>
                     </div>
                 </div>
                 
-                <!-- Contact -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="500">
-                    <h3>Contact</h3>
-                    <div class="contact-info">
-                        <p><strong>Authors:</strong> Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Shengchen Li</p>
-                        <p><strong>Institution:</strong> Xi'an Jiaotong-Liverpool University</p>
-                        <p><strong>Email:</strong> shengchen.li@xjtlu.edu.cn</p>
+                <!-- TS-RaMIA Card -->
+                <div class="paper-card ts" onclick="location.href='ts-ramia/'">
+                    <div class="paper-header ts">
+                        <div class="paper-venue">AAAI 2025</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">TS-RaMIA: Token-Structure-Aware Membership Inference</h3>
+                        <p class="paper-authors">Y. Liu, P. Zhang, R. Sang, Z. Li, S. Li</p>
+                        <p class="paper-description">
+                            Structure-aware membership inference attacks for music generation models. 
+                            Exploits token-level and structural patterns for improved detection.
+                        </p>
+                        <div class="paper-metrics">
+                            <span class="metric-badge highlight">94.5% TPR@5%FPR</span>
+                            <span class="metric-badge">10 Demo Samples</span>
+                            <span class="metric-badge">ROC Visualizations</span>
+                        </div>
+                        <a href="ts-ramia/" class="btn-demo">
+                            Try the Demo →
+                        </a>
                     </div>
                 </div>
             </div>
@@ -689,17 +407,44 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 MAIA Project. All rights reserved.</p>
-            <p>Built for research and educational purposes.</p>
+            <div class="footer-links">
+                <a href="https://github.com/kaslim" class="footer-link" target="_blank">GitHub</a>
+                <a href="https://scholar.google.com" class="footer-link" target="_blank">Google Scholar</a>
+                <a href="mailto:yuxuan.liu2204@student.xjtlu.edu.cn" class="footer-link">Email</a>
+            </div>
+            <p class="footer-copyright">&copy; 2025 Yuxuan Liu. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/audio-player.js"></script>
-    <script src="js/visualizations.js"></script>
-    <script src="js/demo.js"></script>
-    <script src="js/scroll-effects.js"></script>
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.paper-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
-

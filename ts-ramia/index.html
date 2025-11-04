@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TS-RaMIA: First Membership Inference Attack on Music Generation Models - Revealing privacy risks through transcription structure analysis">
+    <meta name="keywords" content="membership inference attack, music AI, privacy, machine learning, deep learning">
+    <meta name="author" content="TS-RaMIA Team">
+    
+    <title>TS-RaMIA: First MIA on Music Models</title>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container">
+            <a href="../" class="nav-brand" style="text-decoration: none;">← TS-RaMIA</a>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="nav-link">Home</a></li>
+                <li><a href="#motivation" class="nav-link">Problem</a></li>
+                <li><a href="#method" class="nav-link">Method</a></li>
+                <li><a href="#demo" class="nav-link">Demo</a></li>
+                <li><a href="#results" class="nav-link">Results</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Section 1: Hero -->
+    <section id="hero" class="hero-section">
+        <canvas id="particles-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title animate-fade-in">TS-RaMIA</h1>
+            <h2 class="hero-subtitle animate-fade-in-delay-1">First Membership Inference Attack on Music Models</h2>
+            <p class="hero-description animate-fade-in-delay-2">
+                Revealing privacy risks in music generation through transcription structure analysis
+            </p>
+            <div class="hero-badges animate-fade-in-delay-3">
+                <span class="badge badge-primary">🎵 Music AI</span>
+                <span class="badge badge-warning">🔓 Privacy Risk</span>
+                <span class="badge badge-success">🏆 First MIA</span>
+            </div>
+            <a href="#method" class="hero-cta animate-fade-in-delay-4">Explore the Attack →</a>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
+
+    <!-- Section 2: Motivation -->
+    <section id="motivation" class="motivation-section">
+        <div class="container">
+            <h2 class="section-title">The Privacy Problem</h2>
+            <div class="motivation-grid">
+                <div class="motivation-text">
+                    <h3>Can AI Music Models Remember Training Data?</h3>
+                    <p class="lead">
+                        Music generation models learn from thousands of compositions. 
+                        But can we tell if a specific piece was in the training set?
+                    </p>
+                    <p>
+                        <strong>Why This Matters:</strong>
+                    </p>
+                    <ul class="feature-list">
+                        <li>🎼 Copyright protection for composers</li>
+                        <li>📜 Compliance with data usage agreements</li>
+                        <li>🔒 Privacy risks in music AI systems</li>
+                        <li>⚖️ Legal implications for AI training</li>
+                    </ul>
+                    <div class="stats-box">
+                        <div class="stat">
+                            <div class="stat-value">44.2%</div>
+                            <div class="stat-label">TPR @ 1% FPR</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">0.925</div>
+                            <div class="stat-label">AUC Score</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="motivation-demo">
+                    <h4>Interactive Example</h4>
+                    <p class="demo-instruction">Hover over samples to see if they're training data</p>
+                    <div class="sample-cards">
+                        <div class="sample-card" data-label="member">
+                            <div class="card-content">
+                                <div class="card-icon">🎹</div>
+                                <div class="card-title">Bach Prelude</div>
+                                <div class="card-status">Training Sample</div>
+                            </div>
+                        </div>
+                        <div class="sample-card" data-label="non-member">
+                            <div class="card-content">
+                                <div class="card-icon">🎵</div>
+                                <div class="card-title">Chopin Nocturne</div>
+                                <div class="card-status">Non-Training</div>
+                            </div>
+                        </div>
+                        <div class="sample-card" data-label="member">
+                            <div class="card-content">
+                                <div class="card-icon">🎼</div>
+                                <div class="card-title">Mozart Sonata</div>
+                                <div class="card-status">Training Sample</div>
+                            </div>
+                        </div>
+                        <div class="sample-card" data-label="non-member">
+                            <div class="card-content">
+                                <div class="card-icon">🎹</div>
+                                <div class="card-title">Beethoven Symphony</div>
+                                <div class="card-status">Non-Training</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Method -->
+    <section id="method" class="method-section">
+        <div class="container">
+            <h2 class="section-title">Our Approach</h2>
+            <p class="section-subtitle">A three-step attack leveraging structural tokens in music notation</p>
+            
+            <div class="method-steps">
+                <!-- Step 1 -->
+                <div class="method-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Structural Token Identification</h3>
+                        <p>Extract structure-revealing tokens from ABC notation (bars, time signatures, key signatures)</p>
+                        <div class="step-visualization">
+                            <div id="abc-demo" class="abc-container">
+                                <div class="abc-line">
+                                    <span class="token">X:1</span>
+                                    <span class="token structure">|</span>
+                                    <span class="token note">C</span>
+                                    <span class="token note">E</span>
+                                    <span class="token note">G</span>
+                                    <span class="token structure">|</span>
+                                    <span class="token note">C</span>
+                                    <span class="token structure">M:4/4</span>
+                                    <span class="token structure">K:Cmaj</span>
+                                    <span class="token structure">|</span>
+                                </div>
+                                <div class="legend">
+                                    <span><span class="legend-box structure"></span> Structural Tokens</span>
+                                    <span><span class="legend-box note"></span> Note Tokens</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="method-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Top-k Tail Scoring</h3>
+                        <p>Focus on the hardest-to-predict tokens (Top-64) which reveal memorization</p>
+                        <div class="step-visualization">
+                            <div id="topk-chart"></div>
+                            <div class="chart-note">
+                                Higher scores = Harder to predict = More likely memorized
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="method-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Multi-Temperature Fusion</h3>
+                        <p>Combine scores across different temperatures (0.8, 1.0, 1.2, 1.5) for robust detection</p>
+                        <div class="step-visualization">
+                            <div id="temperature-chart"></div>
+                            <div class="fusion-formula">
+                                <code>Final Score = Fusion(Score<sub>T=0.8</sub>, Score<sub>T=1.0</sub>, Score<sub>T=1.2</sub>, Score<sub>T=1.5</sub>)</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Interactive Demo -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <h2 class="section-title">Try It Yourself</h2>
+            <p class="section-subtitle">See the attack in action on real music samples</p>
+            
+            <div class="demo-grid">
+                <!-- Control Panel -->
+                <div class="demo-controls">
+                    <h3>Select a Sample</h3>
+                    <select id="sample-selector" class="sample-selector">
+                        <option value="">-- Choose a piece --</option>
+                    </select>
+                    
+                    <div id="sample-info" class="sample-info" style="display: none;">
+                        <h4>Sample Information</h4>
+                        <div class="info-row">
+                            <span class="info-label">Composer:</span>
+                            <span class="info-value" id="info-composer"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Total Tokens:</span>
+                            <span class="info-value" id="info-tokens"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Structural Tokens:</span>
+                            <span class="info-value" id="info-struct-tokens"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">True Label:</span>
+                            <span class="info-value" id="info-label"></span>
+                        </div>
+                        <div class="abc-preview">
+                            <h5>ABC Notation</h5>
+                            <pre id="abc-snippet"></pre>
+                        </div>
+                    </div>
+                    
+                    <button id="run-attack-btn" class="btn-primary" disabled>Run Attack</button>
+                </div>
+
+                <!-- Visualization Panel -->
+                <div class="demo-visualization">
+                    <div class="viz-section">
+                        <h4>Attack Process</h4>
+                        <div id="attack-progress" class="attack-progress">
+                            <div class="progress-step" data-step="1">
+                                <div class="step-icon">🔍</div>
+                                <div class="step-name">Analyzing Tokens...</div>
+                            </div>
+                            <div class="progress-step" data-step="2">
+                                <div class="step-icon">📊</div>
+                                <div class="step-name">Computing Scores...</div>
+                            </div>
+                            <div class="progress-step" data-step="3">
+                                <div class="step-icon">🎯</div>
+                                <div class="step-name">Selecting Top-64...</div>
+                            </div>
+                            <div class="progress-step" data-step="4">
+                                <div class="step-icon">🔥</div>
+                                <div class="step-name">Fusing Results...</div>
+                            </div>
+                        </div>
+                        <div id="token-scores-chart"></div>
+                    </div>
+                    
+                    <div class="viz-section">
+                        <h4>Attack Result</h4>
+                        <div id="result-display" class="result-display">
+                            <div class="result-placeholder">
+                                Select a sample and click "Run Attack" to see results
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Results -->
+    <section id="results" class="results-section">
+        <div class="container">
+            <h2 class="section-title">Performance Results</h2>
+            <p class="section-subtitle">Our method significantly outperforms baseline approaches</p>
+            
+            <!-- Performance Cards -->
+            <div class="metrics-cards">
+                <div class="metric-card" data-method="baseline">
+                    <div class="card-header">
+                        <span class="card-icon">📊</span>
+                        <h3>Baseline</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric-main">
+                            <div class="metric-value" data-target="0.679">0.000</div>
+                            <div class="metric-label">AUC</div>
+                        </div>
+                        <div class="metric-details">
+                            <div class="detail-item">
+                                <span class="detail-label">TPR@1%FPR</span>
+                                <span class="detail-value" data-target="1.46">0.00</span>%
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">TPR@5%FPR</span>
+                                <span class="detail-value" data-target="9.71">0.00</span>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card" data-method="structtail64">
+                    <div class="card-header">
+                        <span class="card-icon">🎯</span>
+                        <h3>StructTail-64</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric-main">
+                            <div class="metric-value" data-target="0.794">0.000</div>
+                            <div class="metric-label">AUC</div>
+                        </div>
+                        <div class="metric-details">
+                            <div class="detail-item">
+                                <span class="detail-label">TPR@1%FPR</span>
+                                <span class="detail-value" data-target="14.63">0.00</span>%
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">TPR@5%FPR</span>
+                                <span class="detail-value" data-target="28.29">0.00</span>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card" data-method="fusion">
+                    <div class="card-header">
+                        <span class="card-icon">🚀</span>
+                        <h3>StructTail+Fusion</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="metric-main">
+                            <div class="metric-value" data-target="0.925">0.000</div>
+                            <div class="metric-label">AUC</div>
+                        </div>
+                        <div class="metric-details">
+                            <div class="detail-item">
+                                <span class="detail-label">TPR@1%FPR</span>
+                                <span class="detail-value" data-target="44.20">0.00</span>%
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">TPR@5%FPR</span>
+                                <span class="detail-value" data-target="68.75">0.00</span>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROC Curve -->
+            <div class="roc-container">
+                <h3>ROC Curve Comparison</h3>
+                <div class="roc-controls">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggle-baseline" checked> Baseline
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggle-structtail64" checked> StructTail-64
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="toggle-fusion" checked> StructTail+Fusion
+                    </label>
+                    <button id="zoom-lowfpr" class="btn-secondary">Zoom to Low FPR (0-5%)</button>
+                    <button id="zoom-reset" class="btn-secondary">Reset View</button>
+                </div>
+                <div id="roc-chart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Resources -->
+    <section id="resources" class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Resources & Impact</h2>
+            
+            <div class="resources-grid">
+                <!-- Applications -->
+                <div class="resource-block">
+                    <h3>Real-World Applications</h3>
+                    <div class="application-cards">
+                        <div class="app-card">
+                            <div class="app-icon">🎵</div>
+                            <h4>Music Copyright Protection</h4>
+                            <p>Detect if copyrighted music was used in model training</p>
+                        </div>
+                        <div class="app-card">
+                            <div class="app-icon">📋</div>
+                            <h4>Training Data Audit</h4>
+                            <p>Verify compliance with data usage agreements</p>
+                        </div>
+                        <div class="app-card">
+                            <div class="app-icon">🔒</div>
+                            <h4>Model Privacy Assessment</h4>
+                            <p>Evaluate privacy risks before deployment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code & Paper -->
+                <div class="resource-block">
+                    <h3>Code & Paper</h3>
+                    <div class="resource-links">
+                        <a href="https://anonymous.4open.science/r/TS-RaMIA-63F0/README.md" class="resource-link" target="_blank">
+                            <div class="link-icon">💻</div>
+                            <div class="link-content">
+                                <div class="link-title">GitHub Repository</div>
+                                <div class="link-description">Full implementation and documentation</div>
+                            </div>
+                        </a>
+                        <a href="#" class="resource-link">
+                            <div class="link-icon">📄</div>
+                            <div class="link-content">
+                                <div class="link-title">Research Paper</div>
+                                <div class="link-description">Technical details and analysis</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="citation-box">
+                        <h4>Citation</h4>
+                        <pre><code>@article{ts-ramia2025,
+  title={TS-RaMIA: Membership Inference Attacks 
+         for Symbolic Music Generation Models},
+  author={Yuxuan Liu},
+  year={2025}
+}</code></pre>
+                        <button class="btn-copy" onclick="copyToClipboard()">Copy Citation</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team -->
+            <div class="team-section">
+                <h3>Team</h3>
+                <p>Research conducted at [Your Institution]</p>
+                <div class="team-contact">
+                    <a href="mailto:contact@example.com">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TS-RaMIA. All rights reserved.</p>
+            <p>Built with ❤️ for advancing privacy-aware AI</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/visualizations.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/scroll-effects.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LSA-Probe: Membership Inference via Latent Stability Analysis for Music Diffusion Models">
+    <meta name="keywords" content="Membership Inference, Diffusion Models, Music Generation, Adversarial Attacks, AI Security">
+    <title>LSA-Probe: Latent Stability Adversarial Probe | ICASSP 2026</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- D3.js for visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/explorer.css">
+    <link rel="stylesheet" href="css/algorithm.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="../" class="nav-brand">
+                <span>← </span><span>LSA-Probe</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#method">Method</a></li>
+                <li><a href="#explorer">Explorer</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="venue-badge">ICASSP 2026</div>
+                <h1 class="hero-title">LSA-Probe: Latent Stability Adversarial Probe</h1>
+                <h2 class="hero-subtitle">
+                    Membership Inference for Music Diffusion Models via Generative Manifold Perturbation
+                </h2>
+                <div class="hero-authors">
+                    Yuxuan Liu, Peizhuo Zhang, Ruiqi Sang, Zhiyong Li, Yan Tan, Yi Cai, Sheng Li
+                </div>
+                <div class="hero-affiliation">
+                    Xi'an Jiaotong-Liverpool University
+                </div>
+                <div class="hero-metrics">
+                    <div class="metric-item">
+                        <div class="metric-value">+8%</div>
+                        <div class="metric-label">TPR@1%FPR Improvement</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">0.67</div>
+                        <div class="metric-label">AUC</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">4</div>
+                        <div class="metric-label">Model-Dataset Pairs</div>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <a href="#explorer" class="btn btn-primary">Try Interactive Demo</a>
+                    <a href="#resources" class="btn btn-secondary">View Paper</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">The Challenge</h2>
+            <p class="section-subtitle">Why existing MIA methods fail for audio diffusion models</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">🎵</div>
+                    <h3>High-Dimensional Audio</h3>
+                    <p>
+                        Audio waveforms are high-dimensional (16kHz × 10s = 160k samples).
+                        Traditional loss-based MIA methods struggle with such complex data.
+                    </p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🌊</div>
+                    <h3>Diffusion Dynamics</h3>
+                    <p>
+                        Diffusion models have complex denoising trajectories. Simple likelihood
+                        comparisons fail to capture membership signals across timesteps.
+                    </p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⚡</div>
+                    <h3>Latent Stability</h3>
+                    <p>
+                        Members exhibit <strong>higher stability</strong> in latent space under adversarial
+                        perturbations. This is our key insight for improved detection.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="comparison-chart">
+                <h3 class="chart-title">Baseline Methods vs LSA-Probe</h3>
+                <div id="baseline-comparison-chart"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section id="method" class="section">
+        <div class="container">
+            <h2 class="section-title">Two-Loop Adversarial Probe</h2>
+            <p class="section-subtitle">Measuring latent stability through adaptive perturbation</p>
+            
+            <div class="method-overview">
+                <div class="method-description">
+                    <h3>Core Idea</h3>
+                    <p>
+                        We measure <strong>adversarial cost</strong> \(C_{\text{adv}}\): the minimum perturbation budget
+                        needed to degrade reconstruction quality below a threshold. Members require
+                        <strong>higher budgets</strong> (more stable) than non-members.
+                    </p>
+                    
+                    <h3>Algorithm</h3>
+                    <div class="algorithm-box">
+                        <div class="algorithm-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong>Outer Loop:</strong> Binary search for minimum budget \(\eta\)
+                                where degradation \(D \geq \tau\)
+                            </div>
+                        </div>
+                        <div class="algorithm-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong>Inner Loop:</strong> PGD optimization to maximize degradation
+                                under budget constraint \(\|\delta\|_p \leq \eta\)
+                            </div>
+                        </div>
+                        <div class="algorithm-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong>Output:</strong> Adversarial cost \(C_{\text{adv}} = \eta^*\)
+                                (higher = more stable = member)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="algorithm-visualization">
+                    <h3>Interactive Visualization</h3>
+                    <div id="algorithm-canvas-container">
+                        <canvas id="algorithm-canvas" width="600" height="500"></canvas>
+                        <div class="algorithm-controls">
+                            <button id="play-algorithm" class="btn btn-primary">▶ Play</button>
+                            <button id="reset-algorithm" class="btn btn-secondary">↺ Reset</button>
+                            <div class="control-group">
+                                <label>Sample Type:</label>
+                                <select id="sample-type">
+                                    <option value="member">Member (Higher Stability)</option>
+                                    <option value="non-member">Non-Member (Lower Stability)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="algorithm-status"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timestep-insight">
+                <h3>Why Timestep Matters</h3>
+                <p>
+                    Different diffusion timesteps \(t\) reveal different membership signals.
+                    <strong>Mid-trajectory</strong> (t ≈ 0.6T) shows best separability between members and non-members.
+                </p>
+                <div class="timestep-diagram">
+                    <div class="timestep-stage">
+                        <div class="stage-label">Early (t→0)</div>
+                        <div class="stage-description">Nearly pure noise<br/>Low signal</div>
+                    </div>
+                    <div class="timestep-stage active">
+                        <div class="stage-label">Mid (t≈0.6T)</div>
+                        <div class="stage-description">Best separability<br/>★ Optimal</div>
+                    </div>
+                    <div class="timestep-stage">
+                        <div class="stage-label">Late (t→T)</div>
+                        <div class="stage-description">Clear reconstruction<br/>Less distinctive</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Explorer Section -->
+    <section id="explorer" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Interactive Explorer</h2>
+            <p class="section-subtitle">Explore how adversarial cost distributions change across diffusion timesteps</p>
+            
+            <div class="explorer-container">
+                <!-- Timestep Control -->
+                <div class="control-panel">
+                    <div class="control-header">
+                        <h3>Diffusion Timestep</h3>
+                        <div class="current-timestep">
+                            t_ratio = <span id="current-t-value">0.6</span>
+                        </div>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="timestep-slider" 
+                               min="0.2" max="0.8" step="0.2" value="0.6"
+                               class="timestep-slider">
+                        <div class="slider-labels">
+                            <span>0.2</span>
+                            <span>0.4</span>
+                            <span>0.6</span>
+                            <span>0.8</span>
+                        </div>
+                    </div>
+                    <div class="timestep-hint">
+                        Move the slider to see how adversarial costs change with timestep
+                    </div>
+                </div>
+                
+                <!-- Distribution Chart -->
+                <div class="chart-panel">
+                    <h3>Adversarial Cost Distribution</h3>
+                    <div id="distribution-chart"></div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #0173B2;"></div>
+                            <span>Members (Training Data)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #DE8F05;"></div>
+                            <span>Non-Members (Unseen Data)</span>
+                        </div>
+                    </div>
+                    <div class="separability-metric">
+                        Separability (AUC): <span id="current-auc">0.67</span>
+                    </div>
+                </div>
+                
+                <!-- ROC Curve -->
+                <div class="chart-panel">
+                    <h3>ROC Curve</h3>
+                    <div id="roc-chart"></div>
+                    <div class="roc-metrics">
+                        <div class="roc-metric">
+                            <span class="metric-label">TPR @ 0.1% FPR:</span>
+                            <span class="metric-value" id="tpr-01">5.1%</span>
+                        </div>
+                        <div class="roc-metric">
+                            <span class="metric-label">TPR @ 1% FPR:</span>
+                            <span class="metric-value" id="tpr-1">20.0%</span>
+                        </div>
+                        <div class="roc-metric">
+                            <span class="metric-label">TPR @ 5% FPR:</span>
+                            <span class="metric-value" id="tpr-5">42.0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="section">
+        <div class="container">
+            <h2 class="section-title">Experimental Results</h2>
+            <p class="section-subtitle">Comprehensive evaluation across models and datasets</p>
+            
+            <!-- Main Results Table -->
+            <div class="results-panel">
+                <h3>Main Results</h3>
+                <div id="main-results-table"></div>
+            </div>
+            
+            <div class="results-grid">
+                <!-- Budget Ablation -->
+                <div class="result-card">
+                    <h3>Budget Ablation</h3>
+                    <p>TPR@1%FPR vs. maximum budget \(\eta_{\text{max}}\)</p>
+                    <div id="budget-ablation-chart"></div>
+                </div>
+                
+                <!-- Metric Comparison -->
+                <div class="result-card">
+                    <h3>Distance Metric Comparison</h3>
+                    <p>Performance across different degradation metrics</p>
+                    <div id="metric-comparison-chart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Resources</h2>
+            <p class="section-subtitle">Paper, code, and citation</p>
+            
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">📄</div>
+                    <h3>Paper</h3>
+                    <p>Read the full paper on arXiv</p>
+                    <a href="#" class="btn btn-primary">View Paper</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">💻</div>
+                    <h3>Code</h3>
+                    <p>GitHub repository with implementation</p>
+                    <a href="https://github.com/kaslim/LSA-Probe" class="btn btn-primary">View Code</a>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon">📊</div>
+                    <h3>Data</h3>
+                    <p>Experimental data and checkpoints</p>
+                    <a href="#" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+            
+            <div class="citation-box">
+                <h3>Citation</h3>
+                <pre><code>@inproceedings{liu2026lsaprobe,
+  title={LSA-Probe: Membership Inference via Latent Stability Analysis for Music Diffusion Models},
+  author={Liu, Yuxuan and Zhang, Peizhuo and Sang, Ruiqi and Li, Zhiyong and Tan, Yan and Cai, Yi and Li, Sheng},
+  booktitle={ICASSP 2026-2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year={2026},
+  organization={IEEE}
+}</code></pre>
+                <button class="btn btn-copy" onclick="copyToClipboard()">📋 Copy</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Yuxuan Liu. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../">Back to Homepage</a>
+                <a href="../maia/">MAIA (ISMIR)</a>
+                <a href="../ts-ramia/">TS-RaMIA (AAAI)</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/explorer.js"></script>
+    <script src="js/algorithm-viz.js"></script>
+    <script src="js/roc-interactive.js"></script>
+    
+    <script>
+        // Render math
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]
+            });
+        });
+        
+        // Copy citation
+        function copyToClipboard() {
+            const citation = document.querySelector('.citation-box code').textContent;
+            navigator.clipboard.writeText(citation).then(() => {
+                alert('Citation copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>
+

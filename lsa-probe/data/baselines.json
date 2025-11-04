@@ -1,0 +1,31 @@
+{
+  "methods": [
+    "Loss-based",
+    "Trajectory",
+    "SecMI",
+    "LSA-Probe (Ours)"
+  ],
+  "data": {
+    "Loss-based": {
+      "tpr_1": 0.08,
+      "tpr_01": 0.014,
+      "auc": 0.585
+    },
+    "Trajectory": {
+      "tpr_1": 0.1,
+      "tpr_01": 0.019,
+      "auc": 0.6
+    },
+    "SecMI": {
+      "tpr_1": 0.12,
+      "tpr_01": 0.023,
+      "auc": 0.63
+    },
+    "LSA-Probe (Ours)": {
+      "tpr_1": 0.2,
+      "tpr_01": 0.051,
+      "auc": 0.67
+    }
+  },
+  "description": "Comparison with baseline methods"
+}

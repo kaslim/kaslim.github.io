@@ -1,0 +1,201 @@
+/* Algorithm Visualization Styles */
+
+#algorithm-canvas-container {
+    position: relative;
+    width: 100%;
+}
+
+#algorithm-canvas {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    background: #0d0d0d;
+    border: 1px solid rgba(1, 115, 178, 0.3);
+}
+
+.algorithm-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.algorithm-controls .btn {
+    min-width: 120px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(1, 115, 178, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+.control-group label {
+    font-size: 0.9rem;
+    color: var(--color-text-dim);
+    font-weight: 500;
+}
+
+.control-group select {
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-group select:hover {
+    border-color: var(--color-primary);
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(1, 115, 178, 0.2);
+}
+
+#algorithm-status {
+    margin-top: 1.5rem;
+    padding: 1.2rem;
+    background: rgba(1, 115, 178, 0.1);
+    border-radius: 0.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    min-height: 80px;
+    border-left: 4px solid var(--color-primary);
+    line-height: 1.6;
+}
+
+#algorithm-status.running {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        background: rgba(1, 115, 178, 0.1);
+    }
+    50% {
+        background: rgba(1, 115, 178, 0.2);
+    }
+}
+
+/* Canvas Visualization Elements (styled via canvas API, these are reference classes) */
+.canvas-loop-label {
+    /* Outer loop: Blue gradient */
+    color: #0173B2;
+}
+
+.canvas-inner-loop-label {
+    /* Inner loop: Green */
+    color: #029E73;
+}
+
+.canvas-member-path {
+    /* Member trajectory: Solid blue */
+    stroke: #0173B2;
+}
+
+.canvas-nonmember-path {
+    /* Non-member trajectory: Dashed orange */
+    stroke: #DE8F05;
+}
+
+.canvas-perturbation {
+    /* Perturbation visualization */
+    fill: rgba(222, 143, 5, 0.3);
+}
+
+.canvas-degradation-bar {
+    /* Degradation progress bar */
+    fill: #029E73;
+}
+
+/* Animation States */
+.algorithm-visualization.playing #play-algorithm {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #algorithm-canvas {
+        max-width: 100%;
+    }
+    
+    .algorithm-controls {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .algorithm-controls .btn,
+    .control-group {
+        width: 100%;
+    }
+    
+    .control-group {
+        justify-content: space-between;
+    }
+}
+
+/* Additional visual states for canvas rendering */
+.algorithm-step-highlight {
+    animation: stepHighlight 1s ease-in-out;
+}
+
+@keyframes stepHighlight {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Legend for canvas visualization */
+.canvas-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.canvas-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.canvas-legend-line {
+    width: 30px;
+    height: 3px;
+    background: var(--color-primary);
+}
+
+.canvas-legend-line.dashed {
+    background: repeating-linear-gradient(
+        to right,
+        var(--color-accent) 0px,
+        var(--color-accent) 5px,
+        transparent 5px,
+        transparent 10px
+    );
+}
+
+.canvas-legend-item span {
+    color: var(--color-text-dim);
+}
+

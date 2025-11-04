@@ -1,0 +1,59 @@
+{
+  "models": [
+    "DiffWave_MAESTRO",
+    "DiffWave_FMA",
+    "MusicLDM_MAESTRO",
+    "MusicLDM_FMA"
+  ],
+  "data": {
+    "DiffWave_MAESTRO": {
+      "best_baseline": {
+        "tpr_1": 0.09,
+        "auc": 0.59
+      },
+      "ours": {
+        "tpr_1": 0.14,
+        "auc": 0.62
+      },
+      "delta_tpr": 0.05,
+      "delta_auc": 0.03
+    },
+    "DiffWave_FMA": {
+      "best_baseline": {
+        "tpr_1": 0.07,
+        "auc": 0.57
+      },
+      "ours": {
+        "tpr_1": 0.12,
+        "auc": 0.6
+      },
+      "delta_tpr": 0.05,
+      "delta_auc": 0.03
+    },
+    "MusicLDM_MAESTRO": {
+      "best_baseline": {
+        "tpr_1": 0.12,
+        "auc": 0.63
+      },
+      "ours": {
+        "tpr_1": 0.2,
+        "auc": 0.67
+      },
+      "delta_tpr": 0.08,
+      "delta_auc": 0.04
+    },
+    "MusicLDM_FMA": {
+      "best_baseline": {
+        "tpr_1": 0.11,
+        "auc": 0.62
+      },
+      "ours": {
+        "tpr_1": 0.18,
+        "auc": 0.66
+      },
+      "delta_tpr": 0.07,
+      "delta_auc": 0.04
+    }
+  },
+  "description": "Main experimental results from paper (Table 1)"
+}

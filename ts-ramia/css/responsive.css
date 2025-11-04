@@ -1,0 +1,466 @@
+/* =====================================
+   TS-RaMIA Responsive Stylesheet
+   ===================================== */
+
+/* Tablet Landscape and Below (Max 1024px) */
+@media screen and (max-width: 1024px) {
+    :root {
+        --spacing-lg: 2.5rem;
+        --spacing-xl: 3rem;
+    }
+
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+
+    /* Hero Section */
+    .hero-title {
+        font-size: 4rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+
+    /* Motivation Grid */
+    .motivation-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .motivation-text {
+        padding-right: 0;
+    }
+
+    /* Demo Grid */
+    .demo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .demo-controls {
+        position: static;
+        margin-bottom: var(--spacing-md);
+    }
+
+    /* Resources Grid */
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablet Portrait and Below (Max 768px) */
+@media screen and (max-width: 768px) {
+    :root {
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 2.5rem;
+    }
+
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.5rem; }
+
+    /* Navigation */
+    .nav-menu {
+        display: none; /* Hide on mobile, can implement hamburger menu */
+    }
+
+    /* Hero Section */
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .hero-badges {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Sample Cards */
+    .sample-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* Method Steps */
+    .method-step {
+        grid-template-columns: 1fr;
+    }
+
+    .step-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        margin: 0 auto var(--spacing-sm);
+    }
+
+    /* Attack Progress */
+    .attack-progress {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Metrics Cards */
+    .metrics-cards {
+        grid-template-columns: 1fr;
+    }
+
+    /* ROC Controls */
+    .roc-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .toggle-label {
+        width: 100%;
+    }
+
+    /* Application Cards */
+    .app-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Mobile (Max 480px) */
+@media screen and (max-width: 480px) {
+    :root {
+        --spacing-sm: 0.75rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 1.5rem;
+        --spacing-xl: 2rem;
+    }
+
+    html {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+
+    /* Navigation */
+    .navbar .container {
+        padding-top: var(--spacing-xs);
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .nav-brand {
+        font-size: 1.2rem;
+    }
+
+    /* Hero Section */
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-content {
+        padding: var(--spacing-md);
+    }
+
+    .hero-cta {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 1rem;
+    }
+
+    /* Stats Box */
+    .stats-box {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    /* ABC Demo */
+    .abc-line {
+        font-size: 1rem;
+    }
+
+    /* Attack Progress */
+    .attack-progress {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-step .step-name {
+        font-size: 0.75rem;
+    }
+
+    /* Metric Cards */
+    .metric-value {
+        font-size: 2.5rem;
+    }
+
+    .detail-value {
+        font-size: 1.2rem;
+    }
+
+    /* Legend */
+    .legend {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Optimize images and text for retina displays */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Print Styles */
+@media print {
+    * {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    .navbar,
+    .hero-cta,
+    .scroll-indicator,
+    .demo-controls,
+    .btn-primary,
+    .btn-secondary,
+    .footer {
+        display: none !important;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    h2, h3 {
+        page-break-after: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    .section-title {
+        page-break-before: always;
+    }
+
+    .section-title:first-child {
+        page-break-before: avoid;
+    }
+}
+
+/* Landscape Mobile Orientation */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        min-height: auto;
+        padding: var(--spacing-xl) 0;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+    /* Uncomment if you want to support dark mode
+    :root {
+        --background: #1a1a1a;
+        --background-dark: #2a2a2a;
+        --text-dark: #f8f9fa;
+        --text-light: #adb5bd;
+        --border-color: #3a3a3a;
+        --shadow: rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #2d3561 0%, #483559 100%);
+    }
+
+    .sample-card,
+    .metric-card,
+    .app-card,
+    .step-content {
+        background: #2a2a2a;
+    }
+
+    .token.note {
+        background: #3a3a3a;
+    }
+    */
+}
+
+/* Very Large Screens (Min 1440px) */
+@media screen and (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+
+    .hero-title {
+        font-size: 6rem;
+    }
+
+    .hero-subtitle {
+        font-size: 2rem;
+    }
+}
+
+/* Extra Small Devices (Max 360px) */
+@media screen and (max-width: 360px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .card-icon,
+    .app-icon {
+        font-size: 1.5rem;
+    }
+
+    .metric-value {
+        font-size: 2rem;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+}
+
+/* Sticky Navigation */
+@media screen and (min-width: 769px) {
+    .navbar.scrolled {
+        box-shadow: 0 4px 20px var(--shadow);
+    }
+
+    .navbar.hidden {
+        transform: translateY(-100%);
+    }
+}
+
+/* Grid Adjustments for Different Breakpoints */
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+    .metrics-cards {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .demo-grid {
+        grid-template-columns: 350px 1fr;
+    }
+}
+
+/* Touch-Friendly Adjustments */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets for mobile */
+    .nav-link,
+    .btn-primary,
+    .btn-secondary,
+    .sample-card {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Remove hover effects on touch devices */
+    .hover-lift:hover,
+    .hover-scale:hover,
+    .hover-glow:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Add active states for touch feedback */
+    .btn-primary:active {
+        transform: scale(0.98);
+    }
+
+    .sample-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Accessibility - High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary: #0066cc;
+        --text-dark: #000000;
+        --text-light: #333333;
+        --border-color: #000000;
+    }
+
+    .sample-card,
+    .metric-card,
+    .step-content {
+        border: 2px solid var(--border-color);
+    }
+
+    .token.structure {
+        border: 1px solid #000;
+    }
+}
+
+/* Specific Component Adjustments */
+@media screen and (max-width: 768px) {
+    /* Stack token visualization vertically */
+    .abc-line {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Simplify chart displays */
+    #topk-chart,
+    #temperature-chart,
+    #token-scores-chart,
+    #roc-chart {
+        min-height: 250px;
+        max-height: 300px;
+    }
+
+    /* Adjust demo visualization layout */
+    .viz-section {
+        padding: var(--spacing-md);
+    }
+
+    /* Compact metric displays */
+    .metric-details {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .detail-item {
+        text-align: left;
+        width: 100%;
+        padding: var(--spacing-xs) 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+}
+

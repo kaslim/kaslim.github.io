@@ -1,0 +1,75 @@
+{
+  "methods": {
+    "baseline": {
+      "name": "Baseline (mean NLL)",
+      "description": "Simple mean negative log-likelihood over all tokens",
+      "auc": 0.679,
+      "tpr_at_1fpr": 0.0146,
+      "tpr_at_5fpr": 0.0971,
+      "tpr_at_10fpr": 0.1934,
+      "color": "#0173B2",
+      "icon": "📊"
+    },
+    "structtail64": {
+      "name": "StructTail-64",
+      "description": "Top-64 structural tokens averaging",
+      "auc": 0.794,
+      "tpr_at_1fpr": 0.1463,
+      "tpr_at_5fpr": 0.2829,
+      "tpr_at_10fpr": 0.3893,
+      "color": "#DE8F05",
+      "icon": "🎯"
+    },
+    "fusion": {
+      "name": "StructTail+Fusion",
+      "description": "Multi-temperature fusion with meta-learning",
+      "auc": 0.925,
+      "tpr_at_1fpr": 0.4420,
+      "tpr_at_5fpr": 0.6875,
+      "tpr_at_10fpr": 0.8358,
+      "color": "#029E73",
+      "icon": "🚀"
+    }
+  },
+  "dataset": {
+    "name": "MAESTRO v3.0.0",
+    "total_pieces": 1276,
+    "train_pieces": 954,
+    "test_pieces": 322,
+    "total_tokens": "~2.5M",
+    "structural_tokens": "~450K"
+  },
+  "comparison": {
+    "improvement_over_baseline": {
+      "auc": "+36.3%",
+      "tpr_at_1fpr": "+2925%",
+      "tpr_at_5fpr": "+608%"
+    },
+    "improvement_over_structtail64": {
+      "auc": "+16.5%",
+      "tpr_at_1fpr": "+202%",
+      "tpr_at_5fpr": "+143%"
+    }
+  },
+  "applications": [
+    {
+      "title": "Music Copyright Protection",
+      "description": "Detect if a music piece was used in training",
+      "icon": "🎵",
+      "impact": "High"
+    },
+    {
+      "title": "Training Data Audit",
+      "description": "Verify compliance with data usage agreements",
+      "icon": "📋",
+      "impact": "Critical"
+    },
+    {
+      "title": "Model Privacy Assessment",
+      "description": "Evaluate privacy risks before deployment",
+      "icon": "🔒",
+      "impact": "Essential"
+    }
+  ]
+}
+
