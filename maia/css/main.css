@@ -470,15 +470,6 @@ a:hover {
     text-align: center;
 }
 
-.viz-placeholder img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
-    display: block;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    margin-bottom: var(--spacing-sm);
-}
-
 .viz-caption {
     font-size: var(--font-size-sm);
     color: var(--color-text-light);
@@ -506,14 +497,6 @@ a:hover {
 
 .segment-timeline {
     padding: var(--spacing-md);
-}
-
-.segment-timeline img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
-    display: block;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .timeline-bar {
@@ -557,15 +540,6 @@ a:hover {
 .comparison-item {
     flex: 1;
     text-align: center;
-}
-
-.comparison-item img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--border-radius);
-    display: block;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    margin-bottom: var(--spacing-sm);
 }
 
 .waveform-mock {

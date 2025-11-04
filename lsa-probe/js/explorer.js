@@ -16,12 +16,19 @@ function initializeExplorer() {
         updateExplorer(tRatio);
     });
     
-    // Initialize charts
-    createDistributionChart();
-    createROCChart();
-    
-    // Initial update
-    updateExplorer(window.LSAProbe.currentTimestep);
+    // Initialize charts (after a tick to ensure layout)
+    requestAnimationFrame(() => {
+        createDistributionChart();
+        createROCChart();
+        updateExplorer(window.LSAProbe.currentTimestep);
+    });
+
+    // Re-render on window resize
+    window.addEventListener('resize', () => {
+        createDistributionChart();
+        createROCChart();
+        updateExplorer(window.LSAProbe.currentTimestep);
+    });
     
     console.log('✓ Explorer initialized');
 }
@@ -30,7 +37,10 @@ function createDistributionChart() {
     const container = d3.select('#distribution-chart');
     container.selectAll('*').remove();
     
-    const width = container.node().getBoundingClientRect().width;
+    let width = container.node().getBoundingClientRect().width;
+    if (!width || width < 10) {
+        width = container.node().parentElement?.getBoundingClientRect().width || 800;
+    }
     const height = 400;
     const margin = { top: 20, right: 30, bottom: 50, left: 60 };
     const innerWidth = width - margin.left - margin.right;
@@ -177,7 +187,10 @@ function createROCChart() {
     const container = d3.select('#roc-chart');
     container.selectAll('*').remove();
     
-    const width = container.node().getBoundingClientRect().width;
+    let width = container.node().getBoundingClientRect().width;
+    if (!width || width < 10) {
+        width = container.node().parentElement?.getBoundingClientRect().width || 800;
+    }
     const height = 400;
     const margin = { top: 20, right: 30, bottom: 50, left: 60 };
     const innerWidth = width - margin.left - margin.right;
