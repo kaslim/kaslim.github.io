@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSA-Probe Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        .test-section {
+            background: #1a1a1a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #0173B2;
+        }
+        .success {
+            color: #029E73;
+        }
+        .error {
+            color: #cc0000;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #0d0d0d;
+            border-radius: 5px;
+        }
+        button {
+            background: #0173B2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #029E73;
+        }
+    </style>
+</head>
+<body>
+    <h1>LSA-Probe Loading Test</h1>
+    
+    <div class="test-section">
+        <h2>Data File Check</h2>
+        <div id="file-check-results"></div>
+        <button onclick="checkDataFiles()">Check Data Files</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Script Loading Check</h2>
+        <div id="script-check-results"></div>
+        <button onclick="checkScripts()">Check Scripts</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Full Page Test</h2>
+        <a href="lsa-probe/index.html" target="_blank">
+            <button>Open LSA-Probe Demo</button>
+        </a>
+        <p style="margin-top: 10px; color: #a0a0a0; font-size: 0.9rem;">
+            Open browser console (F12) to see detailed logs
+        </p>
+    </div>
+
+    <script>
+        async function checkDataFiles() {
+            const resultsDiv = document.getElementById('file-check-results');
+            resultsDiv.innerHTML = '<p>Checking...</p>';
+            
+            const dataFiles = [
+                'lsa-probe/data/adversarial_costs.json',
+                'lsa-probe/data/roc_curves.json',
+                'lsa-probe/data/budget_ablation.json',
+                'lsa-probe/data/metric_comparison.json',
+                'lsa-probe/data/baselines.json',
+                'lsa-probe/data/main_results.json'
+            ];
+            
+            let html = '';
+            let allSuccess = true;
+            
+            for (const file of dataFiles) {
+                try {
+                    const response = await fetch(file);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const size = JSON.stringify(data).length;
+                        html += `<div class="test-result success">✓ ${file} (${(size/1024).toFixed(1)}KB)</div>`;
+                    } else {
+                        html += `<div class="test-result error">✗ ${file} - Status: ${response.status}</div>`;
+                        allSuccess = false;
+                    }
+                } catch (error) {
+                    html += `<div class="test-result error">✗ ${file} - Error: ${error.message}</div>`;
+                    allSuccess = false;
+                }
+            }
+            
+            if (allSuccess) {
+                html = '<p class="success">All data files loaded successfully!</p>' + html;
+            } else {
+                html = '<p class="error">Some data files failed to load!</p>' + html;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        async function checkScripts() {
+            const resultsDiv = document.getElementById('script-check-results');
+            resultsDiv.innerHTML = '<p>Checking...</p>';
+            
+            const scriptFiles = [
+                'lsa-probe/js/main.js',
+                'lsa-probe/js/data-loader.js',
+                'lsa-probe/js/explorer.js',
+                'lsa-probe/js/algorithm-viz.js',
+                'lsa-probe/js/roc-interactive.js'
+            ];
+            
+            let html = '';
+            let allSuccess = true;
+            
+            for (const file of scriptFiles) {
+                try {
+                    const response = await fetch(file);
+                    if (response.ok) {
+                        const text = await response.text();
+                        const lines = text.split('\n').length;
+                        html += `<div class="test-result success">✓ ${file} (${lines} lines)</div>`;
+                    } else {
+                        html += `<div class="test-result error">✗ ${file} - Status: ${response.status}</div>`;
+                        allSuccess = false;
+                    }
+                } catch (error) {
+                    html += `<div class="test-result error">✗ ${file} - Error: ${error.message}</div>`;
+                    allSuccess = false;
+                }
+            }
+            
+            if (allSuccess) {
+                html = '<p class="success">All script files accessible!</p>' + html;
+            } else {
+                html = '<p class="error">Some script files failed to load!</p>' + html;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
+
