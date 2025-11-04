@@ -7,48 +7,57 @@ window.LSAProbe = {
     isPlaying: false
 };
 
-// Smooth scroll for navigation
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
-
-// Navbar scroll effect
-let lastScrollTop = 0;
-const navbar = document.getElementById('navbar');
-
-window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop > 100) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)';
-    } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.boxShadow = 'none';
-    }
-    
-    lastScrollTop = scrollTop;
-});
-
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Initializing LSA-Probe demo...');
+    
+    // Setup smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
+    // Setup navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.5)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+    }
     
     try {
         // Load all data
         await loadAllData();
         
         // Initialize visualizations
-        initializeBaselines();
-        initializeExplorer();
-        initializeAlgorithmViz();
-        initializeResults();
+        if (typeof initializeBaselines === 'function') {
+            initializeBaselines();
+        }
+        if (typeof initializeExplorer === 'function') {
+            initializeExplorer();
+        }
+        if (typeof initializeAlgorithmViz === 'function') {
+            initializeAlgorithmViz();
+        }
+        if (typeof initializeResults === 'function') {
+            initializeResults();
+        }
         
         console.log('✓ Demo initialized successfully');
     } catch (error) {
@@ -79,17 +88,17 @@ function showError(message) {
     }, 5000);
 }
 
-// Utility: Format number
-function formatNumber(num, decimals = 2) {
+// Utility: Format number (global)
+window.formatNumber = function(num, decimals = 2) {
     return Number(num).toFixed(decimals);
-}
+};
 
-// Utility: Format percentage
-function formatPercent(num, decimals = 1) {
+// Utility: Format percentage (global)
+window.formatPercent = function(num, decimals = 1) {
     return (num * 100).toFixed(decimals) + '%';
-}
+};
 
-// Export utilities
-window.LSAProbe.formatNumber = formatNumber;
-window.LSAProbe.formatPercent = formatPercent;
+// Export utilities to LSAProbe namespace
+window.LSAProbe.formatNumber = window.formatNumber;
+window.LSAProbe.formatPercent = window.formatPercent;
 

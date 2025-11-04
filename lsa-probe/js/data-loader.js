@@ -13,12 +13,30 @@ async function loadAllData() {
     ];
     
     try {
+        // Fetch all files
         const responses = await Promise.all(
-            dataFiles.map(file => fetch(file))
+            dataFiles.map(async (file) => {
+                console.log(`Fetching ${file}...`);
+                const response = await fetch(file);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${file}: ${response.status} ${response.statusText}`);
+                }
+                return response;
+            })
         );
         
+        console.log('All files fetched, parsing JSON...');
+        
+        // Parse JSON
         const data = await Promise.all(
-            responses.map(r => r.json())
+            responses.map(async (r, i) => {
+                try {
+                    return await r.json();
+                } catch (error) {
+                    console.error(`Failed to parse ${dataFiles[i]}:`, error);
+                    throw error;
+                }
+            })
         );
         
         // Store in global state
@@ -31,12 +49,13 @@ async function loadAllData() {
             mainResults: data[5]
         };
         
-        console.log('✓ All data loaded:', window.LSAProbe.data);
+        console.log('✓ All data loaded successfully');
+        console.log('Data structure:', Object.keys(window.LSAProbe.data));
         return window.LSAProbe.data;
         
     } catch (error) {
         console.error('Error loading data:', error);
-        throw new Error('Failed to load data files');
+        throw error;
     }
 }
 
