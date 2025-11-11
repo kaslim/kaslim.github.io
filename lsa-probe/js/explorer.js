@@ -334,9 +334,9 @@ function updateROCChart(tRatio) {
     
     // Update metrics display
     document.getElementById('current-auc').textContent = rocData.auc.toFixed(3);
-    document.getElementById('tpr-01').textContent = formatPercent(rocData.tpr_at_0.1_fpr || 0);
-    document.getElementById('tpr-1').textContent = formatPercent(rocData.tpr_at_1_fpr || 0);
-    document.getElementById('tpr-5').textContent = formatPercent(rocData.tpr_at_5_fpr || 0);
+    document.getElementById('tpr-01').textContent = formatPercent(rocData['tpr_at_0.1_fpr'] || 0);
+    document.getElementById('tpr-1').textContent = formatPercent(rocData['tpr_at_1_fpr'] || 0);
+    document.getElementById('tpr-5').textContent = formatPercent(rocData['tpr_at_5_fpr'] || 0);
 }
 
 function updateExplorer(tRatio) {

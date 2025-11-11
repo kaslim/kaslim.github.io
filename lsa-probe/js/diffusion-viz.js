@@ -57,7 +57,7 @@ function drawForwardProcess(ctx, width, height) {
     drawLabel(ctx, leftX, centerY + 80, 'Clean', '#666', 12);
     
     // Draw arrow with noise
-    drawArrow(ctx, leftX + 70, centerY, rightX - 70, centerY, '#029E73');
+    drawFlowArrow(ctx, leftX + 70, centerY, rightX - 70, centerY, '#029E73');
     drawLabel(ctx, (leftX + rightX) / 2, centerY - 30, '+ ε ~ N(0,I)', '#029E73', 14);
     drawLabel(ctx, (leftX + rightX) / 2, centerY - 15, 'Forward Diffusion', '#666', 11);
     
@@ -88,7 +88,7 @@ function drawReverseProcess(ctx, width, height, attacked) {
     
     // Draw arrow with Rₜ
     const arrowColor = attacked ? '#DE8F05' : '#0173B2';
-    drawArrow(ctx, leftX + 70, centerY, rightX - 70, centerY, arrowColor);
+    drawFlowArrow(ctx, leftX + 70, centerY, rightX - 70, centerY, arrowColor);
     drawLabel(ctx, (leftX + rightX) / 2, centerY - 30, 'Rₜ(·; θ)', arrowColor, 14);
     drawLabel(ctx, (leftX + rightX) / 2, centerY - 15, 'Reverse Denoising', '#666', 11);
     
@@ -139,7 +139,7 @@ function drawWaveform(ctx, x, y, width, height, noiseLevel) {
     ctx.restore();
 }
 
-function drawArrow(ctx, x1, y1, x2, y2, color) {
+function drawFlowArrow(ctx, x1, y1, x2, y2, color) {
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
     ctx.lineWidth = 2;
