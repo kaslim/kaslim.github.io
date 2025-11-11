@@ -3,17 +3,23 @@
 function initializeDiffusionViz() {
     console.log('Initializing diffusion visualization...');
     
-    // Initialize three flow canvases
-    const canvases = ['forward', 'reverse', 'attacked'];
-    canvases.forEach(type => {
-        const canvas = document.getElementById(`flow-canvas-${type}`);
-        if (canvas) {
-            drawFlowDiagram(canvas, type);
-            animateFlowDiagram(canvas, type);
-        }
-    });
-    
-    console.log('✓ Diffusion visualization initialized');
+    try {
+        // Initialize three flow canvases
+        const canvases = ['forward', 'reverse', 'attacked'];
+        canvases.forEach(type => {
+            const canvas = document.getElementById(`flow-canvas-${type}`);
+            if (canvas) {
+                drawFlowDiagram(canvas, type);
+                animateFlowDiagram(canvas, type);
+            } else {
+                console.warn(`Canvas flow-canvas-${type} not found`);
+            }
+        });
+        
+        console.log('✓ Diffusion visualization initialized');
+    } catch (error) {
+        console.error('Error initializing diffusion visualization:', error);
+    }
 }
 
 function drawFlowDiagram(canvas, type) {
@@ -194,12 +200,16 @@ function animateFlowDiagram(canvas, type) {
 
 // Draw stability comparison chart
 function drawStabilityComparison() {
-    const canvas = document.getElementById('stability-canvas');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
+    try {
+        const canvas = document.getElementById('stability-canvas');
+        if (!canvas) {
+            console.warn('Stability canvas not found');
+            return;
+        }
+        
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
     
     // Clear
     ctx.clearRect(0, 0, width, height);
@@ -308,8 +318,10 @@ function drawStabilityComparison() {
     ctx.stroke();
     
     // Find C_adv for member and non-member
-    const memberCadv = memberEtas[memberDs.findIndex(d => d >= tau)];
-    const nonmemberCadv = nonmemberEtas[nonmemberDs.findIndex(d => d >= tau)];
+    const memberIdx = memberDs.findIndex(d => d >= tau);
+    const nonmemberIdx = nonmemberDs.findIndex(d => d >= tau);
+    const memberCadv = memberIdx >= 0 ? memberEtas[memberIdx] : maxEta;
+    const nonmemberCadv = nonmemberIdx >= 0 ? nonmemberEtas[nonmemberIdx] : maxEta;
     
     // Draw C_adv lines
     // Member
@@ -368,6 +380,9 @@ function drawStabilityComparison() {
         const y = scaleY(d);
         ctx.textAlign = 'right';
         ctx.fillText(d.toFixed(1), margin.left - 10, y + 4);
+    }
+    } catch (error) {
+        console.error('Error drawing stability comparison:', error);
     }
 }
 

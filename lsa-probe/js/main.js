@@ -45,14 +45,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Load all data
         await loadAllData();
         
-        // Initialize diffusion visualization
-        if (typeof initializeDiffusionViz === 'function') {
-            initializeDiffusionViz();
+        // Initialize diffusion visualization (non-critical)
+        try {
+            if (typeof initializeDiffusionViz === 'function') {
+                initializeDiffusionViz();
+            }
+        } catch (err) {
+            console.warn('Diffusion viz failed:', err);
         }
         
-        // Draw stability comparison
-        if (typeof drawStabilityComparison === 'function') {
-            drawStabilityComparison();
+        // Draw stability comparison (non-critical)
+        try {
+            if (typeof drawStabilityComparison === 'function') {
+                drawStabilityComparison();
+            }
+        } catch (err) {
+            console.warn('Stability comparison failed:', err);
         }
         
         // Initialize visualizations
