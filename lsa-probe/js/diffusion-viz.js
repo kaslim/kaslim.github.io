@@ -140,10 +140,11 @@ function drawWaveform(ctx, x, y, width, height, noiseLevel) {
     ctx.save();
     ctx.translate(x - width/2, y);
     
-    // Draw waveform
+    // Draw waveform with bright colors for visibility
     ctx.beginPath();
-    ctx.strokeStyle = noiseLevel > 0.5 ? '#666' : '#0173B2';
-    ctx.lineWidth = 2;
+    // Use bright colors that stand out on black background
+    ctx.strokeStyle = noiseLevel > 0.5 ? '#aaaaaa' : '#00d4ff';  // Bright cyan/gray
+    ctx.lineWidth = 3;  // Thicker for better visibility
     
     const points = 50;
     for (let i = 0; i < points; i++) {
@@ -164,18 +165,26 @@ function drawWaveform(ctx, x, y, width, height, noiseLevel) {
     
     ctx.stroke();
     
-    // Draw border
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.lineWidth = 1;
+    // Draw border with higher opacity
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';  // Increased from 0.2 to 0.6
+    ctx.lineWidth = 2;
     ctx.strokeRect(0, -height/2, width, height);
     
     ctx.restore();
 }
 
 function drawFlowArrow(ctx, x1, y1, x2, y2, color) {
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.lineWidth = 2;
+    // Brighten colors for better visibility on black background
+    const brightColors = {
+        '#029E73': '#00ff9f',  // Green -> Bright green
+        '#0173B2': '#00d4ff',  // Blue -> Bright cyan
+        '#DE8F05': '#ffa500'   // Orange -> Bright orange
+    };
+    const brightColor = brightColors[color] || color;
+    
+    ctx.strokeStyle = brightColor;
+    ctx.fillStyle = brightColor;
+    ctx.lineWidth = 3;  // Thicker arrows
     
     // Draw line
     ctx.beginPath();
@@ -202,7 +211,17 @@ function drawFlowArrow(ctx, x1, y1, x2, y2, color) {
 }
 
 function drawLabel(ctx, x, y, text, color, size = 14) {
-    ctx.fillStyle = color;
+    // Brighten colors for better visibility on black background
+    const brightColors = {
+        '#029E73': '#00ff9f',  // Green -> Bright green
+        '#0173B2': '#00d4ff',  // Blue -> Bright cyan
+        '#DE8F05': '#ffa500',  // Orange -> Bright orange
+        '#666': '#cccccc',     // Dark gray -> Light gray
+        '#999': '#dddddd'      // Gray -> Lighter gray
+    };
+    const brightColor = brightColors[color] || color;
+    
+    ctx.fillStyle = brightColor;
     ctx.font = `${size}px 'Fira Code', monospace`;
     ctx.textAlign = 'center';
     ctx.fillText(text, x, y);
@@ -277,9 +296,9 @@ function drawStabilityComparison() {
     const scaleX = (eta) => margin.left + (eta / maxEta) * plotWidth;
     const scaleY = (d) => margin.top + (1 - d / maxD) * plotHeight;
     
-    // Draw axes
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.lineWidth = 1;
+    // Draw axes with higher visibility
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';  // Increased from 0.2 to 0.6
+    ctx.lineWidth = 2;  // Thicker axis lines
     
     // X axis
     ctx.beginPath();
@@ -293,8 +312,9 @@ function drawStabilityComparison() {
     ctx.lineTo(margin.left, height - margin.bottom);
     ctx.stroke();
     
-    // Grid
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    // Grid with better visibility
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';  // Increased from 0.05 to 0.15
+    ctx.lineWidth = 1;
     for (let i = 0; i <= 4; i++) {
         const x = margin.left + (i / 4) * plotWidth;
         ctx.beginPath();
@@ -309,19 +329,19 @@ function drawStabilityComparison() {
         ctx.stroke();
     }
     
-    // Tau threshold line
-    ctx.strokeStyle = '#029E73';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
+    // Tau threshold line - bright green for visibility
+    ctx.strokeStyle = '#00ff9f';  // Bright green instead of #029E73
+    ctx.lineWidth = 3;  // Thicker line
+    ctx.setLineDash([8, 4]);  // More visible dash pattern
     ctx.beginPath();
     ctx.moveTo(margin.left, scaleY(tau));
     ctx.lineTo(width - margin.right, scaleY(tau));
     ctx.stroke();
     ctx.setLineDash([]);
     
-    // Tau label
-    ctx.fillStyle = '#029E73';
-    ctx.font = '12px Fira Code';
+    // Tau label - bright green
+    ctx.fillStyle = '#00ff9f';
+    ctx.font = 'bold 14px Fira Code';  // Larger, bold text
     ctx.textAlign = 'right';
     ctx.fillText('τ (threshold)', margin.left - 10, scaleY(tau) + 5);
     
@@ -334,8 +354,9 @@ function drawStabilityComparison() {
         memberDs.push(Math.min(1.0, 0.3 + 0.8 * Math.pow(eta / maxEta, 1.5)));
     }
     
-    ctx.strokeStyle = '#0173B2';
-    ctx.lineWidth = 3;
+    // Bright cyan for member curve
+    ctx.strokeStyle = '#00d4ff';  // Bright cyan instead of #0173B2
+    ctx.lineWidth = 4;  // Thicker line for better visibility
     ctx.beginPath();
     memberEtas.forEach((eta, i) => {
         const x = scaleX(eta);
@@ -354,8 +375,9 @@ function drawStabilityComparison() {
         nonmemberDs.push(Math.min(1.0, 0.3 + 1.2 * Math.pow(eta / maxEta, 0.8)));
     }
     
-    ctx.strokeStyle = '#DE8F05';
-    ctx.lineWidth = 3;
+    // Bright orange for non-member curve
+    ctx.strokeStyle = '#ffa500';  // Bright orange instead of #DE8F05
+    ctx.lineWidth = 4;  // Thicker line for better visibility
     ctx.beginPath();
     nonmemberEtas.forEach((eta, i) => {
         const x = scaleX(eta);
@@ -371,11 +393,11 @@ function drawStabilityComparison() {
     const memberCadv = memberIdx >= 0 ? memberEtas[memberIdx] : maxEta;
     const nonmemberCadv = nonmemberIdx >= 0 ? nonmemberEtas[nonmemberIdx] : maxEta;
     
-    // Draw C_adv lines
+    // Draw C_adv lines with bright colors
     // Member
-    ctx.strokeStyle = '#0173B2';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = '#00d4ff';  // Bright cyan
+    ctx.lineWidth = 3;  // Thicker for visibility
+    ctx.setLineDash([5, 3]);  // More visible dash pattern
     ctx.beginPath();
     ctx.moveTo(scaleX(memberCadv), scaleY(tau));
     ctx.lineTo(scaleX(memberCadv), height - margin.bottom);
@@ -383,41 +405,42 @@ function drawStabilityComparison() {
     ctx.setLineDash([]);
     
     // Non-member
-    ctx.strokeStyle = '#DE8F05';
-    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = '#ffa500';  // Bright orange
+    ctx.lineWidth = 3;  // Thicker for visibility
+    ctx.setLineDash([5, 3]);
     ctx.beginPath();
     ctx.moveTo(scaleX(nonmemberCadv), scaleY(tau));
     ctx.lineTo(scaleX(nonmemberCadv), height - margin.bottom);
     ctx.stroke();
     ctx.setLineDash([]);
     
-    // Labels
-    ctx.fillStyle = '#a0a0a0';
-    ctx.font = '14px Inter';
+    // Labels with bright colors
+    ctx.fillStyle = '#ffffff';  // White instead of #a0a0a0
+    ctx.font = 'bold 16px Inter';  // Larger, bold
     ctx.textAlign = 'center';
     
     // X axis label
-    ctx.fillText('Budget η', width / 2, height - 20);
+    ctx.fillText('Perturbation Budget η', width / 2, height - 15);
     
     // Y axis label
     ctx.save();
-    ctx.translate(20, height / 2);
+    ctx.translate(15, height / 2);
     ctx.rotate(-Math.PI / 2);
-    ctx.fillText('Degradation D(x̂₀, x̂₀^δ)', 0, 0);
+    ctx.fillText('Perceptual Degradation D(x̂₀, x̂₀^δ)', 0, 0);
     ctx.restore();
     
-    // C_adv annotations
-    ctx.fillStyle = '#0173B2';
-    ctx.font = '11px Fira Code';
+    // C_adv annotations with bright colors
+    ctx.fillStyle = '#00d4ff';  // Bright cyan
+    ctx.font = 'bold 13px Fira Code';  // Larger, bold
     ctx.textAlign = 'center';
     ctx.fillText(`C_adv = ${memberCadv.toFixed(2)}`, scaleX(memberCadv), height - margin.bottom + 20);
     
-    ctx.fillStyle = '#DE8F05';
+    ctx.fillStyle = '#ffa500';  // Bright orange
     ctx.fillText(`C_adv = ${nonmemberCadv.toFixed(2)}`, scaleX(nonmemberCadv), height - margin.bottom + 35);
     
-    // Tick labels
-    ctx.fillStyle = '#a0a0a0';
-    ctx.font = '11px Inter';
+    // Tick labels brighter
+    ctx.fillStyle = '#dddddd';  // Light gray instead of #a0a0a0
+    ctx.font = '12px Inter';  // Slightly larger
     for (let i = 0; i <= 4; i++) {
         const eta = (i / 4) * maxEta;
         const x = scaleX(eta);
