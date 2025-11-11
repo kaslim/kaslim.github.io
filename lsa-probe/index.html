@@ -134,7 +134,7 @@
                 <div class="flow-card clean-forward">
                     <h3 class="flow-title">1. Forward Diffusion</h3>
                     <div class="flow-canvas-wrapper">
-                        <canvas id="flow-canvas-forward" class="flow-canvas" width="300" height="200"></canvas>
+                        <canvas id="flow-canvas-forward" class="flow-canvas"></canvas>
                     </div>
                     <div class="flow-equation">
                         xₜ = √(ᾱₜ)x₀ + √(1-ᾱₜ)ε
@@ -148,7 +148,7 @@
                 <div class="flow-card clean-reverse">
                     <h3 class="flow-title">2. Clean Reverse</h3>
                     <div class="flow-canvas-wrapper">
-                        <canvas id="flow-canvas-reverse" class="flow-canvas" width="300" height="200"></canvas>
+                        <canvas id="flow-canvas-reverse" class="flow-canvas"></canvas>
                     </div>
                     <div class="flow-equation">
                         x̂₀ = Rₜ(xₜ; θ)
@@ -162,7 +162,7 @@
                 <div class="flow-card attacked-reverse">
                     <h3 class="flow-title">3. Attacked Reverse</h3>
                     <div class="flow-canvas-wrapper">
-                        <canvas id="flow-canvas-attacked" class="flow-canvas" width="300" height="200"></canvas>
+                        <canvas id="flow-canvas-attacked" class="flow-canvas"></canvas>
                     </div>
                     <div class="flow-equation">
                         x̂₀^δ = Rₜ(xₜ + δₜ; θ)
@@ -264,7 +264,7 @@
                 <p>Members reside in more stable regions of the generative manifold, requiring larger perturbation budgets to reach the same degradation threshold</p>
                 
                 <div class="stability-canvas-container">
-                    <canvas id="stability-canvas" width="900" height="400"></canvas>
+                    <canvas id="stability-canvas"></canvas>
                 </div>
                 
                 <div class="stability-legend">

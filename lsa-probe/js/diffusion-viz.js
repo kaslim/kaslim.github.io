@@ -9,6 +9,20 @@ function initializeDiffusionViz() {
         canvases.forEach(type => {
             const canvas = document.getElementById(`flow-canvas-${type}`);
             if (canvas) {
+                // Set canvas drawing buffer size to match display size
+                const rect = canvas.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                
+                // Scale context to match device pixel ratio
+                const ctx = canvas.getContext('2d');
+                ctx.scale(dpr, dpr);
+                
+                // Store display dimensions for drawing functions
+                canvas.dataset.displayWidth = rect.width;
+                canvas.dataset.displayHeight = rect.height;
+                
                 drawFlowDiagram(canvas, type);
                 animateFlowDiagram(canvas, type);
             } else {
@@ -17,6 +31,24 @@ function initializeDiffusionViz() {
         });
         
         console.log('✓ Diffusion visualization initialized');
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvases.forEach(type => {
+                const canvas = document.getElementById(`flow-canvas-${type}`);
+                if (canvas) {
+                    const rect = canvas.getBoundingClientRect();
+                    const dpr = window.devicePixelRatio || 1;
+                    canvas.width = rect.width * dpr;
+                    canvas.height = rect.height * dpr;
+                    const ctx = canvas.getContext('2d');
+                    ctx.scale(dpr, dpr);
+                    canvas.dataset.displayWidth = rect.width;
+                    canvas.dataset.displayHeight = rect.height;
+                    drawFlowDiagram(canvas, type);
+                }
+            });
+        });
     } catch (error) {
         console.error('Error initializing diffusion visualization:', error);
     }
@@ -24,8 +56,9 @@ function initializeDiffusionViz() {
 
 function drawFlowDiagram(canvas, type) {
     const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
+    // Use display dimensions for drawing (not buffer dimensions)
+    const width = parseFloat(canvas.dataset.displayWidth) || canvas.width;
+    const height = parseFloat(canvas.dataset.displayHeight) || canvas.height;
     
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
@@ -207,9 +240,24 @@ function drawStabilityComparison() {
             return;
         }
         
+        // Set canvas drawing buffer size to match display size
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) {
+            console.warn('Stability canvas has zero dimensions, retrying...');
+            requestAnimationFrame(drawStabilityComparison);
+            return;
+        }
+        
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        
         const ctx = canvas.getContext('2d');
-        const width = canvas.width;
-        const height = canvas.height;
+        ctx.scale(dpr, dpr);
+        
+        // Use display dimensions for drawing
+        const width = rect.width;
+        const height = rect.height;
     
     // Clear
     ctx.clearRect(0, 0, width, height);
