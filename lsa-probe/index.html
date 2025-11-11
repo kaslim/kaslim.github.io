@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/explorer.css">
     <link rel="stylesheet" href="css/algorithm.css">
+    <link rel="stylesheet" href="css/diffusion-viz.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -35,6 +36,7 @@
             <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#problem">Problem</a></li>
+                <li><a href="#diffusion-overview">Mechanism</a></li>
                 <li><a href="#method">Method</a></li>
                 <li><a href="#explorer">Explorer</a></li>
                 <li><a href="#results">Results</a></li>
@@ -120,6 +122,80 @@
         </div>
     </section>
 
+    <!-- Diffusion Process & Attack Overview Section -->
+    <section id="diffusion-overview" class="diffusion-overview-section">
+        <div class="container">
+            <h2 class="section-title">Diffusion Process & Attack Mechanism</h2>
+            <p class="section-subtitle">Understanding how we probe membership through latent perturbations</p>
+            
+            <div class="diffusion-flow-container">
+                <!-- Clean Forward Process -->
+                <div class="flow-card clean-forward">
+                    <h3 class="flow-title">1. Forward Diffusion</h3>
+                    <div class="flow-canvas-wrapper">
+                        <canvas id="flow-canvas-forward" class="flow-canvas" width="300" height="200"></canvas>
+                    </div>
+                    <div class="flow-equation">
+                        xₜ = √(ᾱₜ)x₀ + √(1-ᾱₜ)ε
+                    </div>
+                    <p class="flow-description">
+                        Add Gaussian noise to clean audio x₀ to get noisy latent xₜ at timestep t
+                    </p>
+                </div>
+                
+                <!-- Clean Reverse Process -->
+                <div class="flow-card clean-reverse">
+                    <h3 class="flow-title">2. Clean Reverse</h3>
+                    <div class="flow-canvas-wrapper">
+                        <canvas id="flow-canvas-reverse" class="flow-canvas" width="300" height="200"></canvas>
+                    </div>
+                    <div class="flow-equation">
+                        x̂₀ = Rₜ(xₜ; θ)
+                    </div>
+                    <p class="flow-description">
+                        Denoise xₜ back to clean reconstruction x̂₀ using the reverse operator Rₜ
+                    </p>
+                </div>
+                
+                <!-- Attacked Reverse Process -->
+                <div class="flow-card attacked-reverse">
+                    <h3 class="flow-title">3. Attacked Reverse</h3>
+                    <div class="flow-canvas-wrapper">
+                        <canvas id="flow-canvas-attacked" class="flow-canvas" width="300" height="200"></canvas>
+                    </div>
+                    <div class="flow-equation">
+                        x̂₀^δ = Rₜ(xₜ + δₜ; θ)
+                    </div>
+                    <p class="flow-description">
+                        Inject time-normalized perturbation δₜ = σₜδ̃ at xₜ, then denoise to get degraded x̂₀^δ
+                    </p>
+                </div>
+            </div>
+            
+            <div class="diffusion-key-insights">
+                <h3>Key Insights</h3>
+                <ul class="insight-list">
+                    <li>
+                        <strong>At timestep t (t≈0.6T):</strong> We inject a time-normalized perturbation δₜ = σₜδ̃ 
+                        where σₜ = √(1-ᾱₜ) matches the forward noise scale
+                    </li>
+                    <li>
+                        <strong>Measure perceptual distance:</strong> D(x̂₀, x̂₀^δ) using CDPAM or MR-STFT 
+                        to quantify degradation in human-perceivable quality
+                    </li>
+                    <li>
+                        <strong>Adversarial cost C<sub>adv</sub>:</strong> Minimum budget η needed to reach 
+                        degradation threshold τ. Members require <em>larger η</em> (more stable) than non-members
+                    </li>
+                    <li>
+                        <strong>Mid-trajectory is optimal:</strong> Early timesteps (t→0) have too much noise; 
+                        late timesteps (t→T) are nearly clean. Mid-trajectory (t≈0.6T) shows best separability
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
     <!-- Method Section -->
     <section id="method" class="section">
         <div class="container">
@@ -177,6 +253,74 @@
                             </div>
                         </div>
                         <div id="algorithm-status"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stability Comparison -->
+            <div class="stability-comparison-section">
+                <h3>Member vs Non-Member Stability</h3>
+                <p>Members reside in more stable regions of the generative manifold, requiring larger perturbation budgets to reach the same degradation threshold</p>
+                
+                <div class="stability-canvas-container">
+                    <canvas id="stability-canvas" width="900" height="400"></canvas>
+                </div>
+                
+                <div class="stability-legend">
+                    <div class="stability-legend-item">
+                        <div class="legend-line member"></div>
+                        <span>Member: Slower degradation (C<sub>adv</sub> ≈ 0.58)</span>
+                    </div>
+                    <div class="stability-legend-item">
+                        <div class="legend-line non-member"></div>
+                        <span>Non-Member: Faster degradation (C<sub>adv</sub> ≈ 0.29)</span>
+                    </div>
+                </div>
+                
+                <div class="stability-explanation">
+                    The plot shows degradation D(x̂₀, x̂₀^δ) vs. perturbation budget η. 
+                    The horizontal dashed line marks the degradation threshold τ. 
+                    Members (blue curve) require nearly <strong>2× the budget</strong> to reach τ compared to non-members (orange curve), 
+                    providing a robust signal for membership inference.
+                </div>
+            </div>
+            
+            <!-- Perceptual Distance Explanation -->
+            <div class="perceptual-distance-section">
+                <h3>Why Perceptual Distance?</h3>
+                <p>
+                    We use perceptual audio quality metrics instead of simple MSE to measure degradation 
+                    because they better align with human perception of audio quality changes.
+                </p>
+                
+                <div class="distance-metrics-grid">
+                    <div class="distance-metric-card">
+                        <h4>CDPAM</h4>
+                        <p>
+                            Cognitive Model of Perceptual Audio Quality - captures psychoacoustic 
+                            phenomena like masking and frequency sensitivity
+                        </p>
+                    </div>
+                    <div class="distance-metric-card">
+                        <h4>MR-STFT</h4>
+                        <p>
+                            Multi-Resolution STFT distance - measures spectral differences across 
+                            multiple time-frequency resolutions
+                        </p>
+                    </div>
+                    <div class="distance-metric-card">
+                        <h4>Log-Mel MSE</h4>
+                        <p>
+                            Mean squared error on log-mel spectrograms - captures timbral and 
+                            spectral characteristics
+                        </p>
+                    </div>
+                    <div class="distance-metric-card">
+                        <h4>Waveform MSE</h4>
+                        <p>
+                            Direct waveform comparison - serves as a simple baseline but less 
+                            perceptually aligned
+                        </p>
                     </div>
                 </div>
             </div>
@@ -364,6 +508,7 @@
     <!-- Scripts -->
     <script src="js/main.js"></script>
     <script src="js/data-loader.js"></script>
+    <script src="js/diffusion-viz.js"></script>
     <script src="js/explorer.js"></script>
     <script src="js/algorithm-viz.js"></script>
     <script src="js/roc-interactive.js"></script>

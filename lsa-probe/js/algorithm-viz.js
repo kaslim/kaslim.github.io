@@ -88,14 +88,17 @@ function drawAlgorithm(frame) {
     ctx.lineTo(w - 50, 50);
     ctx.stroke();
     
+    // Draw diffusion timeline at top
+    drawDiffusionTimeline(ctx, w, 75, frame);
+    
     // Binary search visualization (outer loop)
-    drawBinarySearch(frame, 100, 100, sampleType);
+    drawBinarySearch(frame, 100, 130, sampleType);
     
     // PGD optimization visualization (inner loop)
-    drawPGDOptimization(frame, 100, 280, sampleType);
+    drawPGDOptimization(frame, 100, 300, sampleType);
     
     // Final cost display
-    drawFinalCost(frame, 350, 450, sampleType);
+    drawFinalCost(frame, 350, 465, sampleType);
 }
 
 function drawBinarySearch(frame, x, y, type) {
@@ -291,6 +294,101 @@ function updateStatus(message) {
     const statusDiv = document.getElementById('algorithm-status');
     if (statusDiv) {
         statusDiv.textContent = message;
+    }
+}
+
+function drawDiffusionTimeline(ctx, width, y, frame) {
+    const tRatio = 0.6; // Fixed at t=0.6T for visualization
+    const timelineStart = 100;
+    const timelineEnd = width - 100;
+    const timelineWidth = timelineEnd - timelineStart;
+    
+    // Draw timeline bar
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(timelineStart, y);
+    ctx.lineTo(timelineEnd, y);
+    ctx.stroke();
+    
+    // Draw markers
+    ctx.fillStyle = '#a0a0a0';
+    ctx.font = '11px Inter';
+    ctx.textAlign = 'center';
+    
+    // t=0 (clean)
+    ctx.beginPath();
+    ctx.arc(timelineStart, y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#029E73';
+    ctx.fill();
+    ctx.fillStyle = '#a0a0a0';
+    ctx.fillText('t=0', timelineStart, y - 15);
+    ctx.fillText('(x₀)', timelineStart, y - 2);
+    
+    // t=0.6T (attack point)
+    const attackX = timelineStart + timelineWidth * tRatio;
+    ctx.beginPath();
+    ctx.arc(attackX, y, 8, 0, Math.PI * 2);
+    ctx.fillStyle = '#0173B2';
+    ctx.fill();
+    ctx.strokeStyle = '#0173B2';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = '#0173B2';
+    ctx.font = 'bold 12px Inter';
+    ctx.fillText('t=0.6T', attackX, y - 20);
+    ctx.font = '10px Inter';
+    ctx.fillText('Attack Here', attackX, y - 8);
+    
+    // Highlight during animation
+    if (frame > 0 && frame < 180) {
+        const pulseAlpha = 0.3 + 0.2 * Math.sin(frame * 0.1);
+        ctx.beginPath();
+        ctx.arc(attackX, y, 15, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(1, 115, 178, ${pulseAlpha})`;
+        ctx.fill();
+    }
+    
+    // t=T (pure noise)
+    ctx.beginPath();
+    ctx.arc(timelineEnd, y, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#666';
+    ctx.fill();
+    ctx.fillStyle = '#a0a0a0';
+    ctx.font = '11px Inter';
+    ctx.fillText('t=T', timelineEnd, y - 15);
+    ctx.fillText('(noise)', timelineEnd, y - 2);
+    
+    // Draw process arrows
+    // Forward: x0 -> xt
+    ctx.strokeStyle = 'rgba(2, 158, 115, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(timelineStart + 20, y + 15);
+    ctx.lineTo(attackX - 20, y + 15);
+    ctx.stroke();
+    ctx.fillStyle = '#029E73';
+    ctx.font = '10px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText('Forward: +ε', (timelineStart + attackX) / 2, y + 25);
+    
+    // Reverse: xt -> x0
+    ctx.strokeStyle = 'rgba(1, 115, 178, 0.5)';
+    ctx.beginPath();
+    ctx.moveTo(attackX + 20, y + 15);
+    ctx.lineTo(timelineStart + timelineWidth - 20, y + 15);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#0173B2';
+    ctx.fillText('Reverse: Rₜ', (attackX + timelineStart + timelineWidth) / 2, y + 25);
+    
+    // Perturbation indicator
+    if (frame > 60 && frame < 150) {
+        ctx.fillStyle = '#DE8F05';
+        ctx.font = '11px Fira Code';
+        ctx.textAlign = 'center';
+        ctx.fillText('+ δₜ', attackX, y + 40);
     }
 }
 

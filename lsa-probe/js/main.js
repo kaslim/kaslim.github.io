@@ -45,6 +45,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Load all data
         await loadAllData();
         
+        // Initialize diffusion visualization
+        if (typeof initializeDiffusionViz === 'function') {
+            initializeDiffusionViz();
+        }
+        
+        // Draw stability comparison
+        if (typeof drawStabilityComparison === 'function') {
+            drawStabilityComparison();
+        }
+        
         // Initialize visualizations
         if (typeof initializeBaselines === 'function') {
             initializeBaselines();
