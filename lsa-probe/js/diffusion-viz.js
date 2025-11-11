@@ -60,9 +60,9 @@ function drawFlowDiagram(canvas, type) {
     const width = parseFloat(canvas.dataset.displayWidth) || canvas.width;
     const height = parseFloat(canvas.dataset.displayHeight) || canvas.height;
     
-    // Clear canvas
+    // Clear canvas and fill with slightly lighter background for better contrast
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = '#0d0d0d';
+    ctx.fillStyle = '#1a1a1a';  // Slightly lighter than #0d0d0d for better contrast
     ctx.fillRect(0, 0, width, height);
     
     // Draw based on type
@@ -228,26 +228,9 @@ function drawLabel(ctx, x, y, text, color, size = 14) {
 }
 
 function animateFlowDiagram(canvas, type) {
-    let frame = 0;
-    
-    function animate() {
-        frame++;
-        
-        // Subtle pulsing animation
-        if (frame % 60 < 30) {
-            const ctx = canvas.getContext('2d');
-            ctx.save();
-            ctx.globalAlpha = 0.1;
-            drawFlowDiagram(canvas, type);
-            ctx.restore();
-        }
-        
-        if (frame < 600) { // 10 seconds
-            requestAnimationFrame(animate);
-        }
-    }
-    
-    animate();
+    // Animation disabled - was causing low visibility due to globalAlpha = 0.1
+    // Static diagram is clearer and more readable
+    // If animation is needed in the future, use opacity on overlay elements, not the main content
 }
 
 // Draw stability comparison chart
@@ -278,9 +261,9 @@ function drawStabilityComparison() {
         const width = rect.width;
         const height = rect.height;
     
-    // Clear
+    // Clear and fill with slightly lighter background for better contrast
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = '#0d0d0d';
+    ctx.fillStyle = '#1a1a1a';  // Slightly lighter than #0d0d0d for better contrast
     ctx.fillRect(0, 0, width, height);
     
     // Margins
