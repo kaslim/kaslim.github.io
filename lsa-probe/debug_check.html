@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSA-Probe Debug</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #0f0;
+            padding: 30px;
+            line-height: 1.6;
+        }
+        h1 { color: #0ff; margin-bottom: 20px; }
+        h2 { color: #ff0; margin: 20px 0 10px; }
+        .pass { color: #0f0; }
+        .fail { color: #f00; }
+        .log { 
+            background: #1a1a1a; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 10px 0;
+            border-left: 3px solid #0f0;
+        }
+        .error-log {
+            border-left-color: #f00;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            margin: 10px 5px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        button:hover { background: #0d0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 LSA-Probe Diagnostic Check</h1>
+    
+    <button onclick="location.href='index.html'">Open LSA-Probe</button>
+    <button onclick="runCheck()">Re-run Check</button>
+    
+    <h2>✓ Loading JS Files...</h2>
+    <div id="status"></div>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/diffusion-viz.js"></script>
+    <script src="js/explorer.js"></script>
+    <script src="js/algorithm-viz.js"></script>
+    <script src="js/roc-interactive.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        function runCheck() {
+            const statusDiv = document.getElementById('status');
+            let html = '';
+            
+            html += '<div class="log"><h2>1. D3.js Status</h2>';
+            html += typeof d3 !== 'undefined' 
+                ? '<div class="pass">✓ D3.js loaded successfully</div>' 
+                : '<div class="fail">✗ D3.js failed to load</div>';
+            html += '</div>';
+            
+            html += '<div class="log"><h2>2. Function Checks</h2>';
+            const funcs = {
+                'initializeDiffusionViz': typeof initializeDiffusionViz,
+                'drawStabilityComparison': typeof drawStabilityComparison,
+                'drawFlowArrow': typeof drawFlowArrow,
+                'initializeExplorer': typeof initializeExplorer,
+                'initializeAlgorithmViz': typeof initializeAlgorithmViz,
+                'loadAllData': typeof loadAllData,
+                'formatNumber': typeof formatNumber,
+                'formatPercent': typeof formatPercent
+            };
+            
+            for (const [name, type] of Object.entries(funcs)) {
+                html += type === 'function' 
+                    ? `<div class="pass">✓ ${name} (${type})</div>` 
+                    : `<div class="fail">✗ ${name} (${type})</div>`;
+            }
+            html += '</div>';
+            
+            html += '<div class="log"><h2>3. Global Objects</h2>';
+            html += typeof window.LSAProbe !== 'undefined' 
+                ? '<div class="pass">✓ window.LSAProbe exists</div>' 
+                : '<div class="fail">✗ window.LSAProbe missing</div>';
+            html += '</div>';
+            
+            html += '<div class="log"><h2>4. Canvas Test</h2>';
+            try {
+                const testCanvas = document.createElement('canvas');
+                testCanvas.width = 300;
+                testCanvas.height = 200;
+                const ctx = testCanvas.getContext('2d');
+                if (ctx) {
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillRect(0, 0, 100, 100);
+                    html += '<div class="pass">✓ Canvas API working</div>';
+                } else {
+                    html += '<div class="fail">✗ Canvas context failed</div>';
+                }
+            } catch (err) {
+                html += `<div class="fail">✗ Canvas error: ${err.message}</div>`;
+            }
+            html += '</div>';
+            
+            html += '<div class="log"><h2>5. Data Files Test</h2>';
+            fetch('data/adversarial_costs.json')
+                .then(r => r.ok ? r.json() : Promise.reject('404'))
+                .then(() => {
+                    document.getElementById('data-status').innerHTML = 
+                        '<div class="pass">✓ Data files accessible</div>';
+                })
+                .catch(err => {
+                    document.getElementById('data-status').innerHTML = 
+                        `<div class="fail">✗ Data files error: ${err}</div>`;
+                });
+            html += '<div id="data-status">⏳ Loading...</div>';
+            html += '</div>';
+            
+            statusDiv.innerHTML = html;
+        }
+        
+        // Capture all errors
+        window.addEventListener('error', (e) => {
+            console.error('ERROR CAUGHT:', e);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'log error-log';
+            errorDiv.innerHTML = `
+                <h2>❌ Error Detected</h2>
+                <div class="fail">Message: ${e.message}</div>
+                <div class="fail">File: ${e.filename}</div>
+                <div class="fail">Line: ${e.lineno}:${e.colno}</div>
+            `;
+            document.body.appendChild(errorDiv);
+        });
+        
+        // Run check after page loads
+        window.addEventListener('load', () => {
+            setTimeout(runCheck, 100);
+        });
+    </script>
+</body>
+</html>
+

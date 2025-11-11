@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Test - LSA-Probe Debug</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+        }
+        .pass { color: #00ff00; }
+        .fail { color: #ff0000; }
+        .warn { color: #ffaa00; }
+        button {
+            background: #00ff00;
+            color: #0a0a0a;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #00cc00; }
+        #console-output {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 LSA-Probe Local Debug Tool</h1>
+    
+    <div class="section">
+        <h2>1. Script Loading Status</h2>
+        <div id="script-status"></div>
+    </div>
+    
+    <div class="section">
+        <h2>2. Function Availability Check</h2>
+        <div id="function-status"></div>
+    </div>
+    
+    <div class="section">
+        <h2>3. Canvas Elements Check</h2>
+        <div id="canvas-status"></div>
+    </div>
+    
+    <div class="section">
+        <h2>4. Actions</h2>
+        <button onclick="window.location.href='lsa-probe/index.html'">Open LSA-Probe Page</button>
+        <button onclick="runFullCheck()">Run Full Check</button>
+        <button onclick="clearConsole()">Clear Output</button>
+    </div>
+    
+    <div class="section">
+        <h2>5. Console Output</h2>
+        <div id="console-output">Waiting for checks...</div>
+    </div>
+
+    <script>
+        let consoleLog = [];
+        
+        function log(msg, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            consoleLog.push(`[${timestamp}] ${type.toUpperCase()}: ${msg}`);
+            document.getElementById('console-output').textContent = consoleLog.join('\n');
+        }
+        
+        function clearConsole() {
+            consoleLog = [];
+            document.getElementById('console-output').textContent = 'Console cleared.';
+        }
+        
+        function checkScripts() {
+            const scripts = [
+                'lsa-probe/js/main.js',
+                'lsa-probe/js/data-loader.js',
+                'lsa-probe/js/diffusion-viz.js',
+                'lsa-probe/js/explorer.js',
+                'lsa-probe/js/algorithm-viz.js',
+                'lsa-probe/js/roc-interactive.js'
+            ];
+            
+            let html = '';
+            scripts.forEach(src => {
+                const scriptExists = Array.from(document.scripts).some(s => s.src.includes(src));
+                html += `<div class="${scriptExists ? 'pass' : 'fail'}">
+                    ${scriptExists ? '✓' : '✗'} ${src}
+                </div>`;
+            });
+            
+            document.getElementById('script-status').innerHTML = html;
+        }
+        
+        function checkFunctions() {
+            const functions = [
+                'initializeDiffusionViz',
+                'drawStabilityComparison',
+                'initializeBaselines',
+                'initializeExplorer',
+                'initializeAlgorithmViz',
+                'initializeResults',
+                'loadAllData',
+                'formatNumber',
+                'formatPercent'
+            ];
+            
+            let html = '';
+            functions.forEach(fn => {
+                const exists = typeof window[fn] === 'function';
+                html += `<div class="${exists ? 'pass' : 'fail'}">
+                    ${exists ? '✓' : '✗'} ${fn}
+                </div>`;
+                if (!exists) {
+                    log(`Function missing: ${fn}`, 'error');
+                }
+            });
+            
+            document.getElementById('function-status').innerHTML = html;
+        }
+        
+        function testCanvasCreation() {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 300;
+                canvas.height = 200;
+                const ctx = canvas.getContext('2d');
+                
+                if (ctx) {
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillRect(0, 0, 100, 100);
+                    log('Canvas creation: SUCCESS', 'pass');
+                    return true;
+                } else {
+                    log('Canvas creation: FAILED (no context)', 'error');
+                    return false;
+                }
+            } catch (err) {
+                log(`Canvas creation: ERROR - ${err.message}`, 'error');
+                return false;
+            }
+        }
+        
+        function checkCanvas() {
+            const canvasTest = testCanvasCreation();
+            let html = `<div class="${canvasTest ? 'pass' : 'fail'}">
+                ${canvasTest ? '✓' : '✗'} Canvas API Support
+            </div>`;
+            document.getElementById('canvas-status').innerHTML = html;
+        }
+        
+        function runFullCheck() {
+            log('Starting full diagnostic check...', 'info');
+            checkScripts();
+            checkFunctions();
+            checkCanvas();
+            log('Full check completed.', 'info');
+        }
+        
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            log('Test page loaded', 'info');
+            runFullCheck();
+        });
+        
+        // Capture console errors
+        window.addEventListener('error', (e) => {
+            log(`ERROR: ${e.message} at ${e.filename}:${e.lineno}`, 'error');
+        });
+    </script>
+</body>
+</html>
+
