@@ -1,0 +1,608 @@
+/* IPAP PhD Annual Report Styles */
+
+:root {
+    --color-bg: #0a0a0a;
+    --color-text: #ffffff;
+    --color-text-dim: #a0a0a0;
+    --color-card-bg: #1a1a1a;
+    --color-phase1: #667eea;
+    --color-phase2: #029E73;
+    --color-phase3: #0173B2;
+    --color-phase3b: #DE8F05;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+    padding: 1.5rem 0;
+    background: rgba(26, 26, 26, 0.5);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.breadcrumb-link {
+    color: var(--color-text-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-link:hover {
+    color: var(--color-text);
+}
+
+.breadcrumb-separator {
+    margin: 0 0.5rem;
+    color: var(--color-text-dim);
+}
+
+.breadcrumb-current {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+/* Hero Section */
+.hero {
+    padding: 6rem 0;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(102, 126, 234, 0.1) 0%, rgba(10, 10, 10, 0) 100%);
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.hero-subtitle {
+    font-size: 2rem;
+    color: var(--color-text-dim);
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    color: var(--color-text-dim);
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    animation: fadeInUp 0.8s ease 0.6s both;
+}
+
+/* Section Styles */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--color-text);
+}
+
+/* Narrative Section */
+.narrative-section {
+    padding: 6rem 0;
+    background: rgba(26, 26, 26, 0.3);
+}
+
+.narrative-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.theme-box {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    border: 2px solid rgba(102, 126, 234, 0.5);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.theme-title {
+    font-size: 1.2rem;
+    color: var(--color-text-dim);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.theme-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+.narrative-text p {
+    font-size: 1.1rem;
+    color: var(--color-text-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+/* Flowchart Section */
+.flowchart-section {
+    padding: 6rem 0;
+}
+
+.flowchart-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.flowchart {
+    width: 100%;
+    height: auto;
+}
+
+.node-box {
+    fill: var(--color-card-bg);
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.node-box.phase1 {
+    stroke: var(--color-phase1);
+    fill: rgba(102, 126, 234, 0.1);
+}
+
+.node-box.phase2 {
+    stroke: var(--color-phase2);
+    fill: rgba(2, 158, 115, 0.1);
+}
+
+.node-box.phase3 {
+    stroke: rgba(1, 115, 178, 0.5);
+    fill: rgba(1, 115, 178, 0.05);
+}
+
+.node-box.phase3a {
+    stroke: var(--color-phase3);
+    fill: rgba(1, 115, 178, 0.1);
+}
+
+.node-box.phase3b {
+    stroke: var(--color-phase3b);
+    fill: rgba(222, 143, 5, 0.1);
+}
+
+.phase-node.clickable:hover .node-box {
+    stroke-width: 3;
+    filter: brightness(1.2);
+}
+
+.node-link {
+    cursor: pointer;
+}
+
+.node-title {
+    fill: var(--color-text);
+    font-size: 16px;
+    font-weight: 600;
+    text-anchor: middle;
+}
+
+.node-subtitle {
+    fill: var(--color-text);
+    font-size: 20px;
+    font-weight: 700;
+    text-anchor: middle;
+}
+
+.node-venue {
+    fill: var(--color-text-dim);
+    font-size: 12px;
+    text-anchor: middle;
+}
+
+.node-title-small {
+    fill: var(--color-text);
+    font-size: 18px;
+    font-weight: 600;
+    text-anchor: middle;
+}
+
+.node-subtitle-small {
+    fill: var(--color-text-dim);
+    font-size: 14px;
+    text-anchor: middle;
+}
+
+.node-venue-small {
+    fill: var(--color-text-dim);
+    font-size: 11px;
+    text-anchor: middle;
+}
+
+.arrow-label {
+    fill: var(--color-text-dim);
+    font-size: 12px;
+    font-style: italic;
+}
+
+.flow-arrow line {
+    animation: dashAnimation 2s linear infinite;
+}
+
+@keyframes dashAnimation {
+    to {
+        stroke-dashoffset: -20;
+    }
+}
+
+/* Papers Section */
+.papers-section {
+    padding: 6rem 0;
+    background: rgba(26, 26, 26, 0.3);
+}
+
+.papers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.paper-card {
+    background: var(--color-card-bg);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.paper-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.phase1-card {
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.phase1-card:hover {
+    border-color: var(--color-phase1);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.phase2-card {
+    border-color: rgba(2, 158, 115, 0.3);
+}
+
+.phase2-card:hover {
+    border-color: var(--color-phase2);
+    box-shadow: 0 10px 30px rgba(2, 158, 115, 0.3);
+}
+
+.phase3a-card {
+    border-color: rgba(1, 115, 178, 0.3);
+}
+
+.phase3a-card:hover {
+    border-color: var(--color-phase3);
+    box-shadow: 0 10px 30px rgba(1, 115, 178, 0.3);
+}
+
+.phase3b-card {
+    border-color: rgba(222, 143, 5, 0.3);
+}
+
+.phase3b-card:hover {
+    border-color: var(--color-phase3b);
+    box-shadow: 0 10px 30px rgba(222, 143, 5, 0.3);
+}
+
+.paper-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.paper-phase {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.paper-venue-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.paper-body {
+    padding: 2rem;
+}
+
+.paper-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    color: var(--color-text);
+}
+
+.paper-description {
+    font-size: 1rem;
+    color: var(--color-text-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.paper-contribution {
+    padding: 1rem;
+    background: rgba(102, 126, 234, 0.1);
+    border-left: 3px solid var(--color-phase1);
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--color-text-dim);
+}
+
+.paper-role {
+    padding: 1rem;
+    background: rgba(2, 158, 115, 0.1);
+    border-left: 3px solid var(--color-phase2);
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--color-text-dim);
+}
+
+.paper-contribution strong,
+.paper-role strong {
+    color: var(--color-text);
+}
+
+.btn-paper {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-text);
+}
+
+.phase1-card .btn-paper:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+}
+
+.phase2-card .btn-paper:hover {
+    background: var(--color-phase2);
+    border-color: transparent;
+}
+
+.phase3a-card .btn-paper:hover {
+    background: var(--color-phase3);
+    border-color: transparent;
+}
+
+.phase3b-card .btn-paper:hover {
+    background: var(--color-phase3b);
+    border-color: transparent;
+}
+
+.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Connection Section */
+.connection-section {
+    padding: 6rem 0;
+}
+
+.connection-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.connection-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    gap: 2rem;
+}
+
+.connection-item {
+    flex: 1;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.connection-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.connection-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.connection-item p {
+    font-size: 0.95rem;
+    color: var(--color-text-dim);
+    line-height: 1.6;
+}
+
+.connection-arrow {
+    font-size: 2rem;
+    color: var(--color-phase1);
+    flex-shrink: 0;
+}
+
+.connection-summary {
+    background: rgba(26, 26, 26, 0.5);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 1rem;
+    padding: 3rem;
+}
+
+.connection-summary h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+}
+
+.connection-summary p {
+    font-size: 1.1rem;
+    color: var(--color-text-dim);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.connection-summary ul {
+    list-style: none;
+    margin: 2rem 0;
+}
+
+.connection-summary li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1rem;
+    color: var(--color-text-dim);
+}
+
+.connection-summary li:last-child {
+    border-bottom: none;
+}
+
+.connection-summary li strong {
+    color: var(--color-text);
+}
+
+/* Footer */
+.footer {
+    padding: 3rem 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-dim);
+}
+
+.footer-affiliation {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .papers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .connection-diagram {
+        flex-direction: column;
+    }
+    
+    .connection-arrow {
+        transform: rotate(90deg);
+        margin: 1rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .flowchart-wrapper {
+        padding: 1rem;
+    }
+    
+    .connection-summary {
+        padding: 2rem;
+    }
+    
+    .connection-summary h3 {
+        font-size: 1.5rem;
+    }
+    
+    .connection-summary p {
+        font-size: 1rem;
+    }
+}
+

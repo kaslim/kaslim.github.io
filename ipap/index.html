@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IPAP PhD Annual Report - Research Journey in AI Security for Music Generation">
+    <meta name="keywords" content="PhD Research, AI Security, Music Generation, Adversarial Attacks, Membership Inference">
+    <meta name="author" content="Yuxuan Liu">
+    <title>IPAP - PhD Research Journey | Yuxuan Liu</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/ipap.css">
+</head>
+<body>
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="../" class="breadcrumb-link">← Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">IPAP</span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">PhD Annual Report 2024-2025</div>
+            <h1 class="hero-title">PhD Research Journey</h1>
+            <h2 class="hero-subtitle">AI Security in Music Generation</h2>
+            <p class="hero-description">
+                A comprehensive research trajectory exploring the security landscape of music generation models—from understanding vulnerabilities through adversarial attacks, to developing defense mechanisms, to analyzing privacy implications through membership inference.
+            </p>
+        </div>
+    </section>
+
+    <!-- Research Narrative Section -->
+    <section class="narrative-section">
+        <div class="container">
+            <h2 class="section-title">Research Narrative</h2>
+            <div class="narrative-content">
+                <div class="theme-box">
+                    <h3 class="theme-title">Core Theme</h3>
+                    <p class="theme-text">Securing Music Generation Models: From Understanding Vulnerabilities to Defense and Privacy</p>
+                </div>
+                
+                <div class="narrative-text">
+                    <p>
+                        My PhD research establishes a comprehensive framework for understanding and addressing security challenges in music generation models. The work progresses through three interconnected phases, each building upon insights from the previous stage to form a complete security lifecycle for music AI systems.
+                    </p>
+                    <p>
+                        This research represents the first systematic investigation of adversarial robustness and privacy in the music domain, contributing novel attack methodologies, defense mechanisms, and inference techniques that bridge computer security and music information retrieval.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Flowchart Section -->
+    <section class="flowchart-section">
+        <div class="container">
+            <h2 class="section-title">Research Progression</h2>
+            <div class="flowchart-wrapper">
+                <svg class="flowchart" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Phase 1: Understanding Vulnerabilities -->
+                    <g class="phase-node" data-phase="1">
+                        <rect x="250" y="20" width="300" height="100" rx="10" class="node-box phase1"/>
+                        <text x="400" y="50" class="node-title">Phase 1: Understanding Vulnerabilities</text>
+                        <text x="400" y="75" class="node-subtitle">MAIA</text>
+                        <text x="400" y="95" class="node-venue">ISMIR 2025 (Accepted)</text>
+                    </g>
+                    
+                    <!-- Arrow 1 -->
+                    <g class="flow-arrow">
+                        <defs>
+                            <marker id="arrowhead1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#667eea"/>
+                            </marker>
+                        </defs>
+                        <line x1="400" y1="120" x2="400" y2="170" stroke="#667eea" stroke-width="3" marker-end="url(#arrowhead1)"/>
+                        <text x="420" y="150" class="arrow-label">Motivated by attack findings</text>
+                    </g>
+                    
+                    <!-- Phase 2: Defense & Evaluation -->
+                    <g class="phase-node" data-phase="2">
+                        <rect x="250" y="180" width="300" height="100" rx="10" class="node-box phase2"/>
+                        <text x="400" y="210" class="node-title">Phase 2: Defense & Evaluation</text>
+                        <text x="400" y="235" class="node-subtitle">Perceptual Model</text>
+                        <text x="400" y="255" class="node-venue">CMMR 2025 (Accepted)</text>
+                    </g>
+                    
+                    <!-- Arrow 2 -->
+                    <g class="flow-arrow">
+                        <defs>
+                            <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#029E73"/>
+                            </marker>
+                        </defs>
+                        <line x1="400" y1="280" x2="400" y2="330" stroke="#029E73" stroke-width="3" marker-end="url(#arrowhead2)"/>
+                        <text x="420" y="310" class="arrow-label">Extended to privacy analysis</text>
+                    </g>
+                    
+                    <!-- Phase 3: Privacy & Inference -->
+                    <g class="phase-node" data-phase="3">
+                        <rect x="200" y="340" width="400" height="80" rx="10" class="node-box phase3"/>
+                        <text x="400" y="370" class="node-title">Phase 3: Privacy & Membership Inference</text>
+                        <text x="400" y="395" class="node-subtitle">Dual-Domain Analysis</text>
+                    </g>
+                    
+                    <!-- Split Arrow -->
+                    <g class="flow-arrow">
+                        <line x1="400" y1="420" x2="400" y2="450" stroke="#0173B2" stroke-width="3"/>
+                        <line x1="400" y1="450" x2="250" y2="480" stroke="#0173B2" stroke-width="3"/>
+                        <line x1="400" y1="450" x2="550" y2="480" stroke="#DE8F05" stroke-width="3"/>
+                    </g>
+                    
+                    <!-- LSA-Probe (Waveform) -->
+                    <a href="../lsa-probe/" class="node-link">
+                        <g class="phase-node clickable" data-phase="3a">
+                            <rect x="100" y="490" width="250" height="90" rx="10" class="node-box phase3a"/>
+                            <text x="225" y="520" class="node-title-small">LSA-Probe</text>
+                            <text x="225" y="545" class="node-subtitle-small">Waveform Domain</text>
+                            <text x="225" y="565" class="node-venue-small">ICASSP (Under Review)</text>
+                        </g>
+                    </a>
+                    
+                    <!-- TS-RaMIA (Symbolic) -->
+                    <a href="../ts-ramia/" class="node-link">
+                        <g class="phase-node clickable" data-phase="3b">
+                            <rect x="450" y="490" width="250" height="90" rx="10" class="node-box phase3b"/>
+                            <text x="575" y="520" class="node-title-small">TS-RaMIA</text>
+                            <text x="575" y="545" class="node-subtitle-small">Symbolic Domain</text>
+                            <text x="575" y="565" class="node-venue-small">AAAI Workshop (Under Review)</text>
+                        </g>
+                    </a>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Papers Detail Section -->
+    <section class="papers-section">
+        <div class="container">
+            <h2 class="section-title">Research Publications</h2>
+            
+            <div class="papers-grid">
+                <!-- MAIA Card -->
+                <div class="paper-card phase1-card">
+                    <div class="paper-header">
+                        <div class="paper-phase">Phase 1: Attack</div>
+                        <div class="paper-venue-badge">ISMIR 2025 (Accepted)</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">Music Adversarial Inpainting Attack (MAIA)</h3>
+                        <p class="paper-description">
+                            Adversarial attacks targeting specific segments of music generation models through selective inpainting, revealing critical vulnerabilities in regional model behaviors.
+                        </p>
+                        <div class="paper-contribution">
+                            <strong>Key Contribution:</strong> First work to demonstrate regional adversarial attacks on music generation with Grad-CAM visualization for interpretable attack localization.
+                        </div>
+                        <div class="paper-role">
+                            <strong>Role in Thesis:</strong> Establishes the attack surface and demonstrates that music generation models are vulnerable to targeted manipulation, motivating the need for defense mechanisms.
+                        </div>
+                        <a href="../maia/" class="btn-paper">View Demo →</a>
+                    </div>
+                </div>
+
+                <!-- CMMR Card -->
+                <div class="paper-card phase2-card">
+                    <div class="paper-header">
+                        <div class="paper-phase">Phase 2: Defense</div>
+                        <div class="paper-venue-badge">CMMR 2025 (Accepted)</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">Training a Perceptual Model for Evaluating Auditory Similarity in Music Adversarial Attack</h3>
+                        <p class="paper-description">
+                            Perceptual evaluation framework for assessing similarity in adversarial music generation, bridging the gap between automated attack detection and human auditory perception.
+                        </p>
+                        <div class="paper-contribution">
+                            <strong>Key Contribution:</strong> Novel training methodology for perceptual models that aligns machine evaluation with human perception of adversarial perturbations in music.
+                        </div>
+                        <div class="paper-role">
+                            <strong>Role in Thesis:</strong> Directly motivated by MAIA findings, develops defense capability by enabling accurate perceptual assessment of attack impact, completing the attack-defense cycle.
+                        </div>
+                        <a href="#" class="btn-paper btn-disabled" title="Demo coming soon">Paper →</a>
+                    </div>
+                </div>
+
+                <!-- LSA-Probe Card -->
+                <div class="paper-card phase3a-card">
+                    <div class="paper-header">
+                        <div class="paper-phase">Phase 3: Privacy (Waveform)</div>
+                        <div class="paper-venue-badge">ICASSP (Under Review)</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">LSA-Probe: Membership Inference via Latent Stability Analysis for Music Diffusion Models</h3>
+                        <p class="paper-description">
+                            Membership inference attack on audio diffusion models using latent space perturbation stability, revealing privacy vulnerabilities in waveform-based music generation.
+                        </p>
+                        <div class="paper-contribution">
+                            <strong>Key Contribution:</strong> Two-loop adversarial probing framework that reveals training data membership through analyzing latent stability patterns across diffusion timesteps.
+                        </div>
+                        <div class="paper-role">
+                            <strong>Role in Thesis:</strong> Extends security analysis from adversarial robustness to privacy, demonstrating that attack insights transfer to membership inference in the waveform domain.
+                        </div>
+                        <a href="../lsa-probe/" class="btn-paper">View Demo →</a>
+                    </div>
+                </div>
+
+                <!-- TS-RaMIA Card -->
+                <div class="paper-card phase3b-card">
+                    <div class="paper-header">
+                        <div class="paper-phase">Phase 3: Privacy (Symbolic)</div>
+                        <div class="paper-venue-badge">AAAI Workshop (Under Review)</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">TS-RaMIA: Time-Series Randomized Membership Inference Attack</h3>
+                        <p class="paper-description">
+                            Structural pattern analysis for membership inference in symbolic music generation models, exploiting time-series characteristics unique to ABC notation.
+                        </p>
+                        <div class="paper-contribution">
+                            <strong>Key Contribution:</strong> First MIA framework for symbolic music using structural tokens (StructTail) and meta-fusion, achieving superior performance over baseline methods.
+                        </div>
+                        <div class="paper-role">
+                            <strong>Role in Thesis:</strong> Completes the dual-domain privacy analysis by addressing symbolic representation, demonstrating that privacy vulnerabilities exist across both audio and symbolic modalities.
+                        </div>
+                        <a href="../ts-ramia/" class="btn-paper">View Demo →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connection Summary Section -->
+    <section class="connection-section">
+        <div class="container">
+            <h2 class="section-title">Thesis Coherence</h2>
+            <div class="connection-content">
+                <div class="connection-diagram">
+                    <div class="connection-item">
+                        <div class="connection-icon">🔍</div>
+                        <h3>Attack → Defense</h3>
+                        <p>MAIA's discovery of regional vulnerabilities directly motivated the development of perceptual evaluation models. The attack insights informed defense strategy design.</p>
+                    </div>
+                    <div class="connection-arrow">→</div>
+                    <div class="connection-item">
+                        <div class="connection-icon">🛡️</div>
+                        <h3>Defense → Privacy</h3>
+                        <p>Understanding attack-defense dynamics revealed the need to analyze training data privacy. Defense mechanisms inspired membership inference methodologies.</p>
+                    </div>
+                    <div class="connection-arrow">→</div>
+                    <div class="connection-item">
+                        <div class="connection-icon">🔐</div>
+                        <h3>Dual-Domain Analysis</h3>
+                        <p>Privacy investigation extended across both waveform and symbolic domains, demonstrating that security principles apply universally across music representations.</p>
+                    </div>
+                </div>
+                
+                <div class="connection-summary">
+                    <h3>Complete Security Lifecycle</h3>
+                    <p>
+                        This research establishes the first comprehensive security framework for music generation models, covering:
+                    </p>
+                    <ul>
+                        <li><strong>Attack Surface Analysis:</strong> Understanding how models can be compromised</li>
+                        <li><strong>Defense Mechanisms:</strong> Developing tools to detect and evaluate perturbations</li>
+                        <li><strong>Privacy Implications:</strong> Analyzing training data leakage across modalities</li>
+                    </ul>
+                    <p>
+                        Together, these contributions form a cohesive PhD thesis that advances both the security and music AI communities, providing theoretical foundations and practical tools for securing next-generation music generation systems.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Yuxuan Liu. All rights reserved.</p>
+            <p class="footer-affiliation">Xi'an Jiaotong-Liverpool University</p>
+        </div>
+    </footer>
+
+    <script src="js/ipap.js"></script>
+</body>
+</html>
+

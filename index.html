@@ -210,7 +210,7 @@
             background: rgba(102, 126, 234, 0.3);
         }
         
-        .btn-demo {
+        .btn-demo, .btn-ipap {
             display: inline-block;
             padding: 0.8rem 2rem;
             border-radius: 0.5rem;
@@ -219,6 +219,24 @@
             transition: all 0.3s ease;
             border: 2px solid rgba(255,255,255,0.2);
             color: var(--color-text);
+        }
+        
+        .btn-ipap {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-ipap:hover {
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .paper-card.maia .btn-demo:hover {
@@ -314,6 +332,9 @@
             <p class="hero-subtitle">PhD Candidate in AI Security & Music Information Retrieval</p>
             <p class="hero-affiliation">Xi'an Jiaotong-Liverpool University</p>
             <div class="hero-cta">
+                <a href="ipap/" class="btn-ipap">
+                    PhD Report (IPAP) →
+                </a>
                 <a href="#papers" class="btn-demo" style="background: rgba(255,255,255,0.1);">
                     View Research →
                 </a>
