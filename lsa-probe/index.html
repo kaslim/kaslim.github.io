@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/explorer.css">
     <link rel="stylesheet" href="css/algorithm.css">
     <link rel="stylesheet" href="css/diffusion-viz.css">
+    <link rel="stylesheet" href="css/mia-diffusion-anim.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -38,6 +39,7 @@
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#problem">Problem</a></li>
                 <li><a href="#diffusion-overview">Mechanism</a></li>
+                <li><a href="#mia-diffusion-mia">MIA Demo</a></li>
                 <li><a href="#method">Method</a></li>
                 <li><a href="#explorer">Explorer</a></li>
                 <li><a href="#results">Results</a></li>
@@ -193,6 +195,135 @@
                         late timesteps (t→T) are nearly clean. Mid-trajectory (t≈0.6T) shows best separability
                     </li>
                 </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diffusion-MIA Animation Section -->
+    <section id="mia-diffusion-mia" class="section">
+        <div class="container">
+            <h2 class="section-title">Diffusion Model Membership Inference (Waveform-based)</h2>
+            <p class="section-subtitle">
+                Interactive visualization of how membership inference works through forward diffusion and reverse denoising.
+                Compare reconstruction quality to detect if a sample was in the training set.
+            </p>
+            
+            <!-- Three Panel Layout -->
+            <div class="panels-container">
+                <!-- Panel A: Clean Spectrogram (x0) -->
+                <div class="panel">
+                    <h3 class="panel-title">x₀ (Clean Spectrogram)</h3>
+                    <div class="panel-canvas-wrapper">
+                        <canvas id="mia-canvas-x0" class="panel-canvas" 
+                                aria-label="Clean spectrogram visualization"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Arrow 1 -->
+                <div class="arrow-connector arrow-1" aria-hidden="true">
+                    <div class="arrow-label">Forward diffusion (to t)</div>
+                </div>
+                
+                <!-- Panel B: Noisy Spectrogram (xt) -->
+                <div class="panel">
+                    <h3 class="panel-title">xₜ (Noisy Spectrogram at timestep t)</h3>
+                    <div class="panel-canvas-wrapper">
+                        <canvas id="mia-canvas-xt" class="panel-canvas"
+                                aria-label="Noisy spectrogram at current timestep"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Arrow 2 -->
+                <div class="arrow-connector arrow-2" aria-hidden="true">
+                    <div class="arrow-label">Reverse denoise</div>
+                </div>
+                
+                <!-- Panel C: Reconstructed Spectrogram (x̂0) -->
+                <div class="panel">
+                    <h3 class="panel-title">x̂₀ (Reconstruction after reverse denoise)</h3>
+                    <div class="panel-canvas-wrapper">
+                        <canvas id="mia-canvas-xhat0" class="panel-canvas"
+                                aria-label="Reconstructed spectrogram after denoising"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Controls Section -->
+            <div class="controls-section">
+                <div class="controls-row">
+                    <!-- Play/Pause Button -->
+                    <div class="control-group">
+                        <button id="mia-play-btn" class="btn btn-primary" 
+                                aria-label="Play animation">
+                            ▶ Play
+                        </button>
+                    </div>
+                    
+                    <!-- Timestep Slider -->
+                    <div class="control-group">
+                        <label for="mia-timestep-slider" class="control-label">
+                            Diffusion Timestep (t)
+                        </label>
+                        <input type="range" 
+                               id="mia-timestep-slider" 
+                               class="slider"
+                               min="0" 
+                               max="100" 
+                               value="50"
+                               step="1"
+                               aria-label="Diffusion timestep slider">
+                        <div class="slider-value">
+                            t = <span id="mia-timestep-value">50</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Member/Non-member Toggle -->
+                    <div class="control-group">
+                        <label for="mia-case-toggle" class="control-label">
+                            Sample Type
+                        </label>
+                        <div style="display: flex; align-items: center;">
+                            <label class="toggle-switch">
+                                <input type="checkbox" 
+                                       id="mia-case-toggle" 
+                                       checked
+                                       aria-label="Toggle between member and non-member case">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label" id="mia-case-label">Member-case</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Distance & Threshold Display -->
+            <div class="distance-section">
+                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--color-text);">
+                    Reconstruction Distance (Δ)
+                </h3>
+                <div class="distance-display">
+                    <div class="distance-value" id="mia-delta-value" aria-live="polite">
+                        0.250
+                    </div>
+                    
+                    <div class="distance-bar-container">
+                        <div class="distance-bar" id="mia-delta-bar" style="width: 31.25%;"></div>
+                        <div class="threshold-line" id="mia-threshold-line" style="left: 43.75%;" aria-hidden="true">
+                            <div class="threshold-label">τ = 0.35</div>
+                        </div>
+                    </div>
+                    
+                    <div class="judgment-label member" id="mia-judgment-label" role="status" aria-live="polite">
+                        ✓ Likely Member
+                    </div>
+                </div>
+                
+                <p style="margin-top: 1.5rem; color: var(--color-text-dim); font-size: 0.9rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <strong>Interpretation:</strong> When Δ (reconstruction error) is below the threshold τ, 
+                    the sample is more likely a <strong style="color: #029E73;">member</strong> (model learned it well). 
+                    When Δ exceeds τ, it's more likely a <strong style="color: #DE8F05;">non-member</strong> 
+                    (model struggles to reconstruct unseen data).
+                </p>
             </div>
         </div>
     </section>
@@ -513,6 +644,7 @@
     <script src="js/explorer.js"></script>
     <script src="js/algorithm-viz.js"></script>
     <script src="js/roc-interactive.js"></script>
+    <script src="js/mia-diffusion-anim.js"></script>
     
     <script>
         // Render math
