@@ -24,6 +24,7 @@
             --color-maia: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --color-lsa: linear-gradient(135deg, #0173B2 0%, #029E73 100%);
             --color-ts: linear-gradient(135deg, #DE8F05 0%, #D55E00 100%);
+            --color-unlearnable: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%);
         }
         
         * {
@@ -155,6 +156,10 @@
             background: var(--color-ts);
         }
         
+        .paper-header.unlearnable {
+            background: var(--color-unlearnable);
+        }
+        
         .paper-venue {
             position: absolute;
             top: 1.5rem;
@@ -251,6 +256,11 @@
         
         .paper-card.ts .btn-demo:hover {
             background: var(--color-ts);
+            border-color: transparent;
+        }
+        
+        .paper-card.unlearnable .btn-demo:hover {
+            background: var(--color-unlearnable);
             border-color: transparent;
         }
         
@@ -419,6 +429,29 @@
                         </div>
                         <a href="ts-ramia/" class="btn-demo">
                             Try the Demo →
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Music Unlearnable Card -->
+                <div class="paper-card unlearnable" onclick="location.href='music-unlearnable/'">
+                    <div class="paper-header unlearnable">
+                        <div class="paper-venue">Training-time Protection</div>
+                    </div>
+                    <div class="paper-body">
+                        <h3 class="paper-title">Music Unlearnable for MusicLDM</h3>
+                        <p class="paper-authors">Y. Liu</p>
+                        <p class="paper-description">
+                            Adversarial perturbations that prevent diffusion models from learning your music style. 
+                            Protects music through training-time CLAP embedding misalignment.
+                        </p>
+                        <div class="paper-metrics">
+                            <span class="metric-badge highlight">CLAP-based</span>
+                            <span class="metric-badge">Interactive Demo</span>
+                            <span class="metric-badge">Training-time Defense</span>
+                        </div>
+                        <a href="music-unlearnable/" class="btn-demo">
+                            Explore Method →
                         </a>
                     </div>
                 </div>
