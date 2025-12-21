@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Music Unlearnable: Training-time Protection for MusicLDM via Adversarial Perturbations">
+    <meta name="keywords" content="Music Unlearnable, Adversarial Training, MusicLDM, CLAP, Diffusion Models, AI Security">
+    <title>Music Unlearnable | Training-time Protection</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/unlearnable_project.css">
+    <style>
+        /* Inline styles for immediate loading */
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="unlearnable-nav">
+        <div class="container">
+            <a href="../" class="nav-brand">
+                <span>← </span><span>Back to Homepage</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="unlearnable-hero">
+        <div class="container">
+            <div class="hero-badge">Training-time Protection</div>
+            <h1 class="hero-title">Music Unlearnable for MusicLDM</h1>
+            <p class="hero-subtitle">
+                Adversarial perturbations that prevent diffusion models from learning your music style
+            </p>
+            <p class="hero-description">
+                Protect your music from being learned and imitated by diffusion models through training-time adversarial perturbations 
+                that systematically misalign CLAP embeddings, breaking the condition-sample association in latent diffusion models.
+            </p>
+        </div>
+    </section>
+
+    <!-- What is Unlearnable Section -->
+    <section id="what-is-unlearnable" class="unlearnable-section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">🎯</span>
+                <h2 class="section-title">What is Unlearnable?</h2>
+            </div>
+            <p class="section-description">
+                A visual explanation of how adversarial perturbations make music "unlearnable" by diffusion models
+            </p>
+            
+            <div class="unlearnable-comparison">
+                <!-- Without Protection -->
+                <div class="comparison-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">❌ Without Protection (Learnable)</h3>
+                        <div class="panel-badge learnable">Model Can Learn</div>
+                    </div>
+                    <div class="comparison-visualization">
+                        <div class="visual-flow">
+                            <div class="flow-step">
+                                <div class="step-icon">🎵</div>
+                                <div class="step-label">Your Music</div>
+                                <div class="step-content">x</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <div class="step-icon">🤖</div>
+                                <div class="step-label">Model Training</div>
+                                <div class="step-content">Learns (x, style)</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <div class="step-icon">🎨</div>
+                                <div class="step-label">Result</div>
+                                <div class="step-content">Can Imitate</div>
+                            </div>
+                        </div>
+                        <div class="risk-indicator high-risk">
+                            <div class="risk-icon">⚠️</div>
+                            <div class="risk-text">High Imitation Risk</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- With Protection -->
+                <div class="comparison-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">✅ With Protection (Unlearnable)</h3>
+                        <div class="panel-badge unlearnable">Model Cannot Learn</div>
+                    </div>
+                    <div class="comparison-visualization">
+                        <div class="visual-flow">
+                            <div class="flow-step">
+                                <div class="step-icon">🎵</div>
+                                <div class="step-label">Your Music</div>
+                                <div class="step-content">x</div>
+                            </div>
+                            <div class="flow-arrow">+ δ</div>
+                            <div class="flow-step protected">
+                                <div class="step-icon">🛡️</div>
+                                <div class="step-label">Protected</div>
+                                <div class="step-content">x' = x + δ</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <div class="step-icon">🤖</div>
+                                <div class="step-label">Model Training</div>
+                                <div class="step-content">Learns (x', wrong style)</div>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">
+                                <div class="step-icon">🚫</div>
+                                <div class="step-label">Result</div>
+                                <div class="step-content">Cannot Imitate</div>
+                            </div>
+                        </div>
+                        <div class="risk-indicator low-risk">
+                            <div class="risk-icon">✅</div>
+                            <div class="risk-text">Low Imitation Risk</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Animated Explanation -->
+            <div class="animated-explanation">
+                <div class="explanation-title">How It Works (Animated)</div>
+                <div class="animation-container">
+                    <canvas id="unlearnable-concept-canvas" class="concept-canvas"
+                            aria-label="Animated visualization of unlearnable concept"></canvas>
+                    <div class="animation-controls">
+                        <button id="play-concept-anim" class="btn-anim" aria-label="Play animation">
+                            ▶ Play Animation
+                        </button>
+                        <button id="reset-concept-anim" class="btn-anim btn-secondary" aria-label="Reset animation">
+                            ↺ Reset
+                        </button>
+                    </div>
+                    <div class="animation-status" id="animation-status">
+                        Click "Play Animation" to see how unlearnable protection works
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="unlearnable-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">📋</span>
+                <h2 class="section-title">Overview</h2>
+            </div>
+            <div class="overview-content">
+                <div class="overview-text">
+                    <p class="overview-paragraph">
+                        <strong>Problem:</strong> Music diffusion models (e.g., MusicLDM) can learn and imitate musical styles from training data, 
+                        raising concerns about copyright protection and creative ownership.
+                    </p>
+                    <p class="overview-paragraph">
+                        <strong>Goal:</strong> Develop a training-time defense mechanism that prevents diffusion models from effectively learning 
+                        specific musical styles without degrading perceptual quality.
+                    </p>
+                    <p class="overview-paragraph">
+                        <strong>Core Idea:</strong> Inject imperceptible adversarial perturbations δ into music samples before training, 
+                        causing CLAP (Contrastive Language-Audio Pretraining) embeddings to shift systematically. This breaks the alignment 
+                        between conditions (embeddings) and samples, preventing the LDM from learning the true style association.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why It Works Section -->
+    <section id="why-works" class="unlearnable-section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">🔑</span>
+                <h2 class="section-title">Why It Works</h2>
+            </div>
+            <div class="why-works-content">
+                <div class="why-works-text">
+                    <p>
+                        MusicLDM relies on <strong>CLAP embeddings as conditional inputs</strong> to guide the diffusion process. 
+                        During training, the model learns associations between embeddings e and samples x.
+                    </p>
+                    <p>
+                        By perturbing samples to x' = x + δ, we cause CLAP to produce shifted embeddings e' = CLAP(x'). 
+                        The model then learns the <strong>wrong association</strong>: (x', e') instead of (x, e).
+                    </p>
+                    <p>
+                        This systematic misalignment means that even if an attacker tries to generate music using the original embedding e, 
+                        the model cannot reproduce the true style because it was trained on misaligned pairs.
+                    </p>
+                    <p>
+                        <strong>Key Insight:</strong> CLAP acts as a "bridge" between text/audio conditions and the diffusion model. 
+                        By perturbing this bridge, we break the learning pathway without affecting human perception.
+                    </p>
+                </div>
+                <div class="why-works-diagram">
+                    <div class="diagram-box">
+                        <div class="diagram-label">Training without Protection</div>
+                        <div class="diagram-flow">
+                            <span class="flow-item">x</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-item">CLAP</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-item">e</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-item">LDM learns (x, e)</span>
+                        </div>
+                    </div>
+                    <div class="diagram-box highlight">
+                        <div class="diagram-label">Training with Protection</div>
+                        <div class="diagram-flow">
+                            <span class="flow-item">x</span>
+                            <span class="flow-arrow">+ δ</span>
+                            <span class="flow-item">x'</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-item">CLAP</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-item">e'</span>
+                            <span class="flow-arrow">→</span>
+                            <span class="flow-item">LDM learns (x', e') ✗</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Relationship Section (Core Interactive Visualization) -->
+    <section id="system-relationship" class="unlearnable-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">🔗</span>
+                <h2 class="section-title">System Relationship: x / CLAP / LDM</h2>
+            </div>
+            <p class="section-description">
+                Interactive visualization showing how adversarial perturbations affect the CLAP embedding space 
+                and disrupt the learning process in MusicLDM.
+            </p>
+            
+            <!-- Interactive Visualization Container -->
+            <div id="unlearnable-viz" class="viz-container">
+                <!-- Left Column: Data & Perturbation -->
+                <div class="viz-column data-column">
+                    <h3 class="column-title">Data & Perturbation</h3>
+                    
+                    <!-- Clean Spectrogram Panel -->
+                    <div class="spectrogram-panel">
+                        <div class="panel-label">Clean Spectrogram (x)</div>
+                        <div class="spectrogram-wrapper">
+                            <canvas id="spectrogram-clean" class="spectrogram-canvas" 
+                                    aria-label="Clean spectrogram visualization"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Protected Spectrogram Panel -->
+                    <div class="spectrogram-panel">
+                        <div class="panel-label">Protected Spectrogram (x' = x + δ)</div>
+                        <div class="spectrogram-wrapper">
+                            <canvas id="spectrogram-protected" class="spectrogram-canvas"
+                                    aria-label="Protected spectrogram with adversarial perturbation"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Controls -->
+                    <div class="controls-panel">
+                        <div class="control-group">
+                            <label for="perturbation-slider" class="control-label">
+                                Perturbation Strength
+                            </label>
+                            <input type="range" 
+                                   id="perturbation-slider" 
+                                   class="control-slider"
+                                   min="0" 
+                                   max="100" 
+                                   value="30"
+                                   step="1"
+                                   aria-label="Adjust perturbation strength">
+                            <div class="slider-value">
+                                <span id="perturbation-value">30</span>%
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">View Mode</label>
+                            <div class="toggle-container">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" 
+                                           id="view-toggle" 
+                                           checked
+                                           aria-label="Toggle between clean and protected view">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <span class="toggle-label" id="view-label">Protected</span>
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Perceptual Budget</label>
+                            <div class="budget-bar-container">
+                                <div class="budget-bar" id="budget-bar"></div>
+                                <div class="budget-label" id="budget-label">Low</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Middle Column: CLAP Mapping -->
+                <div class="viz-column clap-column">
+                    <h3 class="column-title">CLAP Audio Encoder</h3>
+                    <div class="clap-block">
+                        <div class="clap-icon">🎵</div>
+                        <div class="clap-label">CLAP (frozen)</div>
+                        <div class="clap-description">Contrastive Language-Audio Pretraining</div>
+                        
+                        <!-- Arrows from spectrograms -->
+                        <div class="arrow-from-clean" aria-hidden="true">
+                            <svg class="arrow-svg" viewBox="0 0 100 50">
+                                <path d="M 0 25 L 80 25" stroke="currentColor" stroke-width="2" fill="none" marker-end="url(#arrowhead-clean)"/>
+                                <defs>
+                                    <marker id="arrowhead-clean" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                        <polygon points="0 0, 10 3, 0 6" fill="currentColor"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <span class="arrow-label">e</span>
+                        </div>
+                        
+                        <div class="arrow-from-protected" aria-hidden="true">
+                            <svg class="arrow-svg" viewBox="0 0 100 50">
+                                <path d="M 0 25 L 80 25" stroke="currentColor" stroke-width="2" fill="none" marker-end="url(#arrowhead-protected)"/>
+                                <defs>
+                                    <marker id="arrowhead-protected" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                        <polygon points="0 0, 10 3, 0 6" fill="currentColor"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                            <span class="arrow-label">e'</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Embedding Shift & LDM -->
+                <div class="viz-column embedding-column">
+                    <h3 class="column-title">Embedding Shift & LDM Learning</h3>
+                    
+                    <!-- Embedding Space Visualization -->
+                    <div class="embedding-space-panel">
+                        <div class="panel-label">Embedding Space (2D Projection)</div>
+                        <div class="embedding-canvas-wrapper">
+                            <canvas id="embedding-canvas" class="embedding-canvas"
+                                    aria-label="2D embedding space visualization"></canvas>
+                        </div>
+                        <div class="delta-display">
+                            <span class="delta-label">Δe = ||e' - e|| =</span>
+                            <span class="delta-value" id="delta-value">0.000</span>
+                        </div>
+                    </div>
+                    
+                    <!-- LDM Training Mismatch -->
+                    <div class="ldm-panel">
+                        <div class="panel-label">LDM Training Process</div>
+                        <div class="ldm-flow">
+                            <div class="ldm-condition">
+                                <div class="condition-label">Condition:</div>
+                                <div class="condition-value" id="condition-value">e (clean)</div>
+                            </div>
+                            <div class="ldm-model">
+                                <div class="ldm-icon">🎼</div>
+                                <div class="ldm-label">LDM (Latent Diffusion)</div>
+                            </div>
+                            <div class="ldm-output">
+                                <div class="output-label">Learns:</div>
+                                <div class="output-value" id="output-value">(x, e) association</div>
+                            </div>
+                        </div>
+                        <div class="mismatch-hint" id="mismatch-hint">
+                            Model sees (x', e') → learns wrong association → less memorization of true style
+                        </div>
+                    </div>
+                    
+                    <!-- Imitation Risk Meter -->
+                    <div class="risk-meter-panel">
+                        <div class="panel-label">Imitation Risk</div>
+                        <div class="risk-meter-container">
+                            <div class="risk-meter-bar">
+                                <div class="risk-meter-fill" id="risk-meter-fill"></div>
+                                <div class="risk-meter-label-low">Low Risk</div>
+                                <div class="risk-meter-label-high">High Risk</div>
+                            </div>
+                            <div class="risk-value" id="risk-value">Medium</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section id="method" class="unlearnable-section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">⚙️</span>
+                <h2 class="section-title">Method (Algorithm)</h2>
+            </div>
+            
+            <div class="method-content">
+                <div class="method-formulas">
+                    <h3>Key Formulas</h3>
+                    <div class="formula-box">
+                        <div class="formula-item">
+                            <span class="formula-label">Perturbed Sample:</span>
+                            <span class="formula">x' = x + δ</span>
+                        </div>
+                        <div class="formula-item">
+                            <span class="formula-label">CLAP Embeddings:</span>
+                            <span class="formula">e = CLAP(x), e' = CLAP(x')</span>
+                        </div>
+                        <div class="formula-item">
+                            <span class="formula-label">Embedding Shift:</span>
+                            <span class="formula">Δe = ||e' - e||₂</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="method-algorithm">
+                    <h3>Optimization Objective</h3>
+                    <div class="algorithm-box">
+                        <pre class="algorithm-code"><code>Objective: Maximize Δe = ||CLAP(x + δ) - CLAP(x)||₂
+
+Subject to:
+  - Perceptual constraint: ||δ||_p ≤ ε (energy bound)
+  - Perceptual quality: D(x, x') ≤ τ (perceptual threshold)
+
+Optimization Strategy:
+  1. Initialize δ ~ N(0, σ²)
+  2. For each iteration:
+     a. Compute gradient: ∇_δ ||CLAP(x + δ) - CLAP(x)||₂
+     b. Update: δ ← δ + α · sign(∇_δ)
+     c. Project: δ ← clip(δ, -ε, ε)
+  3. Return optimal δ*</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evaluation Plan Section -->
+    <section id="evaluation" class="unlearnable-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">📊</span>
+                <h2 class="section-title">Evaluation Plan</h2>
+            </div>
+            
+            <div class="evaluation-content">
+                <p class="evaluation-intro">
+                    To validate that protected samples prevent effective learning, we plan to evaluate:
+                </p>
+                
+                <div class="evaluation-grid">
+                    <div class="evaluation-card">
+                        <div class="eval-icon">🎯</div>
+                        <h3>Style Similarity</h3>
+                        <p>
+                            Measure how well models trained on protected data can imitate the original style 
+                            using CLAP similarity scores and perceptual metrics.
+                        </p>
+                        <div class="eval-metric">Target: &lt; 0.3 similarity</div>
+                    </div>
+                    
+                    <div class="evaluation-card">
+                        <div class="eval-icon">🎵</div>
+                        <h3>CLAP Embedding Distance</h3>
+                        <p>
+                            Quantify the embedding shift Δe and verify that it exceeds a threshold 
+                            while maintaining perceptual quality.
+                        </p>
+                        <div class="eval-metric">Target: Δe &gt; 0.5</div>
+                    </div>
+                    
+                    <div class="evaluation-card">
+                        <div class="eval-icon">👂</div>
+                        <h3>Perceptual Quality</h3>
+                        <p>
+                            Ensure perturbations remain imperceptible through listening tests (MOS) 
+                            and objective metrics (PESQ, STOI).
+                        </p>
+                        <div class="eval-metric">Target: MOS &gt; 4.0/5.0</div>
+                    </div>
+                    
+                    <div class="evaluation-card">
+                        <div class="eval-icon">🛡️</div>
+                        <h3>Robustness</h3>
+                        <p>
+                            Test against various preprocessing (resampling, compression) and 
+                            verify protection persists across different diffusion model architectures.
+                        </p>
+                        <div class="eval-metric">Target: Protection maintained</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Limitations Section -->
+    <section id="limitations" class="unlearnable-section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">⚠️</span>
+                <h2 class="section-title">Limitations & Threat Model</h2>
+            </div>
+            
+            <div class="limitations-content">
+                <div class="limitation-item">
+                    <h3>CLAP Dependency</h3>
+                    <p>
+                        This method relies on CLAP as the conditioning mechanism. Models using different 
+                        conditioning approaches (e.g., direct text-to-audio) may not be affected.
+                    </p>
+                </div>
+                
+                <div class="limitation-item">
+                    <h3>Preprocessing Robustness</h3>
+                    <p>
+                        Strong preprocessing (e.g., aggressive resampling, filtering) might remove 
+                        perturbations. Protection effectiveness depends on maintaining perturbation integrity.
+                    </p>
+                </div>
+                
+                <div class="limitation-item">
+                    <h3>Training-time Only</h3>
+                    <p>
+                        Protection is only effective if applied before training. Once a model is trained 
+                        on unprotected data, this method cannot retroactively protect it.
+                    </p>
+                </div>
+                
+                <div class="limitation-item">
+                    <h3>Perceptual Budget Trade-off</h3>
+                    <p>
+                        There exists a trade-off between protection strength and perceptual quality. 
+                        Very strong perturbations may become perceptible, while weak ones may not provide 
+                        sufficient protection.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="unlearnable-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-icon">📚</span>
+                <h2 class="section-title">Resources</h2>
+            </div>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">💻</div>
+                    <h3>GitHub</h3>
+                    <p>Code repository (Coming Soon)</p>
+                    <a href="#" class="btn-resource" aria-label="GitHub repository">View Code</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">📄</div>
+                    <h3>Paper</h3>
+                    <p>Full paper (Coming Soon)</p>
+                    <a href="#" class="btn-resource" aria-label="Research paper">Read Paper</a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">🎬</div>
+                    <h3>Demo</h3>
+                    <p>Interactive demo (This page)</p>
+                    <a href="#system-relationship" class="btn-resource" aria-label="Interactive demo">Try Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="unlearnable-footer">
+        <div class="container">
+            <p>&copy; 2025 Yuxuan Liu. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="../">Back to Homepage</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/unlearnable_project.js"></script>
+</body>
+</html>
+
