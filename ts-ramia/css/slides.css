@@ -185,12 +185,18 @@ body {
 
 /* ========== Visual Elements ========== */
 .slide-visual {
-    margin: 2rem auto;
+    margin: 1.5rem auto;
     text-align: center;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 200px;
+}
+
+.slide-visual svg {
+    max-width: 100%;
+    height: auto;
 }
 
 .visual-placeholder {
@@ -370,28 +376,39 @@ body.fullscreen .slide-container {
 }
 
 .slide.slide-title .slide-title {
-    font-size: var(--font-size-title);
+    font-size: 4rem;
     margin-bottom: 1rem;
 }
 
 .slide.slide-title .slide-subtitle {
-    font-size: var(--font-size-subtitle);
-    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
 }
 
 .slide.slide-title .slide-bullets {
     max-width: 800px;
-    margin: 2rem auto;
+    margin: 1.5rem auto;
 }
 
 .slide.slide-title .slide-bullets li {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     text-align: center;
     padding-left: 0;
+    color: var(--slide-muted);
 }
 
 .slide.slide-title .slide-bullets li::before {
     display: none;
+}
+
+/* ========== Results Slide Variant ========== */
+.slide.slide-results .slide-visual {
+    min-height: 500px;
+}
+
+/* ========== Conclusion Slide Variant ========== */
+.slide.slide-conclusion .slide-visual {
+    min-height: 400px;
 }
 
 /* ========== Q&A Slide Variant ========== */

@@ -1,220 +1,290 @@
 /* =====================================
    TS-RaMIA AAAI Slides Data
+   Updated with exact reported numbers
    ===================================== */
 
-// Slide content structure
+// Slide content structure - 14 slides with visuals
 const slidesData = [
     // Slide 1: Title
     {
         id: 1,
         title: "TS-RaMIA",
-        subtitle: "Membership Auditing for Symbolic Music Models",
+        subtitle: "Membership Auditing for Symbolic Music Generation Models",
         type: "title",
         bullets: [
-            "Yuxuan Liu, Peizhuo Zhang, Ruibin Sang, Zehua Li, Shijian Li",
-            "Xi'an Jiaotong-Liverpool University",
-            "EAIM Workshop @ AAAI 2026"
+            "EAIM @ AAAI 2026 · 15 min talk + 5 min Q&A",
+            "Yuxuan Liu, Rui Sang, Peihong Zhang, Zhixin Li, ..."
         ],
-        notes: "Welcome! 15-min talk. First MIA for symbolic music. Focus: why naive likelihood fails, our structural insight, low-FPR auditing."
+        visual: {
+            type: "heroParticles",
+            badges: ["Music AI", "Privacy Audit", "Symbolic Tokens"]
+        },
+        notes: "One-sentence hook: 'Creators ask: was my piece used to train this model?'"
     },
     
     // Slide 2: Why now
     {
         id: 2,
-        title: "Why This Problem Now?",
-        type: "motivation",
+        title: "Why creators need auditing now",
+        type: "standard",
         bullets: [
-            "Music models trained on scraped corpora",
-            "Creators need copyright auditing tools",
-            "No existing MIA for symbolic music",
-            "Training data transparency matters"
+            "Training data is scraped and opaque",
+            "Copyright and licensing disputes are rising",
+            "Auditing needs high precision (low false positives)"
         ],
-        visual: "copyright-icon",
-        notes: "Context: Large music models use web-scraped data. Composers want to know if their work was used. This is the first membership inference attack for music."
+        visual: {
+            type: "flowDiagram",
+            flow: ["Dataset", "Model", "Creator?"]
+        },
+        notes: "Frame this as accountability tooling, not 'hacking'."
     },
     
     // Slide 3: What is MIA
     {
         id: 3,
-        title: "What is Membership Inference Attack?",
-        type: "concept",
+        title: "What is Membership Inference?",
+        type: "standard",
         bullets: [
-            "Hypothesis test: was this sample in training?",
-            "Uses model's forward-pass logits/losses",
-            "Higher confidence on seen data",
-            "Privacy risk indicator for models"
+            "A statistical test: 'Was x in training set?'",
+            "Compare member vs non-member signals",
+            "We assume teacher forcing logits (gray-box)"
         ],
-        visual: "mia-diagram",
-        notes: "MIA is a hypothesis test. Models typically have lower loss on training samples. We use this signal to detect membership."
+        visual: {
+            type: "hypothesisCard",
+            h0: "x ∉ D_train",
+            h1: "x ∈ D_train"
+        },
+        notes: "Explain 'forward-pass only, no gradients'."
     },
     
     // Slide 4: Why naive fails
     {
         id: 4,
-        title: "Why Naive Likelihood Fails in Music",
-        type: "problem",
+        title: "Why naive loss breaks in symbolic music",
+        type: "standard",
         bullets: [
-            "Token heterogeneity: bars vs notes",
-            "Length confounding dominates signal",
-            "Event density varies widely",
-            "Raw AUC 0.679 → after debiasing 0.563"
+            "Tokens are not uniform in function",
+            "Structural tokens dominate counts",
+            "Mean loss conflates membership with complexity"
         ],
-        visual: "confounding-collapse",
-        notes: "Key insight: music has structural heterogeneity. Naive mean NLL is dominated by confounders like piece length. After controlling for length, baseline collapses."
+        visual: {
+            type: "tokenSplit",
+            structural: 60,
+            note: 40
+        },
+        notes: "Key line: 'Averaging dilutes sparse memorization pockets.'"
     },
     
-    // Slide 5: Two confounders
+    // Slide 5: Confounders
     {
         id: 5,
-        title: "Two Confounders We Must Control",
-        type: "analysis",
+        title: "Two confounders that inflate MIAs",
+        type: "standard",
         bullets: [
-            "Structural length: number of bars/metadata tokens",
-            "Event density: notes per structural unit",
-            "Both correlate with membership",
-            "Require matched sampling & calibration"
+            "Structural length: n_struct",
+            "Event density: events per bar",
+            "Raw AUC can be misleading"
         ],
-        visual: "confounder-demo",
-        notes: "We identified two major confounders: structural token count and note density. Must control both through length-matching and conditional calibration."
+        visual: {
+            type: "collapseBars",
+            data: [
+                { label: "Raw baseline AUC", value: 0.730 },
+                { label: "Length-matched baseline AUC", value: 0.563 }
+            ]
+        },
+        notes: "Set up why our debias protocol is central."
     },
     
     // Slide 6: Core insight
     {
         id: 6,
-        title: "Core Insight: Leakage is Not Uniform",
-        type: "insight",
+        title: "Where the leakage actually happens",
+        type: "standard",
         bullets: [
-            "Structural tokens reveal more leakage",
-            "Bars, time/key signatures matter most",
-            "Note tokens alone: inverted signal",
-            "Mask to structural channel only"
+            "Leakage is strongest on structural tokens",
+            "Note-only signals are weak / unstable",
+            "We focus on structure to audit reliably"
         ],
-        visual: "token-importance",
-        notes: "Our main finding: memorization is not uniform across token types. Structural tokens (bars, signatures) leak membership. Note-only signals are actually inverted."
+        visual: {
+            type: "ablationMini",
+            data: [
+                { label: "Structural-only", value: 0.692, color: "#029E73" },
+                { label: "Note-only", value: 0.42, color: "#6C757D" }
+            ]
+        },
+        notes: "Say: 'Structure is the skeleton models memorize.'"
     },
     
     // Slide 7: Pipeline
     {
         id: 7,
-        title: "TS-RaMIA Pipeline Overview",
-        type: "method",
+        title: "TS-RaMIA in one slide",
+        type: "standard",
         bullets: [
-            "Step 1: Mask to structural tokens",
-            "Step 2: Per-token negative log-likelihood",
-            "Step 3: Tail-of-top-k aggregation (Top-64)",
-            "Step 4: Debias + multi-temperature fusion"
+            "Mask structural tokens",
+            "Per-token NLL via teacher forcing",
+            "Tail-of-top-k aggregation",
+            "Debias + meta-fusion"
         ],
-        visual: "pipeline-flow",
-        notes: "Four-stage pipeline. Mask extracts structural channel. Compute per-token NLL. Focus on hardest 64 tokens. Fuse across temperatures with debiasing."
+        visual: {
+            type: "pipeline",
+            stages: [
+                { name: "Tokenize", icon: "📝" },
+                { name: "Structural\nMask", icon: "🎯" },
+                { name: "Token\nNLL", icon: "📊" },
+                { name: "Top-k\nTail", icon: "📈" },
+                { name: "Debias+\nFusion", icon: "⚖️" }
+            ]
+        },
+        notes: "Emphasize: 'forward-pass only; practical for auditing.'"
     },
     
-    // Slide 8: Tail-of-top-k
+    // Slide 8: Structural masking
     {
         id: 8,
-        title: "Tail-of-Top-k: Why Tail Beats Mean",
-        type: "method-detail",
+        title: "Structural masking: isolate the lattice",
+        type: "standard",
         bullets: [
-            "Mean aggregation smooths out spikes",
-            "Tail (Top-64) captures hardest tokens",
-            "Spikes indicate memorization",
-            "Robust across temperature variations"
+            "REMI: Bar / Position / Tempo",
+            "ABC: | : [ ] (exclude headers)",
+            "Reduces formatting noise"
         ],
-        visual: "topk-distribution",
-        notes: "Why tail? Memorized samples show spikes in NLL on hard tokens. Mean loses this. Top-64 tail preserves the memorization signal."
+        visual: {
+            type: "tokenSnippet",
+            tokens: [
+                { text: "Bar_1", type: "struct" },
+                { text: "Position_0", type: "struct" },
+                { text: "Note_C", type: "note" },
+                { text: "Note_E", type: "note" },
+                { text: "Note_G", type: "note" },
+                { text: "Bar_2", type: "struct" },
+                { text: "Tempo_120", type: "struct" },
+                { text: "Note_D", type: "note" }
+            ]
+        },
+        notes: "Mention unit tests briefly (robust tagging)."
     },
     
-    // Slide 9: Debiasing & metric
+    // Slide 9: Tail-of-top-k
     {
         id: 9,
-        title: "Debiasing Views & Auditing Metric",
-        type: "method-detail",
+        title: "Tail-of-top-k reveals sparse memorization",
+        type: "standard",
         bullets: [
-            "Length-matched: sample by structural token count",
-            "Calibrated: isotonic regression per density bin",
-            "Metric: TPR@1%FPR (auditor criterion)",
-            "Low false positive rate critical"
+            "Mean loss hides spikes",
+            "Use Top-64 hardest structural tokens",
+            "Tail balances signal vs variance"
         ],
-        visual: "debiasing-views",
-        notes: "Two debiasing strategies. Length-matched sampling eliminates structural confounding. Calibration adjusts for density. Use TPR@1%FPR: auditors can't tolerate false accusations."
+        visual: {
+            type: "tailPlot",
+            tokens: 40,
+            topK: 64
+        },
+        notes: "Explain 'pockets': rare but high-loss structural positions."
     },
     
-    // Slide 10: Main results
+    // Slide 10: Debiasing
     {
         id: 10,
-        title: "Main Results on REMI Transformer",
-        type: "results",
+        title: "Auditing needs low-FPR evaluation",
+        type: "standard",
         bullets: [
-            "Baseline (length-matched): AUC 0.563, TPR@1%FPR 0.9%",
-            "StructTail-64: AUC 0.692, TPR@1%FPR 2.4%",
-            "StructTail+Fusion: AUC 0.826, TPR@1%FPR 14.6%",
-            "Low-FPR regime: 32.7% TPR@5%FPR"
+            "Length-matched pairs control n_struct",
+            "Conditional calibration removes residual length effects",
+            "Primary metric: TPR @ 1% FPR"
         ],
-        visual: "roc-main",
-        notes: "Our method achieves 0.826 AUC, 14.6% TPR@1%FPR. Massive improvement over baseline. Zoom ROC shows dominance in low-FPR regime critical for auditing."
+        visual: {
+            type: "debiasCards",
+            methods: [
+                { name: "Length-matched", desc: "Pairing by n_struct" },
+                { name: "Calibration", desc: "Isotonic regression" }
+            ]
+        },
+        notes: "Remind: false positives are costly for creators."
     },
     
-    // Slide 11: Ablations
+    // Slide 11: Main results
     {
         id: 11,
-        title: "Ablations & Negative Results",
-        type: "ablation",
+        title: "Main results (REMI Transformer, MAESTRO)",
+        type: "results",
         bullets: [
-            "Note-only mask: inverted signal (negative proof)",
-            "Structural channel: restores performance",
-            "Top-k size ablation: 64 optimal",
-            "Temperature fusion: consistent gain"
+            "Baseline collapses after debiasing",
+            "TS-RaMIA hits 14.6% TPR @ 1% FPR",
+            "AUC improves to 0.826 (length-matched)"
         ],
-        visual: "ablation-bars",
-        notes: "Ablations confirm our hypothesis. Note-only mask fails (even inverts). Structural tokens essential. Top-64 size is sweet spot. Fusion helps across all settings."
+        visual: {
+            type: "resultsBarsRoc",
+            hasZoom: true
+        },
+        notes: "Say: 'This is a practical auditing regime, not just AUC.'"
     },
     
-    // Slide 12: Transfer & limits
+    // Slide 12: Ablations
     {
         id: 12,
-        title: "Transfer to ABC/NotaGen & Limitations",
-        type: "transfer",
+        title: "What matters (and what doesn't)",
+        type: "standard",
         bullets: [
-            "Transfers to ABC notation format",
-            "NotaGen: smaller gains (less overfit)",
-            "Limitation: not literal membership",
-            "Stress test: needs strong memorization"
+            "k=64 best trade-off (top-k sweep)",
+            "Windowed p95 adds small lift",
+            "Note-only: unstable / can invert"
         ],
-        visual: "transfer-results",
-        notes: "Method transfers to ABC format. NotaGen shows smaller gains because less memorization. Caveat: this detects strong memorization, not literal membership. Stress test, not proof."
+        visual: {
+            type: "ablationBars",
+            showP95: true
+        },
+        notes: "Use this to answer reviewer questions quickly."
     },
     
-    // Slide 13: Takeaways
+    // Slide 13: Transfer
     {
         id: 13,
+        title: "Transfer across representations",
+        type: "standard",
+        bullets: [
+            "Tested on ABC with NotaGen",
+            "AUC 0.73, TPR@1%FPR 8.9% (raw)",
+            "Not literal membership: distribution shift caveat"
+        ],
+        visual: {
+            type: "transferBridge",
+            from: "REMI",
+            to: "ABC",
+            metrics: { auc: 0.73, tpr1: 8.9 }
+        },
+        notes: "Be explicit: 'shows method trend transfer, not direct membership.'"
+    },
+    
+    // Slide 14: Takeaways + Q&A
+    {
+        id: 14,
         title: "Takeaways",
         type: "conclusion",
         bullets: [
-            "First MIA for symbolic music generation",
-            "Structural tokens reveal membership leakage",
-            "Low-FPR auditing is now feasible",
-            "Practical tool for copyright compliance"
+            "Music MIAs must be structure-aware",
+            "Debiasing is required for credible auditing",
+            "Low-FPR results show real leakage exists"
         ],
-        visual: "takeaway-checklist",
-        notes: "Three key takeaways. First, we solved a new problem. Second, structural heterogeneity matters. Third, practical auditing at low FPR is possible. Can be used by creators."
-    },
-    
-    // Slide 14: Q&A backup
-    {
-        id: 14,
-        title: "Q&A",
-        type: "qa",
-        bullets: [
-            "Q: Why not use likelihood ratio?",
-            "A: No reference model for music",
-            "Q: How to use as an auditor?",
-            "A: Set threshold at 1% FPR, flag high-score samples"
-        ],
-        visual: "qa-icon",
-        notes: "Common questions. Likelihood ratio needs reference model (we don't have one). Practical usage: train shadow model, set threshold to control FPR, audit your corpus."
+        visual: {
+            type: "takeawaysPanel",
+            workflow: [
+                "1. Tokenize piece",
+                "2. Query logits",
+                "3. Compute TS-RaMIA score",
+                "4. Compare to non-member reference"
+            ],
+            questions: [
+                "Does this prove copying?",
+                "What if APIs don't expose logits?",
+                "How to defend?"
+            ]
+        },
+        notes: "End with: 'We release code and protocol.'"
     }
 ];
 
-// Performance metrics (Table 1 data - length-matched view)
+// Performance metrics (exact reported numbers - length-matched view)
 const performanceData = {
     baseline: {
         auc: 0.563,
@@ -233,6 +303,25 @@ const performanceData = {
         tpr_1fpr: 14.6,
         tpr_5fpr: 32.7,
         tpr_10fpr: 48.2
+    },
+    // Calibrated view (optional footnote)
+    fusionCalibrated: {
+        auc: 0.818,
+        tpr_1fpr: 13.9
+    }
+};
+
+// Ablation data (length-matched)
+const ablationData = {
+    topK: [
+        { k: 32, auc: 0.678, tpr_1fpr: 2.1 },
+        { k: 64, auc: 0.692, tpr_1fpr: 2.4 },
+        { k: 96, auc: 0.685, tpr_1fpr: 2.3 },
+        { k: 128, auc: 0.670, tpr_1fpr: 2.0 }
+    ],
+    p95: {
+        auc: 0.709,
+        tpr_1fpr: 3.2
     }
 };
 
@@ -287,5 +376,5 @@ const rocData = {
 
 // Export for use in other modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { slidesData, performanceData, rocData };
+    module.exports = { slidesData, performanceData, ablationData, rocData };
 }

@@ -119,7 +119,7 @@ class SlidesController {
             const visual = document.createElement('div');
             visual.className = 'slide-visual';
             visual.id = `visual-${slideData.id}`;
-            visual.dataset.visualType = slideData.visual;
+            visual.dataset.visualConfig = JSON.stringify(slideData.visual);
             content.appendChild(visual);
         }
         
@@ -278,9 +278,14 @@ class SlidesController {
     
     renderSlideVisuals(slideEl) {
         const visual = slideEl.querySelector('.slide-visual');
-        if (visual && visual.dataset.visualType && typeof renderVisual === 'function') {
+        if (visual && visual.dataset.visualConfig && typeof renderVisual === 'function') {
             // Call chart rendering function if it exists
-            renderVisual(visual.id, visual.dataset.visualType);
+            try {
+                const visualConfig = JSON.parse(visual.dataset.visualConfig);
+                renderVisual(visual.id, visualConfig);
+            } catch (e) {
+                console.error('Error parsing visual config:', e);
+            }
         }
     }
     
