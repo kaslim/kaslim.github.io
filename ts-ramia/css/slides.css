@@ -1,6 +1,6 @@
 /* =====================================
    TS-RaMIA AAAI Slides Stylesheet
-   BIG FONTS for in-room readability
+   Moderately sized fonts for readability
    4 layout templates
    ===================================== */
 
@@ -24,10 +24,10 @@
     --slide-border: #DEE2E6;
     --slide-light-bg: #F8F9FA;
     
-    /* Typography - BIG FONTS */
-    --font-size-title: clamp(52px, 5vw, 76px);
-    --font-size-subtitle: clamp(32px, 3vw, 44px);
-    --font-size-body: clamp(28px, 2.5vw, 40px);
+    /* Typography - Moderately larger than original */
+    --font-size-title: clamp(44px, 4vw, 56px);
+    --font-size-subtitle: clamp(28px, 2.5vw, 36px);
+    --font-size-body: clamp(24px, 2vw, 30px);
     --font-size-caption: clamp(16px, 1.5vw, 22px);
     --font-size-tiny: clamp(12px, 1vw, 16px);
     
@@ -298,17 +298,17 @@ body {
 
 /* ========== Title Slide Variant ========== */
 .slide.slide-title .slide-title {
-    font-size: clamp(60px, 6vw, 90px);
+    font-size: clamp(52px, 5vw, 64px);
     margin-bottom: 1rem;
 }
 
 .slide.slide-title .slide-subtitle {
-    font-size: clamp(36px, 3.5vw, 50px);
+    font-size: clamp(32px, 3vw, 40px);
     margin-bottom: 2.5rem;
 }
 
 .slide.slide-title .slide-bullets li {
-    font-size: clamp(24px, 2vw, 32px);
+    font-size: clamp(20px, 1.8vw, 26px);
     text-align: center;
     padding-left: 0;
     color: var(--slide-muted);
