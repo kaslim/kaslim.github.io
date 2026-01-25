@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TS-RaMIA AAAI 2026 Oral Presentation - Membership Auditing for Symbolic Music Models">
+    <meta name="keywords" content="membership inference, music AI, AAAI, privacy, symbolic music">
+    <meta name="author" content="Yuxuan Liu">
+    
+    <title>TS-RaMIA AAAI Oral Slides</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/slides.css">
+    
+    <!-- D3.js for visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <!-- Main Slide Deck Container -->
+    <div id="slide-deck">
+        <div class="slide-container">
+            <!-- Slides will be dynamically inserted here -->
+        </div>
+        
+        <!-- Progress Bar -->
+        <div id="progress-bar"></div>
+    </div>
+    
+    <!-- Table of Contents Overlay -->
+    <div id="toc-overlay">
+        <div class="toc-content">
+            <h2 class="toc-header">Table of Contents</h2>
+            <div id="toc-grid" class="toc-grid">
+                <!-- TOC items will be dynamically inserted -->
+            </div>
+            <p class="toc-close-hint">Press <strong>ESC</strong> to close</p>
+        </div>
+    </div>
+    
+    <!-- Speaker Notes Panel -->
+    <div id="notes-panel">
+        <div class="notes-header">Speaker Notes</div>
+        <div class="notes-content">
+            <!-- Notes will be dynamically updated -->
+        </div>
+        <div class="notes-close-hint">
+            Press <strong>N</strong> to toggle notes<br>
+            Press <strong>ESC</strong> to close
+        </div>
+    </div>
+    
+    <!-- Keyboard Shortcuts Hint -->
+    <div id="shortcuts-hint">
+        <kbd>←</kbd> <kbd>→</kbd> Navigate
+        <span style="margin: 0 0.5rem;">|</span>
+        <kbd>ESC</kbd> TOC
+        <span style="margin: 0 0.5rem;">|</span>
+        <kbd>N</kbd> Notes
+        <span style="margin: 0 0.5rem;">|</span>
+        <kbd>F</kbd> Fullscreen
+    </div>
+    
+    <!-- Navigation Hint -->
+    <div class="nav-hint">
+        Use arrow keys or space to navigate
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/slides-data.js"></script>
+    <script src="js/slides-charts.js"></script>
+    <script src="js/slides.js"></script>
+</body>
+</html>
