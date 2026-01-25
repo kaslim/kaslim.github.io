@@ -1,286 +1,306 @@
 /* =====================================
    TS-RaMIA AAAI Slides Data
-   Updated with exact reported numbers
+   18 slides with BIG fonts for in-room readability
+   Updated narrative: MIA concept-heavy front-loading
    ===================================== */
 
-// Slide content structure - 14 slides with visuals
+// Slide content structure - 18 slides
 const slidesData = [
-    // Slide 1: Title
+    // Slide 1: Title (layout-center)
     {
         id: 1,
         title: "TS-RaMIA",
         subtitle: "Membership Auditing for Symbolic Music Generation Models",
         type: "title",
+        layout: "center",
         bullets: [
-            "EAIM @ AAAI 2026 · 15 min talk + 5 min Q&A",
-            "Yuxuan Liu, Rui Sang, Peihong Zhang, Zhixin Li, ..."
+            "EAIM @ AAAI 2026 · 15 min + 5 min Q&A",
+            "Forward-pass only · Structural-token leakage"
         ],
+        callouts: ["Music AI", "Privacy Audit", "First MIA for Symbolic Music"],
         visual: {
-            type: "heroParticles",
-            badges: ["Music AI", "Privacy Audit", "Symbolic Tokens"]
+            type: "heroTokenStream"
         },
-        notes: "One-sentence hook: 'Creators ask: was my piece used to train this model?'"
+        notes: "Hook: 'Creators ask: Was my piece used to train this model?'"
     },
     
-    // Slide 2: Why now
+    // Slide 2: The creator's question (layout-split)
     {
         id: 2,
-        title: "Why creators need auditing now",
-        type: "standard",
+        title: "The creator's question",
+        layout: "split",
         bullets: [
-            "Training data is scraped and opaque",
-            "Copyright and licensing disputes are rising",
-            "Auditing needs high precision (low false positives)"
+            "Training sets are scraped and opaque",
+            "Licensing disputes need evidence",
+            "Auditing must minimize false accusations"
         ],
         visual: {
-            type: "flowDiagram",
-            flow: ["Dataset", "Model", "Creator?"]
+            type: "creatorPipeline"
         },
-        notes: "Frame this as accountability tooling, not 'hacking'."
+        notes: "Position as accountability tooling, not 'attack for harm'."
     },
     
-    // Slide 3: What is MIA
+    // Slide 3: What is MIA (layout-split)
     {
         id: 3,
-        title: "What is Membership Inference?",
-        type: "standard",
+        title: "What is membership inference (MIA)?",
+        layout: "split",
         bullets: [
-            "A statistical test: 'Was x in training set?'",
-            "Compare member vs non-member signals",
-            "We assume teacher forcing logits (gray-box)"
+            "A hypothesis test: 'Was x in training?'",
+            "Output is a risk score s(x)",
+            "Decision uses a threshold at low FPR"
         ],
         visual: {
-            type: "hypothesisCard",
-            h0: "x ∉ D_train",
-            h1: "x ∈ D_train"
+            type: "hypothesisTestCard"
         },
-        notes: "Explain 'forward-pass only, no gradients'."
+        notes: "Stress 'statistical evidence, not a legal verdict'."
     },
     
-    // Slide 4: Why naive fails
+    // Slide 4: What MIA is NOT (layout-split)
     {
         id: 4,
-        title: "Why naive loss breaks in symbolic music",
-        type: "standard",
+        title: "What MIA is NOT",
+        layout: "split",
         bullets: [
-            "Tokens are not uniform in function",
-            "Structural tokens dominate counts",
-            "Mean loss conflates membership with complexity"
+            "Not plagiarism detection",
+            "Not data extraction",
+            "Not similarity search"
         ],
         visual: {
-            type: "tokenSplit",
-            structural: 60,
-            note: 40
+            type: "vennNot"
         },
-        notes: "Key line: 'Averaging dilutes sparse memorization pockets.'"
+        notes: "This prevents misinterpretation early."
     },
     
-    // Slide 5: Confounders
+    // Slide 5: Why music needs MIA (layout-2row)
     {
         id: 5,
-        title: "Two confounders that inflate MIAs",
-        type: "standard",
+        title: "Why music generation needs MIA",
+        layout: "2row",
         bullets: [
-            "Structural length: n_struct",
-            "Event density: events per bar",
-            "Raw AUC can be misleading"
+            "Music is copyrighted creative work",
+            "Symbolic corpora are easy to scrape",
+            "Auditors need sample-level answers"
         ],
         visual: {
-            type: "collapseBars",
-            data: [
-                { label: "Raw baseline AUC", value: 0.730 },
-                { label: "Length-matched baseline AUC", value: 0.563 }
-            ]
+            type: "musicModalityContrast"
         },
-        notes: "Set up why our debias protocol is central."
+        notes: "Explain why symbolic is special: hierarchical grammar + style."
     },
     
-    // Slide 6: Core insight
+    // Slide 6: Threat model (layout-split)
     {
         id: 6,
-        title: "Where the leakage actually happens",
-        type: "standard",
+        title: "Threat model we assume",
+        layout: "split",
         bullets: [
-            "Leakage is strongest on structural tokens",
-            "Note-only signals are weak / unstable",
-            "We focus on structure to audit reliably"
+            "Auditor has teacher-forcing log-probs",
+            "No gradients, no weights, no training data",
+            "Gray-box but practical for many checkpoints/APIs"
         ],
         visual: {
-            type: "ablationMini",
-            data: [
-                { label: "Structural-only", value: 0.692, color: "#029E73" },
-                { label: "Note-only", value: 0.42, color: "#6C757D" }
-            ]
+            type: "accessModel"
         },
-        notes: "Say: 'Structure is the skeleton models memorize.'"
+        notes: "Say: 'Forward-pass only makes it feasible.'"
     },
     
-    // Slide 7: Pipeline
+    // Slide 7: Why naive fails (layout-split)
     {
         id: 7,
-        title: "TS-RaMIA in one slide",
-        type: "standard",
+        title: "Why naïve loss fails in symbolic music",
+        layout: "split",
         bullets: [
-            "Mask structural tokens",
-            "Per-token NLL via teacher forcing",
-            "Tail-of-top-k aggregation",
-            "Debias + meta-fusion"
+            "Tokens are not functionally uniform",
+            "Structural tokens dominate counts",
+            "Mean loss confounds membership with complexity"
         ],
         visual: {
-            type: "pipeline",
-            stages: [
-                { name: "Tokenize", icon: "📝" },
-                { name: "Structural\nMask", icon: "🎯" },
-                { name: "Token\nNLL", icon: "📊" },
-                { name: "Top-k\nTail", icon: "📈" },
-                { name: "Debias+\nFusion", icon: "⚖️" }
-            ]
+            type: "tokenHeterogeneity"
         },
-        notes: "Emphasize: 'forward-pass only; practical for auditing.'"
+        notes: "Key line: 'Averaging dilutes sparse signals.'"
     },
     
-    // Slide 8: Structural masking
+    // Slide 8: Two confounders (layout-2row)
     {
         id: 8,
-        title: "Structural masking: isolate the lattice",
-        type: "standard",
+        title: "Two confounders we must control",
+        layout: "2row",
+        bullets: [
+            "Structural length n_struct",
+            "Event density (events per bar)",
+            "Raw AUC can look 'good' by accident"
+        ],
+        callouts: ["Don't trust raw scores"],
+        visual: {
+            type: "confounderCollapse"
+        },
+        notes: "This slide justifies debiasing as mandatory."
+    },
+    
+    // Slide 9: Core insight (layout-split-reverse)
+    {
+        id: 9,
+        title: "Core insight",
+        layout: "split-reverse",
+        bullets: [
+            "Leakage concentrates on structural tokens",
+            "Structure is the phrasing skeleton",
+            "So we audit structure, not uniform tokens"
+        ],
+        visual: {
+            type: "structuralLeakageIntuition"
+        },
+        notes: "Give an intuitive example: bar boundaries, tempo changes."
+    },
+    
+    // Slide 10: Pipeline overview (layout-2row)
+    {
+        id: 10,
+        title: "TS-RaMIA overview",
+        layout: "2row",
+        bullets: [
+            "Mask structural tokens",
+            "Per-token NLL (teacher forcing)",
+            "Tail-of-top-k + debiasing",
+            "Lightweight meta-fusion"
+        ],
+        visual: {
+            type: "pipeline5"
+        },
+        notes: "Emphasize: 'Practical auditing pipeline.'"
+    },
+    
+    // Slide 11: Structural masking (layout-split)
+    {
+        id: 11,
+        title: "Step 1 — Structural masking",
+        layout: "split",
         bullets: [
             "REMI: Bar / Position / Tempo",
             "ABC: | : [ ] (exclude headers)",
-            "Reduces formatting noise"
+            "Removes formatting noise"
         ],
         visual: {
-            type: "tokenSnippet",
-            tokens: [
-                { text: "Bar_1", type: "struct" },
-                { text: "Position_0", type: "struct" },
-                { text: "Note_C", type: "note" },
-                { text: "Note_E", type: "note" },
-                { text: "Note_G", type: "note" },
-                { text: "Bar_2", type: "struct" },
-                { text: "Tempo_120", type: "struct" },
-                { text: "Note_D", type: "note" }
-            ]
+            type: "tokenSnippetHighlight"
         },
-        notes: "Mention unit tests briefly (robust tagging)."
+        notes: "Mention unit tests briefly ('robust tagging')."
     },
     
-    // Slide 9: Tail-of-top-k
+    // Slide 12: Per-token NLL (layout-split)
     {
-        id: 9,
-        title: "Tail-of-top-k reveals sparse memorization",
-        type: "standard",
+        id: 12,
+        title: "Step 2 — Per-token NLL",
+        layout: "split",
         bullets: [
-            "Mean loss hides spikes",
-            "Use Top-64 hardest structural tokens",
-            "Tail balances signal vs variance"
+            "Teacher forcing gives token-level surprisal",
+            "Chunk long sequences to avoid boundary artifacts",
+            "We analyze tokens, not whole-seq perplexity"
         ],
         visual: {
-            type: "tailPlot",
-            tokens: 40,
-            topK: 64
+            type: "tokenNLLBars"
         },
-        notes: "Explain 'pockets': rare but high-loss structural positions."
+        notes: "Explain why per-token is needed for heterogeneity."
     },
     
-    // Slide 10: Debiasing
+    // Slide 13: Tail-of-top-k (layout-split)
     {
-        id: 10,
-        title: "Auditing needs low-FPR evaluation",
-        type: "standard",
+        id: 13,
+        title: "Step 3 — Tail-of-top-k (Top-64)",
+        layout: "split",
+        bullets: [
+            "Mean hides localized 'pockets'",
+            "Tail focuses on hardest structural positions",
+            "Score direction is unified in fusion"
+        ],
+        visual: {
+            type: "tailExplain"
+        },
+        notes: "Be explicit: we don't assume 'members always lower loss'."
+    },
+    
+    // Slide 14: Debiasing (layout-2row)
+    {
+        id: 14,
+        title: "Step 4 — Debiasing for credible auditing",
+        layout: "2row",
         bullets: [
             "Length-matched pairs control n_struct",
             "Conditional calibration removes residual length effects",
-            "Primary metric: TPR @ 1% FPR"
+            "Primary endpoint: TPR @ 1% FPR"
         ],
+        callouts: ["Low-FPR auditing"],
         visual: {
-            type: "debiasCards",
-            methods: [
-                { name: "Length-matched", desc: "Pairing by n_struct" },
-                { name: "Calibration", desc: "Isotonic regression" }
-            ]
+            type: "debiasTwoCards"
         },
-        notes: "Remind: false positives are costly for creators."
+        notes: "Explain why low-FPR matters for creators."
     },
     
-    // Slide 11: Main results
+    // Slide 15: Meta-attacker fusion (layout-split)
     {
-        id: 11,
+        id: 15,
+        title: "Step 5 — Meta-attacker fusion",
+        layout: "split",
+        bullets: [
+            "Combine multiple tail statistics",
+            "Logistic regression (lightweight)",
+            "Composer-stratified CV for fair generalization"
+        ],
+        visual: {
+            type: "cvComposerDiagram"
+        },
+        notes: "Preempt 'leakage via composer style' concern."
+    },
+    
+    // Slide 16: Main results (layout-2row) **KEY SLIDE**
+    {
+        id: 16,
         title: "Main results (REMI Transformer, MAESTRO)",
+        layout: "2row",
         type: "results",
         bullets: [
             "Baseline collapses after debiasing",
-            "TS-RaMIA hits 14.6% TPR @ 1% FPR",
+            "TS-RaMIA reaches 14.6% TPR @ 1% FPR",
             "AUC improves to 0.826 (length-matched)"
         ],
         visual: {
-            type: "resultsBarsRoc",
+            type: "resultsDashboard",
             hasZoom: true
         },
-        notes: "Say: 'This is a practical auditing regime, not just AUC.'"
+        notes: "Say: 'This is the regime auditors care about.'"
     },
     
-    // Slide 12: Ablations
+    // Slide 17: Ablations (layout-split)
     {
-        id: 12,
-        title: "What matters (and what doesn't)",
-        type: "standard",
+        id: 17,
+        title: "Ablations & negative results",
+        layout: "split",
         bullets: [
-            "k=64 best trade-off (top-k sweep)",
-            "Windowed p95 adds small lift",
-            "Note-only: unstable / can invert"
+            "Top-64 best trade-off",
+            "+windowed p95 gives small lift",
+            "Note-only is unstable (can invert)"
         ],
+        callouts: ["Structural tokens dominate leakage"],
         visual: {
-            type: "ablationBars",
-            showP95: true
+            type: "ablationBars"
         },
-        notes: "Use this to answer reviewer questions quickly."
+        notes: "This addresses reviewer-style questions fast."
     },
     
-    // Slide 13: Transfer
+    // Slide 18: Transfer & Takeaways (layout-2row)
     {
-        id: 13,
-        title: "Transfer across representations",
-        type: "standard",
-        bullets: [
-            "Tested on ABC with NotaGen",
-            "AUC 0.73, TPR@1%FPR 8.9% (raw)",
-            "Not literal membership: distribution shift caveat"
-        ],
-        visual: {
-            type: "transferBridge",
-            from: "REMI",
-            to: "ABC",
-            metrics: { auc: 0.73, tpr1: 8.9 }
-        },
-        notes: "Be explicit: 'shows method trend transfer, not direct membership.'"
-    },
-    
-    // Slide 14: Takeaways + Q&A
-    {
-        id: 14,
-        title: "Takeaways",
+        id: 18,
+        title: "Transfer, limitations, and takeaways",
+        layout: "2row",
         type: "conclusion",
         bullets: [
-            "Music MIAs must be structure-aware",
-            "Debiasing is required for credible auditing",
-            "Low-FPR results show real leakage exists"
+            "ABC / NotaGen shows representation-transfer trend",
+            "Not literal membership (distribution shift caveat)",
+            "Takeaways: structure-aware + debiasing + low-FPR"
         ],
         visual: {
-            type: "takeawaysPanel",
-            workflow: [
-                "1. Tokenize piece",
-                "2. Query logits",
-                "3. Compute TS-RaMIA score",
-                "4. Compare to non-member reference"
-            ],
-            questions: [
-                "Does this prove copying?",
-                "What if APIs don't expose logits?",
-                "How to defend?"
-            ]
+            type: "transferAndWorkflow"
         },
-        notes: "End with: 'We release code and protocol.'"
+        notes: "End: 'Code + protocol released.'"
     }
 ];
 
@@ -304,7 +324,6 @@ const performanceData = {
         tpr_5fpr: 32.7,
         tpr_10fpr: 48.2
     },
-    // Calibrated view (optional footnote)
     fusionCalibrated: {
         auc: 0.818,
         tpr_1fpr: 13.9
@@ -325,7 +344,7 @@ const ablationData = {
     }
 };
 
-// ROC curve data (sampled points for visualization)
+// ROC curve data (sampled points)
 const rocData = {
     baseline: [
         {fpr: 0, tpr: 0},
@@ -374,7 +393,7 @@ const rocData = {
     ]
 };
 
-// Export for use in other modules
+// Export
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { slidesData, performanceData, ablationData, rocData };
 }

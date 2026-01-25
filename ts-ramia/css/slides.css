@@ -1,6 +1,7 @@
 /* =====================================
    TS-RaMIA AAAI Slides Stylesheet
-   16:9 Presentation Mode
+   BIG FONTS for in-room readability
+   4 layout templates
    ===================================== */
 
 /* ========== Reset & Base ========== */
@@ -11,29 +12,32 @@
 }
 
 :root {
-    /* Colors - matching existing TS-RaMIA palette */
+    /* Colors */
     --slide-bg: #FFFFFF;
     --slide-text: #212529;
     --slide-accent: #DE8F05;
     --slide-primary: #0173B2;
     --slide-success: #029E73;
+    --slide-purple: #9B59B6;
+    --slide-red: #D55E00;
     --slide-muted: #6C757D;
     --slide-border: #DEE2E6;
-    --slide-highlight: rgba(222, 143, 5, 0.1);
+    --slide-light-bg: #F8F9FA;
     
-    /* Typography */
+    /* Typography - BIG FONTS */
+    --font-size-title: clamp(52px, 5vw, 76px);
+    --font-size-subtitle: clamp(32px, 3vw, 44px);
+    --font-size-body: clamp(28px, 2.5vw, 40px);
+    --font-size-caption: clamp(16px, 1.5vw, 22px);
+    --font-size-tiny: clamp(12px, 1vw, 16px);
+    
     --font-primary: 'Inter', -apple-system, sans-serif;
-    --font-size-title: 3.5rem;
-    --font-size-subtitle: 2rem;
-    --font-size-heading: 2.5rem;
-    --font-size-body: 1.4rem;
-    --font-size-small: 1rem;
     
     /* Spacing */
-    --slide-padding: 4rem;
+    --slide-padding: 3.5rem;
     
     /* Transitions */
-    --transition-slide: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slide: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -41,19 +45,16 @@ body {
     background: #1a1a1a;
     color: var(--slide-text);
     overflow: hidden;
-    margin: 0;
-    padding: 0;
 }
 
 /* ========== Slide Container ========== */
 #slide-deck {
     width: 100vw;
     height: 100vh;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1000px;
+    position: relative;
 }
 
 .slide-container {
@@ -97,45 +98,118 @@ body {
     transform: translateX(-100px);
 }
 
-/* ========== Slide Header ========== */
-.slide-header {
+/* ========== HUD (Heads-Up Display) ========== */
+.slide-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem var(--slide-padding);
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-}
-
-.slide-branding {
-    font-size: var(--font-size-small);
+    align-items: center;
+    font-size: var(--font-size-tiny);
     color: var(--slide-muted);
-    line-height: 1.4;
+    z-index: 20;
 }
 
-.slide-branding strong {
-    color: var(--slide-accent);
+.hud-brand {
     font-weight: 600;
 }
 
-.slide-number {
-    font-size: var(--font-size-small);
-    color: var(--slide-muted);
+.hud-page {
     font-weight: 500;
 }
 
-/* ========== Slide Content ========== */
-.slide-content {
+/* ========== Progress Bar ========== */
+#progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: var(--slide-accent);
+    transition: width 0.3s ease;
+    z-index: 100;
+}
+
+/* ========== Layout Templates ========== */
+
+/* Layout A: Split (Left 42% text / Right 58% visual) */
+.slide.layout-split .slide-content {
+    display: grid;
+    grid-template-columns: 42fr 58fr;
+    gap: 3rem;
     flex: 1;
+}
+
+.slide.layout-split .content-left {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
+.slide.layout-split .content-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Layout B: Split Reverse (Left 58% visual / Right 42% text) */
+.slide.layout-split-reverse .slide-content {
+    display: grid;
+    grid-template-columns: 58fr 42fr;
+    gap: 3rem;
+    flex: 1;
+}
+
+.slide.layout-split-reverse .content-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide.layout-split-reverse .content-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Layout C: Center (Centered title + big visual + small bullets) */
+.slide.layout-center .slide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+}
+
+/* Layout D: 2-row (Top text row / Bottom wide visual row) */
+.slide.layout-2row .slide-content {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 2rem;
+    flex: 1;
+}
+
+.slide.layout-2row .content-top {
+    display: flex;
+    flex-direction: column;
+}
+
+.slide.layout-2row .content-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== Typography ========== */
 .slide-title {
-    font-size: var(--font-size-heading);
+    font-size: var(--font-size-title);
     font-weight: 700;
     color: var(--slide-primary);
     margin-bottom: 1.5rem;
-    line-height: 1.2;
+    line-height: 1.1;
 }
 
 .slide-subtitle {
@@ -143,23 +217,22 @@ body {
     font-weight: 400;
     color: var(--slide-muted);
     margin-bottom: 2rem;
+    line-height: 1.3;
 }
 
-/* ========== Bullet Points ========== */
 .slide-bullets {
     list-style: none;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
 }
 
 .slide-bullets li {
     font-size: var(--font-size-body);
-    margin-bottom: 1rem;
-    padding-left: 2rem;
+    margin-bottom: 1.2rem;
+    padding-left: 2.5rem;
     position: relative;
-    line-height: 1.5;
+    line-height: 1.4;
     opacity: 0;
-    transform: translateX(-20px);
-    animation: fadeInLeft 0.4s ease forwards;
+    animation: fadeInLeft 0.5s ease forwards;
 }
 
 .slide-bullets li:nth-child(1) { animation-delay: 0.1s; }
@@ -173,7 +246,8 @@ body {
     left: 0;
     color: var(--slide-accent);
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    top: -2px;
 }
 
 @keyframes fadeInLeft {
@@ -181,65 +255,70 @@ body {
         opacity: 1;
         transform: translateX(0);
     }
+    from {
+        transform: translateX(-20px);
+    }
 }
 
-/* ========== Visual Elements ========== */
+/* ========== Callouts ========== */
+.slide-callouts {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.callout-chip {
+    padding: 0.6rem 1.5rem;
+    background: var(--slide-accent);
+    color: white;
+    border-radius: 20px;
+    font-size: var(--font-size-caption);
+    font-weight: 600;
+}
+
+/* Position callouts based on layout */
+.slide.layout-center .slide-callouts {
+    justify-content: center;
+}
+
+/* ========== Visual Container ========== */
 .slide-visual {
-    margin: 1.5rem auto;
-    text-align: center;
-    flex: 1;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
 }
 
 .slide-visual svg {
     max-width: 100%;
-    height: auto;
+    max-height: 100%;
 }
 
-.visual-placeholder {
-    width: 100%;
-    max-width: 800px;
-    height: 400px;
-    background: var(--slide-highlight);
-    border: 2px dashed var(--slide-border);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--font-size-body);
+/* ========== Title Slide Variant ========== */
+.slide.slide-title .slide-title {
+    font-size: clamp(60px, 6vw, 90px);
+    margin-bottom: 1rem;
+}
+
+.slide.slide-title .slide-subtitle {
+    font-size: clamp(36px, 3.5vw, 50px);
+    margin-bottom: 2.5rem;
+}
+
+.slide.slide-title .slide-bullets li {
+    font-size: clamp(24px, 2vw, 32px);
+    text-align: center;
+    padding-left: 0;
     color: var(--slide-muted);
 }
 
-/* ========== Progress Bar ========== */
-#progress-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 4px;
-    background: var(--slide-accent);
-    transition: width 0.3s ease;
-    z-index: 100;
+.slide.slide-title .slide-bullets li::before {
+    display: none;
 }
 
-/* ========== Navigation Hints ========== */
-.nav-hint {
-    position: absolute;
-    bottom: 2rem;
-    right: 3rem;
-    font-size: 0.9rem;
-    color: var(--slide-muted);
-    opacity: 0.6;
-    transition: opacity 0.3s;
-}
-
-body:hover .nav-hint {
-    opacity: 1;
-}
-
-/* ========== Table of Contents (Overlay) ========== */
+/* ========== TOC Overlay ========== */
 #toc-overlay {
     position: fixed;
     top: 0;
@@ -259,30 +338,31 @@ body:hover .nav-hint {
 }
 
 .toc-content {
-    max-width: 1200px;
+    max-width: 1400px;
     width: 90%;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: auto;
     padding: 2rem;
 }
 
 .toc-header {
     color: white;
-    font-size: 2rem;
+    font-size: 3rem;
+    font-weight: 700;
     margin-bottom: 2rem;
     text-align: center;
 }
 
 .toc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
 }
 
 .toc-item {
     background: rgba(255, 255, 255, 0.1);
     padding: 1.5rem;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s;
     border: 2px solid transparent;
@@ -300,39 +380,40 @@ body:hover .nav-hint {
 }
 
 .toc-item-number {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--slide-accent);
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
 .toc-item-title {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     color: white;
     font-weight: 500;
+    line-height: 1.3;
 }
 
 .toc-close-hint {
     text-align: center;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 2rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 /* ========== Speaker Notes Panel ========== */
 #notes-panel {
     position: fixed;
-    right: -400px;
+    right: -450px;
     top: 0;
-    width: 400px;
+    width: 450px;
     height: 100vh;
     background: rgba(0, 0, 0, 0.95);
     color: white;
-    padding: 2rem;
+    padding: 2.5rem;
     z-index: 900;
     overflow-y: auto;
     transition: right 0.4s ease;
-    border-left: 3px solid var(--slide-accent);
+    border-left: 4px solid var(--slide-accent);
 }
 
 #notes-panel.active {
@@ -340,15 +421,15 @@ body:hover .nav-hint {
 }
 
 .notes-header {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
     color: var(--slide-accent);
 }
 
 .notes-content {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.1rem;
+    line-height: 1.8;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -356,7 +437,7 @@ body:hover .nav-hint {
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.6);
 }
 
@@ -369,129 +450,17 @@ body.fullscreen .slide-container {
     border-radius: 0;
 }
 
-/* ========== Title Slide Variant ========== */
-.slide.slide-title .slide-content {
-    text-align: center;
-    justify-content: center;
-}
-
-.slide.slide-title .slide-title {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-}
-
-.slide.slide-title .slide-subtitle {
-    font-size: 1.8rem;
-    margin-bottom: 2.5rem;
-}
-
-.slide.slide-title .slide-bullets {
-    max-width: 800px;
-    margin: 1.5rem auto;
-}
-
-.slide.slide-title .slide-bullets li {
-    font-size: 1.2rem;
-    text-align: center;
-    padding-left: 0;
-    color: var(--slide-muted);
-}
-
-.slide.slide-title .slide-bullets li::before {
-    display: none;
-}
-
-/* ========== Results Slide Variant ========== */
-.slide.slide-results .slide-visual {
-    min-height: 500px;
-}
-
-/* ========== Conclusion Slide Variant ========== */
-.slide.slide-conclusion .slide-visual {
-    min-height: 400px;
-}
-
-/* ========== Q&A Slide Variant ========== */
-.slide.slide-qa .slide-title {
-    text-align: center;
-    font-size: 4rem;
-    margin-bottom: 3rem;
-}
-
-.slide.slide-qa .slide-bullets li {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-/* ========== Chart Containers ========== */
-.chart-container {
-    width: 100%;
-    height: 400px;
-    margin: 2rem 0;
-}
-
-.chart-container svg {
-    width: 100%;
-    height: 100%;
-}
-
-/* ========== Two-Column Layout ========== */
-.slide-two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-}
-
-/* ========== Performance Cards ========== */
-.metrics-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-.metric-card-mini {
-    background: var(--slide-highlight);
-    padding: 1.5rem;
-    border-radius: 8px;
-    text-align: center;
-    border-left: 4px solid var(--slide-accent);
-}
-
-.metric-card-mini.primary {
-    border-left-color: var(--slide-primary);
-}
-
-.metric-card-mini.success {
-    border-left-color: var(--slide-success);
-}
-
-.metric-value-mini {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--slide-primary);
-    margin-bottom: 0.5rem;
-}
-
-.metric-label-mini {
-    font-size: 0.9rem;
-    color: var(--slide-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
 /* ========== Keyboard Shortcuts Indicator ========== */
 #shortcuts-hint {
     position: fixed;
-    bottom: 1rem;
+    bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-size: 0.95rem;
     z-index: 800;
     opacity: 0;
     transition: opacity 0.3s;
@@ -504,59 +473,95 @@ body.fullscreen .slide-container {
 
 #shortcuts-hint kbd {
     background: rgba(255, 255, 255, 0.2);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    border-radius: 5px;
     font-family: monospace;
-    margin: 0 0.3rem;
+    margin: 0 0.4rem;
+    font-size: 0.9rem;
 }
 
-/* ========== Loading State ========== */
-#slide-deck.loading {
+/* ========== Next Hint Arrow ========== */
+.next-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 3rem;
+    font-size: 2.5rem;
+    color: var(--slide-muted);
     opacity: 0.5;
-    pointer-events: none;
+    animation: pulseArrow 2s ease-in-out infinite;
 }
 
-/* ========== Responsive Adjustments ========== */
-@media (max-width: 1024px) {
+@keyframes pulseArrow {
+    0%, 100% { transform: translateX(0); opacity: 0.5; }
+    50% { transform: translateX(8px); opacity: 0.8; }
+}
+
+/* ========== Chart Containers ========== */
+.chart-container {
+    width: 100%;
+    height: 100%;
+}
+
+.chart-container svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ========== Results Dashboard Specific ========== */
+.results-metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.results-metric-card {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    border-left: 6px solid var(--slide-muted);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.results-method-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.results-auc-big {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.results-tpr-small {
+    font-size: 1rem;
+    color: var(--slide-muted);
+    line-height: 1.6;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 1280px) {
     .slide-container {
         width: 95vw;
         height: 95vh;
     }
     
     .slide {
-        padding: 2rem;
+        padding: 2.5rem;
     }
-    
-    .slide-title {
-        font-size: 2rem;
-    }
-    
-    .slide-bullets li {
-        font-size: 1.2rem;
-    }
-    
-    .slide-two-column {
+}
+
+@media (max-width: 1024px) {
+    .slide.layout-split .slide-content,
+    .slide.layout-split-reverse .slide-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
     
-    .metrics-row {
+    .results-metrics-row {
         grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .slide-title {
-        font-size: 1.5rem;
-    }
-    
-    .slide-bullets li {
-        font-size: 1rem;
-    }
-    
-    #notes-panel {
-        width: 100%;
-        right: -100%;
     }
 }
 
@@ -583,8 +588,9 @@ body.fullscreen .slide-container {
     #progress-bar,
     #toc-overlay,
     #notes-panel,
-    .nav-hint,
-    #shortcuts-hint {
+    #shortcuts-hint,
+    .next-hint,
+    .slide-hud {
         display: none !important;
     }
 }

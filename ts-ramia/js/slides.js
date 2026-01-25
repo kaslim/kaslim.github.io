@@ -1,6 +1,6 @@
 /* =====================================
    TS-RaMIA AAAI Slides Controller
-   Keyboard Navigation, TOC, Notes, Fullscreen
+   18 slides with layout templates
    ===================================== */
 
 class SlidesController {
@@ -15,25 +15,12 @@ class SlidesController {
     }
     
     init() {
-        // Check for hash navigation
         this.loadFromHash();
-        
-        // Render all slides
         this.renderSlides();
-        
-        // Setup keyboard controls
         this.setupKeyboardControls();
-        
-        // Setup TOC
         this.setupTOC();
-        
-        // Update progress bar
         this.updateProgress();
-        
-        // Show current slide
         this.showSlide(this.currentSlide);
-        
-        // Show shortcuts hint briefly
         this.showShortcutsHint();
         
         console.log(`TS-RaMIA Slides initialized: ${this.totalSlides} slides`);
@@ -68,41 +55,128 @@ class SlidesController {
     
     createSlideElement(slideData, slideNum) {
         const slideEl = document.createElement('div');
-        slideEl.className = `slide slide-${slideData.type}`;
+        const layoutClass = slideData.layout ? `layout-${slideData.layout}` : '';
+        const typeClass = slideData.type ? `slide-${slideData.type}` : '';
+        slideEl.className = `slide ${layoutClass} ${typeClass}`;
         slideEl.dataset.slideNum = slideNum;
         
-        // Header
-        const header = document.createElement('div');
-        header.className = 'slide-header';
-        header.innerHTML = `
-            <div class="slide-branding">
-                <strong>TS-RaMIA</strong> / EAIM@AAAI 2026
-            </div>
-            <div class="slide-number">${slideNum} / ${this.totalSlides}</div>
+        // HUD (top bar with brand and page number)
+        const hud = document.createElement('div');
+        hud.className = 'slide-hud';
+        hud.innerHTML = `
+            <div class="hud-brand">TS-RaMIA · EAIM @ AAAI 2026</div>
+            <div class="hud-page">${slideNum} / ${this.totalSlides}</div>
         `;
-        slideEl.appendChild(header);
+        slideEl.appendChild(hud);
         
-        // Content
+        // Content wrapper
         const content = document.createElement('div');
         content.className = 'slide-content';
         
-        // Title
+        // Render based on layout
+        switch(slideData.layout) {
+            case 'split':
+                this.renderSplitLayout(content, slideData);
+                break;
+            case 'split-reverse':
+                this.renderSplitReverseLayout(content, slideData);
+                break;
+            case 'center':
+                this.renderCenterLayout(content, slideData);
+                break;
+            case '2row':
+                this.render2RowLayout(content, slideData);
+                break;
+            default:
+                this.renderDefaultLayout(content, slideData);
+        }
+        
+        slideEl.appendChild(content);
+        
+        // Next hint arrow (optional)
+        if (slideNum < this.totalSlides) {
+            const nextHint = document.createElement('div');
+            nextHint.className = 'next-hint';
+            nextHint.textContent = '→';
+            slideEl.appendChild(nextHint);
+        }
+        
+        // Store notes
+        if (slideData.notes) {
+            slideEl.dataset.notes = slideData.notes;
+        }
+        
+        return slideEl;
+    }
+    
+    renderSplitLayout(container, slideData) {
+        const left = document.createElement('div');
+        left.className = 'content-left';
+        left.appendChild(this.createTextContent(slideData));
+        
+        const right = document.createElement('div');
+        right.className = 'content-right';
+        right.appendChild(this.createVisualContent(slideData));
+        
+        container.appendChild(left);
+        container.appendChild(right);
+    }
+    
+    renderSplitReverseLayout(container, slideData) {
+        const left = document.createElement('div');
+        left.className = 'content-left';
+        left.appendChild(this.createVisualContent(slideData));
+        
+        const right = document.createElement('div');
+        right.className = 'content-right';
+        right.appendChild(this.createTextContent(slideData));
+        
+        container.appendChild(left);
+        container.appendChild(right);
+    }
+    
+    renderCenterLayout(container, slideData) {
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(this.createTextContent(slideData));
+        wrapper.appendChild(this.createVisualContent(slideData));
+        container.appendChild(wrapper);
+    }
+    
+    render2RowLayout(container, slideData) {
+        const top = document.createElement('div');
+        top.className = 'content-top';
+        top.appendChild(this.createTextContent(slideData));
+        
+        const bottom = document.createElement('div');
+        bottom.className = 'content-bottom';
+        bottom.appendChild(this.createVisualContent(slideData));
+        
+        container.appendChild(top);
+        container.appendChild(bottom);
+    }
+    
+    renderDefaultLayout(container, slideData) {
+        container.appendChild(this.createTextContent(slideData));
+        container.appendChild(this.createVisualContent(slideData));
+    }
+    
+    createTextContent(slideData) {
+        const textWrapper = document.createElement('div');
+        
         if (slideData.title) {
             const title = document.createElement('h1');
             title.className = 'slide-title';
             title.textContent = slideData.title;
-            content.appendChild(title);
+            textWrapper.appendChild(title);
         }
         
-        // Subtitle
         if (slideData.subtitle) {
             const subtitle = document.createElement('h2');
             subtitle.className = 'slide-subtitle';
             subtitle.textContent = slideData.subtitle;
-            content.appendChild(subtitle);
+            textWrapper.appendChild(subtitle);
         }
         
-        // Bullets
         if (slideData.bullets && slideData.bullets.length > 0) {
             const bullets = document.createElement('ul');
             bullets.className = 'slide-bullets';
@@ -111,31 +185,40 @@ class SlidesController {
                 li.textContent = bullet;
                 bullets.appendChild(li);
             });
-            content.appendChild(bullets);
+            textWrapper.appendChild(bullets);
         }
         
-        // Visual placeholder (will be filled by charts.js)
+        if (slideData.callouts && slideData.callouts.length > 0) {
+            const callouts = document.createElement('div');
+            callouts.className = 'slide-callouts';
+            slideData.callouts.forEach(callout => {
+                const chip = document.createElement('div');
+                chip.className = 'callout-chip';
+                chip.textContent = callout;
+                callouts.appendChild(chip);
+            });
+            textWrapper.appendChild(callouts);
+        }
+        
+        return textWrapper;
+    }
+    
+    createVisualContent(slideData) {
+        const visualWrapper = document.createElement('div');
+        
         if (slideData.visual) {
             const visual = document.createElement('div');
             visual.className = 'slide-visual';
             visual.id = `visual-${slideData.id}`;
             visual.dataset.visualConfig = JSON.stringify(slideData.visual);
-            content.appendChild(visual);
+            visualWrapper.appendChild(visual);
         }
         
-        slideEl.appendChild(content);
-        
-        // Store notes in data attribute
-        if (slideData.notes) {
-            slideEl.dataset.notes = slideData.notes;
-        }
-        
-        return slideEl;
+        return visualWrapper;
     }
     
     setupKeyboardControls() {
         document.addEventListener('keydown', (e) => {
-            // Ignore if typing in input
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 return;
             }
@@ -186,16 +269,14 @@ class SlidesController {
                     break;
                     
                 default:
-                    // Number keys for direct navigation
                     if (e.key >= '0' && e.key <= '9') {
-                        // Start building number
                         this.handleNumberKey(e.key);
                     }
                     break;
             }
         });
         
-        // Swipe support for mobile
+        // Swipe support
         let touchStartX = 0;
         let touchEndX = 0;
         
@@ -208,7 +289,7 @@ class SlidesController {
             this.handleSwipe();
         });
         
-        const handleSwipe = () => {
+        this.handleSwipe = () => {
             if (touchEndX < touchStartX - 50) {
                 this.nextSlide();
             }
@@ -216,14 +297,11 @@ class SlidesController {
                 this.prevSlide();
             }
         };
-        
-        this.handleSwipe = handleSwipe;
     }
     
     handleNumberKey(key) {
-        // Simple implementation: single digit jumps
         const num = parseInt(key);
-        if (num >= 1 && num <= this.totalSlides) {
+        if (num >= 1 && num <= Math.min(9, this.totalSlides)) {
             this.goToSlide(num);
         }
     }
@@ -253,7 +331,6 @@ class SlidesController {
         this.updateHash();
         this.updateNotes();
         
-        // Hide TOC if open
         if (this.tocVisible) {
             this.hideTOC();
         }
@@ -267,8 +344,6 @@ class SlidesController {
             
             if (index + 1 === num) {
                 slide.classList.add('active');
-                
-                // Trigger chart rendering for this slide
                 this.renderSlideVisuals(slide);
             } else if (oldNum && index + 1 === oldNum) {
                 slide.classList.add('prev');
@@ -279,7 +354,6 @@ class SlidesController {
     renderSlideVisuals(slideEl) {
         const visual = slideEl.querySelector('.slide-visual');
         if (visual && visual.dataset.visualConfig && typeof renderVisual === 'function') {
-            // Call chart rendering function if it exists
             try {
                 const visualConfig = JSON.parse(visual.dataset.visualConfig);
                 renderVisual(visual.id, visualConfig);
@@ -318,7 +392,6 @@ class SlidesController {
             tocGrid.appendChild(item);
         });
         
-        // Close on overlay click
         document.getElementById('toc-overlay').addEventListener('click', (e) => {
             if (e.target.id === 'toc-overlay') {
                 this.hideTOC();
@@ -332,7 +405,6 @@ class SlidesController {
             overlay.classList.add('active');
             this.tocVisible = true;
             
-            // Highlight current slide
             document.querySelectorAll('.toc-item').forEach((item, index) => {
                 item.classList.toggle('current', index + 1 === this.currentSlide);
             });
@@ -411,7 +483,7 @@ class SlidesController {
     }
 }
 
-// Initialize when DOM is ready
+// Initialize
 let slidesController;
 
 document.addEventListener('DOMContentLoaded', () => {
