@@ -570,6 +570,47 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Full-height sections are flex containers; allow their content column to
+       shrink below long code/canvas intrinsic widths on narrow screens. */
+    .section > .container {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .results-grid,
+    .resource-grid,
+    .method-overview,
+    .method-overview > *,
+    .result-card,
+    .resource-card,
+    .citation-box {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    #main-results-table {
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+    }
+
+    .algorithm-controls .control-group {
+        flex-wrap: wrap;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .algorithm-controls select {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .citation-box pre {
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+    }
+
     .hero-title {
         font-size: 2rem;
     }
@@ -600,4 +641,3 @@ body {
         grid-template-columns: 1fr;
     }
 }
-

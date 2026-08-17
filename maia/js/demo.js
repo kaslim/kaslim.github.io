@@ -62,9 +62,14 @@ function loadDemoSample(sampleIndex) {
     // Update global state
     window.MAIAState.currentSampleIndex = sampleIndex;
     
-    // Load audio
-    if (window.loadSample) {
+    // Load audio once the WaveSurfer instances are ready. Both scripts wait
+    // for data independently, so startup order must not trigger two loads.
+    if (window.AudioPlayers?.initialized && window.loadSample) {
         window.loadSample(sampleIndex);
+    } else {
+        window.addEventListener('maia:audio-ready', () => {
+            window.loadSample(window.MAIAState.currentSampleIndex);
+        }, { once: true });
     }
     
     // Update attack info panel
@@ -158,4 +163,3 @@ function updateRegionTimeline(sample) {
 }
 
 window.loadDemoSample = loadDemoSample;
-

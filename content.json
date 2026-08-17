@@ -1,0 +1,121 @@
+{
+  "type": "landing-page",
+  "lang": "en",
+  "brief": {
+    "audience": "Singapore and international hiring managers for audio and machine-learning roles",
+    "job": "Earn interviews by showing research depth, engineering judgment, and product ownership",
+    "template": "landing-page-en",
+    "formats": ["html"],
+    "page_target": 1,
+    "narrative": "Identity and availability first, then evidence, experience, research, publications, and contact",
+    "required_facts": [
+      "Ph.D. completion in March 2027",
+      "9 publications",
+      "Principal Investigator",
+      "TRL 5",
+      "Changba audio internship"
+    ],
+    "required_assets": [
+      "assets/portfolio/yuxuan-liu.png",
+      "assets/Yuxuan_Liu_CV.pdf"
+    ],
+    "acceptance_checks": [
+      "1280px desktop screenshot",
+      "375px mobile screenshot",
+      "320px CTA overflow check",
+      "all links resolve",
+      "no unverified research metrics"
+    ],
+    "preserve": [
+      "maia/",
+      "lsa-probe/",
+      "ts-ramia/",
+      "music-unlearnable/",
+      "ipap/"
+    ],
+    "explicit_deviations": [
+      "The product landing-page schema is adapted to a researcher portfolio",
+      "Pricing is omitted because this is a recruitment website"
+    ]
+  },
+  "content": {
+    "category": "Machine learning research portfolio",
+    "product_name": "Yuxuan Liu",
+    "tagline": "I build trustworthy machine learning systems for audio and music.",
+    "facts": [
+      "9 Publications",
+      "5 First/co-first papers",
+      "TRL 5",
+      "8 mo. Changba audio internship"
+    ],
+    "cta": {
+      "primary": "Download Resume",
+      "secondary": "View Research"
+    },
+    "gallery": [
+      {
+        "image": "assets/portfolio/maia-demo.jpg",
+        "caption": "A critical moment is found before the music is changed."
+      },
+      {
+        "image": "assets/portfolio/mia-demo.jpg",
+        "caption": "A training trace becomes evidence for model auditing."
+      },
+      {
+        "image": "assets/portfolio/ts-ramia-demo.jpg",
+        "caption": "Structure reveals what a symbolic model remembers."
+      }
+    ],
+    "features": [
+      {
+        "name": "Audio Understanding",
+        "subtitle": "Listen for structure before making a prediction.",
+        "description": "I study music information retrieval, acoustic scene classification, and perceptually aligned audio evaluation. My work connects signal-level evidence with robust experimental methodology."
+      },
+      {
+        "name": "Generative Audio",
+        "subtitle": "Treat generation as a system that can be measured.",
+        "description": "I work with diffusion and symbolic-music generation models, including MusicXML-to-audio expressive rendering. The focus is controllable generation and evaluation rather than generation alone."
+      },
+      {
+        "name": "Trustworthy AI",
+        "subtitle": "Turn privacy and copyright questions into testable methods.",
+        "description": "I develop membership-inference, adversarial, and voice-protection methods for generative audio. Membership inference asks whether a particular work was used to train a model."
+      },
+      {
+        "name": "Research to Product",
+        "subtitle": "Carry an idea from method to usable proof of concept.",
+        "description": "As Principal Investigator of a Suzhou concept-verification project, I own model development, macOS product requirements, evaluation design, and user trials for a creator-facing music tool."
+      }
+    ],
+    "faq": [
+      {
+        "q": "What roles is Yuxuan targeting?",
+        "a": "Machine-learning scientist and engineer roles in audio understanding, music intelligence, generative audio, and trustworthy AI."
+      },
+      {
+        "q": "When is Yuxuan available to start?",
+        "a": "He expects to complete his Ph.D. in March 2027 and is targeting 2027 graduate or early-career hiring timelines."
+      },
+      {
+        "q": "What is the core research contribution?",
+        "a": "Methods for auditing generative audio models, attacking and evaluating music systems, and aligning technical metrics with auditory perception."
+      },
+      {
+        "q": "Does the work include product ownership?",
+        "a": "Yes. He is Principal Investigator for a MusicXML-to-audio PoC that reached TRL 5 and includes model, app, evaluation, and user-trial ownership."
+      },
+      {
+        "q": "Does Yuxuan have industry audio experience?",
+        "a": "Yes. At Changba he worked on singing-voice generation and enhancement through audio simulation, algorithm testing, and evaluation."
+      },
+      {
+        "q": "Where can I find the complete publication record?",
+        "a": "The selected list appears on this page and the complete record is linked through Google Scholar."
+      }
+    ],
+    "footer": {
+      "ethos": "Methods that listen carefully and claims that can be tested."
+    }
+  }
+}
