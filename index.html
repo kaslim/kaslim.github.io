@@ -1,510 +1,231 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Yuxuan Liu - Research on AI Security and Music Information Retrieval">
-    <meta name="keywords" content="AI Security, Music IR, Membership Inference, Adversarial Attacks, Diffusion Models">
-    <meta name="author" content="Yuxuan Liu">
-    <title>Yuxuan Liu - Research Portfolio</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <style>
-        :root {
-            --color-bg: #0a0a0a;
-            --color-text: #ffffff;
-            --color-text-dim: #a0a0a0;
-            --color-card-bg: #1a1a1a;
-            --color-maia: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --color-lsa: linear-gradient(135deg, #0173B2 0%, #029E73 100%);
-            --color-ts: linear-gradient(135deg, #DE8F05 0%, #D55E00 100%);
-            --color-unlearnable: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            padding: 4rem 2rem;
-        }
-        
-        .hero-title {
-            font-size: 5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 1s ease;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--color-text-dim);
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease 0.2s both;
-        }
-        
-        .hero-affiliation {
-            font-size: 1.2rem;
-            color: var(--color-text-dim);
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-        
-        .hero-cta {
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-        
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--color-text-dim);
-            animation: bounce 2s infinite;
-        }
-        
-        /* Papers Section */
-        .papers-section {
-            padding: 6rem 0;
-            min-height: 100vh;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: var(--color-text-dim);
-            margin-bottom: 4rem;
-        }
-        
-        .papers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .paper-card {
-            background: var(--color-card-bg);
-            border-radius: 1.5rem;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .paper-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-        
-        .paper-header {
-            height: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .paper-header.maia {
-            background: var(--color-maia);
-        }
-        
-        .paper-header.lsa {
-            background: var(--color-lsa);
-        }
-        
-        .paper-header.ts {
-            background: var(--color-ts);
-        }
-        
-        .paper-header.unlearnable {
-            background: var(--color-unlearnable);
-        }
-        
-        .paper-venue {
-            position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .paper-body {
-            padding: 2rem;
-        }
-        
-        .paper-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        
-        .paper-authors {
-            font-size: 0.9rem;
-            color: var(--color-text-dim);
-            margin-bottom: 1rem;
-        }
-        
-        .paper-description {
-            font-size: 1rem;
-            color: var(--color-text-dim);
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-        
-        .paper-metrics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .metric-badge {
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .metric-badge.highlight {
-            background: rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-demo, .btn-ipap {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.2);
-            color: var(--color-text);
-        }
-        
-        .btn-ipap {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-color: transparent;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-ipap:hover {
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-            transform: translateY(-2px);
-        }
-        
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .paper-card.maia .btn-demo:hover {
-            background: var(--color-maia);
-            border-color: transparent;
-        }
-        
-        .paper-card.lsa .btn-demo:hover {
-            background: var(--color-lsa);
-            border-color: transparent;
-        }
-        
-        .paper-card.ts .btn-demo:hover {
-            background: var(--color-ts);
-            border-color: transparent;
-        }
-        
-        .paper-card.unlearnable .btn-demo:hover {
-            background: var(--color-unlearnable);
-            border-color: transparent;
-        }
-        
-        /* Footer */
-        .footer {
-            padding: 4rem 0 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-link {
-            color: var(--color-text-dim);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-link:hover {
-            color: var(--color-text);
-        }
-        
-        .footer-copyright {
-            color: var(--color-text-dim);
-            font-size: 0.9rem;
-        }
-        
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .papers-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yuxuan Liu · Trustworthy Audio &amp; Music AI</title>
+  <meta name="description" content="Yuxuan Liu is a Ph.D. candidate building trustworthy machine learning systems for audio and music. Available from March 2027.">
+  <link rel="canonical" href="https://kaslim.github.io/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+:root {
+  --parchment:#f5f4ed; --ivory:#faf9f5; --brand:#1b365d; --brand-light:#2d5a8a;
+  --brand-tint:#e9eef4; --ink:#171716; --dark:#373734; --olive:#55534d;
+  --stone:#74726b; --line:#d9d6c9; --line-soft:#e6e3d8;
+  --serif:Charter,Georgia,Cambria,"Times New Roman",serif;
+  --ui:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--parchment);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+a{color:var(--brand);text-decoration:none} a:hover{color:var(--brand-light)} img{max-width:100%}
+.shell{width:min(1120px,calc(100% - 128px));margin:0 auto}
+.skip{position:absolute;left:16px;top:-60px;z-index:20;padding:10px 16px;color:var(--ivory);background:var(--brand);border-radius:999px;font-family:var(--ui)}
+.skip:focus{top:12px}
+.site-nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--parchment) 92%,transparent);border-bottom:1px solid color-mix(in srgb,var(--line-soft) 84%,transparent);backdrop-filter:blur(12px)}
+.nav-inner{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:32px}
+.wordmark{color:var(--ink);font-size:20px;font-weight:500;letter-spacing:-.01em}
+.nav-links{display:flex;align-items:center;gap:22px;font-family:var(--ui);font-size:12px;letter-spacing:.03em}
+.nav-links a:not(.nav-resume){color:var(--stone)} .nav-links a:hover{color:var(--brand)}
+.nav-resume{padding:8px 15px;border:1px solid var(--brand);border-radius:999px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:72px;align-items:center;padding:88px 0 64px;border-bottom:1px solid var(--line-soft)}
+.eyebrow,.section-num,.meta,.tag,.venue,.proof-label{font-family:var(--ui);font-size:12px;letter-spacing:.055em;text-transform:uppercase}
+.eyebrow{color:var(--brand);margin:0 0 18px} h1,h2,h3,p{margin-top:0}
+h1{margin-bottom:18px;font-size:clamp(58px,8vw,92px);font-weight:500;line-height:.98;letter-spacing:-.045em;text-wrap:balance}
+.tagline{max-width:720px;margin-bottom:18px;color:var(--olive);font-size:23px;line-height:1.4;text-wrap:pretty}
+.availability{margin-bottom:30px;color:var(--stone);font-family:var(--ui);font-size:13px}.availability strong{color:var(--dark);font-weight:500}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px}
+.button{min-width:158px;display:inline-flex;justify-content:center;align-items:center;padding:12px 24px;border:1.5px solid var(--brand);border-radius:999px;font-family:var(--ui);font-size:14px;font-weight:500;transition:transform .15s ease,background .15s ease,color .15s ease}
+.button:hover{transform:translateY(-1px)}.button.primary{color:var(--ivory);background:var(--brand)}.button.primary:hover{background:var(--brand-light)}.button.ghost:hover{background:var(--brand-tint)}
+.portrait-wrap{position:relative}.portrait-wrap::before{content:"";position:absolute;inset:14px -14px -14px 14px;border:1px solid var(--line);border-radius:7px}
+.portrait{position:relative;width:240px;height:auto;aspect-ratio:3/4;display:block;object-fit:cover;object-position:center 26%;border-radius:7px;border:1px solid var(--line-soft);background:var(--ivory)}
+.proof-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line-soft)}
+.proof{padding:28px 22px 30px;border-right:1px solid var(--line-soft)}.proof:first-child{padding-left:0}.proof:last-child{border-right:0}
+.proof-value{margin-bottom:5px;font-size:30px;font-weight:500;line-height:1;font-variant-numeric:lining-nums tabular-nums}.proof-label{color:var(--stone);text-transform:none;letter-spacing:0}
+section{padding:84px 0 0}.section-head{display:grid;grid-template-columns:140px minmax(0,1fr);gap:28px;margin-bottom:36px;align-items:start}
+.section-num{margin:8px 0 0;color:var(--brand)}.section-title{margin-bottom:10px;font-size:38px;font-weight:500;line-height:1.15;letter-spacing:-.02em}
+.section-lede{max-width:690px;margin:0;color:var(--olive);font-size:17px}
+.focus-list,.timeline,.publication-list{border-top:1px solid var(--line-soft)}
+.focus-item{display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px;padding:28px 0;border-bottom:1px solid var(--line-soft)}
+.focus-item h3{margin:0;color:var(--brand);font-size:21px;font-weight:500;line-height:1.25}.focus-item h3 span{display:block;margin-top:6px;color:var(--olive);font-size:13px;font-style:italic;font-weight:400;line-height:1.4}.focus-item p{margin:0;color:var(--dark)}
+.timeline-item{display:grid;grid-template-columns:140px minmax(0,1fr);gap:28px;padding:30px 0;border-bottom:1px solid var(--line-soft)}
+.timeline-date{color:var(--stone);font-family:var(--ui);font-size:12px}.timeline-title-row{display:flex;justify-content:space-between;gap:24px;align-items:baseline;margin-bottom:8px}
+.timeline-title{margin:0;font-size:22px;font-weight:500;line-height:1.25}.meta{flex:0 0 auto;color:var(--brand)}.timeline-item p{max-width:760px;margin-bottom:8px;color:var(--dark)}.timeline-item p:last-child{margin-bottom:0}
+.education-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.education-item{padding:26px 28px;border-right:1px solid var(--line-soft)}.education-item:first-child{padding-left:0}.education-item:last-child{border-right:0}
+.education-item .degree{margin-bottom:8px;color:var(--brand);font-family:var(--ui);font-size:12px;letter-spacing:.045em;text-transform:uppercase}.education-item h3{margin-bottom:6px;font-size:20px;font-weight:500;line-height:1.28}.education-item p{margin:0;color:var(--stone);font-family:var(--ui);font-size:12px;line-height:1.5}
+.research-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.research-card{display:flex;min-height:330px;flex-direction:column;padding:28px;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--ivory) 72%,transparent);transition:transform .18s ease,box-shadow .18s ease}.research-card[hidden]{display:none!important}
+.research-card:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(27,54,93,.07)}.tag{align-self:flex-start;color:var(--brand)}
+.research-card h3{margin:18px 0 12px;font-size:25px;font-weight:500;line-height:1.18}.research-card p{margin-bottom:22px;color:var(--olive)}.research-card .card-link{margin-top:auto;font-family:var(--ui);font-size:13px}
+.publication{display:grid;grid-template-columns:120px minmax(0,1fr);gap:24px;padding:20px 0;border-bottom:1px solid var(--line-soft)}.venue{padding-top:3px;color:var(--brand)}
+.pub-title{margin-bottom:4px;color:var(--ink);font-size:17px;line-height:1.42}.pub-authors,.pub-venue-full{margin:0;color:var(--stone);font-family:var(--ui);font-size:12px;line-height:1.5}.pub-authors strong{color:var(--dark);font-weight:600}
+.publication-extra{display:none}.publication-list.show-all .publication-extra{display:grid}.text-button{margin-top:20px;padding:0;border:0;color:var(--brand);background:transparent;font-family:var(--ui);font-size:13px;cursor:pointer}
+.demo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.demo-card{overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--ivory)}.demo-card[hidden]{display:none!important}
+.demo-frame{aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);background:#141318}.demo-frame img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center}
+.demo-method{position:relative;background:#f5f4ed}.demo-method svg{width:100%;height:100%;display:block}.demo-method .cover-node{fill:#faf9f5;stroke:#b2b1ac;stroke-width:1}.demo-method .cover-focal{fill:#eef2f7;stroke:#1b365d;stroke-width:1.4}.demo-method .cover-line{fill:none;stroke:#504e49;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}.demo-method .cover-line-focal{fill:none;stroke:#1b365d;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.demo-method .cover-muted{fill:none;stroke:#b2b1ac;stroke-width:1.2;stroke-linecap:round}.demo-method .cover-dot{fill:#1b365d}.demo-method .cover-label{fill:#6b6a64;font:600 8px Inter,system-ui,sans-serif;letter-spacing:.08em}.demo-method .cover-name{fill:#141413;font:500 13px Charter,Georgia,serif}.demo-method .cover-flow{stroke-dasharray:7 6;animation:cover-flow 2.2s linear infinite}.demo-method .cover-pulse{animation:cover-pulse 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}.demo-method .cover-grow{animation:cover-grow 4s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}.demo-method .cover-draw{stroke-dasharray:260;stroke-dashoffset:260;animation:cover-draw 5.2s ease-in-out infinite}@keyframes cover-flow{to{stroke-dashoffset:-26}}@keyframes cover-pulse{0%,100%{opacity:.45;transform:scale(.88)}50%{opacity:1;transform:scale(1.08)}}@keyframes cover-grow{0%,100%{transform:scaleY(.35);opacity:.45}50%,72%{transform:scaleY(1);opacity:1}}@keyframes cover-draw{0%,12%{stroke-dashoffset:260}48%,78%{stroke-dashoffset:0}100%{stroke-dashoffset:-260}}
+.demo-abstract{position:relative;display:grid;place-items:center;background:linear-gradient(145deg,#f8f6ef,#e6ebf1);color:var(--brand)}.demo-abstract::before,.demo-abstract::after{content:"";position:absolute;border:1px solid color-mix(in srgb,var(--brand) 24%,transparent);border-radius:50%}.demo-abstract::before{width:58%;aspect-ratio:1}.demo-abstract::after{width:34%;aspect-ratio:1}.demo-abstract span{position:relative;z-index:1;font-family:var(--ui);font-size:28px;font-weight:600;letter-spacing:.08em}.demo-abstract.audio{background:repeating-linear-gradient(90deg,#f8f6ef 0,#f8f6ef 9px,#e9eef4 10px,#e9eef4 12px)}.demo-abstract.audio::before,.demo-abstract.audio::after{border-radius:4px;height:54%;width:1px;border:0;background:var(--brand);opacity:.22}.demo-abstract.audio::before{left:36%}.demo-abstract.audio::after{right:36%}.demo-abstract.topology{background:radial-gradient(circle at 35% 42%,#8aa0b8 0 5px,transparent 6px),radial-gradient(circle at 64% 60%,#1b365d 0 5px,transparent 6px),linear-gradient(145deg,#f8f6ef,#e6ebf1)}.demo-abstract.geometry{background:linear-gradient(30deg,transparent 46%,rgba(27,54,93,.2) 47% 49%,transparent 50%),linear-gradient(150deg,transparent 46%,rgba(27,54,93,.14) 47% 49%,transparent 50%),#f8f6ef;background-size:42px 42px}
+.demo-copy{padding:18px}.demo-copy h3{margin-bottom:5px;font-size:19px;font-weight:500}.demo-copy p{margin-bottom:12px;color:var(--olive);font-size:14px}.demo-copy a{font-family:var(--ui);font-size:12px}
+.skills-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line-soft)}.skill{padding:24px 28px 24px 0;border-bottom:1px solid var(--line-soft)}
+.skill:nth-child(odd){border-right:1px solid var(--line-soft)}.skill:nth-child(even){padding-left:28px}.skill h3{margin-bottom:5px;color:var(--brand);font-size:18px;font-weight:500}.skill p{margin:0;color:var(--olive);font-size:14px}
+details{border-top:1px solid var(--line-soft)}details:last-child{border-bottom:1px solid var(--line-soft)}summary{padding:18px 0;color:var(--ink);cursor:pointer;font-size:17px;font-weight:500;list-style-position:outside}details p{max-width:760px;margin:-4px 0 20px;color:var(--olive)}
+.contact-panel{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:end;padding:46px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.contact-panel h2{margin-bottom:10px;font-size:38px;font-weight:500;line-height:1.15}.contact-panel p{max-width:650px;margin:0;color:var(--olive)}.contact-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px 18px;font-family:var(--ui);font-size:13px}
+footer{display:flex;justify-content:space-between;gap:32px;padding:34px 0 72px;color:var(--stone);font-size:13px}footer .ethos{max-width:430px;margin:0;font-style:italic}
+@media(hover:hover){.research-card:hover{border-color:color-mix(in srgb,var(--brand) 32%,var(--line))}}
+@media(max-width:880px){.shell{width:min(100% - 64px,760px)}.nav-optional{display:none}.hero{grid-template-columns:minmax(0,1fr) 190px;gap:38px;padding-top:64px}.portrait{width:190px}.proof-strip{grid-template-columns:repeat(2,1fr)}.proof:nth-child(2){border-right:0}.proof:nth-child(-n+2){border-bottom:1px solid var(--line-soft)}.education-grid{grid-template-columns:1fr}.education-item,.education-item:first-child{padding:22px 0;border-right:0;border-bottom:1px solid var(--line-soft)}.education-item:last-child{border-bottom:0}.research-grid,.demo-grid{grid-template-columns:1fr}.demo-card{display:grid;grid-template-columns:44% minmax(0,1fr)}.demo-frame{height:100%;aspect-ratio:auto;border-bottom:0;border-right:1px solid var(--line)}section{padding-top:68px}}
+@media(max-width:600px){.shell{width:calc(100% - 32px)}.site-nav{position:static}.nav-inner{min-height:58px}.wordmark{font-size:18px}.nav-links{gap:10px}.nav-resume{padding:7px 12px;white-space:nowrap}.hero{grid-template-columns:1fr;gap:28px;padding:46px 0 44px}.portrait-wrap{grid-row:1;width:124px}.portrait{width:124px}.portrait-wrap::before{inset:8px -8px -8px 8px}h1{font-size:clamp(50px,18vw,68px)}.tagline{font-size:19px}.availability{max-width:300px}.cta-row{gap:10px}.button{min-width:0;padding:11px 17px;white-space:nowrap}.proof{padding:22px 12px}.proof:first-child{padding-left:0}.proof-value{font-size:25px}section{padding-top:54px}.section-head,.timeline-item{grid-template-columns:1fr;gap:10px}.section-num{margin-top:0}.section-title,.contact-panel h2{font-size:31px}.focus-item{grid-template-columns:1fr;gap:10px;padding:23px 0}.timeline-title-row{display:block}.timeline-title{margin-bottom:5px}.research-grid{gap:12px}.research-card{min-height:0;padding:22px}.publication{grid-template-columns:1fr;gap:6px}.demo-card{display:block}.demo-frame{width:100%;height:auto;aspect-ratio:16/10;border-right:0;border-bottom:1px solid var(--line)}.skills-grid{grid-template-columns:1fr}.skill,.skill:nth-child(even){padding:20px 0;border-right:0}.contact-panel{grid-template-columns:1fr;align-items:start}.contact-links{justify-content:flex-start}footer{display:block;padding-bottom:48px}footer p:last-child{margin-top:12px}}
+@media(prefers-reduced-motion:reduce){.demo-method *{animation:none!important}.demo-method .cover-draw{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+  </style>
+  <meta property="og:title" content="Yuxuan Liu · Trustworthy Audio &amp; Music AI">
+  <meta property="og:description" content="Research, publications, and product work across audio understanding, generative music, and trustworthy AI.">
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://kaslim.github.io/">
+  <meta property="og:image" content="https://kaslim.github.io/assets/portfolio/yuxuan-liu.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Yuxuan Liu","url":"https://kaslim.github.io/","image":"https://kaslim.github.io/assets/portfolio/yuxuan-liu.png","email":"mailto:yuxuan.liu2204@student.xjtlu.edu.cn","jobTitle":"Ph.D. Candidate","affiliation":{"@type":"CollegeOrUniversity","name":"Xi'an Jiaotong-Liverpool University"},"sameAs":["https://github.com/kaslim","https://scholar.google.com/citations?user=00WQZLYAAAAJ"]}
+  </script>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1 class="hero-title">Yuxuan Liu</h1>
-            <p class="hero-subtitle">PhD Candidate in AI Security & Music Information Retrieval</p>
-            <p class="hero-affiliation">Xi'an Jiaotong-Liverpool University</p>
-            <div class="hero-cta">
-                <a href="ipap/" class="btn-ipap">
-                    PhD Report (IPAP) →
-                </a>
-                <a href="#papers" class="btn-demo" style="background: rgba(255,255,255,0.1);">
-                    View Research →
-                </a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M12 5v14M5 12l7 7 7-7" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </div>
+  <a class="skip" href="#main">Skip to content</a>
+  <nav class="site-nav" aria-label="Primary">
+    <div class="shell nav-inner">
+      <a class="wordmark" href="#top">Yuxuan Liu</a>
+      <div class="nav-links">
+        <a class="nav-optional" href="#experience">Experience</a><a class="nav-optional" href="#research">Research</a><a class="nav-optional" href="#publications">Publications</a><a class="nav-optional" href="#demos">Demos</a>
+        <a class="nav-resume" href="assets/Yuxuan_Liu_CV.pdf" target="_blank" rel="noopener">Resume ↗</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main" class="shell">
+    <header class="hero" id="top">
+      <div>
+        <p class="eyebrow">Machine learning research portfolio</p>
+        <h1>Yuxuan Liu</h1>
+        <p class="tagline">I build trustworthy machine learning systems for audio and music.</p>
+        <p class="availability"><strong>Ph.D. Candidate at XJTLU · Expected Mar 2027</strong> · Suzhou, China · Open to 2027 research scientist and machine-learning engineer roles</p>
+        <div class="cta-row"><a class="button ghost" href="#research">View Research</a><a class="button primary" href="assets/Yuxuan_Liu_CV.pdf" target="_blank" rel="noopener">Download Resume</a></div>
+      </div>
+      <div class="portrait-wrap"><img class="portrait" src="assets/portfolio/yuxuan-liu.png" alt="Portrait of Yuxuan Liu" width="777" height="1000"></div>
+    </header>
+
+    <div class="proof-strip" aria-label="Profile highlights">
+      <div class="proof"><div class="proof-value">9</div><div class="proof-label">Publications</div></div>
+      <div class="proof"><div class="proof-value">5</div><div class="proof-label">First/co-first papers</div></div>
+      <div class="proof"><div class="proof-value">TRL 5</div><div class="proof-label">PoC as Principal Investigator</div></div>
+      <div class="proof"><div class="proof-value">8 mo.</div><div class="proof-label">Changba audio internship</div></div>
+    </div>
+
+    <section id="focus">
+      <div class="section-head"><p class="section-num">00 · Focus</p><div><h2 class="section-title">Research questions with measurable boundaries.</h2><p class="section-lede">My work spans audio understanding, generative music, privacy auditing, and the path from a research method to a creator-facing system.</p></div></div>
+      <div class="focus-list">
+        <article class="focus-item"><h3>Audio Understanding<span>Listen for structure before making a prediction.</span></h3><p>I study music information retrieval, acoustic scene classification, and perceptually aligned audio evaluation. My work connects signal-level evidence with robust experimental methodology.</p></article>
+        <article class="focus-item"><h3>Generative Audio<span>Treat generation as a system that can be measured.</span></h3><p>I work with diffusion and symbolic-music generation models, including MusicXML-to-audio expressive rendering. The focus is controllable generation and evaluation rather than generation alone.</p></article>
+        <article class="focus-item"><h3>Trustworthy AI<span>Turn privacy and copyright questions into testable methods.</span></h3><p>I develop membership-inference, adversarial, and voice-protection methods for generative audio. Membership inference asks whether a particular work was used to train a model.</p></article>
+        <article class="focus-item"><h3>Research to Product<span>Carry an idea from method to usable proof of concept.</span></h3><p>As Principal Investigator of a Suzhou concept-verification project, I own model development, macOS product requirements, evaluation design, and user trials for a creator-facing music tool.</p></article>
+      </div>
     </section>
 
-    <!-- Papers Section -->
-    <section id="papers" class="papers-section">
-        <div class="container">
-            <h2 class="section-title">Research Projects</h2>
-            <p class="section-subtitle">Interactive demonstrations of cutting-edge research in AI security and music analysis</p>
-            
-            <div class="papers-grid">
-                <!-- MAIA Card -->
-                <div class="paper-card maia" onclick="location.href='maia/'">
-                    <div class="paper-header maia">
-                        <div class="paper-venue">ISMIR 2025</div>
-                    </div>
-                    <div class="paper-body">
-                        <h3 class="paper-title">MAIA: Music Adversarial Inpainting Attack</h3>
-                        <p class="paper-authors">Y. Liu, P. Zhang, R. Sang, Z. Li, S. Li</p>
-                        <p class="paper-description">
-                            Importance-driven adversarial attacks via music inpainting for MIR systems. 
-                            Uses GACELA inpainting model with adversarial guidance for targeted modifications.
-                        </p>
-                        <div class="paper-metrics">
-                            <span class="metric-badge highlight">92.8% ASR</span>
-                            <span class="metric-badge">MOS: 4.0/5</span>
-                            <span class="metric-badge">8 Audio Samples</span>
-                        </div>
-                        <a href="maia/" class="btn-demo">
-                            View Interactive Demo →
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- LSA-Probe Card -->
-                <div class="paper-card lsa" onclick="location.href='lsa-probe/'">
-                    <div class="paper-header lsa">
-                        <div class="paper-venue">ICASSP (Under Review)</div>
-                    </div>
-                    <div class="paper-body">
-                        <h3 class="paper-title">LSA-Probe: Latent Stability Adversarial Probe</h3>
-                        <p class="paper-authors">Y. Liu, P. Zhang, R. Sang, Z. Li, Y. Tan, Y. Cai, S. Li</p>
-                        <p class="paper-description">
-                            Membership inference for music diffusion models via generative manifold perturbation. 
-                            Measures adversarial cost across diffusion timesteps for robust detection.
-                        </p>
-                        <div class="paper-metrics">
-                            <span class="metric-badge highlight">TPR@1%FPR: +8%</span>
-                            <span class="metric-badge">AUC: 0.67</span>
-                            <span class="metric-badge">Interactive Timestep Slider</span>
-                        </div>
-                        <a href="lsa-probe/" class="btn-demo">
-                            Explore Algorithm →
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- TS-RaMIA Card -->
-                <div class="paper-card ts" onclick="location.href='ts-ramia/'">
-                    <div class="paper-header ts">
-                        <div class="paper-venue">AAAI Workshop (Accepted)</div>
-                    </div>
-                    <div class="paper-body">
-                        <h3 class="paper-title">TS-RaMIA: Token-Structure-Aware Membership Inference</h3>
-                        <p class="paper-authors">Y. Liu, P. Zhang, R. Sang, Z. Li, S. Li</p>
-                        <p class="paper-description">
-                            Structure-aware membership inference attacks for music generation models. 
-                            Exploits token-level and structural patterns for improved detection.
-                        </p>
-                        <div class="paper-metrics">
-                            <span class="metric-badge highlight">32.7% TPR@5%FPR</span>
-                            <span class="metric-badge">10 Demo Samples</span>
-                            <span class="metric-badge">ROC Visualizations</span>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <a href="ts-ramia/" class="btn-demo">
-                                Try the Demo →
-                            </a>
-                            <a href="ts-ramia/aaai-slides.html" class="btn-demo" style="background: rgba(222, 143, 5, 0.2); border-color: #DE8F05;">
-                                📊 AAAI Slides
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Music Unlearnable Card -->
-                <div class="paper-card unlearnable" onclick="location.href='music-unlearnable/'">
-                    <div class="paper-header unlearnable">
-                        <div class="paper-venue">Training-time Protection</div>
-                    </div>
-                    <div class="paper-body">
-                        <h3 class="paper-title">Music Unlearnable for MusicLDM</h3>
-                        <p class="paper-authors">Y. Liu</p>
-                        <p class="paper-description">
-                            Adversarial perturbations that prevent diffusion models from learning your music style. 
-                            Protects music through training-time CLAP embedding misalignment.
-                        </p>
-                        <div class="paper-metrics">
-                            <span class="metric-badge highlight">CLAP-based</span>
-                            <span class="metric-badge">Interactive Demo</span>
-                            <span class="metric-badge">Training-time Defense</span>
-                        </div>
-                        <a href="music-unlearnable/" class="btn-demo">
-                            Explore Method →
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="experience">
+      <div class="section-head"><p class="section-num">01 · Experience</p><div><h2 class="section-title">Method development and end-to-end ownership.</h2><p class="section-lede">The through-line is methodological: define the claim, design how it can fail, and carry the strongest result toward a usable system.</p></div></div>
+      <div class="timeline">
+        <article class="timeline-item"><div class="timeline-date">2023–2027<br>expected</div><div><div class="timeline-title-row"><h3 class="timeline-title">Ph.D. Research · Trustworthy Generative Audio and Music AI</h3><span class="meta">XJTLU</span></div><p>Develop membership-inference and auditing methods for generative audio and symbolic-music models, with particular attention to reliable identification at low false-positive rates.</p><p>Propose generative-inpainting attacks and perceptually aligned evaluation methods that test both technical effectiveness and what listeners can actually hear.</p></div></article>
+        <article class="timeline-item"><div class="timeline-date">Sep 2025–<br>Aug 2026</div><div><div class="timeline-title-row"><h3 class="timeline-title">Parameterized Score-to-Audio Expressive Rendering</h3><span class="meta">Principal Investigator</span></div><p>Lead a PoC of the Suzhou Embodied Intelligence Future Education Concept Verification Center, owning expressive-rendering research, macOS product requirements, evaluation design, and user trials.</p><p>The system turns one MusicXML score into multiple performance styles and reached <strong>TRL 5</strong> through small-scale validation in a relevant setting.</p></div></article>
+        <article class="timeline-item"><div class="timeline-date">Nov 2020–<br>Jun 2021</div><div><div class="timeline-title-row"><h3 class="timeline-title">Audio Processing Intern</h3><span class="meta">Changba</span></div><p>Worked on singing-voice generation and enhancement for online karaoke applications through audio simulation, algorithm testing, and evaluation.</p></div></article>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="https://github.com/kaslim" class="footer-link" target="_blank">GitHub</a>
-                <a href="https://scholar.google.com" class="footer-link" target="_blank">Google Scholar</a>
-                <a href="mailto:yuxuan.liu2204@student.xjtlu.edu.cn" class="footer-link">Email</a>
-            </div>
-            <p class="footer-copyright">&copy; 2025 Yuxuan Liu. All rights reserved.</p>
-        </div>
-    </footer>
+    <section id="education">
+      <div class="section-head"><p class="section-num">02 · Education</p><div><h2 class="section-title">Engineering foundations followed by focused doctoral research.</h2><p class="section-lede">Training across connected systems, cyber security, and intelligent engineering underpins my current work in trustworthy audio AI.</p></div></div>
+      <div class="education-grid">
+        <article class="education-item"><p class="degree">B.Eng. · 2017–2021</p><h3>Beijing University of Posts and Telecommunications</h3><p>Internet of Things Engineering</p></article>
+        <article class="education-item"><p class="degree">M.Sc. · 2021–2022</p><h3>University of Warwick</h3><p>Cyber Security Engineering</p></article>
+        <article class="education-item"><p class="degree">Ph.D. · 2023–2027 expected</p><h3>Xi'an Jiaotong-Liverpool University</h3><p>School of Intelligent Engineering</p></article>
+      </div>
+    </section>
 
-    <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-        
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-                }
-            });
-        }, observerOptions);
-        
-        document.querySelectorAll('.paper-card').forEach(card => {
-            observer.observe(card);
-        });
-    </script>
+    <section id="research">
+      <div class="section-head"><p class="section-num">03 · Research</p><div><h2 class="section-title">Selected work across security, perception, and audio understanding.</h2><p class="section-lede">Each project pairs a technical mechanism with an evaluation question that makes the contribution falsifiable.</p></div></div>
+      <div class="research-grid">
+        <article class="research-card"><span class="tag">ICASSP 2026 · First author</span><h3>Auditing what a music diffusion model remembers</h3><p>Membership inference determines whether a work was used in model training. I propose a generative-manifold perturbation method and evaluate identification where false positives must remain low.</p><a class="card-link" href="lsa-probe/">Explore the interactive method →</a></article>
+        <article class="research-card"><span class="tag">ISMIR 2025 · First author</span><h3>MAIA · Music adversarial inpainting attack</h3><p>MAIA locates critical audio segments and uses generative inpainting to construct white-box and black-box attacks across music information retrieval tasks.</p><a class="card-link" href="maia/">Listen to the examples →</a></article>
+        <!-- Archived IPAP feature: retained for future restoration. Remove `hidden` to restore. -->
+        <article class="research-card" hidden data-research-status="archived"><span class="tag">CMMR 2025 · First author</span><h3>Perceptual evaluation that follows the listener</h3><p>A psychoacoustically conditioned representation model evaluates auditory similarity in music adversarial attacks. It reached 0.65 correlation with subjective listening scores and improved robust accuracy by 9.15% on average.</p><a class="card-link" href="ipap/">Explore the perceptual model →</a></article>
+        <article class="research-card"><span class="tag">AAAI Workshop 2026 · First author</span><h3>Auditing what a symbolic music model remembers</h3><p>TS-RaMIA turns token-level structural sensitivity into membership evidence, providing an auditable attack pipeline for symbolic music generation models.</p><a class="card-link" href="ts-ramia/">Explore the interactive attack →</a></article>
+        <article class="research-card"><span class="tag">Co-first-author DCASE · ICASSP 2026</span><h3>Data-efficient audio understanding under domain shift</h3><p>Curriculum-learning methods use uncertainty and multiple training signals to prioritize useful samples when acoustic conditions and data availability change.</p><a class="card-link" href="ddsc/">Explore the dynamic curriculum →</a></article>
+      </div>
+    </section>
+
+    <section id="publications">
+      <div class="section-head"><p class="section-num">04 · Publications</p><div><h2 class="section-title">Five first- or co-first-author papers lead a nine-publication record.</h2><p class="section-lede">Selected venues include ICASSP, ISMIR, AAAI Workshop, CMMR, FG, and DCASE.</p></div></div>
+      <div class="publication-list" id="publication-list">
+        <article class="publication"><span class="venue">ICASSP 2026</span><div><div class="pub-title">Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation.</div><p class="pub-authors"><strong>Yuxuan Liu</strong>, P. Zhang, R. Sang, Z. Li, Y. Tan, Y. Cai, S. Li</p><p class="pub-venue-full">IEEE International Conference on Acoustics, Speech and Signal Processing</p></div></article>
+        <article class="publication"><span class="venue">ISMIR 2025</span><div><div class="pub-title">MAIA: An Inpainting-Based Approach for Music Adversarial Attacks.</div><p class="pub-authors"><strong>Yuxuan Liu</strong>, P. Zhang, R. Sang, Z. Li, S. Li</p><p class="pub-venue-full">International Society for Music Information Retrieval Conference</p></div></article>
+        <article class="publication"><span class="venue">AAAI Workshop 2026</span><div><div class="pub-title">TS-RaMIA: Membership Inference Attacks for Symbolic Music Generation Models.</div><p class="pub-authors"><strong>Yuxuan Liu</strong>, R. Sang, P. Zhang, Z. Li, K. Zhang, S. He, Y. Li, K. Xu, S. Li</p><p class="pub-venue-full">AAAI Conference on Artificial Intelligence Workshop · PMLR 303:1–15</p></div></article>
+        <article class="publication"><span class="venue">CMMR 2025</span><div><div class="pub-title">Training a Perceptual Model for Evaluating Auditory Similarity in Music Adversarial Attack.</div><p class="pub-authors"><strong>Yuxuan Liu</strong>, R. Sang, P. Zhang, Z. Li, S. Li</p><p class="pub-venue-full">International Symposium on Computer Music Multidisciplinary Research</p></div></article>
+        <article class="publication publication-extra"><span class="venue">ICASSP 2026</span><div><div class="pub-title"><a href="ddsc/">DDSC: Dynamic Dual-Signal Curriculum for Data-Efficient Acoustic Scene Classification under Domain Shift.</a></div><p class="pub-authors">P. Zhang, <strong>Yuxuan Liu</strong>, R. Sang, Z. Li, Y. Cai, Y. Tan, S. Li</p><p class="pub-venue-full">IEEE International Conference on Acoustics, Speech and Signal Processing</p></div></article>
+        <article class="publication publication-extra"><span class="venue">ICASSP 2026</span><div><div class="pub-title"><a href="topseg/">TopSeg: A Multi-Scale Topological Framework for Data-Efficient Heart Sound Segmentation.</a></div><p class="pub-authors">P. Zhang, Z. Li, <strong>Yuxuan Liu</strong>, R. Sang, Y. Cai, Y. Tan, S. Li</p><p class="pub-venue-full">IEEE International Conference on Acoustics, Speech and Signal Processing</p></div></article>
+        <article class="publication publication-extra"><span class="venue">FG 2026</span><div><div class="pub-title"><a href="lbor/">LBOR: Laplace–Beltrami Operator Regularization for Robust Skeleton-based Isolated Sign Language Recognition.</a></div><p class="pub-authors">P. Zhang, <strong>Yuxuan Liu</strong>, Z. Li, R. Sang, S. Li</p><p class="pub-venue-full">IEEE International Conference on Automatic Face and Gesture Recognition</p></div></article>
+        <article class="publication publication-extra"><span class="venue">DCASE 2025</span><div><div class="pub-title"><a href="entropy-curriculum/">An Entropy-Guided Curriculum Learning Strategy for Data-Efficient Acoustic Scene Classification under Domain Shift.</a></div><p class="pub-authors">P. Zhang and <strong>Yuxuan Liu</strong> · co-first authors, with Z. Li, R. Sang, Y. Cai, Y. Tan, S. Li</p><p class="pub-venue-full">Workshop on Detection and Classification of Acoustic Scenes and Events</p></div></article>
+        <article class="publication publication-extra"><span class="venue">AAAI Workshop 2026</span><div><div class="pub-title"><a href="sceneguard/">SceneGuard: Training-Time Voice Protection with Scene-Consistent Audible Background Noise.</a></div><p class="pub-authors">R. Sang, <strong>Yuxuan Liu</strong></p><p class="pub-venue-full">AAAI Conference on Artificial Intelligence Workshop</p></div></article>
+      </div>
+      <button class="text-button" id="publication-toggle" type="button" aria-expanded="false" aria-controls="publication-list">Show all 9 publications ↓</button>
+    </section>
+
+    <section id="demos">
+      <div class="section-head"><p class="section-num">05 · Demos</p><div><h2 class="section-title">Research that can be inspected and heard.</h2><p class="section-lede">Eight active paper pages expose the research question, method, evidence, and evaluation boundary; audio examples are included where the underlying study supports them.</p></div></div>
+      <div class="demo-grid">
+        <article class="demo-card"><div class="demo-frame"><img src="assets/portfolio/maia-demo.jpg" alt="MAIA interactive research demonstration" loading="lazy"></div><div class="demo-copy"><h3>MAIA</h3><p>A critical moment is found before the music is changed.</p><a href="maia/">Open interactive audio demo →</a></div></article>
+        <article class="demo-card"><div class="demo-frame"><img src="assets/portfolio/mia-demo.jpg" alt="Music diffusion membership-inference demonstration" loading="lazy"></div><div class="demo-copy"><h3>Music diffusion auditing</h3><p>A training trace becomes evidence for model auditing.</p><a href="lsa-probe/">Open interactive audit →</a></div></article>
+        <article class="demo-card"><div class="demo-frame"><img src="assets/portfolio/ts-ramia-demo.jpg" alt="TS-RaMIA symbolic-music membership-inference demonstration" loading="lazy"></div><div class="demo-copy"><h3>TS-RaMIA</h3><p>Structure reveals what a symbolic model remembers.</p><a href="ts-ramia/">Open interactive attack →</a></div></article>
+        <!-- Archived demo: retained for direct access and future restoration. Remove `hidden` to restore. -->
+        <article class="demo-card" hidden data-demo-status="archived"><div class="demo-frame demo-abstract audio" aria-hidden="true"><span>IPAP</span></div><div class="demo-copy"><h3>Perceptual attack evaluation</h3><p>Measure adversarial similarity closer to what listeners hear.</p><a href="ipap/">Open demo →</a></div></article>
+        <article class="demo-card"><div class="demo-frame demo-method"><svg viewBox="0 0 320 200" role="img" aria-labelledby="cover-dual-title cover-dual-desc"><title id="cover-dual-title">Dynamic dual-signal curriculum method cover</title><desc id="cover-dual-desc">Domain-stability and learning-change signals merge into dynamic sample weights.</desc><defs><pattern id="cover-dual-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#e3e2dc"/></pattern></defs><rect width="320" height="200" fill="#f5f4ed"/><rect width="320" height="200" fill="url(#cover-dual-dots)" opacity=".5"/><text x="20" y="24" class="cover-label">TWO SIGNALS · ONE CURRICULUM</text><line x1="20" y1="36" x2="300" y2="36" class="cover-muted"/><rect x="20" y="52" width="88" height="80" rx="8" class="cover-node"/><text x="32" y="72" class="cover-label">DOMAIN STABILITY</text><rect x="32" y="92" width="12" height="24" rx="2" fill="#b2b1ac" class="cover-grow"/><rect x="52" y="84" width="12" height="32" rx="2" fill="#6b6a64" class="cover-grow" style="animation-delay:.4s"/><rect x="72" y="76" width="12" height="40" rx="2" fill="#1b365d" class="cover-grow" style="animation-delay:.8s"/><line x1="32" y1="120" x2="96" y2="120" class="cover-muted"/><rect x="212" y="52" width="88" height="80" rx="8" class="cover-node"/><text x="224" y="72" class="cover-label">LEARNING CHANGE</text><path d="M224 108 L236 104 L248 112 L260 84 L272 100 L284 76" class="cover-line-focal cover-draw"/><line x1="224" y1="120" x2="288" y2="120" class="cover-muted"/><path d="M108 92 H132 V100" class="cover-line cover-flow"/><path d="M212 92 H188 V100" class="cover-line cover-flow"/><rect x="132" y="76" width="56" height="52" rx="8" class="cover-focal cover-pulse"/><circle cx="160" cy="96" r="8" fill="none" stroke="#1b365d" stroke-width="1.5"/><path d="M148 112 H172" class="cover-line-focal"/><path d="M160 128 V148" class="cover-line-focal cover-flow"/><text x="160" y="168" class="cover-name" text-anchor="middle">Dynamic sample weights</text><g transform="translate(116 176)"><rect width="16" height="8" rx="2" fill="#b2b1ac"/><rect x="24" width="28" height="8" rx="2" fill="#1b365d"/><rect x="60" width="16" height="8" rx="2" fill="#6b6a64"/></g></svg></div><div class="demo-copy"><h3>Dynamic dual-signal curriculum</h3><p>Change sample priorities as learning moves from invariance to potential.</p><a href="ddsc/">Open animated method →</a></div></article>
+
+        <article class="demo-card"><div class="demo-frame demo-method"><svg viewBox="0 0 320 200" role="img" aria-labelledby="cover-entropy-title cover-entropy-desc"><title id="cover-entropy-title">Entropy-guided curriculum method cover</title><desc id="cover-entropy-desc">Device prediction distributions are ranked by entropy to stage stable and difficult samples.</desc><defs><pattern id="cover-entropy-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#e3e2dc"/></pattern></defs><rect width="320" height="200" fill="#f5f4ed"/><rect width="320" height="200" fill="url(#cover-entropy-dots)" opacity=".5"/><text x="20" y="24" class="cover-label">DEVICE UNCERTAINTY → TRAINING ORDER</text><line x1="20" y1="36" x2="300" y2="36" class="cover-muted"/><g transform="translate(20 52)"><rect width="60" height="60" rx="8" class="cover-node"/><rect x="12" y="36" width="8" height="12" rx="2" fill="#b2b1ac"/><rect x="24" y="20" width="8" height="28" rx="2" fill="#1b365d" class="cover-grow"/><rect x="36" y="40" width="8" height="8" rx="2" fill="#b2b1ac"/><text x="30" y="56" class="cover-label" text-anchor="middle">STABLE</text></g><g transform="translate(92 52)"><rect width="60" height="60" rx="8" class="cover-node"/><rect x="12" y="28" width="8" height="20" rx="2" fill="#6b6a64"/><rect x="24" y="24" width="8" height="24" rx="2" fill="#1b365d" class="cover-grow" style="animation-delay:.5s"/><rect x="36" y="32" width="8" height="16" rx="2" fill="#b2b1ac"/><text x="30" y="56" class="cover-label" text-anchor="middle">MIXED</text></g><g transform="translate(164 52)"><rect width="60" height="60" rx="8" class="cover-node"/><rect x="12" y="24" width="8" height="24" rx="2" fill="#6b6a64"/><rect x="24" y="26" width="8" height="22" rx="2" fill="#1b365d" class="cover-grow" style="animation-delay:1s"/><rect x="36" y="24" width="8" height="24" rx="2" fill="#b2b1ac"/><text x="30" y="56" class="cover-label" text-anchor="middle">UNCERTAIN</text></g><path d="M236 60 H284 M236 80 H272 M236 100 H256" class="cover-line-focal cover-flow"/><text x="260" y="120" class="cover-label" text-anchor="middle">ENTROPY RANK</text><path d="M52 120 V140 H268" class="cover-line cover-flow"/><rect x="32" y="148" width="64" height="24" rx="4" class="cover-focal"/><rect x="104" y="148" width="56" height="24" rx="4" class="cover-node"/><rect x="168" y="148" width="48" height="24" rx="4" class="cover-node"/><rect x="224" y="148" width="64" height="24" rx="4" class="cover-node"/><text x="64" y="164" class="cover-label" text-anchor="middle">EASY FIRST</text><text x="132" y="164" class="cover-label" text-anchor="middle">EXPAND</text><text x="192" y="164" class="cover-label" text-anchor="middle">MIX</text><text x="256" y="164" class="cover-label" text-anchor="middle">FULL DATA</text><text x="160" y="192" class="cover-name" text-anchor="middle">Learn the scene before the recorder</text></svg></div><div class="demo-copy"><h3>Entropy-guided curriculum</h3><p>Start with examples that reveal the scene, not the recorder.</p><a href="entropy-curriculum/">Open animated method →</a></div></article>
+
+        <article class="demo-card"><div class="demo-frame demo-method"><svg viewBox="0 0 320 200" role="img" aria-labelledby="cover-topology-title cover-topology-desc"><title id="cover-topology-title">Multi-scale heart-sound topology method cover</title><desc id="cover-topology-desc">A heart-sound waveform is examined at short, medium, and long scales before topological features guide physiological state segmentation.</desc><defs><pattern id="cover-topology-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#e3e2dc"/></pattern></defs><rect width="320" height="200" fill="#f5f4ed"/><rect width="320" height="200" fill="url(#cover-topology-dots)" opacity=".5"/><text x="20" y="24" class="cover-label">HEART SOUND · THREE TEMPORAL SCALES</text><line x1="20" y1="36" x2="300" y2="36" class="cover-muted"/><path d="M20 72 L32 68 L44 76 L56 48 L68 96 L80 60 L92 80 L104 68 L116 72 L128 66 L140 76 L152 44 L164 100 L176 60 L188 80 L200 68 L212 72" class="cover-line-focal cover-draw"/><line x1="20" y1="72" x2="212" y2="72" class="cover-muted"/><rect x="40" y="48" width="36" height="48" rx="4" fill="#eef2f7" stroke="#1b365d" opacity=".72" class="cover-pulse"/><rect x="96" y="44" width="56" height="56" rx="4" fill="none" stroke="#6b6a64"/><rect x="136" y="40" width="80" height="64" rx="4" fill="none" stroke="#b2b1ac"/><text x="58" y="116" class="cover-label" text-anchor="middle">SHORT</text><text x="124" y="116" class="cover-label" text-anchor="middle">MEDIUM</text><text x="176" y="116" class="cover-label" text-anchor="middle">LONG</text><path d="M216 72 H236" class="cover-line cover-flow"/><circle cx="264" cy="72" r="24" fill="#faf9f5" stroke="#b2b1ac"/><circle cx="256" cy="68" r="8" fill="none" stroke="#1b365d" stroke-width="1.5" class="cover-pulse"/><circle cx="272" cy="76" r="12" fill="none" stroke="#504e49" stroke-width="1.2"/><circle cx="248" cy="84" r="3" class="cover-dot"/><text x="264" y="116" class="cover-label" text-anchor="middle">TOPOLOGY</text><path d="M264 124 V144" class="cover-line cover-flow"/><g transform="translate(20 148)"><rect width="56" height="28" rx="4" fill="#1b365d"/><rect x="56" width="64" height="28" rx="4" fill="#eae9e2"/><rect x="120" width="56" height="28" rx="4" fill="#eef2f7" stroke="#1b365d"/><rect x="176" width="64" height="28" rx="4" fill="#eae9e2"/><rect x="240" width="40" height="28" rx="4" fill="#1b365d"/><text x="28" y="18" fill="#faf9f5" font-size="8" text-anchor="middle">S1</text><text x="88" y="18" class="cover-label" text-anchor="middle">SYSTOLE</text><text x="148" y="18" class="cover-label" text-anchor="middle">S2</text><text x="208" y="18" class="cover-label" text-anchor="middle">DIASTOLE</text><text x="260" y="18" fill="#faf9f5" font-size="8" text-anchor="middle">S1</text></g><text x="160" y="192" class="cover-name" text-anchor="middle">Physiological states from persistent shape</text></svg></div><div class="demo-copy"><h3>TopSeg</h3><p>Represent heart-sound structure across three temporal scales.</p><a href="topseg/">Open animated method →</a></div></article>
+
+        <article class="demo-card"><div class="demo-frame demo-method"><svg viewBox="0 0 320 200" role="img" aria-labelledby="cover-guard-title cover-guard-desc"><title id="cover-guard-title">Scene-consistent voice-protection method cover</title><desc id="cover-guard-desc">A public voice passes through scene-aware audible protection before an unauthorized training pipeline, weakening identity similarity while preserving intelligibility.</desc><defs><pattern id="cover-guard-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#e3e2dc"/></pattern></defs><rect width="320" height="200" fill="#f5f4ed"/><rect width="320" height="200" fill="url(#cover-guard-dots)" opacity=".5"/><text x="20" y="24" class="cover-label">PUBLIC VOICE → PROTECTED TRAINING DATA</text><line x1="20" y1="36" x2="300" y2="36" class="cover-muted"/><rect x="20" y="56" width="72" height="100" rx="8" class="cover-node"/><circle cx="56" cy="84" r="16" fill="#eef2f7" stroke="#1b365d"/><path d="M44 80 Q52 68 68 74" class="cover-line-focal"/><path d="M48 100 L40 120 H72 L64 100" class="cover-line"/><path d="M32 136 L40 132 L48 140 L56 120 L64 148 L72 128 L80 136" class="cover-line-focal cover-draw"/><text x="56" y="148" class="cover-label" text-anchor="middle">PUBLIC VOICE</text><path d="M92 104 H116" class="cover-line cover-flow"/><rect x="116" y="56" width="88" height="100" rx="8" class="cover-focal"/><path d="M160 72 L180 80 V104 C180 120 168 132 160 136 C152 132 140 120 140 104 V80 Z" fill="none" stroke="#1b365d" stroke-width="1.7" class="cover-pulse"/><path d="M148 104 L156 112 L172 92" class="cover-line-focal"/><rect x="132" y="120" width="56" height="12" rx="4" fill="#eef2f7" stroke="#1b365d" class="cover-grow"/><text x="160" y="144" class="cover-label" text-anchor="middle">SCENE-AWARE</text><text x="160" y="152" class="cover-label" text-anchor="middle">PROTECTION</text><path d="M204 104 H228" class="cover-line-focal cover-flow"/><rect x="228" y="56" width="72" height="100" rx="8" class="cover-node"/><rect x="244" y="76" width="40" height="28" rx="4" fill="#eae9e2" stroke="#504e49"/><path d="M252 90 H260 M264 82 V98 M272 86 V94 M276 90 H284" class="cover-line"/><text x="264" y="120" class="cover-label" text-anchor="middle">IDENTITY MATCH</text><line x1="244" y1="132" x2="284" y2="132" class="cover-muted"/><line x1="244" y1="132" x2="264" y2="132" class="cover-line-focal"/><circle cx="264" cy="132" r="4" class="cover-dot cover-pulse"/><text x="264" y="148" class="cover-label" text-anchor="middle">WEAKENS</text><text x="160" y="184" class="cover-name" text-anchor="middle">Audible noise that belongs in the scene</text></svg></div><div class="demo-copy"><h3>SceneGuard</h3><p>Protect a voice with audible noise that belongs in the scene.</p><a href="sceneguard/">Open animated method →</a></div></article>
+
+        <article class="demo-card"><div class="demo-frame demo-method"><svg viewBox="0 0 320 200" role="img" aria-labelledby="cover-geometry-title cover-geometry-desc"><title id="cover-geometry-title">Class-geometry regularization method cover</title><desc id="cover-geometry-desc">Fragmented skeleton-sign features are connected through a class-specific graph and regularized into compact class regions.</desc><defs><pattern id="cover-geometry-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#e3e2dc"/></pattern></defs><rect width="320" height="200" fill="#f5f4ed"/><rect width="320" height="200" fill="url(#cover-geometry-dots)" opacity=".5"/><text x="20" y="24" class="cover-label">FRAGMENTED FEATURES → CLASS GEOMETRY</text><line x1="20" y1="36" x2="300" y2="36" class="cover-muted"/><rect x="20" y="52" width="92" height="108" rx="8" class="cover-node"/><text x="32" y="72" class="cover-label">BEFORE</text><g fill="#1b365d"><circle cx="44" cy="92" r="4"/><circle cx="60" cy="84" r="4"/><circle cx="52" cy="108" r="4"/></g><g fill="#6b6a64"><rect x="76" y="88" width="8" height="8" rx="2"/><rect x="88" y="104" width="8" height="8" rx="2"/><rect x="72" y="124" width="8" height="8" rx="2"/></g><path d="M44 92 L60 84 M44 92 L52 108 M76 92 L92 108 M76 128 L92 108" class="cover-muted"/><text x="66" y="148" class="cover-label" text-anchor="middle">BROKEN REGIONS</text><path d="M112 104 H132" class="cover-line cover-flow"/><rect x="132" y="76" width="56" height="56" rx="8" class="cover-focal cover-pulse"/><circle cx="148" cy="92" r="4" class="cover-dot"/><circle cx="172" cy="92" r="4" class="cover-dot"/><circle cx="160" cy="116" r="4" class="cover-dot"/><path d="M148 92 L172 92 L160 116 Z" class="cover-line-focal"/><text x="160" y="148" class="cover-label" text-anchor="middle">CLASS GRAPH</text><path d="M188 104 H208" class="cover-line-focal cover-flow"/><rect x="208" y="52" width="92" height="108" rx="8" class="cover-node"/><text x="220" y="72" class="cover-label">AFTER</text><path d="M228 88 Q244 72 260 88 Q276 72 288 96 Q280 124 256 136 Q228 124 224 104 Z" fill="#eef2f7" stroke="#1b365d" stroke-width="1.3"/><g fill="#1b365d"><circle cx="244" cy="96" r="4"/><circle cx="260" cy="88" r="4"/><circle cx="252" cy="112" r="4"/></g><g fill="#6b6a64"><rect x="268" y="104" width="8" height="8" rx="2"/><rect x="276" y="88" width="8" height="8" rx="2"/><rect x="264" y="120" width="8" height="8" rx="2"/></g><text x="254" y="148" class="cover-label" text-anchor="middle">CONNECTED REGIONS</text><text x="160" y="184" class="cover-name" text-anchor="middle">Preserve the manifold, strengthen the class</text></svg></div><div class="demo-copy"><h3>Feature-space geometry</h3><p>Reconnect same-class sign features without changing inference.</p><a href="lbor/">Open animated method →</a></div></article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-head"><p class="section-num">06 · Toolkit</p><div><h2 class="section-title">Research depth with an engineering path to delivery.</h2><p class="section-lede">The toolchain supports reproducible experiments, audio evaluation, research prototypes, and product-oriented iteration.</p></div></div>
+      <div class="skills-grid">
+        <article class="skill"><h3>Generative Audio</h3><p>Diffusion models, music and speech generation, symbolic music modelling, MusicXML workflows</p></article>
+        <article class="skill"><h3>Trustworthy AI</h3><p>Membership inference, model privacy, copyright auditing, provenance, adversarial robustness</p></article>
+        <article class="skill"><h3>Audio Intelligence</h3><p>Music information retrieval, audio signal processing, acoustic scene classification, perceptual evaluation</p></article>
+        <article class="skill"><h3>Machine Learning</h3><p>Python, PyTorch, C/C++, MATLAB, experimental design, statistical analysis</p></article>
+        <article class="skill"><h3>Agent Toolchain</h3><p>Codex, Cursor, and Claude Code for implementation, debugging, prototype iteration, and document automation</p></article>
+        <article class="skill"><h3>Research Communication</h3><p>Academic writing, peer-reviewed publication, user-trial design, technical presentation</p></article>
+      </div>
+    </section>
+
+    <section id="background">
+      <div class="section-head"><p class="section-num">07 · Background</p><div><h2 class="section-title">Quick answers for recruiters and collaborators.</h2></div></div>
+      <div class="faq">
+        <details><summary>What roles is Yuxuan targeting?</summary><p>Machine-learning scientist and engineer roles in audio understanding, music intelligence, generative audio, and trustworthy AI.</p></details>
+        <details><summary>When is Yuxuan available to start?</summary><p>He expects to complete his Ph.D. in March 2027 and is targeting 2027 graduate or early-career hiring timelines.</p></details>
+        <details><summary>What is the core research contribution?</summary><p>Methods for auditing generative audio models, attacking and evaluating music systems, and aligning technical metrics with auditory perception.</p></details>
+        <details><summary>Does the work include product ownership?</summary><p>Yes. He is Principal Investigator for a MusicXML-to-audio PoC that reached TRL 5 and includes model, app, evaluation, and user-trial ownership.</p></details>
+        <details><summary>Does Yuxuan have industry audio experience?</summary><p>Yes. At Changba he worked on singing-voice generation and enhancement through audio simulation, algorithm testing, and evaluation.</p></details>
+        <details><summary>Where can I find the complete publication record?</summary><p>The selected list appears on this page and the complete record is linked through <a href="https://scholar.google.com/citations?user=00WQZLYAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p></details>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-panel"><div><p class="section-num">08 · Contact</p><h2>Let’s build audio systems whose claims hold up.</h2><p>Available from March 2027 for research scientist and machine-learning engineer roles in Singapore and internationally.</p></div><div class="contact-links"><a href="mailto:yuxuan.liu2204@student.xjtlu.edu.cn">Email</a><a href="https://scholar.google.com/citations?user=00WQZLYAAAAJ" target="_blank" rel="noopener">Google Scholar</a><a href="https://github.com/kaslim" target="_blank" rel="noopener">GitHub</a><a href="assets/Yuxuan_Liu_CV.pdf" target="_blank" rel="noopener">Resume</a></div></div>
+    </section>
+
+    <footer><p class="ethos">Methods that listen carefully and claims that can be tested.</p><p>© 2026 Yuxuan Liu</p></footer>
+  </main>
+  <script>
+  (function(){var toggle=document.getElementById('publication-toggle');var list=document.getElementById('publication-list');if(!toggle||!list)return;toggle.addEventListener('click',function(){var expanded=toggle.getAttribute('aria-expanded')==='true';list.classList.toggle('show-all',!expanded);toggle.setAttribute('aria-expanded',String(!expanded));toggle.textContent=expanded?'Show all 9 publications ↓':'Show selected publications ↑';});}());
+  </script>
 </body>
 </html>

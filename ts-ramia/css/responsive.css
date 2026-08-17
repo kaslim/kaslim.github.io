@@ -60,6 +60,24 @@
     h2 { font-size: 2rem; }
     h3 { font-size: 1.5rem; }
 
+    /* Long citation text must scroll inside the card, not set the grid width. */
+    .resources-grid,
+    .resource-block,
+    .application-cards,
+    .app-card,
+    .resource-links,
+    .resource-link,
+    .citation-box {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .citation-box pre {
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+    }
+
     /* Navigation */
     .nav-menu {
         display: none; /* Hide on mobile, can implement hamburger menu */
@@ -463,4 +481,3 @@
         border-bottom: none;
     }
 }
-

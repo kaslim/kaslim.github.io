@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SceneGuard · Yuxuan Liu</title>
+  <meta name="description" content="A source-backed research demo of SceneGuard, a training-time voice protection method using scene-consistent audible background noise.">
+  <link rel="stylesheet" href="../assets/research-page.css?v=20260816d">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav">
+  <div class="shell nav-inner">
+    <a class="nav-home" href="../">Yuxuan Liu</a>
+    <div class="nav-actions"><a href="../#demos">All demos</a><a href="https://arxiv.org/abs/2511.16114" target="_blank" rel="noopener">Read paper ↗</a></div>
+  </div>
+</nav>
+
+<main class="shell" id="main">
+  <header class="hero">
+    <div>
+      <span class="eyebrow">AAAI Workshop 2026 · Voice protection</span>
+      <h1>Keep a public voice from becoming free training data.</h1>
+      <p class="lede">A widely recorded public figure can be imitated from collected speech clips and repurposed into misleading synthetic audio. SceneGuard protects recordings before release by adding audible background sound that fits the scene and is difficult to remove cleanly.</p>
+      <p class="authors">Rui Sang · Yuxuan Liu</p>
+    </div>
+    <aside class="hero-visual" aria-label="SceneGuard method overview">
+      <p class="visual-title">From public recording to protected release</p>
+      <div class="pipeline">
+        <div class="pipe"><strong>Recognize the acoustic scene</strong><span>Airport, street, park, and related contexts</span></div>
+        <div class="pipe"><strong>Sample consistent noise</strong><span>Match rather than disguise the environment</span></div>
+        <div class="pipe"><strong>Optimize mask + gain</strong><span>Reduce speaker similarity under 10–20 dB SNR</span></div>
+      </div>
+    </aside>
+  </header>
+
+  <div class="metrics">
+    <div class="metric"><div class="metric-value">5.5%</div><div class="metric-label">training-time speaker-similarity degradation</div></div>
+    <div class="metric"><div class="metric-value">0.986</div><div class="metric-label">STOI for protected speech</div></div>
+    <div class="metric"><div class="metric-value">−6.7 pp</div><div class="metric-label">zero-shot attack success</div></div>
+  </div>
+
+  <section class="motion-section" aria-labelledby="sceneguard-motion-title">
+    <div class="motion-head">
+      <div><span class="label">Threat story in motion</span><h2 id="sceneguard-motion-title">The same public voice, two very different training paths.</h2></div>
+      <p class="motion-key">Animated reading: the upper lane shows an unprotected collection-and-cloning risk; the lower lane inserts SceneGuard before release and weakens the identity signal learned by the attacker.</p>
+    </div>
+
+    <figure class="method-diagram">
+      <svg viewBox="0 0 960 520" role="img" aria-labelledby="sg-story-title sg-story-desc">
+        <title id="sg-story-title">SceneGuard illustrated through a public-figure voice-cloning scenario</title>
+        <desc id="sg-story-desc">Donald Trump is used only as an illustrative example of a widely recorded public figure. Unprotected recordings can be collected for unauthorized voice cloning and fabricated messages. SceneGuard instead mixes scene-consistent audible noise using an optimized temporal mask and gain, preserving intelligibility while weakening speaker identity learned from protected recordings.</desc>
+        <defs><pattern id="sg-story-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#e3e2dc"/></pattern></defs>
+        <rect width="960" height="520" fill="#f5f4ed"/>
+        <rect width="960" height="520" fill="url(#sg-story-dots)" opacity=".55"/>
+
+        <text x="64" y="40" class="micro-svg accent-svg">ILLUSTRATIVE PUBLIC-FIGURE SCENARIO</text>
+        <text x="896" y="40" class="micro-svg" text-anchor="end">NO REAL QUOTE · NO SYNTHETIC AUDIO</text>
+        <line x1="64" y1="56" x2="896" y2="56" class="axis"/>
+
+        <rect x="64" y="80" width="184" height="360" rx="8" class="node"/>
+        <text x="88" y="108" class="micro-svg accent-svg">PUBLIC VOICE SOURCE</text>
+        <circle cx="156" cy="148" r="25" fill="#eef2f7" stroke="#1b365d" stroke-width="1.5"/>
+        <path d="M134 142 Q144 120 176 128 Q166 119 146 122 Q136 126 134 142" fill="#1b365d" opacity=".82"/>
+        <path d="M146 172 L138 196 L174 196 L166 172 M156 173 L156 196" fill="none" stroke="#504e49" stroke-width="1.5" stroke-linecap="round"/>
+        <rect x="108" y="196" width="96" height="64" rx="4" fill="#eae9e2" stroke="#504e49"/>
+        <line x1="188" y1="196" x2="196" y2="177" stroke="#504e49" stroke-width="1.5"/>
+        <circle cx="198" cy="174" r="3" fill="#1b365d" class="pulse"/>
+        <text x="156" y="292" class="label-svg" text-anchor="middle">Donald Trump</text>
+        <text x="156" y="312" class="micro-svg" text-anchor="middle">PUBLIC-FIGURE EXAMPLE</text>
+        <text x="156" y="340" class="small-svg" text-anchor="middle">Speeches · interviews</text>
+        <path d="M88 380 L100 376 L112 386 L124 366 L136 394 L148 350 L160 404 L172 362 L184 390 L196 370 L208 384 L220 376" class="signal draw"/>
+        <line x1="88" y1="380" x2="224" y2="380" class="axis"/>
+        <text x="156" y="420" class="micro-svg" text-anchor="middle">MANY PUBLIC RECORDINGS</text>
+
+        <text x="288" y="92" class="micro-svg">WITHOUT PROTECTION</text>
+        <rect x="288" y="108" width="176" height="136" rx="8" class="node"/>
+        <text x="312" y="138" class="label-svg">Open clip archive</text>
+        <text x="312" y="160" class="small-svg">Collected from public media</text>
+        <g class="fade-cycle" style="--delay:.2s">
+          <rect x="312" y="184" width="104" height="12" rx="3" fill="#eae9e2" stroke="#b2b1ac"/>
+          <rect x="320" y="202" width="112" height="12" rx="3" fill="#faf9f5" stroke="#b2b1ac"/>
+          <rect x="328" y="220" width="104" height="12" rx="3" fill="#eae9e2" stroke="#b2b1ac"/>
+        </g>
+        <path d="M464 176 H500" class="connector-dashed dash-flow"/>
+        <circle cx="470" cy="176" r="5" class="dot-neutral travel" style="--dx:24px;--dy:0;--delay:.6s"/>
+
+        <rect x="500" y="108" width="164" height="136" rx="8" class="node"/>
+        <text x="524" y="138" class="label-svg">Unauthorized</text>
+        <text x="524" y="158" class="label-svg">voice cloning</text>
+        <rect x="524" y="184" width="116" height="36" rx="5" fill="#eae9e2" stroke="#504e49"/>
+        <path d="M540 202 H552 M560 194 V210 M568 190 V214 M576 198 V206 M584 192 V212 M592 196 V208 M600 202 H624" fill="none" stroke="#504e49" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M664 176 H700" class="connector-dashed dash-flow"/>
+        <circle cx="670" cy="176" r="5" class="dot-neutral travel" style="--dx:24px;--dy:0;--delay:1.2s"/>
+
+        <rect x="700" y="108" width="196" height="136" rx="8" class="node-dashed"/>
+        <text x="724" y="138" class="micro-svg">FABRICATED MESSAGE</text>
+        <text x="724" y="162" class="label-svg">Misleading audio</text>
+        <path d="M724 198 L736 194 L748 206 L760 184 L772 214 L784 176 L796 220 L808 188 L820 208 L832 192 L844 204 L856 196 L872 202" class="signal-muted draw"/>
+        <text x="724" y="228" class="micro-svg">ILLUSTRATIVE RISK · NOT A QUOTE</text>
+
+        <path d="M248 176 H288" class="connector-dashed"/>
+        <circle cx="254" cy="176" r="5" class="dot-neutral travel" style="--dx:28px;--dy:0;--delay:0s"/>
+
+        <text x="288" y="284" class="micro-svg accent-svg">SCENEGUARD BEFORE RELEASE</text>
+        <rect x="288" y="300" width="376" height="140" rx="8" class="node-focal"/>
+        <text x="312" y="330" class="label-svg accent-svg">Scene-consistent audible protection</text>
+        <g transform="translate(312 348)">
+          <rect width="88" height="28" rx="14" fill="#1b365d"/>
+          <text x="44" y="18" fill="#faf9f5" font-size="10" text-anchor="middle">1 · scene label</text>
+          <rect x="96" width="112" height="28" rx="14" fill="#faf9f5" stroke="#b2b1ac"/>
+          <text x="152" y="18" class="micro-svg" text-anchor="middle">2 · matching ambience</text>
+          <rect x="216" width="128" height="28" rx="14" fill="#faf9f5" stroke="#b2b1ac"/>
+          <text x="280" y="18" class="micro-svg" text-anchor="middle">3 · optimize m(t) + γ</text>
+        </g>
+        <g transform="translate(312 392)">
+          <line x1="0" y1="18" x2="272" y2="18" class="axis"/>
+          <path d="M0 18 L12 12 L24 26 L36 8 L48 30 L60 10 L72 24 L84 6 L96 32 L108 14 L120 26 L132 8 L144 30 L156 12 L168 24 L180 4 L192 34 L204 10 L216 26 L228 12 L240 20 L252 14 L272 18" class="signal-muted draw"/>
+          <rect x="44" y="0" width="164" height="36" rx="4" fill="#eef2f7" opacity=".62" class="mask-band"/>
+          <path d="M294 4 L310 10 V22 C310 30 302 35 294 39 C286 35 278 30 278 22 V10 Z" fill="none" stroke="#1b365d" stroke-width="1.7" class="pulse"/>
+          <path d="M286 21 L292 27 L303 15" fill="none" stroke="#1b365d" stroke-width="1.7" stroke-linecap="round"/>
+        </g>
+
+        <path d="M248 370 H288" class="connector-focal dash-flow"/>
+        <circle cx="254" cy="370" r="5" class="dot travel" style="--dx:28px;--dy:0;--delay:.4s"/>
+        <path d="M664 370 H700" class="connector-focal dash-flow"/>
+        <circle cx="670" cy="370" r="5" class="dot travel" style="--dx:24px;--dy:0;--delay:1.6s"/>
+
+        <rect x="700" y="300" width="196" height="140" rx="8" class="node"/>
+        <text x="724" y="330" class="micro-svg accent-svg">PROTECTED TRAINING DATA</text>
+        <text x="724" y="354" class="label-svg">Identity match weakens</text>
+        <text x="724" y="382" class="small-svg">Speaker SIM</text>
+        <line x1="792" y1="378" x2="872" y2="378" class="axis"/>
+        <line x1="792" y1="378" x2="836" y2="378" stroke="#1b365d" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="836" cy="378" r="6" class="dot shift"/>
+        <text x="724" y="406" class="small-svg accent-svg">1.000 → 0.945</text>
+        <text x="724" y="426" class="micro-svg">STOI 0.986 · CLEAR SPEECH</text>
+
+        <text x="64" y="484" class="small-svg">SceneGuard preserves access to the message while changing the identity evidence available to an unauthorized training pipeline.</text>
+      </svg>
+      <figcaption><span>Figure · A public-voice threat story with SceneGuard inserted before release</span><span>Donald Trump is an illustrative public-figure example; the figure contains no real quotation or generated audio.</span></figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">01 · Question</span><div><h2>What if the protection sounds like it belongs?</h2><p>Imperceptible perturbations can be removed by compression or denoising. Scene-consistent audible sound is harder to separate because it behaves like a plausible part of the recording.</p></div></div>
+    <div class="problem-grid">
+      <article class="panel"><span class="label">Threat</span><h3>Unauthorized training</h3><p>An attacker collects protected recordings and fine-tunes or conditions a voice-cloning system.</p></article>
+      <article class="panel"><span class="label">Fragility</span><h3>Preprocessing can erase defenses</h3><p>Common countermeasures target small, imperceptible perturbations before model training.</p></article>
+      <article class="panel"><span class="label">Trade-off</span><h3>Audibility is deliberate</h3><p>The defense accepts contextual noise and measures intelligibility rather than claiming pristine audio.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">02 · Method</span><div><h2>Optimize a scene-aware mixture, not a generic noise floor.</h2></div></div>
+    <div class="method-grid">
+      <article class="step"><span class="step-no">Select</span><h3>Scene-conditioned library</h3><p>PANNs provides an acoustic-scene label, which indexes a library built from ten urban scene classes.</p></article>
+      <article class="step"><span class="step-no">Protect</span><h3>Speaker-aware objective</h3><p>ECAPA-TDNN embeddings guide the optimization toward lower speaker similarity, with smoothness and energy regularization.</p></article>
+      <article class="step"><span class="step-no">Gate</span><h3>Usability + robustness</h3><p>Protected audio is checked with Whisper, STOI, PESQ, and five preprocessing countermeasures before attack evaluation.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">03 · Evidence</span><div><h2>Protection survives the preprocessing tested in the paper.</h2></div></div>
+    <div class="evidence-grid">
+      <article class="evidence"><span class="label">Training attack</span><h3>1.000 → 0.945</h3><p>Speaker similarity after training on protected rather than clean data; p &lt; 10⁻¹⁵ and Cohen’s d = 2.18.</p></article>
+      <article class="evidence"><span class="label">Zero-shot attack</span><h3>20.0% → 13.3%</h3><p>Attack success rate, a 6.7 percentage-point reduction and 33.5% relative reduction.</p></article>
+      <article class="evidence"><span class="label">Countermeasures</span><h3>0.901 → 0.688</h3><p>Speaker similarity ranges from MP3 128 kbps to 8 kHz downsampling; lower is stronger protection.</p></article>
+    </div>
+    <p class="note">Training Table 1 reports WER 2.77%, PESQ 2.22, and STOI 0.99. The separate protected-speech quality evaluation reports WER 3.60%, PESQ 2.034, and STOI 0.986; these protocols are intentionally not conflated here.</p>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="label">04 · Boundary</span><div><h2>The limitation is part of the design, not fine print.</h2></div></div>
+    <div class="boundary">
+      <div><h3>Evaluation frame</h3><ul><li>LibriTTS: 100 training and 40 test samples for training-attack evaluation.</li><li>Noise library: 50,000 three-second clips from TAU Urban Acoustic Scenes 2022.</li><li>MP3, spectral subtraction, low-pass filtering, and downsampling countermeasures.</li></ul></div>
+      <div><h3>Claim boundary</h3><ul><li>Audible noise may be unsuitable for pristine studio recordings.</li><li>PESQ 2.03 is below the paper’s ideal threshold of 3.0.</li><li>Adaptive attacks designed specifically for scene-aware noise were not tested.</li></ul></div>
+    </div>
+  </section>
+
+  <div class="cta"><h2>Review the threat model, trade-offs, and ablations.</h2><div class="buttons"><a class="button primary" href="https://arxiv.org/abs/2511.16114" target="_blank" rel="noopener">Open paper</a><a class="button" href="https://github.com/richael-sang/SceneGuard" target="_blank" rel="noopener">View code</a></div></div>
+</main>
+<footer class="shell"><span>SceneGuard · source-backed research page</span><span>© 2026 Yuxuan Liu</span></footer>
+</body>
+</html>

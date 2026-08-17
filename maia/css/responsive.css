@@ -681,3 +681,15 @@
     }
 }
 
+/* Keep off-canvas AOS entrance states from widening the mobile page. */
+@media (max-width: 767px) {
+    .motivation-section {
+        overflow-x: clip;
+    }
+
+    .citation-box pre {
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+    }
+}

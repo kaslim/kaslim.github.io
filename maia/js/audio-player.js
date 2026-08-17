@@ -68,10 +68,12 @@ function initAudioPlayers() {
         // Setup synchronized playback
         setupSyncPlayback();
         
-        // Load first sample
-        loadSample(0);
-        
         AudioPlayers.initialized = true;
+
+        // Let the demo controller perform the single initial load. This event
+        // removes the startup race without issuing two competing fetches.
+        window.dispatchEvent(new CustomEvent('maia:audio-ready'));
+
         console.log('✅ Audio players initialized');
     } catch (error) {
         console.error('❌ Error initializing audio players:', error);
@@ -328,4 +330,3 @@ window.jumpToTime = jumpToTime;
 window.getCurrentTime = getCurrentTime;
 window.getDuration = getDuration;
 window.isPlaying = isPlaying;
-
