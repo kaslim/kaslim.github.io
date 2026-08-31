@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SceneGuard · Yuxuan Liu</title>
   <meta name="description" content="A source-backed research demo of SceneGuard, a training-time voice protection method using scene-consistent audible background noise.">
-  <link rel="stylesheet" href="../assets/research-page.css?v=20260816d">
+  <link rel="stylesheet" href="../assets/research-page.css?v=20260831a">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -178,6 +178,7 @@
     </div>
   </section>
 
+  <section class="paper-method" aria-labelledby="sceneguard-paper-title"><div class="section-head"><span class="label">Method figure · original paper</span><div><h2 id="sceneguard-paper-title">Follow the defense from the scene label to the attacker’s training loop.</h2><p>The published figure begins with a contextual noise asset, then uses direct mixing or an optimized temporal mask and strength. Its objective makes the trade-off explicit: weaken speaker similarity while preserving signal quality and temporal smoothness.</p></div></div><figure class="paper-figure" data-source="Original paper · Fig. 1"><img src="../assets/portfolio/sceneguard-method-paper.png" alt="Published SceneGuard Figure 1 showing scene-aware audible-noise generation and evaluation against training-time and zero-shot voice cloning." loading="eager"><figcaption><span>Figure 1 · SceneGuard method overview, reproduced from the paper.</span><span>The upper band builds usable protected speech; the lower branches evaluate two cloning settings.</span></figcaption></figure><div class="paper-reading" aria-label="How to read the SceneGuard figure"><span><strong>Scenes &amp; assets</strong> contextual noise library</span><span><strong>Defense generation</strong> direct mix or optimized mask + strength</span><span><strong>Evaluation</strong> training-time and zero-shot cloning</span></div></section>
   <div class="cta"><h2>Review the threat model, trade-offs, and ablations.</h2><div class="buttons"><a class="button primary" href="https://arxiv.org/abs/2511.16114" target="_blank" rel="noopener">Open paper</a><a class="button" href="https://github.com/richael-sang/SceneGuard" target="_blank" rel="noopener">View code</a></div></div>
 </main>
 <footer class="shell"><span>SceneGuard · source-backed research page</span><span>© 2026 Yuxuan Liu</span></footer>
