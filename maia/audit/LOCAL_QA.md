@@ -29,6 +29,15 @@ Validation date: 2026-09-04
 - Desktop, 390 × 844 mobile, and mobile Focus View visual checks: passed after one layout correction.
 - Every requested local page asset returned HTTP 200 from the local server.
 
+## Production verification
+
+- GitHub Pages source branch: `main`; deployed page commit: `8b58b31`.
+- GitHub Pages build and deployment completed successfully.
+- English, Chinese, Focus View, PDF, locale JSON, JavaScript, CSS, manifest, five WAV files, and eight spectrogram files all returned HTTP 200 online.
+- A fresh online `#demo` deep link lands at the Demo heading after remote images load.
+- Online playback advanced from 0.0 to 1.1 seconds; synchronized source switching and Focus step 5 were also rechecked.
+- Production screenshots cover desktop English, desktop Chinese, Focus View, and real 390 × 844 CSS-pixel mobile viewports.
+
 ## Scope boundary
 
 No target classifier, retrieval model, Grad-CAM localization, CMA-ES search, or complete MAIA attack loop was run for the public sample. This page demonstrates verified GACELA local regeneration only and reports paper-level results separately.
