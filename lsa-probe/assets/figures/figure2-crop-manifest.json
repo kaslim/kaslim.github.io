@@ -1,0 +1,87 @@
+{
+  "operation": "exterior near-white margin crop only",
+  "content_threshold": 210,
+  "padding_pixels": 8,
+  "panels": [
+    {
+      "source": "assets/figures/original-extracts/figure2-a-low-fpr-roc.png",
+      "output": "assets/figures/figure2-a-low-fpr-roc-cropped.png",
+      "source_size": [
+        1281,
+        845
+      ],
+      "crop_box": [
+        14,
+        13,
+        1262,
+        824
+      ],
+      "output_size": [
+        1248,
+        811
+      ],
+      "source_sha256": "c4253c264109292d9ecc81810dd480c7eab3b741b2a5a67212078efa3f6bd81d",
+      "output_sha256": "2034014022e3c0457bc960ca0c14b307066870003a168516c8c515fbf7e7e903"
+    },
+    {
+      "source": "assets/figures/original-extracts/figure2-b-timestep.png",
+      "output": "assets/figures/figure2-b-timestep-cropped.png",
+      "source_size": [
+        1049,
+        657
+      ],
+      "crop_box": [
+        5,
+        6,
+        1045,
+        650
+      ],
+      "output_size": [
+        1040,
+        644
+      ],
+      "source_sha256": "6acb900ce8f60d46cb16854a0e06960dc638cadb0ae30056a79c80eac61bae0d",
+      "output_sha256": "40a8b84b5f81843cb8fae34e749a108c2d3e8936fe7ece1492b407c21ca04807"
+    },
+    {
+      "source": "assets/figures/original-extracts/figure2-c-budget.png",
+      "output": "assets/figures/figure2-c-budget-cropped.png",
+      "source_size": [
+        1050,
+        657
+      ],
+      "crop_box": [
+        5,
+        6,
+        1042,
+        650
+      ],
+      "output_size": [
+        1037,
+        644
+      ],
+      "source_sha256": "9401adddb6c99d963052149eacb9ec3d10d3df175e8f0ec200c1ce6702795229",
+      "output_sha256": "52aab3d443bb518f2efd8537f448b2d655aa43284b6d454608c44e193e537a01"
+    },
+    {
+      "source": "assets/figures/original-extracts/figure2-d-metric.png",
+      "output": "assets/figures/figure2-d-metric-cropped.png",
+      "source_size": [
+        1050,
+        657
+      ],
+      "crop_box": [
+        5,
+        6,
+        1045,
+        648
+      ],
+      "output_size": [
+        1040,
+        642
+      ],
+      "source_sha256": "c21d7e517f52afe5f0057cfb75778b8fe46489499f69c279207ada4005b1fc4a",
+      "output_sha256": "7feb0881cbc8ba321ef5fbed0731b8f17691d8e5f59251e4bf8938965e7d7869"
+    }
+  ]
+}

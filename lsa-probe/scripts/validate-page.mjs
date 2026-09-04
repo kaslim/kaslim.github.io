@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -6,9 +7,10 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
 const html = read("index.html");
-const app = read("js/app.js");
+const app = read("js/app-v2.js");
 const i18nSource = read("js/i18n.js");
 const evidence = JSON.parse(read("data/evidence.json"));
+const cropManifest = JSON.parse(read("assets/figures/figure2-crop-manifest.json"));
 const en = JSON.parse(read("locales/en.json"));
 const zh = JSON.parse(read("locales/zh-CN.json"));
 const failures = [];
@@ -34,6 +36,8 @@ expected.forEach((values, index) => {
 assert(Math.max(...evidence.records.map((r) => r.lsa_probe.auc)) === .67, "Best AUC must be 0.67.");
 assert(Math.max(...evidence.records.map((r) => r.lsa_probe.tpr)) === .20, "Best TPR@1% FPR must be 0.20.");
 assert(html.includes("+3–8 pp") && !html.includes("+8%"), "Hero gain must be expressed in percentage points.");
+assert(html.includes('data-i18n="focus.result_gain_value">+3–8 pp</strong>'), "Focus evidence must lead with the absolute gain.");
+assert(html.includes("<strong>0.20</strong>") && html.includes("<strong>0.67</strong>"), "Focus evidence must retain 0.20 and 0.67.");
 
 const productionText = [html, app, i18nSource, JSON.stringify(evidence)].join("\n");
 const forbidden = [
@@ -42,6 +46,9 @@ const forbidden = [
   "adversarial_costs.json", "roc_curves.json", "budget_ablation.json", "metric_comparison.json", "baselines.json"
 ];
 for (const token of forbidden) assert(!productionText.includes(token), `Forbidden production token found: ${token}`);
+for (const spelling of ["authorised", "authorisation", "destabilise", "generalise", "optimisation", "regularisation", "memorisation", "Defences"]) {
+  assert(!`${html}\n${JSON.stringify(en)}`.includes(spelling), `British spelling remains in visible English copy: ${spelling}`);
+}
 
 const htmlKeys = new Set();
 for (const match of html.matchAll(/data-i18n(?:-aria-label|-alt)?="([^"]+)"/g)) htmlKeys.add(match[1]);
@@ -62,15 +69,29 @@ for (const ref of localRefs) assert(fs.existsSync(path.join(root, ref)), `Missin
 for (const relative of [
   "assets/figures/framework.png",
   "assets/figures/stability-schematic.png",
-  "assets/figures/figure2-a-low-fpr-roc.png",
-  "assets/figures/figure2-b-timestep.png",
-  "assets/figures/figure2-c-budget.png",
-  "assets/figures/figure2-d-metric.png"
+  "assets/figures/figure2-a-low-fpr-roc-cropped.png",
+  "assets/figures/figure2-b-timestep-cropped.png",
+  "assets/figures/figure2-c-budget-cropped.png",
+  "assets/figures/figure2-d-metric-cropped.png"
 ]) {
   assert(fs.statSync(path.join(root, relative)).size > 10_000, `Figure asset is unexpectedly small: ${relative}`);
 }
 
-assert((html.match(/data-focus-step="[1-8]"/g) || []).length === 8, "Focus View must expose exactly eight steps.");
+assert((html.match(/data-focus-slide="[1-8]"/g) || []).length === 8, "Focus View must expose exactly eight dedicated presentation steps.");
+assert(html.includes("js/app-v2.js") && !html.includes('src="js/app.js"'), "Production must load only the current interaction script.");
+assert(!i18nSource.includes("localStorage.getItem"), "A parameterless URL must not inherit language from localStorage.");
+assert(app.includes("slide.scrollTop = 0"), "Focus step changes must reset the content scroll position.");
+assert(cropManifest.panels.length === 4, "Figure 2 crop manifest must contain four panels.");
+for (const panel of cropManifest.panels) {
+  const source = path.join(root, panel.source);
+  const output = path.join(root, panel.output);
+  const digest = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+  assert(fs.existsSync(source), `Missing preserved original Figure 2 panel: ${panel.source}`);
+  assert(fs.existsSync(output), `Missing cropped Figure 2 panel: ${panel.output}`);
+  assert(digest(source) === panel.source_sha256, `Original Figure 2 hash mismatch: ${panel.source}`);
+  assert(digest(output) === panel.output_sha256, `Cropped Figure 2 hash mismatch: ${panel.output}`);
+  assert(panel.output_size[0] <= panel.source_size[0] && panel.output_size[1] <= panel.source_size[1], `Invalid crop dimensions: ${panel.output}`);
+}
 assert(!/href="#"/.test(html), "Empty resource links are not allowed.");
 
 if (failures.length) {
@@ -86,3 +107,5 @@ console.log("- No production mock/random-data dependencies");
 console.log(`- Translation parity: ${Object.keys(en).length} keys`);
 console.log(`- Local assets: ${localRefs.length} references resolved`);
 console.log("- Focus View: 8 steps");
+console.log("- Figure 2: 4/4 preserved originals and verified crop hashes");
+console.log("- Parameterless URL language: English fallback independent of localStorage");

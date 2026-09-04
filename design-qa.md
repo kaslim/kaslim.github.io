@@ -31,6 +31,61 @@ final result: passed
 
 ---
 
+# Design QA — LSA-Probe Focus View interview increment
+
+## Visual truth and comparison evidence
+
+- Source visual truth: the user-supplied review captures in `/Users/yuxuanliu/Documents/秋招/audits/lsa-probe-2026-09-05/`, especially `05-focus-method-cn.png`, `07-focus-evidence-en.png`, `11-focus-reliability-en.png`, `10-focus-agent-bridge-en.png`, `03-paper-figures-cn.png`, and `08-mobile-overview-en.png`.
+- Implementation evidence: browser-rendered local captures in `/Users/yuxuanliu/Documents/秋招/audits/lsa-probe-2026-09-05-round2/`.
+- Matched full-view comparisons: `comparison-method-before-after-1280x720.png` and `comparison-figure2-before-after.png`; each places the source and implementation in one comparison image.
+- Desktop Focus evidence: `local-focus-8steps-contact-sheet.png` at 1280 × 720 CSS pixels and `local-focus-8steps-contact-sheet-1440x900.png` at 1440 × 900 CSS pixels.
+- Mobile evidence: `local-mobile-nav-closed-390x844.png`, `local-mobile-nav-open-390x844.png`, `local-mobile-focus-step5-390x844.png`, `local-mobile-focus-step8-390x844.png`, and `local-mobile-evidence-390x844.png` at 390 × 844 CSS pixels.
+- Focused-region evidence: `local-walkthrough-modal-1280x720.png`, `local-programmatic-focus-step5-1280x720.png`, and `local-figure2-cropped-1280x720.png`.
+- Density normalization: browser captures were compared at 1 CSS pixel to 1 screenshot pixel. The Figure 2 source and implementation captures are both 1265 × 712 pixels; the Focus method source and implementation captures are both 1280 × 720 pixels.
+- States compared: Focus steps 1–8, method figure, algorithm dialog, low-FPR evidence, reliability/limitations, Agent Safety boundary, Figure 2, mobile closed/open navigation, mobile evidence, and mobile Focus steps 5 and 8.
+
+## Findings
+
+- P0: none.
+- P1: none remaining.
+- P2 fixed: the floating Focus footer obscured method, reliability and Agent Safety content. Focus mode now uses three independent `100dvh` grid rows for header, content and controls.
+- P2 fixed: the previous method screen overflowed and showed a large programmatic heading outline. The method figure is capped at the requested viewport-relative height, the walkthrough opens in a separate dialog, and non-interactive programmatic H2 focus is visually neutral.
+- P2 fixed: Focus omitted the two-threshold distinction and time normalization. They now form a dedicated fourth step with three cards and the paper-aligned formulas.
+- P2 fixed: Figure 2 panels contained excessive near-white extraction margins. Originals are preserved byte-for-byte under `lsa-probe/assets/figures/original-extracts/`; production uses verified rectangular margin-only crops at native aspect ratio.
+- P2 fixed: mobile navigation clipped horizontally. A keyboard-accessible in-flow Sections menu now exposes every ordinary section without covering the hero.
+- P2 fixed: parameterless visits could inherit Chinese from local storage. A URL without a valid `lang` parameter now always initializes in English; explicit language switches update the URL while preserving Focus step and hash.
+
+## Required fidelity surfaces
+
+- Fonts and typography: existing family, weights and research-page hierarchy are preserved; compact Focus variants reduce spacing without shrinking Chinese independently.
+- Spacing and layout rhythm: all eight desktop steps fit their content row at 1280 × 720 and 1440 × 900; measured stage and footer rectangles meet without overlap.
+- Colors and visual tokens: the established dark surfaces, mint accent, amber scientific-boundary treatment and focus-ring tokens are unchanged.
+- Image quality and asset fidelity: the author framework figure remains unchanged; Figure 2 pixels inside each crop rectangle exactly match the preserved original extraction, with no redraw, resampling or forced aspect ratio.
+- Copy and content: Focus View reorganizes audited paper content only. The exact Table 1 values, aggregate-vs-sample boundary, strong white-box limitation and Agent Safety non-transfer boundary remain explicit.
+
+## Interaction and accessibility checks
+
+- Previous/Next, ArrowLeft/ArrowRight and Escape were exercised in the in-app browser.
+- Step changes reset the new slide's internal scroll position to zero.
+- Algorithm and image dialogs close with Escape and return focus to their triggering buttons.
+- Programmatic Focus headings remain available to assistive technology without a button-like visual outline; actual controls retain visible `:focus-visible` rings.
+- The mobile Sections menu sends focus to its first link when opened, closes with Escape, and returns focus to the trigger.
+- Language deep links, language switching on Focus step 8, Evidence Explorer combinations, percentage display, citation copy, mobile layout and browser-console state were tested.
+- Browser console log checks returned no errors. This is an implementation-level accessibility check, not a claim of full WCAG certification.
+
+## Comparison history
+
+1. Source review showed a floating footer covering the framework image and lower scientific content, missing Focus explanations, oversized Figure 2 canvases and clipped mobile navigation.
+2. The layout, Focus composition, image assets, language state and mobile navigation were updated without changing ordinary-mode scientific sections.
+3. Same-state comparisons at 1280 × 720 confirmed that the method figure and controls now fit in independent rows and that the large H2 focus rectangle is gone.
+4. Same-size Figure 2 comparison confirmed that only outer near-white margins were removed; the plots are larger and retain their original data, axes, colors and legends.
+5. Geometry checks across every Focus step at 1280 × 720 and 1440 × 900 reported no content/footer overlap and no horizontal overflow. Mobile checks at 390 × 844 reported no horizontal overflow and an independent footer with scroll confined to the content row where necessary.
+6. Final static validation passed exact Table 1 values, translation parity, asset resolution, production-script dependency checks and Figure 2 crop hashes.
+
+final result: passed
+
+---
+
 # Design QA — LSA-Probe evidence-first rebuild
 
 ## Visual truth and comparison evidence

@@ -9,8 +9,7 @@
     const params = new URLSearchParams(window.location.search);
     const fromUrl = params.get("lang");
     if (fromUrl) return SUPPORTED.has(fromUrl) ? fromUrl : FALLBACK;
-    const saved = window.localStorage.getItem("lsa-probe-language");
-    return SUPPORTED.has(saved) ? saved : FALLBACK;
+    return FALLBACK;
   }
 
   async function loadDictionary(language) {
@@ -64,7 +63,6 @@
       current = FALLBACK;
       dictionary = await loadDictionary(FALLBACK);
     }
-    window.localStorage.setItem("lsa-probe-language", current);
     if (updateUrl) {
       const url = new URL(window.location.href);
       url.searchParams.set("lang", current);
