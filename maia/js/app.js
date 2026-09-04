@@ -60,6 +60,15 @@
         if (event.key === 'ArrowRight') { event.preventDefault(); moveFocus(1); }
     });
 
+    function stabilizeDeepLink() {
+        if (focusEnabled || !window.location.hash) return;
+        const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+        if (!target) return;
+        window.requestAnimationFrame(() => window.requestAnimationFrame(() => target.scrollIntoView({ block: 'start' })));
+    }
+    window.addEventListener('load', stabilizeDeepLink);
+    window.addEventListener('hashchange', stabilizeDeepLink);
+
     class VerifiedDemo {
         constructor() {
             this.sample = null;
