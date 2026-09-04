@@ -1,669 +1,478 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LSA-Probe: Membership Inference via Latent Stability Analysis for Music Diffusion Models">
-    <meta name="keywords" content="Membership Inference, Diffusion Models, Music Generation, Adversarial Attacks, AI Security">
-    <title>LSA-Probe: Latent Stability Adversarial Probe | ICASSP 2026</title>
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- KaTeX for math rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    
-    <!-- D3.js for visualizations -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/main.css?v=20260816a">
-    <link rel="stylesheet" href="css/explorer.css">
-    <link rel="stylesheet" href="css/algorithm.css">
-    <link rel="stylesheet" href="css/diffusion-viz.css">
-    <link rel="stylesheet" href="css/mia-diffusion-anim.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evidence-first research page for LSA-Probe, a white-box membership audit for music diffusion models.">
+  <meta name="theme-color" content="#0b0f17">
+  <title>LSA-Probe · Evidence-first membership auditing</title>
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <a href="../" class="nav-brand">
-                <span>← </span><span>LSA-Probe</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#problem">Problem</a></li>
-                <li><a href="#diffusion-overview">Mechanism</a></li>
-                <li><a href="#mia-diffusion-mia">MIA Demo</a></li>
-                <li><a href="#method">Method</a></li>
-                <li><a href="#explorer">Explorer</a></li>
-                <li><a href="#results">Results</a></li>
-                <li><a href="#resources">Resources</a></li>
-            </ul>
-        </div>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <a class="brand" href="#overview" aria-label="LSA-Probe overview">
+      <span class="brand-mark" aria-hidden="true">LSA</span>
+      <span>Probe</span>
+    </a>
+    <nav class="primary-nav" aria-label="Primary navigation" data-i18n-aria-label="a11y.primary_nav">
+      <a href="#overview" data-i18n="nav.overview">Overview</a>
+      <a href="#audit-question" data-i18n="nav.audit">Audit Question</a>
+      <a href="#threat-model" data-i18n="nav.threat">Threat Model</a>
+      <a href="#core-insight" data-i18n="nav.insight">Core Insight</a>
+      <a href="#method" data-i18n="nav.method">Method</a>
+      <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
+      <a href="#reliability" data-i18n="nav.reliability">Reliability</a>
+      <a href="#agent-safety" data-i18n="nav.agent">Agent Safety</a>
+      <a href="#resources" data-i18n="nav.resources">Resources</a>
     </nav>
+    <div class="header-actions">
+      <button class="button button-quiet" id="language-toggle" type="button" aria-label="Switch language" data-i18n-aria-label="a11y.language">中文</button>
+      <button class="button button-primary" id="focus-toggle" type="button" data-i18n="controls.focus">Focus View</button>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="venue-badge">ICASSP (Under Review)</div>
-                <h1 class="hero-title">LSA-Probe: Latent Stability Adversarial Probe</h1>
-                <h2 class="hero-subtitle">
-                    Membership Inference for Music Diffusion Models via Generative Manifold Perturbation
-                </h2>
-                <div class="hero-authors">
-                    Yuxuan Liu, Peizhuo Zhang, Ruiqi Sang, Zhiyong Li, Yan Tan, Yi Cai, Sheng Li
-                </div>
-                <div class="hero-affiliation">
-                    Xi'an Jiaotong-Liverpool University
-                </div>
-                <div class="hero-metrics">
-                    <div class="metric-item">
-                        <div class="metric-value">+8%</div>
-                        <div class="metric-label">TPR@1%FPR Improvement</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-value">0.67</div>
-                        <div class="metric-label">AUC</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-value">4</div>
-                        <div class="metric-label">Model-Dataset Pairs</div>
-                    </div>
-                </div>
-                <div class="hero-cta">
-                    <a href="#explorer" class="btn btn-primary">Try Interactive Demo</a>
-                    <a href="#resources" class="btn btn-secondary">View Paper</a>
-                </div>
-            </div>
+  <main id="main">
+    <section class="hero section-shell" id="overview" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.venue">ICASSP 2026 · Oral · Information Forensics and Security</p>
+        <h1 id="hero-title">LSA-Probe</h1>
+        <p class="paper-title" data-i18n="hero.paper_title">Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation</p>
+        <p class="hero-deck" data-i18n="hero.deck">We replace a noisy endpoint signal with a behavioral stability score: the minimum time-normalized latent perturbation required to cross a fixed perceptual degradation threshold.</p>
+        <p class="authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Yizhou Tan, Yiqiang Cai, Shengchen Li</p>
+        <p class="affiliation">Xi’an Jiaotong-Liverpool University, Suzhou, China</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#method" data-i18n="hero.cta_method">Understand the method</a>
+          <a class="button button-secondary" href="#evidence" data-i18n="hero.cta_evidence">Inspect the evidence</a>
+          <a class="button button-quiet" href="https://arxiv.org/abs/2602.01645" target="_blank" rel="noreferrer" data-i18n="hero.cta_paper">Read the paper</a>
         </div>
+      </div>
+      <aside class="hero-ledger" aria-label="Headline evidence" data-i18n-aria-label="a11y.headline_evidence">
+        <p class="ledger-kicker" data-i18n="hero.ledger_title">Paper-level evidence</p>
+        <div class="metric-row">
+          <strong>+3–8 pp</strong>
+          <span data-i18n="hero.metric_gain">TPR@1% FPR gain</span>
+        </div>
+        <div class="metric-row">
+          <strong>0.67</strong>
+          <span data-i18n="hero.metric_auc">Best observed AUC</span>
+        </div>
+        <div class="metric-row">
+          <strong>2 × 2</strong>
+          <span data-i18n="hero.metric_scope">Model families × datasets</span>
+        </div>
+        <p class="ledger-note" data-i18n="hero.ledger_note">Aggregate results, not a claim about every sample.</p>
+      </aside>
     </section>
 
-    <!-- Problem Section -->
-    <section id="problem" class="section section-dark">
-        <div class="container">
-            <h2 class="section-title">The Challenge</h2>
-            <p class="section-subtitle">Why existing MIA methods fail for audio diffusion models</p>
-            
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">🎵</div>
-                    <h3>High-Dimensional Audio</h3>
-                    <p>
-                        Audio waveforms are high-dimensional (16kHz × 10s = 160k samples).
-                        Traditional loss-based MIA methods struggle with such complex data.
-                    </p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">🌊</div>
-                    <h3>Diffusion Dynamics</h3>
-                    <p>
-                        Diffusion models have complex denoising trajectories. Simple likelihood
-                        comparisons fail to capture membership signals across timesteps.
-                    </p>
-                </div>
-                <div class="problem-card">
-                    <div class="problem-icon">⚡</div>
-                    <h3>Latent Stability</h3>
-                    <p>
-                        Members exhibit <strong>higher stability</strong> in latent space under adversarial
-                        perturbations. This is our key insight for improved detection.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="comparison-chart">
-                <h3 class="chart-title">Baseline Methods vs LSA-Probe</h3>
-                <div id="baseline-comparison-chart"></div>
-            </div>
+    <section class="content-section section-shell focus-section" id="audit-question" data-focus-step="1" aria-labelledby="audit-title">
+      <div class="section-heading">
+        <p class="section-number">01</p>
+        <div>
+          <p class="eyebrow" data-i18n="audit.kicker">Audit question</p>
+          <h2 id="audit-title" data-i18n="audit.title">What are we auditing?</h2>
+          <p data-i18n="audit.intro">Given a candidate audio clip and an audited music diffusion model, estimate whether the clip was used during training.</p>
         </div>
+      </div>
+      <div class="audit-flow" role="img" aria-label="Candidate audio is evaluated through an audited diffusion model to produce a membership audit score" data-i18n-aria-label="a11y.audit_flow">
+        <div><span>01</span><strong data-i18n="audit.flow_candidate">Candidate audio clip</strong></div>
+        <div><span>02</span><strong data-i18n="audit.flow_model">Audited music diffusion model</strong></div>
+        <div><span>03</span><strong data-i18n="audit.flow_question">Was this clip used during training?</strong></div>
+      </div>
+      <div class="two-column compact-grid">
+        <article class="definition-card">
+          <p class="card-label" data-i18n="audit.member_label">Member</p>
+          <p data-i18n="audit.member_body">The clip belongs to the target model’s training set.</p>
+        </article>
+        <article class="definition-card">
+          <p class="card-label" data-i18n="audit.nonmember_label">Non-member</p>
+          <p data-i18n="audit.nonmember_body">The clip was not included in the target model’s training set.</p>
+        </article>
+      </div>
+      <aside class="boundary-note">
+        <strong data-i18n="audit.boundary_title">Evidence boundary</strong>
+        <p data-i18n="audit.boundary">Membership inference produces a statistical audit signal. It is not training-data extraction, model inversion, attribute inference, or standalone legal proof of copyright infringement.</p>
+      </aside>
     </section>
 
-    <!-- Diffusion Process & Attack Overview Section -->
-    <section id="diffusion-overview" class="diffusion-overview-section">
-        <div class="container">
-            <h2 class="section-title">Diffusion Process & Attack Mechanism</h2>
-            <p class="section-subtitle">Understanding how we probe membership through latent perturbations</p>
-            
-            <div class="diffusion-flow-container">
-                <!-- Clean Forward Process -->
-                <div class="flow-card clean-forward">
-                    <h3 class="flow-title">1. Forward Diffusion</h3>
-                    <div class="flow-canvas-wrapper">
-                        <canvas id="flow-canvas-forward" class="flow-canvas"></canvas>
-                    </div>
-                    <div class="flow-equation">
-                        xₜ = √(ᾱₜ)x₀ + √(1-ᾱₜ)ε
-                    </div>
-                    <p class="flow-description">
-                        Add Gaussian noise to clean audio x₀ to get noisy latent xₜ at timestep t
-                    </p>
-                </div>
-                
-                <!-- Clean Reverse Process -->
-                <div class="flow-card clean-reverse">
-                    <h3 class="flow-title">2. Clean Reverse</h3>
-                    <div class="flow-canvas-wrapper">
-                        <canvas id="flow-canvas-reverse" class="flow-canvas"></canvas>
-                    </div>
-                    <div class="flow-equation">
-                        x̂₀ = Rₜ(xₜ; θ)
-                    </div>
-                    <p class="flow-description">
-                        Denoise xₜ back to clean reconstruction x̂₀ using the reverse operator Rₜ
-                    </p>
-                </div>
-                
-                <!-- Attacked Reverse Process -->
-                <div class="flow-card attacked-reverse">
-                    <h3 class="flow-title">3. Attacked Reverse</h3>
-                    <div class="flow-canvas-wrapper">
-                        <canvas id="flow-canvas-attacked" class="flow-canvas"></canvas>
-                    </div>
-                    <div class="flow-equation">
-                        x̂₀^δ = Rₜ(xₜ + δₜ; θ)
-                    </div>
-                    <p class="flow-description">
-                        Inject time-normalized perturbation δₜ = σₜδ̃ at xₜ, then denoise to get degraded x̂₀^δ
-                    </p>
-                </div>
-            </div>
-            
-            <div class="diffusion-key-insights">
-                <h3>Key Insights</h3>
-                <ul class="insight-list">
-                    <li>
-                        <strong>At timestep t (t≈0.6T):</strong> We inject a time-normalized perturbation δₜ = σₜδ̃ 
-                        where σₜ = √(1-ᾱₜ) matches the forward noise scale
-                    </li>
-                    <li>
-                        <strong>Measure perceptual distance:</strong> D(x̂₀, x̂₀^δ) using CDPAM or MR-STFT 
-                        to quantify degradation in human-perceivable quality
-                    </li>
-                    <li>
-                        <strong>Adversarial cost C<sub>adv</sub>:</strong> Minimum budget η needed to reach 
-                        degradation threshold τ. Members require <em>larger η</em> (more stable) than non-members
-                    </li>
-                    <li>
-                        <strong>Mid-trajectory is optimal:</strong> Early timesteps (t→0) have too much noise; 
-                        late timesteps (t→T) are nearly clean. Mid-trajectory (t≈0.6T) shows best separability
-                    </li>
-                </ul>
-            </div>
+    <section class="content-section section-shell focus-section" id="threat-model" data-focus-step="2" aria-labelledby="threat-title">
+      <div class="section-heading">
+        <p class="section-number">02</p>
+        <div>
+          <p class="eyebrow" data-i18n="threat.kicker">Access assumptions</p>
+          <h2 id="threat-title" data-i18n="threat.title">A strong, explicit white-box threat model</h2>
+          <p data-i18n="threat.intro">LSA-Probe is designed for a developer or authorised auditor who can inspect and differentiate through the model’s reverse process.</p>
         </div>
+      </div>
+      <div class="threat-layout">
+        <div class="access-chain" aria-label="Authorised auditor access chain" data-i18n-aria-label="a11y.threat_flow">
+          <div>
+            <span class="chain-overline" data-i18n="threat.actor_label">Actor</span>
+            <strong data-i18n="threat.actor">Developer / authorised auditor</strong>
+          </div>
+          <div>
+            <span class="chain-overline" data-i18n="threat.access_label">Access</span>
+            <strong data-i18n="threat.access">Parameters, sampler, intermediate states, gradients</strong>
+          </div>
+          <div>
+            <span class="chain-overline" data-i18n="threat.output_label">Output</span>
+            <strong data-i18n="threat.output">Statistical membership audit score</strong>
+          </div>
+        </div>
+        <ul class="check-list">
+          <li data-i18n="threat.point1">Can run forward diffusion and deterministic reverse sampling.</li>
+          <li data-i18n="threat.point2">Can compute gradients with respect to an intermediate diffusion state.</li>
+          <li data-i18n="threat.point3">Does not need shadow models or member labels from the target model.</li>
+          <li data-i18n="threat.point4">Does need an independent non-member development set for calibration.</li>
+        </ul>
+      </div>
+      <aside class="boundary-note">
+        <strong data-i18n="threat.boundary_title">Operational boundary</strong>
+        <p data-i18n="threat.boundary">LSA-Probe is best understood as an authorised internal audit method, not a remote black-box attack available to an ordinary user.</p>
+      </aside>
     </section>
 
-    <!-- Diffusion-MIA Animation Section -->
-    <section id="mia-diffusion-mia" class="section">
-        <div class="container">
-            <h2 class="section-title">Diffusion Model Membership Inference (Waveform-based)</h2>
-            <p class="section-subtitle">
-                Interactive visualization of how membership inference works through forward diffusion and reverse denoising.
-                Compare reconstruction quality to detect if a sample was in the training set.
-            </p>
-            
-            <!-- Three Panel Layout -->
-            <div class="panels-container">
-                <!-- Panel A: Clean Spectrogram (x0) -->
-                <div class="panel">
-                    <h3 class="panel-title">x₀ (Clean Spectrogram)</h3>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="mia-canvas-x0" class="panel-canvas" 
-                                aria-label="Clean spectrogram visualization"></canvas>
-                    </div>
-                </div>
-                
-                <!-- Arrow 1 -->
-                <div class="arrow-connector arrow-1" aria-hidden="true">
-                    <div class="arrow-label">Forward diffusion (to t)</div>
-                </div>
-                
-                <!-- Panel B: Noisy Spectrogram (xt) -->
-                <div class="panel">
-                    <h3 class="panel-title">xₜ (Noisy Spectrogram at timestep t)</h3>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="mia-canvas-xt" class="panel-canvas"
-                                aria-label="Noisy spectrogram at current timestep"></canvas>
-                    </div>
-                </div>
-                
-                <!-- Arrow 2 -->
-                <div class="arrow-connector arrow-2" aria-hidden="true">
-                    <div class="arrow-label">Reverse denoise</div>
-                </div>
-                
-                <!-- Panel C: Reconstructed Spectrogram (x̂0) -->
-                <div class="panel">
-                    <h3 class="panel-title">x̂₀ (Reconstruction after reverse denoise)</h3>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="mia-canvas-xhat0" class="panel-canvas"
-                                aria-label="Reconstructed spectrogram after denoising"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Controls Section -->
-            <div class="controls-section">
-                <div class="controls-row">
-                    <!-- Play/Pause Button -->
-                    <div class="control-group">
-                        <button id="mia-play-btn" class="btn btn-primary" 
-                                aria-label="Play animation">
-                            ▶ Play
-                        </button>
-                    </div>
-                    
-                    <!-- Timestep Slider -->
-                    <div class="control-group">
-                        <label for="mia-timestep-slider" class="control-label">
-                            Diffusion Timestep (t)
-                        </label>
-                        <input type="range" 
-                               id="mia-timestep-slider" 
-                               class="slider"
-                               min="0" 
-                               max="100" 
-                               value="50"
-                               step="1"
-                               aria-label="Diffusion timestep slider">
-                        <div class="slider-value">
-                            t = <span id="mia-timestep-value">50</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Member/Non-member Toggle -->
-                    <div class="control-group">
-                        <label for="mia-case-toggle" class="control-label">
-                            Sample Type
-                        </label>
-                        <div style="display: flex; align-items: center;">
-                            <label class="toggle-switch">
-                                <input type="checkbox" 
-                                       id="mia-case-toggle" 
-                                       checked
-                                       aria-label="Toggle between member and non-member case">
-                                <span class="toggle-slider"></span>
-                            </label>
-                            <span class="toggle-label" id="mia-case-label">Member-case</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Distance & Threshold Display -->
-            <div class="distance-section">
-                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--color-text);">
-                    Reconstruction Distance (Δ)
-                </h3>
-                <div class="distance-display">
-                    <div class="distance-value" id="mia-delta-value" aria-live="polite">
-                        0.250
-                    </div>
-                    
-                    <div class="distance-bar-container">
-                        <div class="distance-bar" id="mia-delta-bar" style="width: 31.25%;"></div>
-                        <div class="threshold-line" id="mia-threshold-line" style="left: 43.75%;" aria-hidden="true">
-                            <div class="threshold-label">τ = 0.35</div>
-                        </div>
-                    </div>
-                    
-                    <div class="judgment-label member" id="mia-judgment-label" role="status" aria-live="polite">
-                        ✓ Likely Member
-                    </div>
-                </div>
-                
-                <p style="margin-top: 1.5rem; color: var(--color-text-dim); font-size: 0.9rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                    <strong>Interpretation:</strong> When Δ (reconstruction error) is below the threshold τ, 
-                    the sample is more likely a <strong style="color: #029E73;">member</strong> (model learned it well). 
-                    When Δ exceeds τ, it's more likely a <strong style="color: #DE8F05;">non-member</strong> 
-                    (model struggles to reconstruct unseen data).
-                </p>
-            </div>
+    <section class="content-section section-shell focus-section" id="endpoint-loss" data-focus-step="3" aria-labelledby="endpoint-title">
+      <div class="section-heading">
+        <p class="section-number">03</p>
+        <div>
+          <p class="eyebrow" data-i18n="endpoint.kicker">Why the baseline is weak</p>
+          <h2 id="endpoint-title" data-i18n="endpoint.title">Why endpoint reconstruction error is insufficient</h2>
+          <p data-i18n="endpoint.intro">A single reconstruction loss is a noisy endpoint observation, especially in the strict low-FPR regime that matters for high-cost audits.</p>
         </div>
+      </div>
+      <div class="factor-grid">
+        <article><strong data-i18n="endpoint.factor1_title">Timestep</strong><p data-i18n="endpoint.factor1_body">Reconstruction error changes with the diffusion state.</p></article>
+        <article><strong data-i18n="endpoint.factor2_title">Randomness</strong><p data-i18n="endpoint.factor2_body">Injected noise and sampling choices alter the endpoint.</p></article>
+        <article><strong data-i18n="endpoint.factor3_title">Content</strong><p data-i18n="endpoint.factor3_body">Timbre and musical complexity can confound raw loss.</p></article>
+        <article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article>
+      </div>
+      <blockquote data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilise the local reverse process.</blockquote>
+      <div class="timeline-card">
+        <p class="card-label" data-i18n="endpoint.timeline_title">Correct diffusion-time direction</p>
+        <div class="timeline-labels">
+          <span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span>
+          <span><strong>t≈0.6T</strong><small data-i18n="endpoint.mid">Mid-trajectory; strongest separation here</small></span>
+          <span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span>
+        </div>
+      </div>
     </section>
 
-    <!-- Method Section -->
-    <section id="method" class="section">
-        <div class="container">
-            <h2 class="section-title">Two-Loop Adversarial Probe</h2>
-            <p class="section-subtitle">Measuring latent stability through adaptive perturbation</p>
-            
-            <div class="method-overview">
-                <div class="method-description">
-                    <h3>Core Idea</h3>
-                    <p>
-                        We measure <strong>adversarial cost</strong> \(C_{\text{adv}}\): the minimum perturbation budget
-                        needed to degrade reconstruction quality below a threshold. Members require
-                        <strong>higher budgets</strong> (more stable) than non-members.
-                    </p>
-                    
-                    <h3>Algorithm</h3>
-                    <div class="algorithm-box">
-                        <div class="algorithm-step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <strong>Outer Loop:</strong> Binary search for minimum budget \(\eta\)
-                                where degradation \(D \geq \tau\)
-                            </div>
-                        </div>
-                        <div class="algorithm-step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <strong>Inner Loop:</strong> PGD optimization to maximize degradation
-                                under budget constraint \(\|\delta\|_p \leq \eta\)
-                            </div>
-                        </div>
-                        <div class="algorithm-step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <strong>Output:</strong> Adversarial cost \(C_{\text{adv}} = \eta^*\)
-                                (higher = more stable = member)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="algorithm-visualization">
-                    <h3>Interactive Visualization</h3>
-                    <div id="algorithm-canvas-container">
-                        <canvas id="algorithm-canvas" width="600" height="500"></canvas>
-                        <div class="algorithm-controls">
-                            <button id="play-algorithm" class="btn btn-primary">▶ Play</button>
-                            <button id="reset-algorithm" class="btn btn-secondary">↺ Reset</button>
-                            <div class="control-group">
-                                <label>Sample Type:</label>
-                                <select id="sample-type">
-                                    <option value="member">Member (Higher Stability)</option>
-                                    <option value="non-member">Non-Member (Lower Stability)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="algorithm-status"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Stability Comparison -->
-            <div class="stability-comparison-section">
-                <h3>Member vs Non-Member Stability</h3>
-                <p>Members reside in more stable regions of the generative manifold, requiring larger perturbation budgets to reach the same degradation threshold</p>
-                
-                <div class="stability-canvas-container">
-                    <canvas id="stability-canvas"></canvas>
-                </div>
-                
-                <div class="stability-legend">
-                    <div class="stability-legend-item">
-                        <div class="legend-line member"></div>
-                        <span>Member: Slower degradation (C<sub>adv</sub> ≈ 0.58)</span>
-                    </div>
-                    <div class="stability-legend-item">
-                        <div class="legend-line non-member"></div>
-                        <span>Non-Member: Faster degradation (C<sub>adv</sub> ≈ 0.29)</span>
-                    </div>
-                </div>
-                
-                <div class="stability-explanation">
-                    The plot shows degradation D(x̂₀, x̂₀^δ) vs. perturbation budget η. 
-                    The horizontal dashed line marks the degradation threshold τ. 
-                    Members (blue curve) require nearly <strong>2× the budget</strong> to reach τ compared to non-members (orange curve), 
-                    providing a robust signal for membership inference.
-                </div>
-            </div>
-            
-            <!-- Perceptual Distance Explanation -->
-            <div class="perceptual-distance-section">
-                <h3>Why Perceptual Distance?</h3>
-                <p>
-                    We use perceptual audio quality metrics instead of simple MSE to measure degradation 
-                    because they better align with human perception of audio quality changes.
-                </p>
-                
-                <div class="distance-metrics-grid">
-                    <div class="distance-metric-card">
-                        <h4>CDPAM</h4>
-                        <p>
-                            Cognitive Model of Perceptual Audio Quality - captures psychoacoustic 
-                            phenomena like masking and frequency sensitivity
-                        </p>
-                    </div>
-                    <div class="distance-metric-card">
-                        <h4>MR-STFT</h4>
-                        <p>
-                            Multi-Resolution STFT distance - measures spectral differences across 
-                            multiple time-frequency resolutions
-                        </p>
-                    </div>
-                    <div class="distance-metric-card">
-                        <h4>Log-Mel MSE</h4>
-                        <p>
-                            Mean squared error on log-mel spectrograms - captures timbral and 
-                            spectral characteristics
-                        </p>
-                    </div>
-                    <div class="distance-metric-card">
-                        <h4>Waveform MSE</h4>
-                        <p>
-                            Direct waveform comparison - serves as a simple baseline but less 
-                            perceptually aligned
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="timestep-insight">
-                <h3>Why Timestep Matters</h3>
-                <p>
-                    Different diffusion timesteps \(t\) reveal different membership signals.
-                    <strong>Mid-trajectory</strong> (t ≈ 0.6T) shows best separability between members and non-members.
-                </p>
-                <div class="timestep-diagram">
-                    <div class="timestep-stage">
-                        <div class="stage-label">Early (t→0)</div>
-                        <div class="stage-description">Nearly pure noise<br/>Low signal</div>
-                    </div>
-                    <div class="timestep-stage active">
-                        <div class="stage-label">Mid (t≈0.6T)</div>
-                        <div class="stage-description">Best separability<br/>★ Optimal</div>
-                    </div>
-                    <div class="timestep-stage">
-                        <div class="stage-label">Late (t→T)</div>
-                        <div class="stage-description">Clear reconstruction<br/>Less distinctive</div>
-                    </div>
-                </div>
-            </div>
+    <section class="content-section section-shell focus-section" id="core-insight" data-focus-step="4" aria-labelledby="insight-title">
+      <div class="section-heading">
+        <p class="section-number">04</p>
+        <div>
+          <p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p>
+          <h2 id="insight-title" data-i18n="insight.title">Measure the intervention required to break local stability</h2>
+          <p data-i18n="insight.body">Training members empirically occupy more stable local regions of the learned reverse mapping. They require a larger bounded perturbation to reach the same perceptual degradation target.</p>
         </div>
+      </div>
+      <div class="insight-layout">
+        <figure class="research-figure schematic-figure">
+          <div class="axis-label axis-y" data-i18n="insight.axis_y">Perceptual degradation D</div>
+          <img src="assets/figures/stability-schematic.png" alt="Conceptual curves where the member reaches the same degradation threshold at a larger perturbation budget" data-i18n-alt="a11y.stability_alt" width="1672" height="941">
+          <div class="axis-label axis-x" data-i18n="insight.axis_x">Perturbation budget η</div>
+          <figcaption>
+            <span class="legend-item"><i class="swatch amber"></i><span data-i18n="insight.nonmember_curve">Non-member schematic</span></span>
+            <span class="legend-item"><i class="swatch mint"></i><span data-i18n="insight.member_curve">Member schematic</span></span>
+            <strong data-i18n="insight.caption">Conceptual schematic — not measured sample data</strong>
+          </figcaption>
+        </figure>
+        <aside class="equation-card">
+          <p class="card-label" data-i18n="insight.score_label">Audit score</p>
+          <p class="equation">C<sub>adv</sub>(x) = min η</p>
+          <p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p>
+          <div class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</div>
+          <p class="fine-print" data-i18n="insight.caution">This is an empirical local-geometric interpretation, not an analytic recovery of a data manifold or a universal claim about diffusion models.</p>
+        </aside>
+      </div>
+      <div class="threshold-panel" aria-labelledby="threshold-title">
+        <div class="panel-head">
+          <p class="eyebrow" data-i18n="threshold.kicker">A critical distinction</p>
+          <h3 id="threshold-title" data-i18n="threshold.title">Two thresholds, two different jobs</h3>
+        </div>
+        <div class="threshold-flow">
+          <article>
+            <span>1</span>
+            <h4 data-i18n="threshold.tau_title">Perceptual degradation threshold τ</h4>
+            <p class="equation-small">D(x̂<sub>0</sub>, x̂<sub>0</sub><sup>δ</sup>) ≥ τ</p>
+            <p data-i18n="threshold.tau_body">Defines the degradation target. It is calibrated as P95 on an independent non-member development set at ηref=0.05. It is not the membership cutoff.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h4 data-i18n="threshold.score_title">Adversarial cost Cadv</h4>
+            <p data-i18n="threshold.score_body">Measures the minimum time-normalized budget required to reach τ for each candidate.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h4 data-i18n="threshold.decision_title">Membership decision cutoff</h4>
+            <p data-i18n="threshold.decision_body">A separate cutoff on Cadv defines the operating point, such as FPR=1%, and yields TPR@1% FPR.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- Interactive Explorer Section -->
-    <section id="explorer" class="section section-dark">
-        <div class="container">
-            <h2 class="section-title">Interactive Explorer</h2>
-            <p class="section-subtitle">Explore how adversarial cost distributions change across diffusion timesteps</p>
-            
-            <div class="explorer-container">
-                <!-- Timestep Control -->
-                <div class="control-panel">
-                    <div class="control-header">
-                        <h3>Diffusion Timestep</h3>
-                        <div class="current-timestep">
-                            t_ratio = <span id="current-t-value">0.6</span>
-                        </div>
-                    </div>
-                    <div class="slider-container">
-                        <input type="range" id="timestep-slider" 
-                               min="0.2" max="0.8" step="0.2" value="0.6"
-                               class="timestep-slider">
-                        <div class="slider-labels">
-                            <span>0.2</span>
-                            <span>0.4</span>
-                            <span>0.6</span>
-                            <span>0.8</span>
-                        </div>
-                    </div>
-                    <div class="timestep-hint">
-                        Move the slider to see how adversarial costs change with timestep
-                    </div>
-                </div>
-                
-                <!-- Distribution Chart -->
-                <div class="chart-panel">
-                    <h3>Adversarial Cost Distribution</h3>
-                    <div id="distribution-chart"></div>
-                    <div class="chart-legend">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #0173B2;"></div>
-                            <span>Members (Training Data)</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #DE8F05;"></div>
-                            <span>Non-Members (Unseen Data)</span>
-                        </div>
-                    </div>
-                    <div class="separability-metric">
-                        Separability (AUC): <span id="current-auc">0.67</span>
-                    </div>
-                </div>
-                
-                <!-- ROC Curve -->
-                <div class="chart-panel">
-                    <h3>ROC Curve</h3>
-                    <div id="roc-chart"></div>
-                    <div class="roc-metrics">
-                        <div class="roc-metric">
-                            <span class="metric-label">TPR @ 0.1% FPR:</span>
-                            <span class="metric-value" id="tpr-01">5.1%</span>
-                        </div>
-                        <div class="roc-metric">
-                            <span class="metric-label">TPR @ 1% FPR:</span>
-                            <span class="metric-value" id="tpr-1">20.0%</span>
-                        </div>
-                        <div class="roc-metric">
-                            <span class="metric-label">TPR @ 5% FPR:</span>
-                            <span class="metric-value" id="tpr-5">42.0%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="content-section section-shell focus-section" id="method" data-focus-step="5" aria-labelledby="method-title">
+      <div class="section-heading">
+        <p class="section-number">05</p>
+        <div>
+          <p class="eyebrow" data-i18n="method.kicker">Two-loop adversarial probe</p>
+          <h2 id="method-title" data-i18n="method.title">Inner PGD finds direction; outer bisection finds cost</h2>
+          <p data-i18n="method.intro">The method searches for a strong local degradation direction at each budget, then finds the smallest successful budget.</p>
         </div>
+      </div>
+      <figure class="research-figure framework-figure">
+        <button class="image-button" type="button" data-dialog-image="assets/figures/framework.png" data-i18n-aria-label="a11y.enlarge_framework" aria-label="Enlarge the LSA-Probe framework figure">
+          <img src="assets/figures/framework.png" alt="LSA-Probe framework showing forward diffusion, time-normalized perturbation, inner PGD, outer bisection and membership decision" data-i18n-alt="a11y.framework_alt" width="2816" height="1536">
+        </button>
+        <figcaption data-i18n="method.framework_caption">Author-provided expanded framework, checked against Figure 1 in the paper. Image pixels are unchanged.</figcaption>
+      </figure>
+      <ol class="method-steps">
+        <li><span>01</span><p data-i18n="method.step1">Forward diffuse the candidate to an intermediate state.</p></li>
+        <li><span>02</span><p data-i18n="method.step2">Inject a time-normalized bounded perturbation.</p></li>
+        <li><span>03</span><p data-i18n="method.step3">Use inner PGD to find the strongest degradation direction.</p></li>
+        <li><span>04</span><p data-i18n="method.step4">Use outer bisection to find the minimum successful budget.</p></li>
+      </ol>
+      <div class="normalisation-note">
+        <p class="equation">δ<sub>t</sub> = σ<sub>t</sub> δ̃ &nbsp;&nbsp; σ<sub>t</sub> = √(1−ᾱ<sub>t</sub>)</p>
+        <p data-i18n="method.normalisation">The raw scale of an intervention is not comparable across diffusion timesteps because the forward noise variance changes with t. Scaling δ̃ by σt places the perturbation on the timestep’s natural noise scale.</p>
+      </div>
+      <details class="technical-details">
+        <summary data-i18n="method.details_title">Technical details</summary>
+        <div class="parameter-grid">
+          <div><span>t<sub>ratio</sub></span><strong>0.6</strong></div>
+          <div><span>p</span><strong>2</strong></div>
+          <div><span>η<sub>max</sub></span><strong>0.8</strong></div>
+          <div><span data-i18n="method.sampler">Sampler</span><strong>deterministic DDIM</strong></div>
+          <div><span data-i18n="method.outer">Outer bisection</span><strong>B = 10</strong></div>
+          <div><span data-i18n="method.inner">Inner PGD</span><strong>K = 12</strong></div>
+          <div><span data-i18n="method.restarts">Restarts</span><strong>r = 5</strong></div>
+          <div><span data-i18n="method.momentum">Momentum</span><strong>0.9</strong></div>
+          <div><span data-i18n="method.step_size">Step size</span><strong>α = βη/K</strong></div>
+          <div><span>β</span><strong>[0.2, 0.3]</strong></div>
+          <div><span data-i18n="method.metric">Primary metric</span><strong>CDPAM</strong></div>
+          <div><span data-i18n="method.stop">Early stopping</span><strong>ΔD/D &lt; 1% × 3 or ‖∇‖ &lt; 10<sup>−6</sup></strong></div>
+        </div>
+      </details>
+      <div class="walkthrough" aria-labelledby="walkthrough-title">
+        <div class="walkthrough-head">
+          <div>
+            <p class="eyebrow" data-i18n="walkthrough.kicker">Algorithm walkthrough · Illustrative control flow · Not a measured sample</p>
+            <h3 id="walkthrough-title" data-i18n="walkthrough.title">Watch the two loops coordinate</h3>
+          </div>
+          <div class="walkthrough-controls">
+            <button class="button button-secondary" type="button" id="walk-play" data-i18n="controls.play">Play</button>
+            <button class="button button-quiet" type="button" id="walk-pause" data-i18n="controls.pause">Pause</button>
+            <button class="button button-quiet" type="button" id="walk-step" data-i18n="controls.step">Step</button>
+            <button class="button button-quiet" type="button" id="walk-reset" data-i18n="controls.reset">Reset</button>
+          </div>
+        </div>
+        <div class="walkthrough-stage" aria-live="polite">
+          <div class="loop-state">
+            <span data-i18n="walkthrough.outer_label">Outer bisection interval</span>
+            <strong id="walk-interval">[0, ηmax]</strong>
+          </div>
+          <div class="loop-state">
+            <span data-i18n="walkthrough.inner_label">Inner PGD state</span>
+            <strong id="walk-pgd">δ̃(0)</strong>
+          </div>
+          <div class="loop-state">
+            <span data-i18n="walkthrough.check_label">Degradation check</span>
+            <strong id="walk-check">D ≥ τ ?</strong>
+          </div>
+          <div class="loop-state accent">
+            <span data-i18n="walkthrough.output_label">Symbolic output</span>
+            <strong id="walk-output">C<sub>adv</sub> ≈ u</strong>
+          </div>
+        </div>
+        <p class="walkthrough-status" id="walk-status" data-i18n="walkthrough.ready">Ready. Start with the full admissible interval.</p>
+      </div>
     </section>
 
-    <!-- Results Section -->
-    <section id="results" class="section">
-        <div class="container">
-            <h2 class="section-title">Experimental Results</h2>
-            <p class="section-subtitle">Comprehensive evaluation across models and datasets</p>
-            
-            <!-- Main Results Table -->
-            <div class="results-panel">
-                <h3>Main Results</h3>
-                <div id="main-results-table"></div>
-            </div>
-            
-            <div class="results-grid">
-                <!-- Budget Ablation -->
-                <div class="result-card">
-                    <h3>Budget Ablation</h3>
-                    <p>TPR@1%FPR vs. maximum budget \(\eta_{\text{max}}\)</p>
-                    <div id="budget-ablation-chart"></div>
-                </div>
-                
-                <!-- Metric Comparison -->
-                <div class="result-card">
-                    <h3>Distance Metric Comparison</h3>
-                    <p>Performance across different degradation metrics</p>
-                    <div id="metric-comparison-chart"></div>
-                </div>
-            </div>
+    <section class="content-section section-shell focus-section" id="evidence" data-focus-step="6" aria-labelledby="evidence-title">
+      <div class="section-heading">
+        <p class="section-number">06</p>
+        <div>
+          <p class="eyebrow" data-i18n="evidence.kicker">Published aggregate results</p>
+          <h2 id="evidence-title" data-i18n="evidence.title">Evidence at the strict low-FPR operating point</h2>
+          <p data-i18n="evidence.intro">All values below are transcribed from Table 1. No per-sample distributions or ROC points are reconstructed.</p>
         </div>
+      </div>
+      <div class="evidence-summary">
+        <div><strong>0.20</strong><span data-i18n="evidence.best_tpr">Best TPR@1% FPR</span></div>
+        <div><strong>0.67</strong><span data-i18n="evidence.best_auc">Best observed AUC</span></div>
+        <div><strong>~80%</strong><span data-i18n="evidence.missed">Members still missed at the best strict operating point</span></div>
+      </div>
+      <div class="explorer" aria-labelledby="explorer-title">
+        <div class="explorer-controls">
+          <div>
+            <p class="card-label" id="explorer-title" data-i18n="explorer.title">Evidence Explorer</p>
+            <p data-i18n="explorer.subtitle">A controlled view of the same four Table 1 rows.</p>
+          </div>
+          <label><span data-i18n="explorer.model">Model</span>
+            <select id="model-select"><option>MusicLDM</option><option>DiffWave</option></select>
+          </label>
+          <label><span data-i18n="explorer.dataset">Dataset</span>
+            <select id="dataset-select"><option>MAESTRO</option><option>FMA-Large</option></select>
+          </label>
+          <button class="button button-quiet" type="button" id="unit-toggle" data-i18n="explorer.show_percent">Show percentages</button>
+        </div>
+        <div class="explorer-output" id="explorer-output" aria-live="polite">
+          <article><span data-i18n="explorer.baseline">Best baseline</span><strong id="baseline-tpr">0.10</strong><small id="baseline-detail">TPR@1% FPR · CI 0.07–0.12 · AUC 0.58±0.02</small></article>
+          <article class="accent"><span>LSA-Probe</span><strong id="lsa-tpr">0.13</strong><small id="lsa-detail">TPR@1% FPR · CI 0.10–0.15 · AUC 0.61±0.03</small></article>
+          <article><span data-i18n="explorer.absolute_gain">Absolute gain</span><strong id="delta-tpr">+0.03</strong><small id="delta-detail">TPR +0.03 · AUC +0.03</small></article>
+        </div>
+        <p class="data-error" id="evidence-error" hidden data-i18n="explorer.error">Verified evidence data could not be loaded. The page will not manufacture a replacement.</p>
+      </div>
+      <div class="table-wrap" tabindex="0" aria-label="Table 1 results" data-i18n-aria-label="a11y.table_results">
+        <table id="results-table">
+          <caption data-i18n="table.caption">Table 1 · decimal proportions; confidence interval in parentheses and AUC mean±standard deviation</caption>
+          <thead><tr>
+            <th data-i18n="table.model">Model</th><th data-i18n="table.dataset">Dataset</th><th data-i18n="table.baseline">Best Baseline TPR@1% / AUC</th><th data-i18n="table.lsa">LSA-Probe TPR@1% / AUC</th><th>Δ TPR</th><th>Δ AUC</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>MusicLDM</td><td>MAESTRO</td><td>0.10 (0.07–0.12) / 0.58±0.02</td><td>0.13 (0.10–0.15) / 0.61±0.03</td><td>+0.03</td><td>+0.03</td></tr>
+            <tr><td>MusicLDM</td><td>FMA-Large</td><td>0.08 (0.05–0.10) / 0.56±0.01</td><td>0.14 (0.10–0.16) / 0.59±0.02</td><td>+0.06</td><td>+0.03</td></tr>
+            <tr><td>DiffWave</td><td>MAESTRO</td><td>0.12 (0.09–0.15) / 0.63±0.02</td><td>0.20 (0.16–0.24) / 0.67±0.02</td><td>+0.08</td><td>+0.04</td></tr>
+            <tr><td>DiffWave</td><td>FMA-Large</td><td>0.11 (0.08–0.14) / 0.62±0.02</td><td>0.18 (0.14–0.22) / 0.66±0.02</td><td>+0.07</td><td>+0.04</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="boundary-note evidence-boundary">
+        <strong data-i18n="evidence.interpret_title">What the result does—and does not—show</strong>
+        <p data-i18n="evidence.interpret">LSA-Probe consistently improves the strict low-FPR operating point, but the best TPR at 1% FPR is 20%. The method therefore provides a stronger audit signal without solving membership auditing outright. Precision still depends on the real member base rate.</p>
+      </aside>
+      <div class="paper-figure-panel">
+        <div class="panel-head">
+          <p class="eyebrow" data-i18n="figure2.kicker">Published Figure 2</p>
+          <h3 data-i18n="figure2.title">What the ablations support</h3>
+          <p data-i18n="figure2.intro">These are the original embedded raster panels extracted from the supplied paper PDF, not reconstructed curves.</p>
+        </div>
+        <div class="figure-grid">
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-a-low-fpr-roc.png" aria-label="Enlarge low-FPR ROC panel" data-i18n-aria-label="a11y.enlarge_roc"><img src="assets/figures/figure2-a-low-fpr-roc.png" alt="Published low-FPR ROC panel" data-i18n-alt="a11y.roc_alt" width="1281" height="845"></button><figcaption data-i18n="figure2.cap1">Low-FPR ROC improvement</figcaption></figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-b-timestep.png" aria-label="Enlarge timestep ablation panel" data-i18n-aria-label="a11y.enlarge_timestep"><img src="assets/figures/figure2-b-timestep.png" alt="Published timestep ablation panel" data-i18n-alt="a11y.timestep_alt" width="1049" height="657"></button><figcaption data-i18n="figure2.cap2">Mid-trajectory timestep advantage</figcaption></figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-c-budget.png" aria-label="Enlarge budget ablation panel" data-i18n-aria-label="a11y.enlarge_budget"><img src="assets/figures/figure2-c-budget.png" alt="Published perturbation-budget ablation panel" data-i18n-alt="a11y.budget_alt" width="1050" height="657"></button><figcaption data-i18n="figure2.cap3">Budget saturation around 0.6–0.8</figcaption></figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-d-metric.png" aria-label="Enlarge metric robustness panel" data-i18n-aria-label="a11y.enlarge_metric"><img src="assets/figures/figure2-d-metric.png" alt="Published perceptual metric comparison panel" data-i18n-alt="a11y.metric_alt" width="1050" height="657"></button><figcaption data-i18n="figure2.cap4">CDPAM and MR-STFT outperform MSE distances at low FPR</figcaption></figure>
+        </div>
+      </div>
     </section>
 
-    <!-- Resources Section -->
-    <section id="resources" class="section section-dark">
-        <div class="container">
-            <h2 class="section-title">Resources</h2>
-            <p class="section-subtitle">Paper, code, and citation</p>
-            
-            <div class="resource-grid">
-                <div class="resource-card">
-                    <div class="resource-icon">📄</div>
-                    <h3>Paper</h3>
-                    <p>Read the full paper on arXiv</p>
-                    <a href="#" class="btn btn-primary">View Paper</a>
-                </div>
-                <div class="resource-card">
-                    <div class="resource-icon">💻</div>
-                    <h3>Code</h3>
-                    <p>GitHub repository with implementation</p>
-                    <a href="https://github.com/kaslim/LSA-Probe" class="btn btn-primary">View Code</a>
-                </div>
-                <div class="resource-card">
-                    <div class="resource-icon">📊</div>
-                    <h3>Data</h3>
-                    <p>Experimental data and checkpoints</p>
-                    <a href="#" class="btn btn-primary">Download</a>
-                </div>
-            </div>
-            
-            <div class="citation-box">
-                <h3>Citation</h3>
-                <pre><code>@inproceedings{liu2026lsaprobe,
-  title={LSA-Probe: Membership Inference via Latent Stability Analysis for Music Diffusion Models},
-  author={Liu, Yuxuan and Zhang, Peizhuo and Sang, Ruiqi and Li, Zhiyong and Tan, Yan and Cai, Yi and Li, Sheng},
-  booktitle={ICASSP 2026-2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
-  year={2026},
-  organization={IEEE}
+    <section class="content-section section-shell focus-section" id="reliability" data-focus-step="7" aria-labelledby="reliability-title">
+      <div class="section-heading">
+        <p class="section-number">07</p>
+        <div>
+          <p class="eyebrow" data-i18n="reliability.kicker">Reliability and limitations</p>
+          <h2 id="reliability-title" data-i18n="reliability.title">How the evidence was controlled</h2>
+          <p data-i18n="reliability.intro">The evaluation spans waveform and latent diffusion, two music domains, leakage controls, uncertainty estimates and compute-matched baselines.</p>
+        </div>
+      </div>
+      <div class="reliability-grid">
+        <article><p class="card-label" data-i18n="reliability.models_title">Models</p><p><strong>DiffWave</strong> · <span data-i18n="reliability.diffwave">waveform DDPM</span><br><strong>MusicLDM</strong> · <span data-i18n="reliability.musicldm">VAE latent diffusion</span></p></article>
+        <article><p class="card-label" data-i18n="reliability.datasets_title">Datasets</p><p><strong>MAESTRO v3</strong> · <span data-i18n="reliability.maestro">solo piano</span><br><strong>FMA-Large</strong> · <span data-i18n="reliability.fma">multi-genre music</span></p></article>
+        <article><p class="card-label" data-i18n="reliability.setup_title">Main setup</p><p data-i18n="reliability.setup">Deterministic DDIM · t_ratio=0.6 · p=2 · ηmax=0.8 · CDPAM · 22.05 kHz training audio · in-graph resampling to 16 kHz for metrics.</p></article>
+        <article><p class="card-label" data-i18n="reliability.split_title">Split controls</p><p data-i18n="reliability.split">Piece/artist splits for MAESTRO; track/artist splits for FMA; Chromaprint + LSH duplicate and cover checks with manual review.</p></article>
+        <article><p class="card-label" data-i18n="reliability.stats_title">Statistical protocol</p><p data-i18n="reliability.stats">DeLong AUC intervals; sample-level bootstrap elsewhere; 10,000 resamples; Holm–Bonferroni correction.</p></article>
+        <article><p class="card-label" data-i18n="reliability.compute_title">Compute accounting</p><p data-i18n="reliability.compute">B=10 outer × K=12 inner, roughly (K+2)B reverse passes per sample; baselines matched within ±5% wall-clock on an A100-80GB.</p></article>
+      </div>
+      <div class="limitations" id="limitations" aria-labelledby="limitations-title">
+        <div class="panel-head">
+          <p class="eyebrow" data-i18n="limitations.kicker">Scientific boundary</p>
+          <h3 id="limitations-title" data-i18n="limitations.title">Limitations and open questions</h3>
+        </div>
+        <ol class="limitations-list">
+          <li data-i18n="limitations.item1">Strong white-box access is required: parameters, sampler, intermediate states and gradients.</li>
+          <li data-i18n="limitations.item2">Repeated PGD, restarts and bisection make the audit computationally expensive.</li>
+          <li data-i18n="limitations.item3">The best TPR@1% FPR is still only 20%.</li>
+          <li data-i18n="limitations.item4">Evaluation covers two model families and two music datasets.</li>
+          <li data-i18n="limitations.item5">Threshold calibration depends on an independent non-member development set.</li>
+          <li data-i18n="limitations.item6">Cross-model and cross-domain threshold transfer remain underexplored.</li>
+          <li data-i18n="limitations.item7">Results do not directly generalise to text LLMs or multimodal agents.</li>
+          <li data-i18n="limitations.item8">A membership score is not standalone legal evidence.</li>
+          <li data-i18n="limitations.item9">“Generative manifold” is an empirical local-geometric description, not an analytically recovered manifold.</li>
+          <li data-i18n="limitations.item10">Defences need further study: differential privacy, regularisation, deduplication, audit-aware training and reduced memorisation.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="content-section section-shell focus-section" id="agent-safety" data-focus-step="8" aria-labelledby="agent-title">
+      <div class="section-heading">
+        <p class="section-number">08</p>
+        <div>
+          <p class="eyebrow" data-i18n="agent.kicker">Future direction</p>
+          <h2 id="agent-title" data-i18n="agent.title">From Generative-Model Auditing to Agent Safety</h2>
+          <p data-i18n="agent.subtitle">A methodological transfer, not an experimental result of LSA-Probe.</p>
+        </div>
+      </div>
+      <div class="transfer-grid">
+        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa1">Define the protected training-data asset</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent1">Define protected user data, memory, retrieved content and tool permissions</span></p></article>
+        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa2">Specify white-box developer-side access</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent2">Build authorised internal red-team and audit infrastructure</span></p></article>
+        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa3">Measure the minimum intervention needed to destabilise a trajectory</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent3">Measure the minimum bounded intervention needed to change a decision or tool action</span></p></article>
+        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa4">Evaluate at strict low-FPR operating points</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent4">Control false alarms before blocking legitimate tasks or users</span></p></article>
+        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa5">Treat membership as statistical evidence</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent5">Preserve audit trails and uncertainty rather than issuing absolute claims</span></p></article>
+      </div>
+      <div class="two-column agent-boundaries">
+        <article>
+          <p class="card-label" data-i18n="agent.transfers_title">What transfers</p>
+          <p data-i18n="agent.transfers">Asset definition, authorised access, bounded intervention, strict operating points and uncertainty-aware audit trails.</p>
+        </article>
+        <article>
+          <p class="card-label" data-i18n="agent.not_title">What does not transfer directly</p>
+          <p data-i18n="agent.not_body">Audio latents are not LLM hidden states; diffusion trajectories are not agent plans. LSA-Probe does not detect prompt injection, stop jailbreaks, solve tool authorisation, provide trusted execution or establish effectiveness for mobile agents.</p>
+        </article>
+      </div>
+      <aside class="future-note">
+        <strong data-i18n="agent.direction_title">Possible research direction</strong>
+        <p data-i18n="agent.direction">Generalise stability-based auditing from generative trajectories to agent decision trajectories: measure the minimum bounded intervention required to trigger an unsafe decision while jointly tracking task utility and side effects.</p>
+      </aside>
+    </section>
+
+    <section class="content-section section-shell" id="resources" aria-labelledby="resources-title">
+      <div class="section-heading">
+        <p class="section-number">09</p>
+        <div>
+          <p class="eyebrow" data-i18n="resources.kicker">Paper and resources</p>
+          <h2 id="resources-title" data-i18n="resources.title">Verify the primary sources</h2>
+          <p data-i18n="resources.intro">The public repository currently exposes a project README rather than a complete implementation or checkpoints.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        <a href="https://arxiv.org/abs/2602.01645" target="_blank" rel="noreferrer"><span data-i18n="resources.paper_label">Paper</span><strong data-i18n="resources.paper_link">Read on arXiv</strong></a>
+        <a href="https://www.cmsworkshops.com/ICASSP2026/view_paper.php?PaperNum=17815&amp;bare=1" target="_blank" rel="noreferrer"><span data-i18n="resources.program_label">ICASSP Program</span><strong data-i18n="resources.program_link">View the oral schedule</strong></a>
+        <a href="https://github.com/kaslim/LSA-Probe" target="_blank" rel="noreferrer"><span data-i18n="resources.repo_label">Project Repository</span><strong data-i18n="resources.repo_link">Open on GitHub</strong></a>
+      </div>
+      <div class="citation-card">
+        <div class="citation-head">
+          <p class="card-label">BibTeX</p>
+          <button class="button button-quiet" id="copy-citation" type="button" data-i18n="controls.copy">Copy citation</button>
+        </div>
+        <pre id="citation"><code>@inproceedings{liu2026membership,
+  title={Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation},
+  author={Liu, Yuxuan and Zhang, Peihong and Sang, Rui and Li, Zhixin and Tan, Yizhou and Cai, Yiqiang and Li, Shengchen},
+  booktitle={2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year={2026}
 }</code></pre>
-                <button class="btn btn-copy" onclick="copyToClipboard()">📋 Copy</button>
-            </div>
-        </div>
+      </div>
     </section>
+  </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Yuxuan Liu. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="../">Back to Homepage</a>
-                <a href="../maia/">MAIA (ISMIR)</a>
-                <a href="../ts-ramia/">TS-RaMIA (AAAI)</a>
-            </div>
-        </div>
-    </footer>
+  <footer class="site-footer section-shell">
+    <p>LSA-Probe · Yuxuan Liu · ICASSP 2026</p>
+    <a href="../" data-i18n="footer.portfolio">Back to portfolio</a>
+  </footer>
 
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/data-loader.js"></script>
-    <script src="js/diffusion-viz.js"></script>
-    <script src="js/explorer.js"></script>
-    <script src="js/algorithm-viz.js"></script>
-    <script src="js/roc-interactive.js"></script>
-    <script src="js/mia-diffusion-anim.js"></script>
-    
-    <script>
-        // Render math
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: "\\(", right: "\\)", display: false},
-                    {left: "\\[", right: "\\]", display: true}
-                ]
-            });
-        });
-        
-        // Copy citation
-        function copyToClipboard() {
-            const citation = document.querySelector('.citation-box code').textContent;
-            navigator.clipboard.writeText(citation).then(() => {
-                alert('Citation copied to clipboard!');
-            });
-        }
-    </script>
+  <div class="focus-controls" id="focus-controls" hidden>
+    <button class="button button-quiet" type="button" id="focus-prev" data-i18n="controls.previous">Previous</button>
+    <p><span id="focus-current">1</span> / 8 · <span id="focus-label">What are we auditing?</span></p>
+    <button class="button button-primary" type="button" id="focus-next" data-i18n="controls.next">Next</button>
+  </div>
+
+  <dialog class="image-dialog" id="image-dialog">
+    <button class="button button-quiet dialog-close" type="button" id="dialog-close" data-i18n="controls.close">Close</button>
+    <img id="dialog-image" alt="">
+  </dialog>
+
+  <script src="js/i18n.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

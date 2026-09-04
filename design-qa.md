@@ -28,3 +28,41 @@
 6. Found first-load anchor drift after remote images settled, added post-load deep-link stabilization, and verified the production `#demo` route lands on the Demo heading at desktop and mobile widths.
 
 final result: passed
+
+---
+
+# Design QA — LSA-Probe evidence-first rebuild
+
+## Visual truth and comparison evidence
+
+- Source visual truth: the pre-refactor production page at `https://kaslim.github.io/lsa-probe/`, captured before any production edit.
+- Implementation evidence: the locally served rebuild at `http://127.0.0.1:8765/lsa-probe/`.
+- Matched viewport: 1440 × 1000 CSS pixels; both full-page captures are 1425 CSS pixels wide after browser chrome.
+- Source capture: `tmp/lsa-probe-audit/old-live-full-desktop.png`.
+- Implementation capture: `tmp/lsa-probe-audit/new-local-full-desktop.png`.
+- Combined comparison input: `tmp/lsa-probe-audit/source-vs-implementation.png`.
+- Responsive states inspected: English desktop, Chinese desktop, Chinese Focus step 6, 390 × 844 Chinese mobile, and 768 × 1024 English Focus step 5.
+
+## Findings
+
+- P0: none.
+- P1: none remaining.
+- P2 fixed: the Evidence Explorer initially expressed an absolute TPR gain as `+8%` in percentage mode. It now uses `+8 pp`, while AUC deltas remain decimal.
+- P2 fixed: the citation-copy handler retained `event.currentTarget` across an asynchronous boundary, causing a delayed null-reference error. The button reference is now captured before the await.
+- The rebuild intentionally keeps the deep, research-oriented visual identity while replacing forced viewport-height sections and large blank intervals with continuous evidence-dense sections.
+- The source page’s sparse hero, compact top navigation and restrained cyan accent informed the implementation; its mock charts, inconsistent names and unsupported claims were not treated as visual truth.
+- The author framework and paper Figure 2 panels use their native aspect ratios with `object-fit: contain`; no paper image is cropped or stretched.
+- Focus View uses the same DOM as the continuous page and exposes one research claim per step without private notes or interview-answer content.
+
+## Interaction and accessibility checks
+
+- Language switching updates `html[lang]`, title, meta description, visible copy, figure alt text and ARIA labels without reloading.
+- URL language overrides local storage; unknown languages fall back to English.
+- Focus deep links restore the requested step and language; language changes preserve the active step and Evidence Explorer selection.
+- Previous/Next, Left/Right, Escape and touch-swipe paths are implemented.
+- The Evidence Explorer uses only the four audited Table 1 rows and preserves model/dataset selection across language changes.
+- The algorithm walkthrough is paused by default and provides Play, Pause, Step and Reset controls.
+- Keyboard focus states, reduced-motion behavior, mobile layout and image-dialog labels are present.
+- Local browser logs show no new console or network errors after the fixes.
+
+final result: passed

@@ -1,0 +1,41 @@
+{
+  "source": {
+    "paper": "Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation",
+    "table": "Table 1",
+    "unit": "proportion"
+  },
+  "records": [
+    {
+      "model": "MusicLDM",
+      "dataset": "MAESTRO",
+      "baseline": {"tpr": 0.10, "ci": [0.07, 0.12], "auc": 0.58, "auc_std": 0.02},
+      "lsa_probe": {"tpr": 0.13, "ci": [0.10, 0.15], "auc": 0.61, "auc_std": 0.03},
+      "delta_tpr": 0.03,
+      "delta_auc": 0.03
+    },
+    {
+      "model": "MusicLDM",
+      "dataset": "FMA-Large",
+      "baseline": {"tpr": 0.08, "ci": [0.05, 0.10], "auc": 0.56, "auc_std": 0.01},
+      "lsa_probe": {"tpr": 0.14, "ci": [0.10, 0.16], "auc": 0.59, "auc_std": 0.02},
+      "delta_tpr": 0.06,
+      "delta_auc": 0.03
+    },
+    {
+      "model": "DiffWave",
+      "dataset": "MAESTRO",
+      "baseline": {"tpr": 0.12, "ci": [0.09, 0.15], "auc": 0.63, "auc_std": 0.02},
+      "lsa_probe": {"tpr": 0.20, "ci": [0.16, 0.24], "auc": 0.67, "auc_std": 0.02},
+      "delta_tpr": 0.08,
+      "delta_auc": 0.04
+    },
+    {
+      "model": "DiffWave",
+      "dataset": "FMA-Large",
+      "baseline": {"tpr": 0.11, "ci": [0.08, 0.14], "auc": 0.62, "auc_std": 0.02},
+      "lsa_probe": {"tpr": 0.18, "ci": [0.14, 0.22], "auc": 0.66, "auc_std": 0.02},
+      "delta_tpr": 0.07,
+      "delta_auc": 0.04
+    }
+  ]
+}
