@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "demo_scope": "real-model-inpainting-component-only",
+  "target_model_evaluated": false,
+  "samples": [
+    {
+      "sample_id": "goldberg_variation20_excerpt",
+      "display_name": "Goldberg Variation 20 \u2014 30 s excerpt",
+      "source_audio": "https://commons.wikimedia.org/wiki/File:Kimiko_Ishizaka_-_21_-_Variatio_20_a_2_Clav.ogg",
+      "source_attribution": "J. S. Bach, Goldberg Variations, Variatio 20 a 2 Clav.; performed by Kimiko Ishizaka",
+      "source_license": "CC0 1.0 Universal",
+      "duration_seconds": 30.0,
+      "original_audio": "data/audio/real-demo/goldberg_variation20_excerpt_original.wav",
+      "masked_audio": "data/audio/real-demo/goldberg_variation20_excerpt_masked.wav",
+      "original_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_original.png",
+      "masked_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_masked.png",
+      "original_region_seconds": [
+        [
+          5.0,
+          5.4
+        ],
+        [
+          12.0,
+          12.3
+        ],
+        [
+          18.0,
+          18.5
+        ]
+      ],
+      "effective_regions": [
+        {
+          "original": [
+            5.0,
+            5.4
+          ],
+          "effective": [
+            5.015510204081632,
+            5.38702947845805
+          ],
+          "start_frame": 432,
+          "end_frame": 464,
+          "center_shift_seconds": 0.0012698412698410877,
+          "alignment_reason": "GACELA maestro-short requires a fixed 32-frame gap; the interval was aligned around the preserved legacy center."
+        },
+        {
+          "original": [
+            12.0,
+            12.3
+          ],
+          "effective": [
+            11.969886621315192,
+            12.34140589569161
+          ],
+          "start_frame": 1031,
+          "end_frame": 1063,
+          "center_shift_seconds": 0.005646258503400503,
+          "alignment_reason": "GACELA maestro-short requires a fixed 32-frame gap; the interval was aligned around the preserved legacy center."
+        },
+        {
+          "original": [
+            18.0,
+            18.5
+          ],
+          "effective": [
+            18.06512471655329,
+            18.436643990929706
+          ],
+          "start_frame": 1556,
+          "end_frame": 1588,
+          "center_shift_seconds": 0.0008843537414975344,
+          "alignment_reason": "GACELA maestro-short requires a fixed 32-frame gap; the interval was aligned around the preserved legacy center."
+        }
+      ],
+      "crossfade_seconds": 0.02,
+      "model_name": "GACELA maestro-short (375 ms gap)",
+      "model_repository": "https://github.com/andimarafioti/GACELA",
+      "checkpoint_name": "01_310000.pt",
+      "checkpoint_hash": "bd32992080febfbc37f7e77b625ca11a4580c804a12cfa6bfdba4b2b14688970",
+      "checkpoint_archive_md5": "1ac767255cf9edd53b8215a4301132dc",
+      "code_commit": "34649fb01bdecbcb266db046a8b9c48c141f16e1",
+      "sample_rate": 22050,
+      "input_hash": "a87c76339dc1dc16f39f59cc2ebd55cdcd9b346420625338c76c976f31f1e726",
+      "masked_hash": "3bc5777d54ff769dfce15323195265cc081a34be016724e41384200efa704080",
+      "generation_date": "2026-09-04",
+      "target_model_evaluated": false,
+      "selected_seed": 1401,
+      "selection_rule": "Among candidates without NaN, silence, or clipping, select the lowest mean boundary jump; use absolute RMS difference as a tiebreaker.",
+      "candidates": [
+        {
+          "random_seed": 1401,
+          "region_seeds": [
+            1401,
+            1402,
+            1403
+          ],
+          "regenerated_audio": "data/audio/real-demo/goldberg_variation20_excerpt_regenerated_seed-1401.wav",
+          "output_hash": "d818d7f9c67ee9f5d808f03b3ccd39f4da0f7def2992731c4327ce843fcc753a",
+          "regenerated_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_seed-1401.png",
+          "difference_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_seed-1401_difference.png",
+          "diagnostics": {
+            "peak": 0.58050537109375,
+            "rms_difference_db": -0.10030563114548038,
+            "mean_boundary_jump": 0.011606852213541666,
+            "outside_max_abs_difference": 0.0
+          }
+        },
+        {
+          "random_seed": 2207,
+          "region_seeds": [
+            2207,
+            2208,
+            2209
+          ],
+          "regenerated_audio": "data/audio/real-demo/goldberg_variation20_excerpt_regenerated_seed-2207.wav",
+          "output_hash": "b8c408f3f50f9f6e657fa3f94da337536d558f7bf165d590fa321bfa0325dd43",
+          "regenerated_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_seed-2207.png",
+          "difference_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_seed-2207_difference.png",
+          "diagnostics": {
+            "peak": 0.58050537109375,
+            "rms_difference_db": -0.10046722183523174,
+            "mean_boundary_jump": 0.011606852213541666,
+            "outside_max_abs_difference": 0.0
+          }
+        },
+        {
+          "random_seed": 3511,
+          "region_seeds": [
+            3511,
+            3512,
+            3513
+          ],
+          "regenerated_audio": "data/audio/real-demo/goldberg_variation20_excerpt_regenerated_seed-3511.wav",
+          "output_hash": "bdfdddfda9c4788e725512903a9f3b12a2eafff91843fe59d84a4454e4707f43",
+          "regenerated_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_seed-3511.png",
+          "difference_spectrogram": "data/spectrograms/real-demo/goldberg_variation20_excerpt_seed-3511_difference.png",
+          "diagnostics": {
+            "peak": 0.58050537109375,
+            "rms_difference_db": -0.10060939357453441,
+            "mean_boundary_jump": 0.011606852213541666,
+            "outside_max_abs_difference": 0.0
+          }
+        }
+      ],
+      "inference_verification": {
+        "checkpoint_loaded": true,
+        "loaded_parameter_count": 9482017,
+        "loaded_parameter_abs_sum": 369462.7235278487,
+        "torch_version": "2.0.1"
+      },
+      "notes": "The fixed interval centers come from the legacy MAIA page metadata. They were aligned to the GACELA maestro-short 32-frame gap. No target classifier or retrieval model was run for this interactive sample."
+    }
+  ]
+}

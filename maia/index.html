@@ -3,692 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MAIA: Music Adversarial Inpainting Attack - Importance-Driven Adversarial Attacks via Music Inpainting">
+    <meta name="description" content="MAIA research page: importance-driven music adversarial attacks, verified GACELA regeneration, paper evidence, and limitations.">
     <meta name="keywords" content="Music Information Retrieval, Adversarial Attacks, Music Inpainting, GACELA, MIR Security">
-    <title>MAIA: Music Adversarial Inpainting Attack</title>
-    
-    <!-- Base URL for GitHub Pages - auto-detect -->
-    <script>
-        // Auto-detect base path for GitHub Pages
-        if (window.location.hostname === 'github.io' || window.location.hostname === 'github.com') {
-            const path = window.location.pathname.split('/').slice(0, -1).join('/');
-            document.write('<base href="' + (path || '/') + '/">');
-        }
-    </script>
-    
-    <!-- Fonts -->
+    <meta name="theme-color" content="#172a46">
+    <title>MAIA — Music Adversarial Inpainting</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/audio-player.css">
-    <link rel="stylesheet" href="css/responsive.css?v=20260816a">
-    
-    <!-- External Libraries -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <link rel="stylesheet" href="css/responsive.css?v=20260904-2">
+    <link rel="stylesheet" href="css/research-page.css?v=20260904-2">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <a href="../" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                <span>← </span><span>MAIA</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#motivation">Problem</a></li>
-                <li><a href="#method">Method</a></li>
-                <li><a href="#demo">Demo</a></li>
-                <li><a href="#results">Results</a></li>
-                <li><a href="#resources">Resources</a></li>
-            </ul>
+    <a class="skip-link" href="#main" data-i18n="accessibility.skip">Skip to main content</a>
+    <nav class="navbar" id="navbar" aria-label="Primary navigation" data-i18n-attr="aria-label:nav.aria">
+        <div class="container nav-shell">
+            <a href="../" class="nav-brand" data-i18n="nav.portfolio">Yuxuan Liu / Portfolio</a>
+            <div class="nav-center" aria-label="Page sections" data-i18n-attr="aria-label:nav.sectionsAria">
+                <a href="#question" data-i18n="nav.question">Question</a>
+                <a href="#method" data-i18n="nav.method">Method</a>
+                <a href="#demo" data-i18n="nav.demo">Verified Demo</a>
+                <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
+                <a href="#resources" data-i18n="nav.resources">Resources</a>
+            </div>
+            <div class="nav-actions">
+                <button id="focus-toggle" class="control-button" type="button" data-i18n="focus.enter" data-i18n-attr="aria-label:focus.enterAria">Focus View</button>
+                <button id="language-toggle" class="control-button language-button" type="button" data-i18n="language.switchToZh" data-i18n-attr="aria-label:language.switchAriaZh">中文</button>
+            </div>
         </div>
     </nav>
 
-    <!-- Section 1: Hero Landing -->
-    <section id="hero" class="hero-section">
-        <canvas id="particles-canvas"></canvas>
-        <div class="container hero-content">
-            <h1 class="hero-title" data-aos="fade-up">
-                MAIA
-            </h1>
-            <h2 class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
-                Music Adversarial Inpainting Attack
-            </h2>
-            <p class="hero-description" data-aos="fade-up" data-aos-delay="400">
-                Importance-Driven Adversarial Attacks via Music Inpainting
-            </p>
-            <div class="hero-meta" data-aos="fade-up" data-aos-delay="600">
-                <span class="venue">ISMIR 2025</span>
-                <span class="separator">•</span>
-                <span class="authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Shengchen Li</span>
-            </div>
-            <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="800">
-                <div class="mouse">
-                    <div class="wheel"></div>
+    <main id="main">
+        <header id="hero" class="hero-section research-hero">
+            <div class="container hero-content">
+                <div class="hero-kicker-row"><span class="venue">ISMIR 2025</span><span class="evidence-label" data-i18n="hero.peerReviewed">Peer-reviewed research</span></div>
+                <h1 class="hero-title">MAIA</h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Music Adversarial Inpainting Attack</p>
+                <p class="hero-description" data-i18n="hero.description">Locate influential musical regions, regenerate only those regions, and evaluate security impact together with perceptual quality.</p>
+                <p class="hero-authors">Yuxuan Liu<sup>*</sup>, Peihong Zhang<sup>*</sup>, Rui Sang, Zhixin Li, Shengchen Li</p>
+                <p class="coauthor-note" data-i18n="hero.equal">* Equal contribution</p>
+                <div class="hero-actions">
+                    <a class="primary-link" href="#demo" data-i18n="hero.demoCta">Open verified regeneration demo</a>
+                    <a class="secondary-link" href="assets/MAIA_ISMIR_2025.pdf" target="_blank" rel="noopener" data-i18n="hero.paperCta">Read the paper</a>
                 </div>
-                <p>Scroll to explore</p>
+                <div class="scope-note hero-scope"><strong data-i18n="hero.scopeLabel">Demo scope</strong><span data-i18n="hero.scope">Real GACELA output at fixed regions; no sample-level attack claim is inferred.</span></div>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- Section 2: Problem & Motivation -->
-    <section id="motivation" class="motivation-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Why MAIA?</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                Exposing vulnerabilities in Music Information Retrieval systems
-            </p>
-            
-            <div class="motivation-grid">
-                <div class="motivation-left" data-aos="fade-right">
-                    <div class="problem-statement">
-                        <h3>The Problem</h3>
-                        <p>
-                            Music Information Retrieval (MIR) systems are increasingly deployed in 
-                            commercial applications, from music recommendation to copyright detection. 
-                            However, their robustness against adversarial attacks remains largely unexplored.
-                        </p>
-                        <div class="stat-boxes">
-                            <div class="stat-box">
-                                <div class="stat-number">92.8%</div>
-                                <div class="stat-label">White-box ASR</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-number">80.1%</div>
-                                <div class="stat-label">Black-box ASR</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-number">4.0/5</div>
-                                <div class="stat-label">Perceptual Quality</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="motivation-right" data-aos="fade-left">
-                    <div class="comparison-card">
-                        <h3>Attack Approaches</h3>
-                        <div class="approach-comparison">
-                            <div class="approach-item noise-based">
-                                <div class="approach-icon">🔊</div>
-                                <h4>Noise-Based</h4>
-                                <ul>
-                                    <li>Adds imperceptible perturbations</li>
-                                    <li>Lacks interpretability</li>
-                                    <li>Ignores music structure</li>
-                                    <li>High-frequency artifacts</li>
-                                </ul>
-                                <span class="approach-tag">Traditional</span>
-                            </div>
-                            <div class="approach-item semantic-based">
-                                <div class="approach-icon">🎵</div>
-                                <h4>MAIA (Ours)</h4>
-                                <ul>
-                                    <li>Inpainting-based modifications</li>
-                                    <li>Preserves musical coherence</li>
-                                    <li>Importance-driven targeting</li>
-                                    <li>Natural audio quality</li>
-                                </ul>
-                                <span class="approach-tag highlight">Novel</span>
-                            </div>
-                        </div>
-                    </div>
+        <section id="question" class="research-section section-padding" data-focus-step="1">
+            <div class="container compact-container">
+                <p class="section-eyebrow" data-i18n="question.eyebrow">Research question</p>
+                <h2 class="section-title" data-i18n="question.title">Can an MIR model be challenged without turning music into noise?</h2>
+                <p class="lead-copy" data-i18n="question.body">Conventional audio attacks often optimize imperceptible perturbations without respecting musical structure. MAIA asks whether a model's most influential regions can instead be regenerated with a learned music prior, preserving a coherent listening experience while exposing model vulnerability.</p>
+                <div class="question-grid">
+                    <article class="research-card"><p class="card-index">01</p><h3 data-i18n="question.localizeTitle">Localize</h3><p data-i18n="question.localizeBody">Find the time–frequency regions that contribute most to the target model's decision.</p></article>
+                    <article class="research-card"><p class="card-index">02</p><h3 data-i18n="question.regenerateTitle">Regenerate</h3><p data-i18n="question.regenerateBody">Use a conditional generative inpainting model to replace bounded regions using their musical context.</p></article>
+                    <article class="research-card"><p class="card-index">03</p><h3 data-i18n="question.evaluateTitle">Evaluate jointly</h3><p data-i18n="question.evaluateBody">Measure model impact and audio quality together instead of treating either dimension in isolation.</p></article>
                 </div>
             </div>
-            
-            <div class="key-insight" data-aos="zoom-in">
-                <div class="insight-icon">💡</div>
-                <div class="insight-content">
-                    <h4>Key Insight</h4>
-                    <p>
-                        By selectively inpainting the most important music segments identified through 
-                        Grad-CAM analysis, MAIA achieves higher attack success rates while maintaining 
-                        superior perceptual quality compared to noise-based methods.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 3: Method Overview -->
-    <section id="method" class="method-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">How MAIA Works</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                A three-step importance-driven adversarial inpainting framework
-            </p>
-            
-            <div class="method-steps">
-                <!-- Step 1: Importance Analysis -->
-                <div class="method-step" data-aos="fade-up" data-aos-delay="200">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3>Importance Analysis</h3>
-                        <p>
-                            Identify critical time-frequency regions that most influence the model's decision
-                        </p>
-                        <div class="step-details">
-                            <div class="detail-item">
-                                <h4>White-box: Grad-CAM</h4>
-                                <p>
-                                    Uses gradient-weighted class activation mapping to locate influential segments
-                                    with full model access
-                                </p>
-                                <div class="formula">
-                                    M<sub>c</sub>(x,y) = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> F<sub>k</sub><sup>l</sup>(x,y))
-                                </div>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Black-box: Coarse-to-Fine</h4>
-                                <p>
-                                    Iteratively queries the model to identify important regions through a 
-                                    hierarchical refinement process
-                                </p>
-                                <div class="formula">
-                                    I(C<sub>i</sub>) = [L(M(x̃<sub>-C<sub>i</sub></sub>), y) - L(M(x), y)] / duration(C<sub>i</sub>)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-visualization">
-                            <div class="viz-placeholder" id="gradcam-viz">
-                                <img src="assets/figures/2.png" alt="Grad-CAM heatmap on mel-spectrogram" style="width:100%;border-radius:8px;display:block;" />
-                                <p class="viz-caption">Grad-CAM heatmap on mel-spectrogram</p>
-                            </div>
-                        </div>
-                    </div>
+        <section id="threat" class="research-section section-padding alternate-section" data-focus-step="2">
+            <div class="container compact-container">
+                <p class="section-eyebrow" data-i18n="threat.eyebrow">Threat model</p>
+                <h2 class="section-title" data-i18n="threat.title">Two access settings, one bounded-edit principle</h2>
+                <div class="threat-grid">
+                    <article class="threat-card"><div class="access-tag" data-i18n="threat.whiteAccess">Gradients available</div><h3 data-i18n="threat.whiteTitle">White-box MAIA</h3><p data-i18n="threat.whiteBody">Grad-CAM localizes influential regions. Reconstruction and untargeted attack losses guide GACELA for at most 10 optimization iterations, with loss weights selected from {0.5, 1.0, 2.0}.</p></article>
+                    <article class="threat-card"><div class="access-tag" data-i18n="threat.blackAccess">Query feedback only</div><h3 data-i18n="threat.blackTitle">Black-box MAIA</h3><p data-i18n="threat.blackBody">A 0.5-second coarse-to-fine masking procedure estimates region importance. CMA-ES then searches GACELA's latent space under a 1,000-query budget.</p></article>
                 </div>
-                
-                <!-- Step 2: Segment Selection -->
-                <div class="method-step" data-aos="fade-up" data-aos-delay="300">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3>Segment Selection</h3>
-                        <p>
-                            Select top-k most important segments for adversarial modification
-                        </p>
-                        <div class="step-details">
-                            <div class="detail-item">
-                                <h4>Priority-based Selection</h4>
-                                <p>
-                                    Rank segments by importance scores and select the top-k regions 
-                                    that contribute most to classification
-                                </p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Refinement Strategy</h4>
-                                <p>
-                                    Hierarchically refine coarse segments into finer granularity 
-                                    to pinpoint precise attack locations
-                                </p>
-                            </div>
-                        </div>
-                        <div class="step-visualization">
-                            <div class="segment-image" id="segment-viz">
-                                <img src="assets/figures/3.png" alt="Selected important segments for inpainting" style="width:100%;border-radius:8px;display:block;" />
-                                <p class="viz-caption">Selected important segments for inpainting</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Step 3: Adversarial Inpainting -->
-                <div class="method-step" data-aos="fade-up" data-aos-delay="400">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3>Adversarial Inpainting</h3>
-                        <p>
-                            Reconstruct selected segments using GACELA with adversarial guidance
-                        </p>
-                        <div class="step-details">
-                            <div class="detail-item">
-                                <h4>GACELA Inpainting Model</h4>
-                                <p>
-                                    Generative Adversarial Context Encoder for Long Audio inpainting 
-                                    ensures musically coherent reconstruction
-                                </p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Loss Function</h4>
-                                <p>
-                                    Balance reconstruction quality and attack effectiveness through 
-                                    weighted loss combination
-                                </p>
-                                <div class="formula">
-                                    L = λ<sub>rec</sub> L<sub>rec</sub> + λ<sub>att</sub> L<sub>attack</sub>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="step-visualization">
-                            <div class="inpainting-comparison" id="inpainting-viz">
-                                <div class="comparison-item">
-                                    <img src="assets/figures/4.png" alt="Before Inpainting" style="width:100%;border-radius:8px;display:block;" />
-                                    <p>Before Inpainting</p>
-                                </div>
-                                <div class="arrow">→</div>
-                                <div class="comparison-item">
-                                    <img src="assets/figures/4.png" alt="After Inpainting" style="width:100%;border-radius:8px;display:block;" />
-                                    <p>After Inpainting</p>
-                                </div>
-                            </div>
-                            <p class="viz-caption">Adversarial inpainting maintains audio quality</p>
-                        </div>
-                    </div>
-                </div>
+                <p class="source-note" data-i18n="threat.scope">The paper evaluates cover-song identification with CoverHunter on SHS100K and music-genre classification with IDS-NMR on GTZAN.</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 4: Interactive Audio Demo -->
-    <section id="demo" class="demo-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Interactive Demo</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                Listen to adversarial attacks in action
-            </p>
-            
-            <div class="demo-container">
-                <!-- Sample Selector -->
-                <div class="demo-controls" data-aos="fade-up" data-aos-delay="200">
-                    <div class="control-group">
-                        <label for="sample-select">Select Audio Sample:</label>
-                        <select id="sample-select" class="sample-dropdown">
-                            <option value="0">Blues #1 → Jazz (Success)</option>
-                            <option value="1">Blues #2 → Rock (Success)</option>
-                            <option value="2">Classical #1 → Ambient (Success)</option>
-                            <option value="3">Classical #2 → Classical (Failed)</option>
-                            <option value="4">Country #1 → Folk (Success)</option>
-                            <option value="5">Country #2 → Pop (Success)</option>
-                            <option value="6">Pop #1 → Dance (Success)</option>
-                            <option value="7">Pop #2 → Pop (Failed)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Audio Players -->
-                <div class="audio-players-grid" data-aos="fade-up" data-aos-delay="300">
-                    <div class="player-card">
-                        <h3>Original Audio</h3>
-                        <div id="waveform-original" class="waveform"></div>
-                        <div class="player-controls">
-                            <button id="play-original" class="btn-play">▶ Play</button>
-                            <input type="range" id="volume-original" class="volume-slider" min="0" max="100" value="80">
-                            <span class="time-display" id="time-original">0:00 / 0:00</span>
-                        </div>
-                    </div>
-                    
-                    <div class="player-card">
-                        <h3>Adversarial Audio</h3>
-                        <div id="waveform-adversarial" class="waveform"></div>
-                        <div class="player-controls">
-                            <button id="play-adversarial" class="btn-play">▶ Play</button>
-                            <input type="range" id="volume-adversarial" class="volume-slider" min="0" max="100" value="80">
-                            <span class="time-display" id="time-adversarial">0:00 / 0:00</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Synchronized Playback -->
-                <div class="sync-controls" data-aos="fade-up" data-aos-delay="400">
-                    <button id="btn-sync-play" class="btn-sync">
-                        <span class="icon">🔄</span> Synchronized A/B Comparison
-                    </button>
-                </div>
-                
-                <!-- Attack Info Panel -->
-                <div class="attack-info-panel" data-aos="fade-up" data-aos-delay="500">
-                    <div class="info-grid">
-                        <div class="info-card prediction-card">
-                            <h4>Original Prediction</h4>
-                            <div class="prediction-content">
-                                <div class="genre-label" id="original-genre">Blues</div>
-                                <div class="confidence-bar">
-                                    <div class="confidence-fill" id="original-confidence" style="width: 89%"></div>
-                                </div>
-                                <div class="confidence-text" id="original-confidence-text">89%</div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card prediction-card adversarial">
-                            <h4>Adversarial Prediction</h4>
-                            <div class="prediction-content">
-                                <div class="genre-label adversarial" id="adversarial-genre">Jazz</div>
-                                <div class="confidence-bar">
-                                    <div class="confidence-fill adversarial" id="adversarial-confidence" style="width: 67%"></div>
-                                </div>
-                                <div class="confidence-text" id="adversarial-confidence-text">67%</div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card status-card">
-                            <h4>Attack Status</h4>
-                            <div class="status-content" id="attack-status">
-                                <span class="status-icon success">✅</span>
-                                <span class="status-text">Success</span>
-                            </div>
-                        </div>
-                        
-                        <div class="info-card metrics-card">
-                            <h4>Perceptual Metrics</h4>
-                            <div class="metrics-list">
-                                <div class="metric-item">
-                                    <span class="metric-label">FAD:</span>
-                                    <span class="metric-value" id="metric-fad">11.25</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">LSD:</span>
-                                    <span class="metric-value" id="metric-lsd">1.58</span>
-                                </div>
-                                <div class="metric-item">
-                                    <span class="metric-label">MOS:</span>
-                                    <span class="metric-value" id="metric-mos">4.0/5</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Inpainting Regions Timeline -->
-                <div class="regions-timeline" data-aos="fade-up" data-aos-delay="600">
-                    <h4>Inpainting Regions</h4>
-                    <div class="timeline-container" id="regions-timeline">
-                        <div class="timeline-track">
-                            <div class="region-marker" data-start="5.0" data-end="5.4" style="left: 16.67%; width: 1.33%;">
-                                <div class="region-tooltip">5.0-5.4s</div>
-                            </div>
-                            <div class="region-marker" data-start="12.0" data-end="12.3" style="left: 40%; width: 1%;">
-                                <div class="region-tooltip">12.0-12.3s</div>
-                            </div>
-                            <div class="region-marker" data-start="18.0" data-end="18.5" style="left: 60%; width: 1.67%;">
-                                <div class="region-tooltip">18.0-18.5s</div>
-                            </div>
-                        </div>
-                        <div class="timeline-labels">
-                            <span>0s</span>
-                            <span>10s</span>
-                            <span>20s</span>
-                            <span>30s</span>
-                        </div>
-                    </div>
-                    <p class="timeline-hint">Click on regions to jump to that time in the audio</p>
-                </div>
+        <section id="rationale" class="research-section section-padding" data-focus-step="3">
+            <div class="container compact-container rationale-layout">
+                <div><p class="section-eyebrow" data-i18n="rationale.eyebrow">Why local regeneration</p><h2 class="section-title" data-i18n="rationale.title">Change less, but change what matters</h2></div>
+                <div class="rationale-copy"><p data-i18n="rationale.body">MAIA does not edit the whole waveform. It first ranks influential regions, then constrains generative changes to a small set of selected intervals. This makes the intervention interpretable in time and gives the inpainting model surrounding context for musically plausible reconstruction.</p><div class="principle-strip"><span data-i18n="rationale.p1">Model-aware localization</span><span data-i18n="rationale.p2">Bounded generative edits</span><span data-i18n="rationale.p3">Security–quality evaluation</span></div></div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 5: Results Showcase -->
-    <section id="results" class="results-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Results</h2>
-            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
-                MAIA outperforms existing adversarial attack methods
-            </p>
-            
-            <!-- Performance Cards -->
-            <div class="performance-grid" data-aos="fade-up" data-aos-delay="200">
-                <div class="perf-card whitebox">
-                    <div class="card-header">
-                        <h3>MAIA White-Box</h3>
-                        <span class="card-badge">Best</span>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value large">92.8%</div>
-                        <div class="metric-label">Attack Success Rate</div>
-                    </div>
-                    <div class="metric-list">
-                        <div class="metric-row">
-                            <span>mAP Degradation:</span>
-                            <span class="value">0.845 → 0.488</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>FAD:</span>
-                            <span class="value">11.25</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>MOS:</span>
-                            <span class="value">4.0/5</span>
+        <section id="method" class="method-section section-padding" data-focus-step="4">
+            <div class="container">
+                <h2 class="section-title" data-i18n="method.title">How MAIA Works</h2>
+                <p class="section-subtitle" data-i18n="method.subtitle">A three-step importance-driven adversarial inpainting framework</p>
+                <div class="method-steps">
+                    <div class="method-step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3 data-i18n="method.step1Title">Importance Analysis</h3><p data-i18n="method.step1Body">Identify critical time-frequency regions that most influence the model's decision</p>
+                            <div class="step-details">
+                                <div class="detail-item"><h4 data-i18n="method.whiteTitle">White-box: Grad-CAM</h4><p data-i18n="method.whiteBody">Use gradient-weighted class activation mapping on the target model's final-block representation.</p><div class="formula">M<sub>c</sub>(x,y) = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> F<sub>k</sub><sup>l</sup>(x,y))</div></div>
+                                <div class="detail-item"><h4 data-i18n="method.blackTitle">Black-box: Coarse-to-Fine</h4><p data-i18n="method.blackBody">Rank masked chunks by loss change per unit duration, then refine the most influential chunk.</p><div class="formula">I(C<sub>i</sub>) = [L(M(x̃<sub>-C<sub>i</sub></sub>), y) - L(M(x), y)] / duration(C<sub>i</sub>)</div></div>
+                            </div>
+                            <div class="step-visualization"><div class="viz-placeholder" id="gradcam-viz"><img src="assets/figures/2.png" alt="Grad-CAM heatmap on mel-spectrogram" data-i18n-attr="alt:method.figure2Alt" style="width:100%;border-radius:8px;display:block;" /><p class="viz-caption" data-i18n="method.figure2Caption">Grad-CAM heatmap on mel-spectrogram</p></div></div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="perf-card baseline">
-                    <div class="card-header">
-                        <h3>Baselines (WB)</h3>
-                        <span class="card-badge">PGD / C&W</span>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value large">82-88%</div>
-                        <div class="metric-label">Attack Success Rate</div>
-                    </div>
-                    <div class="metric-list">
-                        <div class="metric-row">
-                            <span>mAP Degradation:</span>
-                            <span class="value">0.560 - 0.619</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>FAD:</span>
-                            <span class="value">12.11 - 12.64</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>MOS:</span>
-                            <span class="value">3.1 - 3.4/5</span>
+                    <div class="method-step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3 data-i18n="method.step2Title">Segment Selection</h3><p data-i18n="method.step2Body">Select the highest-ranked regions for bounded generative modification</p>
+                            <div class="step-details"><div class="detail-item"><h4 data-i18n="method.priorityTitle">Priority-based Selection</h4><p data-i18n="method.priorityBody">Rank candidate regions by model-derived importance and retain the top regions under the edit budget.</p></div><div class="detail-item"><h4 data-i18n="method.refineTitle">Refinement Strategy</h4><p data-i18n="method.refineBody">In the black-box setting, recursively split the highest-scoring coarse region to obtain finer localization.</p></div></div>
+                            <div class="step-visualization"><div class="segment-image" id="segment-viz"><img src="assets/figures/3.png" alt="Selected important segments for inpainting" data-i18n-attr="alt:method.figure3Alt" style="width:100%;border-radius:8px;display:block;" /><p class="viz-caption" data-i18n="method.figure3Caption">Selected important segments for inpainting</p></div></div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="perf-card blackbox">
-                    <div class="card-header">
-                        <h3>MAIA Black-Box</h3>
-                        <span class="card-badge">Best</span>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value large">80.1%</div>
-                        <div class="metric-label">Attack Success Rate</div>
-                    </div>
-                    <div class="metric-list">
-                        <div class="metric-row">
-                            <span>mAP Degradation:</span>
-                            <span class="value">0.845 → 0.594</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>FAD:</span>
-                            <span class="value">12.56</span>
-                        </div>
-                        <div class="metric-row">
-                            <span>MOS:</span>
-                            <span class="value">3.6/5</span>
+                    <div class="method-step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h3 data-i18n="method.step3Title">Adversarial Inpainting</h3><p data-i18n="method.step3Body">Reconstruct selected segments with GACELA and task-specific adversarial guidance</p>
+                            <div class="step-details"><div class="detail-item"><h4 data-i18n="method.gacelaTitle">GACELA Inpainting Model</h4><p data-i18n="method.gacelaBody">A generative adversarial context encoder reconstructs missing music from the audio surrounding each selected region.</p></div><div class="detail-item"><h4 data-i18n="method.lossTitle">White-box Objective</h4><p data-i18n="method.lossBody">Balance reconstruction fidelity and untargeted attack effectiveness through a weighted objective.</p><div class="formula">L = λ<sub>rec</sub> L<sub>rec</sub> + λ<sub>att</sub> L<sub>attack</sub></div></div></div>
+                            <div class="step-visualization"><div class="inpainting-comparison" id="inpainting-viz"><div class="comparison-item"><img src="assets/figures/4.png" alt="Before Inpainting" data-i18n-attr="alt:method.figure4BeforeAlt" style="width:100%;border-radius:8px;display:block;" /><p data-i18n="method.before">Before Inpainting</p></div><div class="arrow">→</div><div class="comparison-item"><img src="assets/figures/4.png" alt="After Inpainting" data-i18n-attr="alt:method.figure4AfterAlt" style="width:100%;border-radius:8px;display:block;" /><p data-i18n="method.after">After Inpainting</p></div></div><p class="viz-caption" data-i18n="method.figure4Caption">The paper figure illustrates context-conditioned local music reconstruction.</p></div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Interactive Charts -->
-            <div class="charts-container">
-                <div class="chart-card" data-aos="fade-up" data-aos-delay="300">
-                    <h3>Attack Success Rate Comparison</h3>
-                    <div id="chart-asr" class="chart"></div>
-                </div>
-                
-                <div class="chart-card" data-aos="fade-up" data-aos-delay="400">
-                    <h3>Perceptual Quality vs. Attack Success</h3>
-                    <div id="chart-quality" class="chart"></div>
-                </div>
-            </div>
-            
-            <!-- Detailed Metrics Table -->
-            <div class="metrics-table-container" data-aos="fade-up" data-aos-delay="500">
-                <h3>Detailed Performance Metrics</h3>
-                <div class="table-responsive">
-                    <table class="metrics-table">
-                        <thead>
-                            <tr>
-                                <th>Method</th>
-                                <th>ASR ↑</th>
-                                <th>mAP ↓</th>
-                                <th>FAD ↓</th>
-                                <th>LSD ↓</th>
-                                <th>MOS ↑</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="section-header">
-                                <td colspan="6"><strong>White-Box Attacks (CSI)</strong></td>
-                            </tr>
-                            <tr>
-                                <td>PGD</td>
-                                <td>82.1%</td>
-                                <td>0.619</td>
-                                <td>12.64</td>
-                                <td>2.10</td>
-                                <td>3.1</td>
-                            </tr>
-                            <tr>
-                                <td>C&W</td>
-                                <td>88.5%</td>
-                                <td>0.560</td>
-                                <td>12.11</td>
-                                <td>1.94</td>
-                                <td>3.4</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td><strong>MAIA-WB</strong></td>
-                                <td><strong>92.8%</strong></td>
-                                <td><strong>0.488</strong></td>
-                                <td><strong>11.25</strong></td>
-                                <td><strong>1.58</strong></td>
-                                <td><strong>4.0</strong></td>
-                            </tr>
-                            <tr class="section-header">
-                                <td colspan="6"><strong>Black-Box Attacks (CSI)</strong></td>
-                            </tr>
-                            <tr>
-                                <td>NES</td>
-                                <td>70.2%</td>
-                                <td>0.682</td>
-                                <td>13.93</td>
-                                <td>2.27</td>
-                                <td>2.8</td>
-                            </tr>
-                            <tr>
-                                <td>ZOO</td>
-                                <td>74.9%</td>
-                                <td>0.639</td>
-                                <td>13.51</td>
-                                <td>2.12</td>
-                                <td>3.0</td>
-                            </tr>
-                            <tr class="highlight-row">
-                                <td><strong>MAIA-BB</strong></td>
-                                <td><strong>80.1%</strong></td>
-                                <td><strong>0.594</strong></td>
-                                <td><strong>12.56</strong></td>
-                                <td><strong>1.90</strong></td>
-                                <td><strong>3.6</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section 6: Resources & Impact -->
-    <section id="resources" class="resources-section section-padding">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Resources & Impact</h2>
-            
-            <div class="resources-grid">
-                <!-- Applications -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="200">
-                    <h3>Applications</h3>
-                    <div class="application-cards">
-                        <div class="app-card">
-                            <div class="app-icon">🛡️</div>
-                            <h4>Copyright Protection</h4>
-                            <p>Test robustness of music copyright detection systems against adversarial attacks</p>
+        <section id="demo" class="demo-section section-padding verified-demo" data-focus-step="5">
+            <div class="container">
+                <div class="demo-heading-grid"><div><p class="section-eyebrow" data-i18n="demo.eyebrow">Verified interactive sample</p><h2 class="section-title" data-i18n="demo.title">Real model-based regeneration at MAIA-selected regions</h2></div><p class="demo-disclaimer" data-i18n="demo.disclaimer">This interactive example isolates the generative inpainting component of MAIA. The displayed audio is produced by an actual music inpainting model at the selected regions. Paper-level attack performance is reported separately and is not inferred from this individual example.</p></div>
+                <div id="demo-error" class="demo-error" role="alert" hidden></div>
+                <div id="demo-app" class="demo-workbench" aria-busy="true">
+                    <div class="demo-toolbar"><div><span class="field-label" data-i18n="demo.sampleLabel">Source sample</span><strong id="sample-name">Goldberg Variation 20 — 30 s excerpt</strong></div><label class="candidate-control" for="candidate-select"><span class="field-label" data-i18n="demo.candidateLabel">Alternative generation</span><select id="candidate-select" data-i18n-attr="aria-label:demo.candidateAria"></select></label></div>
+                    <article id="demo-locate" class="demo-step locate-step">
+                        <div class="demo-step-heading"><span class="demo-step-number">1</span><div><h3 data-i18n="demo.locateTitle">Locate the influential region</h3><p data-i18n="demo.locateBody">The highlighted centers preserve the three region positions used by the earlier MAIA page. They are provenance-preserved interface metadata, not a new target-model localization run.</p></div></div>
+                        <div class="spectrogram-frame"><img id="locate-spectrogram" src="" alt="Original spectrogram with three selected regions" data-i18n-attr="alt:demo.locateAlt"><div id="locate-overlays" class="region-overlays" aria-hidden="true"></div></div>
+                        <div class="sample-context"><span><strong data-i18n="demo.taskLabel">Demonstrated component:</strong> <span data-i18n="demo.taskValue">music audio inpainting</span></span><span><strong data-i18n="demo.durationLabel">Duration:</strong> <span id="duration-value">30.0 s</span></span></div>
+                    </article>
+                    <article id="demo-regenerate" class="demo-step regenerate-step">
+                        <div class="demo-step-heading"><span class="demo-step-number">2</span><div><h3 data-i18n="demo.regenerateTitle">Regenerate only the selected region</h3><p data-i18n="demo.regenerateBody">Each view uses the same 30-second time axis. GACELA's 32-frame checkpoint alignment is recorded in the manifest, and the original region centers are preserved.</p></div></div>
+                        <div class="spectrogram-grid">
+                            <figure class="spectrogram-panel"><figcaption data-i18n="demo.original">Original</figcaption><div class="spectrogram-frame compact-frame"><img id="spec-original" src="" alt="Original audio spectrogram" data-i18n-attr="alt:demo.originalSpecAlt"><div class="region-overlays shared-overlays" aria-hidden="true"></div></div></figure>
+                            <figure class="spectrogram-panel"><figcaption data-i18n="demo.masked">Masked</figcaption><div class="spectrogram-frame compact-frame"><img id="spec-masked" src="" alt="Masked audio spectrogram" data-i18n-attr="alt:demo.maskedSpecAlt"><div class="region-overlays shared-overlays" aria-hidden="true"></div></div></figure>
+                            <figure class="spectrogram-panel"><figcaption data-i18n="demo.regenerated">Regenerated</figcaption><div class="spectrogram-frame compact-frame"><img id="spec-regenerated" src="" alt="GACELA regenerated audio spectrogram" data-i18n-attr="alt:demo.regeneratedSpecAlt"><div class="region-overlays shared-overlays" aria-hidden="true"></div></div></figure>
                         </div>
-                        <div class="app-card">
-                            <div class="app-icon">🔍</div>
-                            <h4>Model Auditing</h4>
-                            <p>Evaluate security vulnerabilities in deployed MIR models before production</p>
+                        <details class="difference-panel"><summary data-i18n="demo.differenceSummary">Inspect the measured difference spectrogram</summary><figure><img id="spec-difference" src="" alt="Difference spectrogram calculated from the original and regenerated audio" data-i18n-attr="alt:demo.differenceAlt"><figcaption data-i18n="demo.differenceCaption">Computed from the two WAV files. Changes outside the effective regions are zero in the validation output.</figcaption></figure></details>
+                    </article>
+                    <article id="demo-listen" class="demo-step listen-step">
+                        <div class="demo-step-heading"><span class="demo-step-number">3</span><div><h3 data-i18n="demo.listenTitle">Listen with synchronized A/B comparison</h3><p data-i18n="demo.listenBody">All three sources share one timeline. Switching tracks preserves the current position; region looping constrains playback to the selected interval.</p></div></div>
+                        <div class="track-selector" role="group" aria-label="Audio source" data-i18n-attr="aria-label:demo.trackGroupAria"><button class="track-button is-active" type="button" data-track="original" aria-pressed="true"><span data-i18n="demo.original">Original</span><small data-i18n="demo.originalTrackNote">Unmodified source excerpt</small></button><button class="track-button" type="button" data-track="masked" aria-pressed="false"><span data-i18n="demo.masked">Masked</span><small data-i18n="demo.maskedTrackNote">Selected intervals removed</small></button><button class="track-button" type="button" data-track="regenerated" aria-pressed="false"><span data-i18n="demo.regenerated">Regenerated</span><small data-i18n="demo.regeneratedTrackNote">Selected intervals filled by GACELA</small></button></div>
+                        <div class="shared-player">
+                            <div class="player-primary-row"><button id="play-toggle" class="primary-control" type="button" data-i18n="demo.play" data-i18n-attr="aria-label:demo.playAria">Play</button><div class="time-readout"><span id="current-time">0:00.0</span><span aria-hidden="true">/</span><span id="total-time">0:30.0</span></div><button id="ab-toggle" class="secondary-control" type="button" data-i18n="demo.abToggle" data-i18n-attr="aria-label:demo.abToggleAria">Switch Original / Regenerated</button></div>
+                            <div class="timeline-shell"><div id="timeline-markers" class="timeline-markers" aria-hidden="true"></div><input id="seek-slider" type="range" min="0" max="30" step="0.01" value="0" data-i18n-attr="aria-label:demo.seekAria"></div>
+                            <div class="player-secondary-row"><label for="region-select"><span data-i18n="demo.regionLabel">Selected region</span><select id="region-select" data-i18n-attr="aria-label:demo.regionAria"></select></label><button id="loop-toggle" class="secondary-control" type="button" aria-pressed="false" data-i18n="demo.loopOn" data-i18n-attr="aria-label:demo.loopAria">Loop selected region</button><label for="volume-slider" class="volume-control"><span data-i18n="demo.volume">Volume</span><input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.8" data-i18n-attr="aria-label:demo.volumeAria"></label></div>
+                            <p id="player-status" class="player-status" role="status" aria-live="polite" data-i18n="demo.ready">Ready. Original selected.</p>
                         </div>
-                        <div class="app-card">
-                            <div class="app-icon">🔒</div>
-                            <h4>Privacy Evaluation</h4>
-                            <p>Assess privacy risks in music generation and recommendation systems</p>
-                        </div>
-                    </div>
+                        <audio id="audio-original" preload="metadata"></audio><audio id="audio-masked" preload="metadata"></audio><audio id="audio-regenerated" preload="metadata"></audio>
+                    </article>
+                    <article id="demo-inspect" class="demo-step inspect-step">
+                        <div class="demo-step-heading"><span class="demo-step-number">4</span><div><h3 data-i18n="demo.inspectTitle">Verify how this sample was generated</h3><p data-i18n="demo.inspectBody">Generated offline with the stated model and served as a verified static artifact for reliable playback.</p></div></div>
+                        <div class="verification-badges" aria-label="Verification status" data-i18n-attr="aria-label:demo.badgesAria"><span data-i18n="demo.badgeReal">Real model output</span><span data-i18n="demo.badgeSeed">Deterministic seed</span><span data-i18n="demo.badgeAsset">Verified asset</span></div>
+                        <details class="provenance-panel"><summary data-i18n="demo.provenanceSummary">Open provenance record</summary><dl class="provenance-grid"><div><dt data-i18n="demo.model">Model</dt><dd id="prov-model"></dd></div><div><dt data-i18n="demo.checkpoint">Checkpoint</dt><dd id="prov-checkpoint"></dd></div><div><dt data-i18n="demo.seed">Seed</dt><dd id="prov-seed"></dd></div><div><dt data-i18n="demo.regions">Effective regions</dt><dd id="prov-regions"></dd></div><div><dt data-i18n="demo.targetVerified">Target model evaluated</dt><dd id="prov-target"></dd></div><div><dt data-i18n="demo.generated">Generation date</dt><dd id="prov-date"></dd></div><div><dt data-i18n="demo.inputHash">Input SHA-256</dt><dd id="prov-input-hash"></dd></div><div><dt data-i18n="demo.outputHash">Output SHA-256</dt><dd id="prov-output-hash"></dd></div><div><dt data-i18n="demo.codeCommit">GACELA code commit</dt><dd id="prov-commit"></dd></div><div><dt data-i18n="demo.crossfade">Boundary crossfade</dt><dd id="prov-crossfade"></dd></div></dl><div class="provenance-links"><a id="model-repository" href="https://github.com/andimarafioti/GACELA" target="_blank" rel="noopener" data-i18n="demo.modelSource">Official GACELA repository</a><a id="audio-source" href="" target="_blank" rel="noopener" data-i18n="demo.audioSource">Source audio and licence</a><a href="data/manifests/real-demo.json" target="_blank" rel="noopener" data-i18n="demo.manifest">Machine-readable manifest</a></div></details>
+                    </article>
                 </div>
-                
-                <!-- Code & Paper -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="300">
-                    <h3>Code & Paper</h3>
-                    <div class="resource-links">
-                        <a href="https://anonymous.4open.science/" class="resource-link" target="_blank">
-                            <div class="link-icon">💻</div>
-                            <div class="link-content">
-                                <h4>GitHub Repository</h4>
-                                <p>Anonymous submission - Code and models</p>
-                            </div>
-                            <div class="link-arrow">→</div>
-                        </a>
-                        <a href="#" class="resource-link" target="_blank">
-                            <div class="link-icon">📄</div>
-                            <div class="link-content">
-                                <h4>Paper (ISMIR 2025)</h4>
-                                <p>Full technical details and experiments</p>
-                            </div>
-                            <div class="link-arrow">→</div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Citation -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="400">
-                    <h3>Citation</h3>
-                    <div class="citation-box">
-                        <pre><code>@inproceedings{maia2025,
-  title={MAIA: Music Adversarial Inpainting Attack},
+            </div>
+        </section>
+
+        <section id="evidence" class="results-section section-padding evidence-section" data-focus-step="6">
+            <div class="container">
+                <div class="evidence-heading"><div><p class="section-eyebrow" data-i18n="evidence.eyebrow">Aggregate paper results</p><h2 class="section-title" data-i18n="evidence.title">Evidence and limitations</h2></div><p data-i18n="evidence.disclaimer">These values are aggregate results from Table 1 of the paper. They are not predictions or metrics for the interactive sample above.</p></div>
+                <div class="aggregate-results" aria-label="MAIA aggregate results" data-i18n-attr="aria-label:evidence.resultsAria"><article><span>MAIA-WB / CSI</span><strong>92.8%</strong><small>ASR · MOS 4.0</small></article><article><span>MAIA-WB / MGC</span><strong>93.5%</strong><small>ASR · MOS 3.8</small></article><article><span>MAIA-BB / CSI</span><strong>80.1%</strong><small>ASR · MOS 3.6</small></article><article><span>MAIA-BB / MGC</span><strong>77.9%</strong><small>ASR · MOS 3.3</small></article></div>
+                <div class="paper-table-wrap" tabindex="0" role="region" aria-label="Paper Table 1 MAIA rows" data-i18n-attr="aria-label:evidence.tableAria"><table class="paper-results-table"><caption data-i18n="evidence.tableCaption">Table 1 excerpt — MAIA rows reported for two tasks and two access settings</caption><thead><tr><th data-i18n="evidence.setting">Setting</th><th data-i18n="evidence.task">Task</th><th>ASR</th><th data-i18n="evidence.postAttack">Post-attack score</th><th>FAD</th><th>LSD</th><th>MOS</th></tr></thead><tbody><tr><td>MAIA-WB</td><td>CSI</td><td>92.8%</td><td>mAP 0.488</td><td>11.25</td><td>1.58</td><td>4.0</td></tr><tr><td>MAIA-WB</td><td>MGC</td><td>93.5%</td><td>ACC 0.466</td><td>13.85</td><td>1.94</td><td>3.8</td></tr><tr><td>MAIA-BB</td><td>CSI</td><td>80.1%</td><td>mAP 0.594</td><td>12.56</td><td>1.90</td><td>3.6</td></tr><tr><td>MAIA-BB</td><td>MGC</td><td>77.9%</td><td>ACC 0.601</td><td>14.68</td><td>1.85</td><td>3.3</td></tr></tbody></table></div>
+                <div class="limitations-grid"><article><h3 data-i18n="evidence.limit1Title">Scope of evaluation</h3><p data-i18n="evidence.limit1Body">The paper studies two MIR tasks and two target system–dataset pairs; broader generalization requires additional targets and music domains.</p></article><article><h3 data-i18n="evidence.limit2Title">Access assumptions</h3><p data-i18n="evidence.limit2Body">White-box MAIA requires gradients and model access. Black-box MAIA relies on query feedback and uses up to 1,000 queries.</p></article><article><h3 data-i18n="evidence.limit3Title">Demo boundary</h3><p data-i18n="evidence.limit3Body">The public sample verifies GACELA-based local regeneration only. No target classifier, retrieval model, prediction, or attack-search loop was run for it.</p></article></div>
+                <p class="evaluation-note" data-i18n="evidence.evaluation">The paper evaluates ASR, post-attack mAP or accuracy, FAD using MERT-V0, LSD, and a five-point subjective listening study with 100 participants.</p>
+            </div>
+        </section>
+
+        <section id="agent-safety" class="research-section section-padding agent-bridge" data-focus-step="7">
+            <div class="container"><p class="section-eyebrow" data-i18n="bridge.eyebrow">Methodological bridge</p><h2 class="section-title" data-i18n="bridge.title">From Localized Music Attacks to Multimodal Agent Safety</h2><p class="section-subtitle" data-i18n="bridge.subtitle">A methodological transfer, not an experimental result of MAIA.</p>
+                <div class="bridge-grid"><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m1">Locate influential audio regions</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a1">Identify high-risk observations, context, memory, or actions</strong></div></article><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m2">Apply bounded generative edits</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a2">Construct controlled multimodal counterfactual inputs</strong></div></article><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m3">Evaluate white-box and black-box attacks</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a3">Perform gradient-based and query-based red teaming</strong></div></article><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m4">Measure attack effectiveness and perceptual quality together</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a4">Evaluate security impact, task utility, side effects, and human perception</strong></div></article></div>
+                <blockquote class="boundary-note" data-i18n="bridge.boundary">MAIA does not directly solve prompt injection, jailbreak, tool authorization, or trusted execution. The bridge identifies a transferable evaluation methodology: locate influential inputs, apply bounded counterfactual changes, and jointly measure attack effectiveness and utility preservation.</blockquote>
+            </div>
+        </section>
+
+        <section id="resources" class="resources-section section-padding research-resources" data-focus-step="8">
+            <div class="container"><p class="section-eyebrow" data-i18n="resources.eyebrow">Paper and resources</p><h2 class="section-title" data-i18n="resources.title">Read, reproduce, and inspect</h2>
+                <div class="resource-card-grid"><a class="resource-card" href="assets/MAIA_ISMIR_2025.pdf" target="_blank" rel="noopener"><span data-i18n="resources.paperType">Paper</span><strong data-i18n="resources.paperTitle">MAIA at ISMIR 2025</strong><small data-i18n="resources.paperBody">Full method, experiments, and limitations</small></a><a class="resource-card" href="https://github.com/andimarafioti/GACELA" target="_blank" rel="noopener"><span data-i18n="resources.modelType">Model source</span><strong>GACELA</strong><small data-i18n="resources.modelBody">Official code used by the regeneration demo</small></a><a class="resource-card" href="data/manifests/real-demo.json" target="_blank" rel="noopener"><span data-i18n="resources.dataType">Provenance</span><strong data-i18n="resources.dataTitle">Verified demo manifest</strong><small data-i18n="resources.dataBody">Hashes, checkpoint, seeds, regions, and licence</small></a></div>
+                <div class="citation-section"><div><h3 data-i18n="resources.citation">Citation</h3><p data-i18n="resources.citationNote">The official English title is retained in the formal citation.</p></div><div class="citation-box"><pre><code id="citation-text">@inproceedings{liu2025maia,
+  title={MAIA: An Inpainting-Based Approach for Music Adversarial Attacks},
   author={Liu, Yuxuan and Zhang, Peihong and Sang, Rui and Li, Zhixin and Li, Shengchen},
-  booktitle={Proceedings of the International Society for Music Information Retrieval Conference},
+  booktitle={Proceedings of the 26th International Society for Music Information Retrieval Conference},
   year={2025}
-}</code></pre>
-                        <button class="btn-copy" id="btn-copy-citation">
-                            <span class="copy-icon">📋</span> Copy Citation
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Contact -->
-                <div class="resource-section" data-aos="fade-up" data-aos-delay="500">
-                    <h3>Contact</h3>
-                    <div class="contact-info">
-                        <p><strong>Authors:</strong> Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Shengchen Li</p>
-                        <p><strong>Institution:</strong> Xi'an Jiaotong-Liverpool University</p>
-                        <p><strong>Email:</strong> shengchen.li@xjtlu.edu.cn</p>
-                    </div>
-                </div>
+}</code></pre><button class="control-button" id="copy-citation" type="button" data-i18n="resources.copy" data-i18n-attr="aria-label:resources.copyAria">Copy citation</button></div></div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 MAIA Project. All rights reserved.</p>
-            <p>Built for research and educational purposes.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/audio-player.js?v=20260816b"></script>
-    <script src="js/visualizations.js"></script>
-    <script src="js/demo.js?v=20260816b"></script>
-    <script src="js/scroll-effects.js"></script>
+    <div id="focus-controls" class="focus-controls" hidden aria-label="Focus view navigation" data-i18n-attr="aria-label:focus.controlsAria"><button id="focus-prev" type="button" data-i18n="focus.previous">Previous</button><span id="focus-progress" aria-live="polite">1 / 8</span><button id="focus-next" type="button" data-i18n="focus.next">Next</button></div>
+    <footer class="footer research-footer"><div class="container footer-grid"><p>© 2025–2026 Yuxuan Liu · MAIA</p><p data-i18n="footer.note">Research evidence is separated from the verified interactive sample.</p></div></footer>
+    <script src="js/i18n.js?v=20260904-2"></script>
+    <script src="js/app.js?v=20260904-2"></script>
 </body>
 </html>

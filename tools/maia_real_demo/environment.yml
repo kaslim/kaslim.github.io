@@ -1,0 +1,15 @@
+name: maia-real-demo
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip=24.2
+  - pip:
+      - numpy==1.24.4
+      - scipy==1.10.1
+      - soundfile==0.12.1
+      - librosa==0.10.1
+      - matplotlib==3.8.4
+      - torch==2.0.1
+      - ltfatpy==1.1.2
+      - tifresi==0.1.2

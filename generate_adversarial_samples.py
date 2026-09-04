@@ -1,6 +1,9 @@
-"""
-Generate adversarial audio samples for MAIA demo website
-Uses DiffMusic inpainting to create subtle adversarial modifications
+"""LEGACY / ARCHIVED PAGE PROTOTYPE — DO NOT USE AS RESEARCH OUTPUT.
+
+This script uses random noise, simulated predictions, and fabricated per-sample
+metrics. It does not run DiffMusic, GACELA, or a target model. The rebuilt MAIA
+page does not load any artifact produced by this file. Reproducible, model-based
+demo generation lives in ``tools/maia_real_demo``.
 """
 
 import os
@@ -287,4 +290,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -1,0 +1,3 @@
+3b0cb1b958466b675c4a1e87a645957a67b58fb7fd9ddd403ba4240b72cf21fb  maia/assets/figures/2.png
+855fe17af678bea2cd45f56a988c2b325e00d20eade437ef9f9308c2c9534da1  maia/assets/figures/3.png
+116a8b90d1bafd9744b7020fb21e4ccd8733d1a755e6c30e7a39d3cba48086ab  maia/assets/figures/4.png
