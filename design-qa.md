@@ -31,6 +31,62 @@ final result: passed
 
 ---
 
+# Design QA — TS-RaMIA evidence-first interview redesign
+
+## Visual truth and comparison evidence
+
+- Source visual truth: the user-reviewed pre-redesign captures under `/Users/yuxuanliu/Documents/秋招/audits/ts-ramia-2026-09-05/`, especially `01-hero-desktop.png`, `02-method-desktop.png`, `04-demo-after.png`, `05-results-desktop.png`, `06-low-fpr-desktop.png`, and `07-mobile-hero.png`.
+- Scientific visual truth: the final PMLR 303 paper and its unchanged Figure 1 / Figure 2 assets extracted by `ts-ramia/scripts/extract-paper-figures.py`.
+- Browser-rendered implementation evidence: `/Users/yuxuanliu/Documents/秋招/audits/ts-ramia-2026-09-05-redesign/local/`.
+- Full-view comparison input: `source-vs-implementation-hero.png`, which places the previous and rebuilt heroes in one 2880 × 954 image after both sides were normalized to 1440 × 900.
+- Focused comparison input: `source-vs-implementation-evidence.png`, which places the previous fabricated sample-result view beside the PMLR Table 1 evidence explorer in one 2880 × 954 image after the same normalization.
+- Source screenshot size: 1265 × 712 pixels. Desktop implementation screenshot size: 1425 × 891 pixels from a 1440 × 900 CSS viewport. Normalization was used only for visual comparison, not for production assets.
+- Focus View evidence: `focus-step-1-en-1280x720.jpg` through `focus-step-8-en-1280x720.jpg` at 1280 × 720 CSS/pixel output, plus step 5, 6 and 8 captures at 1440 × 900.
+- Mobile evidence: `mobile-navigation-en-390x844.jpg`, `mobile-evidence-en-390x844.jpg`, `mobile-focus-step-5-en-390x844.jpg`, and `mobile-focus-step-8-en-390x844.jpg` from a 390 × 844 CSS viewport; visible screenshots are 375 × 812 pixels after the browser scrollbar/chrome crop.
+- States compared: English and Chinese hero, threat model, confounder trap, Figure 1 pipeline, matched Evidence Explorer, ablations, limitations, Agent Safety Bridge, Focus steps 1–8, mobile navigation, mobile evidence, image dialog, and conference slides.
+
+## Findings
+
+- P0: none.
+- P1: none remaining.
+- P2 fixed: first-load language rendering removed `focus=1&step=n` before Focus state initialized. Initial Focus state is now parsed before the language event and verified at all eight deep links.
+- P2 fixed: the first mobile Sections menu overlaid the hero and omitted six ordinary sections. It now uses an in-flow two-row header layout, exposes all 14 Normal View sections, and leaves the hero below the expanded menu.
+- P2 fixed: direct hash links landed early because the published-results table expanded above the target after the browser performed its first anchor jump. The page now repositions the target after data rendering with a one-frame, nonanimated correction.
+- P2 fixed: image-dialog Escape behavior and citation-copy feedback were not deterministic in the in-app browser. The dialog now handles cancel/Escape explicitly and citation copy includes a controlled fallback.
+- The visual move from the old purple promotional landing page to a dark evidence-first research interface is intentional. The blue/amber/green project language remains, while unsupported badges, emoji, fake sample probabilities, and overclaiming were removed.
+
+## Required fidelity surfaces
+
+- Fonts and typography: the implementation uses a consistent Inter/system sans stack, restrained all-caps evidence labels, compact body copy, and a clear hero-to-section hierarchy. English and Chinese share the same size and weight system and wrap without forced downscaling.
+- Spacing and layout rhythm: Normal View uses continuous research sections; Focus View uses independent header/content/footer grid rows. Every English and Chinese Focus step reported equal `clientHeight` and `scrollHeight` at 1280 × 720 and 1440 × 900, with controls outside the content row.
+- Colors and visual tokens: the established blue, amber, and green meanings are consistent across interaction, scientific caution, and supported-evidence states. Dark surfaces preserve contrast without decorative gradients or oversized shadows.
+- Image quality and asset fidelity: Figure 1 is the embedded final-paper raster and Figure 2 is a high-resolution paper-page extraction cropped only to the figure boundary. Images use natural aspect ratios, no redrawing, no CSS substitutes, no generated scientific assets, and no interpolation into new evidence.
+- Copy and content: the official title, nine-author order, PMLR metadata, Table 1, Table 2, NotaGen results, negative results, threat model, limitations, and Agent Safety future-work boundary were checked against the final paper. The page avoids treating raw NLL or an aggregate table value as a sample-level membership probability.
+- Icons and imagery: no emoji or custom SVG/CSS scientific illustrations replace paper assets. Text labels and native controls carry the interface; the retained `TS` mark is a brand monogram, not a surrogate research figure.
+
+## Interaction and accessibility checks
+
+- Bare URL English, explicit `?lang=en`, explicit `?lang=zh`, language switching on Focus step 8, hash preservation, and step preservation were exercised.
+- Focus Previous/Next, ArrowLeft/ArrowRight, Home/End, Escape, URL restoration, and the polite step announcement were exercised. Programmatic H2 focus has no button-like outline; interactive controls retain `:focus-visible` styling.
+- Evidence Explorer exercised all 36 view/method/metric combinations with no empty values; Focus evidence tabs returned the exact three published AUC triplets.
+- Figure 1 stage tabs, image modal open/Escape/focus return, citation copy, mobile menu open/Escape/section selection, and responsive table scrolling were tested.
+- Browser-rendered image checks found all three production figure assets decoded at their declared native dimensions. Fresh-page console checks returned no errors and no missing translation keys.
+- The retained 18-slide AAAI deck opened and advanced, notes toggled with N, and ESC closed notes/TOC. Fullscreen could not be entered in the automated browser because the connector denies fullscreen permission; the page's fullscreen handler remained unchanged.
+- Reduced-motion CSS, semantic tables, heading structure, alt text, native controls, dialog semantics, skip link, and keyboard focus paths were inspected. This is an implementation-level check, not a claim of complete WCAG certification.
+
+## Comparison history
+
+1. The source comparison exposed promotional framing, unsupported “first” claims, emoji, and fabricated sample-level outcomes.
+2. The first rebuilt implementation replaced these with the final-paper title, real Figure 1/2 assets, aggregate Table 1/2 evidence, confounder controls, negative results, and explicit deployment limits.
+3. Browser QA found Focus deep-link loss, mobile menu overlay/incomplete coverage, delayed deep-anchor placement, dialog Escape, and copy-feedback issues.
+4. Each issue was fixed and retested at the same state. Final geometry checks covered all eight steps in English and Chinese at 1280 × 720 and all eight English steps at 1440 × 900; no content/footer overlap or horizontal overflow remained.
+5. Mobile 390 × 844 retesting confirmed the complete 14-link menu is in flow, the hero is not covered, the Evidence table scrolls inside its own container, and Focus controls remain in a separate row.
+6. Final static validation passed published-number checks, language-key parity, asset existence, forbidden-content scans, and production-script dependency checks.
+
+final result: passed
+
+---
+
 # Design QA — LSA-Probe Focus View interview increment
 
 ## Visual truth and comparison evidence

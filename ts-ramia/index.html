@@ -1,468 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="TS-RaMIA: First Membership Inference Attack on Music Generation Models - Revealing privacy risks through transcription structure analysis">
-    <meta name="keywords" content="membership inference attack, music AI, privacy, machine learning, deep learning">
-    <meta name="author" content="TS-RaMIA Team">
-    
-    <title>TS-RaMIA: First MIA on Music Models</title>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css?v=20260816a">
-    
-    <!-- D3.js -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evidence-first research page for TS-RaMIA, a structure-aware membership auditing method for symbolic music generation models.">
+  <meta name="author" content="Yuxuan Liu">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="TS-RaMIA · Symbolic Music Membership Auditing">
+  <meta property="og:description" content="Structure-aware, debiased membership auditing for symbolic music generation models.">
+  <meta property="og:url" content="https://kaslim.github.io/ts-ramia/">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>TS-RaMIA · Symbolic Music Membership Auditing</title>
+  <link rel="stylesheet" href="css/site-v2.css?v=20260905d">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="navbar" class="navbar">
-        <div class="container">
-            <a href="../" class="nav-brand" style="text-decoration: none;">← TS-RaMIA</a>
-            <ul class="nav-menu">
-                <li><a href="#hero" class="nav-link">Home</a></li>
-                <li><a href="#motivation" class="nav-link">Problem</a></li>
-                <li><a href="#method" class="nav-link">Method</a></li>
-                <li><a href="#demo" class="nav-link">Demo</a></li>
-                <li><a href="#results" class="nav-link">Results</a></li>
-                <li><a href="#resources" class="nav-link">Resources</a></li>
-                <li><a href="aaai-slides.html" class="nav-link" style="background: linear-gradient(135deg, #DE8F05 0%, #D55E00 100%); color: white; border-radius: 4px; padding: 0.5rem 1rem;">📊 Slides</a></li>
-            </ul>
-        </div>
+  <a class="skip-link" href="#main-content" data-i18n="a11y.skip">Skip to content</a>
+  <header class="site-header" id="site-header">
+    <a class="brand" href="../" aria-label="Back to Yuxuan Liu's portfolio" data-i18n-aria-label="a11y.back_portfolio"><span class="brand-mark" aria-hidden="true">TS</span><span>TS-RaMIA</span></a>
+    <nav class="primary-nav" id="section-menu" aria-label="Primary navigation" data-i18n-aria-label="a11y.primary_nav">
+      <a href="#overview" data-i18n="nav.overview">Overview</a><a href="#audit-question" data-i18n="nav.audit">Audit question</a><a href="#threat-model" data-i18n="nav.threat">Threat model</a><a class="nav-detail" href="#evaluation-trap" data-i18n="nav.trap">Evaluation trap</a><a class="nav-detail" href="#core-insight" data-i18n="nav.insight">Core insight</a><a href="#pipeline" data-i18n="nav.method">Method</a><a href="#evidence" data-i18n="nav.evidence">Evidence</a><a class="nav-detail" href="#low-fpr" data-i18n="nav.lowfpr">Low-FPR</a><a class="nav-detail" href="#ablations" data-i18n="nav.ablations">Falsification</a><a class="nav-detail" href="#transfer" data-i18n="nav.transfer">Transfer</a><a class="nav-detail" href="#checkpoint-scan" data-i18n="nav.checkpoint">Checkpoint scan</a><a href="#limitations" data-i18n="nav.limits">Limits</a><a href="#agent-safety" data-i18n="nav.agent">Agent safety</a><a href="#resources" data-i18n="nav.resources">Resources</a>
     </nav>
-
-    <!-- Section 1: Hero -->
-    <section id="hero" class="hero-section">
-        <canvas id="particles-canvas"></canvas>
-        <div class="hero-content">
-            <h1 class="hero-title animate-fade-in">TS-RaMIA</h1>
-            <h2 class="hero-subtitle animate-fade-in-delay-1">First Membership Inference Attack on Music Models</h2>
-            <p class="hero-description animate-fade-in-delay-2">
-                Revealing privacy risks in music generation through transcription structure analysis
-            </p>
-            <div class="hero-badges animate-fade-in-delay-3">
-                <span class="badge badge-primary">🎵 Music AI</span>
-                <span class="badge badge-warning">🔓 Privacy Risk</span>
-                <span class="badge badge-success">🏆 First MIA</span>
-            </div>
-            <a href="#method" class="hero-cta animate-fade-in-delay-4">Explore the Attack →</a>
-        </div>
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <p>Scroll to explore</p>
-        </div>
+    <div class="header-actions"><button class="button button-quiet sections-toggle" id="sections-toggle" type="button" aria-expanded="false" aria-controls="section-menu" data-i18n="controls.sections">Sections</button><button class="button button-quiet" id="language-toggle" type="button">中文</button><button class="button button-primary" id="focus-toggle" type="button" aria-pressed="false" data-i18n="controls.focus">Focus View</button></div>
+  </header>
+  <main id="main-content">
+    <section class="hero section-shell" id="overview" aria-labelledby="hero-title">
+      <div class="hero-copy"><p class="venue-line" data-i18n="hero.venue">EAIM @ AAAI 2026 · PMLR 303:1–15</p><p class="method-name">TS-RaMIA</p><h1 id="hero-title">TS-RaMIA: Membership Inference Attacks for Symbolic Music Generation Models</h1><p class="hero-deck" data-i18n="hero.deck">A structure-aware, debiased audit that asks whether a symbolic music work was used to train a generation model—without turning confounders into false evidence.</p><p class="authors" id="paper-authors">Yuxuan Liu, Rui Sang, Peihong Zhang, Zhixin Li, Kunyang Zhang, Shengyuan He, Ye Li, Kaiyi Xu, Shengchen Li</p><p class="first-author" data-i18n="hero.first_author">First author: Yuxuan Liu</p><div class="hero-actions"><a class="button button-primary" href="https://proceedings.mlr.press/v303/liu26a.html" target="_blank" rel="noreferrer" data-i18n="controls.read_paper">Read paper</a><a class="button button-secondary" href="https://github.com/kaslim/TS-RaMIA" target="_blank" rel="noreferrer" data-i18n="controls.view_code">View code</a><button class="button button-quiet" type="button" id="hero-focus" data-i18n="controls.focus">Focus View</button></div></div>
+      <aside class="hero-panel" aria-label="Method characteristics" data-i18n-aria-label="a11y.method_characteristics"><p class="panel-label" data-i18n="hero.positioning">Research positioning</p><ul class="tag-list"><li data-i18n="hero.tag1">Structure-aware audit</li><li data-i18n="hero.tag2">Debiased evaluation</li><li data-i18n="hero.tag3">Low-FPR membership inference</li><li data-i18n="hero.tag4">Forward-pass only</li></ul><p class="hero-boundary" data-i18n="hero.boundary">The page separates the research question, method, controlled evidence, negative results, and deployment limits before presenting headline numbers.</p></aside>
     </section>
-
-    <!-- Section 2: Motivation -->
-    <section id="motivation" class="motivation-section">
-        <div class="container">
-            <h2 class="section-title">The Privacy Problem</h2>
-            <div class="motivation-grid">
-                <div class="motivation-text">
-                    <h3>Can AI Music Models Remember Training Data?</h3>
-                    <p class="lead">
-                        Music generation models learn from thousands of compositions. 
-                        But can we tell if a specific piece was in the training set?
-                    </p>
-                    <p>
-                        <strong>Why This Matters:</strong>
-                    </p>
-                    <ul class="feature-list">
-                        <li>🎼 Copyright protection for composers</li>
-                        <li>📜 Compliance with data usage agreements</li>
-                        <li>🔒 Privacy risks in music AI systems</li>
-                        <li>⚖️ Legal implications for AI training</li>
-                    </ul>
-                    <div class="stats-box">
-                        <div class="stat">
-                            <div class="stat-value">14.6%</div>
-                            <div class="stat-label">TPR @ 1% FPR</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">0.826</div>
-                            <div class="stat-label">AUC Score</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="motivation-demo">
-                    <h4>Interactive Example</h4>
-                    <p class="demo-instruction">Hover over samples to see if they're training data</p>
-                    <div class="sample-cards">
-                        <div class="sample-card" data-label="member">
-                            <div class="card-content">
-                                <div class="card-icon">🎹</div>
-                                <div class="card-title">Bach Prelude</div>
-                                <div class="card-status">Training Sample</div>
-                            </div>
-                        </div>
-                        <div class="sample-card" data-label="non-member">
-                            <div class="card-content">
-                                <div class="card-icon">🎵</div>
-                                <div class="card-title">Chopin Nocturne</div>
-                                <div class="card-status">Non-Training</div>
-                            </div>
-                        </div>
-                        <div class="sample-card" data-label="member">
-                            <div class="card-content">
-                                <div class="card-icon">🎼</div>
-                                <div class="card-title">Mozart Sonata</div>
-                                <div class="card-status">Training Sample</div>
-                            </div>
-                        </div>
-                        <div class="sample-card" data-label="non-member">
-                            <div class="card-content">
-                                <div class="card-icon">🎹</div>
-                                <div class="card-title">Beethoven Symphony</div>
-                                <div class="card-status">Non-Training</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="content-section section-shell" id="audit-question" aria-labelledby="audit-title">
+      <div class="section-heading"><p class="section-number">01</p><div><p class="eyebrow" data-i18n="audit.kicker">Membership auditing</p><h2 id="audit-title" data-i18n="audit.title">Can a creator test whether a piece was used to train a music generation model?</h2></div></div>
+      <div class="audit-layout"><div class="audit-flow" role="img" aria-label="A candidate symbolic-music piece is scored by an audited model to test a membership hypothesis" data-i18n-aria-label="a11y.audit_flow"><article><span>INPUT</span><strong data-i18n="audit.input">Candidate music work x</strong><p data-i18n="audit.input_note">A symbolic sequence under audit</p></article><article><span>SCORE</span><strong>s(x)</strong><p data-i18n="audit.score_note">A statistical membership-risk score</p></article><article><span>TEST</span><strong>H<sub>0</sub> / H<sub>1</sub></strong><p data-i18n="audit.hypothesis">H₀: x ∉ Dtrain · H₁: x ∈ Dtrain</p></article><article><span>DECISION</span><strong data-i18n="audit.decision">Threshold fixed on validation data</strong><p data-i18n="audit.decision_note">Then evaluated on a held-out test set</p></article></div><aside class="boundary-card"><p class="card-label" data-i18n="audit.not_title">What MIA is not</p><ul class="compact-list"><li data-i18n="audit.not1">Not plagiarism detection</li><li data-i18n="audit.not2">Not similarity search</li><li data-i18n="audit.not3">Not training-data extraction</li><li data-i18n="audit.not4">Not definitive legal proof</li></ul><p data-i18n="audit.not_body">The output is an audit signal. Rights holders should combine it with provenance, licensing records, metadata, and other supporting evidence.</p></aside></div>
     </section>
-
-    <!-- Section 3: Method -->
-    <section id="method" class="method-section">
-        <div class="container">
-            <h2 class="section-title">Our Approach</h2>
-            <p class="section-subtitle">A three-step attack leveraging structural tokens in music notation</p>
-            
-            <div class="method-steps">
-                <!-- Step 1 -->
-                <div class="method-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Structural Token Identification</h3>
-                        <p>Extract structure-revealing tokens from ABC notation (bars, time signatures, key signatures)</p>
-                        <div class="step-visualization">
-                            <div id="abc-demo" class="abc-container">
-                                <div class="abc-line">
-                                    <span class="token">X:1</span>
-                                    <span class="token structure">|</span>
-                                    <span class="token note">C</span>
-                                    <span class="token note">E</span>
-                                    <span class="token note">G</span>
-                                    <span class="token structure">|</span>
-                                    <span class="token note">C</span>
-                                    <span class="token structure">M:4/4</span>
-                                    <span class="token structure">K:Cmaj</span>
-                                    <span class="token structure">|</span>
-                                </div>
-                                <div class="legend">
-                                    <span><span class="legend-box structure"></span> Structural Tokens</span>
-                                    <span><span class="legend-box note"></span> Note Tokens</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="method-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Top-k Tail Scoring</h3>
-                        <p>Focus on the hardest-to-predict tokens (Top-64) which reveal memorization</p>
-                        <div class="step-visualization">
-                            <div id="topk-chart"></div>
-                            <div class="chart-note">
-                                Higher scores = Harder to predict = More likely memorized
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="method-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Multi-Temperature Fusion</h3>
-                        <p>Combine scores across different temperatures (0.8, 1.0, 1.2, 1.5) for robust detection</p>
-                        <div class="step-visualization">
-                            <div id="temperature-chart"></div>
-                            <div class="fusion-formula">
-                                <code>Final Score = Fusion(Score<sub>T=0.8</sub>, Score<sub>T=1.0</sub>, Score<sub>T=1.2</sub>, Score<sub>T=1.5</sub>)</code>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="content-section section-shell" id="threat-model" aria-labelledby="threat-title">
+      <div class="section-heading"><p class="section-number">02</p><div><p class="eyebrow" data-i18n="threat.kicker">Gray-box · forward-pass only</p><h2 id="threat-title" data-i18n="threat.title">What the auditor can access—and what remains a deployment gap</h2></div></div>
+      <div class="three-column-cards threat-grid"><article><p class="card-label accent-blue" data-i18n="threat.allowed">Allowed</p><ul><li data-i18n="threat.allowed1">Submit a candidate symbolic-music sequence</li><li data-i18n="threat.allowed2">Obtain per-token log-probabilities through teacher forcing</li><li data-i18n="threat.allowed3">Know the documented tokenization scheme</li></ul></article><article><p class="card-label accent-green" data-i18n="threat.not_required">Not required</p><ul><li data-i18n="threat.not1">No gradients</li><li data-i18n="threat.not2">No model weights</li><li data-i18n="threat.not3">No optimizer state</li><li data-i18n="threat.not4">No access to the target training set</li></ul></article><article><p class="card-label accent-amber" data-i18n="threat.gap">Deployment gap</p><ul><li data-i18n="threat.gap1">Some commercial APIs do not expose per-token probabilities.</li><li data-i18n="threat.gap2">Generation-only interfaces need sampling-based approximations.</li><li data-i18n="threat.gap3">Those approximations increase query cost and are not the paper’s primary evaluation.</li></ul></article></div>
     </section>
-
-    <!-- Section 4: Interactive Demo -->
-    <section id="demo" class="demo-section">
-        <div class="container">
-            <h2 class="section-title">Try It Yourself</h2>
-            <p class="section-subtitle">See the attack in action on real music samples</p>
-            
-            <div class="demo-grid">
-                <!-- Control Panel -->
-                <div class="demo-controls">
-                    <h3>Select a Sample</h3>
-                    <select id="sample-selector" class="sample-selector">
-                        <option value="">-- Choose a piece --</option>
-                    </select>
-                    
-                    <div id="sample-info" class="sample-info" style="display: none;">
-                        <h4>Sample Information</h4>
-                        <div class="info-row">
-                            <span class="info-label">Composer:</span>
-                            <span class="info-value" id="info-composer"></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Total Tokens:</span>
-                            <span class="info-value" id="info-tokens"></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Structural Tokens:</span>
-                            <span class="info-value" id="info-struct-tokens"></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">True Label:</span>
-                            <span class="info-value" id="info-label"></span>
-                        </div>
-                        <div class="abc-preview">
-                            <h5>ABC Notation</h5>
-                            <pre id="abc-snippet"></pre>
-                        </div>
-                    </div>
-                    
-                    <button id="run-attack-btn" class="btn-primary" disabled>Run Attack</button>
-                </div>
-
-                <!-- Visualization Panel -->
-                <div class="demo-visualization">
-                    <div class="viz-section">
-                        <h4>Attack Process</h4>
-                        <div id="attack-progress" class="attack-progress">
-                            <div class="progress-step" data-step="1">
-                                <div class="step-icon">🔍</div>
-                                <div class="step-name">Analyzing Tokens...</div>
-                            </div>
-                            <div class="progress-step" data-step="2">
-                                <div class="step-icon">📊</div>
-                                <div class="step-name">Computing Scores...</div>
-                            </div>
-                            <div class="progress-step" data-step="3">
-                                <div class="step-icon">🎯</div>
-                                <div class="step-name">Selecting Top-64...</div>
-                            </div>
-                            <div class="progress-step" data-step="4">
-                                <div class="step-icon">🔥</div>
-                                <div class="step-name">Fusing Results...</div>
-                            </div>
-                        </div>
-                        <div id="token-scores-chart"></div>
-                    </div>
-                    
-                    <div class="viz-section">
-                        <h4>Attack Result</h4>
-                        <div id="result-display" class="result-display">
-                            <div class="result-placeholder">
-                                Select a sample and click "Run Attack" to see results
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="content-section section-shell" id="evaluation-trap" aria-labelledby="trap-title">
+      <div class="section-heading"><p class="section-number">03</p><div><p class="eyebrow" data-i18n="trap.kicker">The evaluation trap</p><h2 id="trap-title" data-i18n="trap.title">Why naïve sequence loss can look convincing for the wrong reason</h2></div></div>
+      <div class="trap-layout"><div class="trap-results" aria-label="Baseline AUC before and after confounder control" data-i18n-aria-label="a11y.trap_results"><article><span data-i18n="trap.raw">Raw baseline AUC</span><strong id="trap-raw">—</strong><small data-i18n="trap.raw_note">Before structural-length control</small></article><span class="trap-arrow" aria-hidden="true">→</span><article class="controlled"><span data-i18n="trap.matched">Length-matched AUC</span><strong id="trap-matched">—</strong><small data-i18n="trap.matched_note">313 nearest-neighbor pairs</small></article><article class="controlled"><span data-i18n="trap.calibrated">Conditionally calibrated AUC</span><strong id="trap-calibrated">—</strong><small data-i18n="trap.calibrated_note">Residualized against log structural length</small></article></div><div class="trap-copy"><ul class="cause-list"><li><strong data-i18n="trap.factor1">Length</strong><span data-i18n="trap.factor1_body">Longer works contain more opportunities for extreme loss values.</span></li><li><strong data-i18n="trap.factor2">Structure count</strong><span data-i18n="trap.factor2_body">Bar, position, and tempo counts can correlate with the split.</span></li><li><strong data-i18n="trap.factor3">Event density</strong><span data-i18n="trap.factor3_body">Dense passages change the loss distribution independently of membership.</span></li></ul><blockquote data-i18n="trap.conclusion">Without confounder control, an apparently successful attack may only be recognizing structural complexity.</blockquote></div></div>
     </section>
-
-    <!-- Section 5: Results -->
-    <section id="results" class="results-section">
-        <div class="container">
-            <h2 class="section-title">Performance Results</h2>
-            <p class="section-subtitle">Our method significantly outperforms baseline approaches</p>
-            
-            <!-- Performance Cards -->
-            <div class="metrics-cards">
-                <div class="metric-card" data-method="baseline">
-                    <div class="card-header">
-                        <span class="card-icon">📊</span>
-                        <h3>Baseline</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="metric-main">
-                            <div class="metric-value" data-target="0.679">0.000</div>
-                            <div class="metric-label">AUC</div>
-                        </div>
-                        <div class="metric-details">
-                            <div class="detail-item">
-                                <span class="detail-label">TPR@1%FPR</span>
-                                <span class="detail-value" data-target="1.46">0.00</span>%
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">TPR@5%FPR</span>
-                                <span class="detail-value" data-target="9.71">0.00</span>%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metric-card" data-method="structtail64">
-                    <div class="card-header">
-                        <span class="card-icon">🎯</span>
-                        <h3>StructTail-64</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="metric-main">
-                            <div class="metric-value" data-target="0.794">0.000</div>
-                            <div class="metric-label">AUC</div>
-                        </div>
-                        <div class="metric-details">
-                            <div class="detail-item">
-                                <span class="detail-label">TPR@1%FPR</span>
-                                <span class="detail-value" data-target="14.63">0.00</span>%
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">TPR@5%FPR</span>
-                                <span class="detail-value" data-target="28.29">0.00</span>%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="metric-card" data-method="fusion">
-                    <div class="card-header">
-                        <span class="card-icon">🚀</span>
-                        <h3>StructTail+Fusion</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="metric-main">
-                            <div class="metric-value" data-target="0.826">0.000</div>
-                            <div class="metric-label">AUC</div>
-                        </div>
-                        <div class="metric-details">
-                            <div class="detail-item">
-                                <span class="detail-label">TPR@1%FPR</span>
-                                <span class="detail-value" data-target="14.60">0.00</span>%
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">TPR@5%FPR</span>
-                                <span class="detail-value" data-target="32.70">0.00</span>%
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ROC Curve -->
-            <div class="roc-container">
-                <h3>ROC Curve Comparison</h3>
-                <div class="roc-controls">
-                    <label class="toggle-label">
-                        <input type="checkbox" id="toggle-baseline" checked> Baseline
-                    </label>
-                    <label class="toggle-label">
-                        <input type="checkbox" id="toggle-structtail64" checked> StructTail-64
-                    </label>
-                    <label class="toggle-label">
-                        <input type="checkbox" id="toggle-fusion" checked> StructTail+Fusion
-                    </label>
-                    <button id="zoom-lowfpr" class="btn-secondary">Zoom to Low FPR (0-5%)</button>
-                    <button id="zoom-reset" class="btn-secondary">Reset View</button>
-                </div>
-                <div id="roc-chart"></div>
-            </div>
-        </div>
+    <section class="content-section section-shell" id="core-insight" aria-labelledby="insight-title">
+      <div class="section-heading"><p class="section-number">04</p><div><p class="eyebrow" data-i18n="insight.kicker">Core insight</p><h2 id="insight-title" data-i18n="insight.title">Leakage is not uniformly distributed across musical tokens</h2></div></div>
+      <div class="token-layout"><article class="token-card"><p class="card-label">REMI</p><div class="token-row"><span class="token structural">Bar</span><span class="token structural">Position</span><span class="token structural">Tempo</span><span class="token note">Pitch</span><span class="token note">Velocity</span></div><p data-i18n="insight.remi">Bar, Position, and Tempo form the structural mask; note, pitch, and velocity tokens have different functions.</p></article><article class="token-card"><p class="card-label">ABC</p><div class="token-row"><span class="token muted">Header</span><span class="token structural">|</span><span class="token structural">:</span><span class="token structural">[</span><span class="token structural">]</span><span class="token note">A–G</span></div><p data-i18n="insight.abc">Headers before the first body line are excluded. Body-level meter, key, or voice changes remain under the paper’s rules; normalized newlines are not structural tokens.</p></article></div><div class="insight-notes"><article><p class="card-label" data-i18n="insight.observe">Observation</p><p data-i18n="insight.observe_body">Per-token NLL is the base observation. Tail statistics surface sparse local anomalies that a full-sequence average can dilute.</p></article><article><p class="card-label" data-i18n="insight.decision">Decision rule</p><p data-i18n="insight.decision_body">A directed, standardized meta-attacker produces the final score under cross-validation. A single raw NLL is not a membership probability.</p></article></div>
     </section>
-
-    <!-- Section 6: Resources -->
-    <section id="resources" class="resources-section">
-        <div class="container">
-            <h2 class="section-title">Resources & Impact</h2>
-            
-            <div class="resources-grid">
-                <!-- Applications -->
-                <div class="resource-block">
-                    <h3>Real-World Applications</h3>
-                    <div class="application-cards">
-                        <div class="app-card">
-                            <div class="app-icon">🎵</div>
-                            <h4>Music Copyright Protection</h4>
-                            <p>Detect if copyrighted music was used in model training</p>
-                        </div>
-                        <div class="app-card">
-                            <div class="app-icon">📋</div>
-                            <h4>Training Data Audit</h4>
-                            <p>Verify compliance with data usage agreements</p>
-                        </div>
-                        <div class="app-card">
-                            <div class="app-icon">🔒</div>
-                            <h4>Model Privacy Assessment</h4>
-                            <p>Evaluate privacy risks before deployment</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Code & Paper -->
-                <div class="resource-block">
-                    <h3>Code & Paper</h3>
-                    <div class="resource-links">
-                        <a href="https://anonymous.4open.science/r/TS-RaMIA-63F0/README.md" class="resource-link" target="_blank">
-                            <div class="link-icon">💻</div>
-                            <div class="link-content">
-                                <div class="link-title">GitHub Repository</div>
-                                <div class="link-description">Full implementation and documentation</div>
-                            </div>
-                        </a>
-                        <a href="#" class="resource-link">
-                            <div class="link-icon">📄</div>
-                            <div class="link-content">
-                                <div class="link-title">Research Paper</div>
-                                <div class="link-description">Technical details and analysis</div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="citation-box">
-                        <h4>Citation</h4>
-                        <pre><code>@article{ts-ramia2025,
-  title={TS-RaMIA: Membership Inference Attacks 
-         for Symbolic Music Generation Models},
-  author={Yuxuan Liu},
-  year={2025}
-}</code></pre>
-                        <button class="btn-copy" onclick="copyToClipboard()">Copy Citation</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team -->
-            <div class="team-section">
-                <h3>Team</h3>
-                <p>Research conducted at Xi'an Jiaotong-Liverpool University</p>
-                <div class="team-contact">
-                    <a href="mailto:contact@example.com">Contact Us</a>
-                </div>
-            </div>
-        </div>
+    <section class="content-section section-shell" id="pipeline" aria-labelledby="pipeline-title">
+      <div class="section-heading"><p class="section-number">05</p><div><p class="eyebrow" data-i18n="pipeline.kicker">TS-RaMIA pipeline</p><h2 id="pipeline-title" data-i18n="pipeline.title">Five stages, one controlled audit score</h2><p data-i18n="pipeline.intro">Select a stage to inspect it on the unchanged Figure 1 from the paper.</p></div></div>
+      <figure class="figure-panel pipeline-panel"><div class="stage-tabs" role="tablist" aria-label="Pipeline stages" data-i18n-aria-label="a11y.pipeline_stages"><button type="button" role="tab" aria-selected="true" data-stage="mask" data-i18n="pipeline.stage1">1 · Mask</button><button type="button" role="tab" aria-selected="false" data-stage="nll" data-i18n="pipeline.stage2">2 · Per-token NLL</button><button type="button" role="tab" aria-selected="false" data-stage="debias" data-i18n="pipeline.stage3">3 · Debias</button><button type="button" role="tab" aria-selected="false" data-stage="tail" data-i18n="pipeline.stage4">4 · Tail-of-top-k</button><button type="button" role="tab" aria-selected="false" data-stage="fusion" data-i18n="pipeline.stage5">5 · Meta-fusion</button></div><button class="image-button pipeline-image-button" type="button" data-dialog-image="assets/figures/figure1-pipeline.png" aria-label="Enlarge the TS-RaMIA pipeline from Figure 1" data-i18n-aria-label="a11y.enlarge_figure1"><span class="pipeline-image-wrap"><img src="assets/figures/figure1-pipeline.png" width="2037" height="375" alt="Published TS-RaMIA Figure 1 showing data protocol, structural masking, sample-level NLL, debiasing, tail aggregation, and meta-attacker fusion" data-i18n-alt="a11y.figure1_alt"><span class="figure-highlight stage-mask" id="figure-highlight" aria-hidden="true"></span></span></button><div class="stage-description" aria-live="polite"><strong id="stage-title" data-i18n="pipeline.stage1_title">Tokenizer and structural masking</strong><p id="stage-body" data-i18n="pipeline.stage1_body">Expose Bar, Position, and Tempo in REMI or body-level structural characters in ABC while excluding formatting artifacts.</p></div><figcaption data-i18n="pipeline.caption">Published Figure 1, extracted from the final PMLR paper without redrawing. The transparent outline is a webpage annotation only.</figcaption></figure>
+      <details class="technical-details"><summary data-i18n="pipeline.details">Technical details</summary><div class="detail-grid"><article><strong data-i18n="pipeline.detail1_title">Likelihood extraction</strong><p data-i18n="pipeline.detail1_body">Teacher forcing yields per-token NLL. Non-overlapping chunks exclude each chunk’s initial token because it lacks within-chunk context.</p></article><article><strong data-i18n="pipeline.detail2_title">Debiasing</strong><p data-i18n="pipeline.detail2_body">Nearest-neighbor length matching and conditional calibration isolate membership evidence from structural length.</p></article><article><strong data-i18n="pipeline.detail3_title">Tail statistics</strong><p data-i18n="pipeline.detail3_body">Three structural top-k scores use k ∈ {32, 64, 128}; three windowed p95 statistics capture local peaks.</p></article><article><strong data-i18n="pipeline.detail4_title">Meta-attacker</strong><p data-i18n="pipeline.detail4_body">Optional reverse/hierarchical features complete a nine-dimensional vector when available. Each fold applies z-score normalization before L2-regularized, class-weighted logistic regression.</p></article><article><strong data-i18n="pipeline.detail5_title">Evaluation</strong><p data-i18n="pipeline.detail5_body">Composer-stratified five-fold cross-validation produces out-of-fold predictions, reducing stylistic leakage between training and evaluation folds.</p></article></div></details>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 TS-RaMIA. All rights reserved.</p>
-            <p>Built with ❤️ for advancing privacy-aware AI</p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
-    <script src="js/visualizations.js"></script>
-    <script src="js/demo.js"></script>
-    <script src="js/scroll-effects.js"></script>
+    <section class="content-section section-shell" id="evidence" aria-labelledby="evidence-title">
+      <div class="section-heading"><p class="section-number">06</p><div><p class="eyebrow" data-i18n="evidence.kicker">Published evidence</p><h2 id="evidence-title" data-i18n="evidence.title">Inspect the controlled Table 1 results</h2><p data-i18n="evidence.intro">This explorer exposes only aggregate results published in PMLR 303. It never produces a sample-level probability.</p></div></div>
+      <div class="explorer" id="evidence-explorer"><div class="explorer-controls"><label><span data-i18n="evidence.view">Analysis view</span><select id="evidence-view"><option value="raw" data-i18n="evidence.raw">Raw</option><option value="matched" selected data-i18n="evidence.matched">Length-matched</option><option value="calibrated" data-i18n="evidence.calibrated">Conditionally calibrated</option></select></label><label><span data-i18n="evidence.method">Method</span><select id="evidence-method"><option value="baseline">Baseline</option><option value="structtail64">StructTail-64</option><option value="fusion" selected>StructTail+Fusion</option></select></label><label><span data-i18n="evidence.metric">Metric</span><select id="evidence-metric"><option value="auc">AUC</option><option value="tpr1_percent" selected>TPR@1%FPR</option><option value="tpr5_percent">TPR@5%FPR</option><option value="tpr10_percent">TPR@10%FPR</option></select></label></div><div class="explorer-output" id="explorer-output" aria-live="polite"><div class="primary-result"><span id="explorer-metric-label">TPR@1%FPR</span><strong id="explorer-primary">—</strong><small id="explorer-ci"></small></div><div class="metric-strip"><p><span>AUC</span><strong id="explorer-auc">—</strong></p><p><span>TPR@1%FPR</span><strong id="explorer-tpr1">—</strong></p><p><span>TPR@5%FPR</span><strong id="explorer-tpr5">—</strong></p><p><span>TPR@10%FPR</span><strong id="explorer-tpr10">—</strong></p></div><div class="evidence-interpretation"><p id="explorer-view-note">—</p><p class="verification-note" data-i18n="evidence.controlled_note">Controlled evaluation view; not a per-sample probability.</p></div></div><p class="error-message" id="data-error" hidden data-i18n="errors.data">Published evidence could not be loaded. No substitute values were generated.</p></div>
+      <div class="table-wrap" tabindex="0" aria-label="Scrollable Table 1 results" data-i18n-aria-label="a11y.table1_scroll"><table id="table1"><caption data-i18n="evidence.table1_caption">Table 1 · REMI Transformer results. AUC includes 95% confidence intervals.</caption><thead><tr><th data-i18n="evidence.table_view">View</th><th data-i18n="evidence.table_method">Method</th><th>AUC [95% CI]</th><th>TPR@1%FPR</th><th>TPR@5%FPR</th><th>TPR@10%FPR</th></tr></thead><tbody></tbody></table></div>
+      <figure class="figure-panel paper-figure"><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-combined-cropped.png" aria-label="Enlarge published Figure 2" data-i18n-aria-label="a11y.enlarge_figure2"><img src="assets/figures/figure2-combined-cropped.png" width="1460" height="415" alt="Published TS-RaMIA Figure 2 with ROC, low-FPR zoom, structural-score distribution, and checkpoint risk scan" data-i18n-alt="a11y.figure2_alt"></button><figcaption><strong data-i18n="evidence.figure2_title">Published Figure 2</strong><span data-i18n="evidence.figure2_caption">Rendered from the final paper and cropped only around the figure boundary. It is not a reconstructed curve and no values are digitized from it. Final Table 1 is the numerical reporting source.</span></figcaption></figure>
+    </section>
+    <section class="content-section section-shell" id="low-fpr" aria-labelledby="lowfpr-title"><div class="section-heading"><p class="section-number">07</p><div><p class="eyebrow" data-i18n="lowfpr.kicker">Deployment-relevant evaluation</p><h2 id="lowfpr-title" data-i18n="lowfpr.title">Why low false-positive rates matter</h2></div></div><div class="lowfpr-layout"><div class="scenario"><p class="scenario-number">1,000</p><p data-i18n="lowfpr.nonmembers">non-member works audited</p><div class="scenario-rule"><span>1% FPR</span><strong>≈ 10</strong><span data-i18n="lowfpr.false_alarms">false alarms</span></div></div><div class="lowfpr-copy"><p data-i18n="lowfpr.body1">False accusations are costly, so rights-holder audits need evidence at a strict false-positive budget—not AUC alone.</p><p data-i18n="lowfpr.body2">At the 1% FPR operating point, the length-matched fusion result detects 14.6% of true members. That is recall at a fixed error budget, not the false-positive rate and not detection of most training samples.</p><p data-i18n="lowfpr.body3">The decision threshold must be selected on a development split, never tuned on the test set.</p></div></div></section>
+    <section class="content-section section-shell" id="ablations" aria-labelledby="ablation-title"><div class="section-heading"><p class="section-number">08</p><div><p class="eyebrow" data-i18n="ablation.kicker">Ablations and falsification</p><h2 id="ablation-title" data-i18n="ablation.title">What failed—and what that taught us</h2></div></div><div class="ablation-layout"><div class="table-wrap" tabindex="0" aria-label="Scrollable Table 2 ablation results" data-i18n-aria-label="a11y.table2_scroll"><table id="table2"><caption data-i18n="ablation.caption">Table 2 · Length-matched ablations</caption><thead><tr><th data-i18n="evidence.table_method">Method</th><th>AUC ± std.</th><th>TPR@1%FPR</th></tr></thead><tbody></tbody></table></div><div class="ablation-findings"><article><strong data-i18n="ablation.finding1_title">Top-64 is a trade-off</strong><p data-i18n="ablation.finding1_body">It balances variance against signal dilution; it was not chosen arbitrarily.</p></article><article><strong data-i18n="ablation.finding2_title">Windowed p95 adds a small lift</strong><p data-i18n="ablation.finding2_body">Local peaks help, but they do not replace structural top-k aggregation.</p></article><article><strong data-i18n="ablation.finding3_title">Equal-N preserves the trend</strong><p data-i18n="ablation.finding3_body">Performance near the full-piece result argues against piece length being the only signal.</p></article></div></div><div class="negative-grid"><article><p class="card-label" data-i18n="ablation.negative1_title">Note-only attack</p><strong id="note-only-auc">AUC —</strong><p data-i18n="ablation.negative1_body">Score inversion can recover approximately 0.68, but only if orientation is known in advance. It is not a usable attack as-is.</p></article><article><p class="card-label" data-i18n="ablation.negative2_title">EVT tail modeling</p><strong id="evt-auc">AUC —</strong><p data-i18n="ablation.negative2_body">With 314 non-member samples, fitting was unstable and did not outperform simpler top-k aggregation.</p></article></div></section>
+    <section class="content-section section-shell" id="transfer" aria-labelledby="transfer-title"><div class="section-heading"><p class="section-number">09</p><div><p class="eyebrow" data-i18n="transfer.kicker">Cross-representation transfer</p><h2 id="transfer-title" data-i18n="transfer.title">Does the trend survive a different symbolic representation?</h2></div></div><div class="transfer-layout"><div class="representation-flow"><article><span data-i18n="transfer.main">Main representation</span><strong>REMI Transformer</strong></article><article><span data-i18n="transfer.conversion">Conversion path</span><strong>MAESTRO MIDI → MusicXML → ABC</strong><small><span id="abc-success">—</span> · <span data-i18n="transfer.success">successful</span></small></article><article><span data-i18n="transfer.target">Transfer representation</span><strong>ABC / NotaGen</strong></article></div><div class="transfer-results"><article><span data-i18n="transfer.raw_auc">Raw AUC</span><strong id="transfer-raw-auc">—</strong></article><article><span>TPR@1%FPR</span><strong id="transfer-tpr1">—</strong></article><article><span data-i18n="transfer.matched_auc">Length-matched AUC</span><strong id="transfer-matched-auc">—</strong><small id="transfer-ci">—</small></article></div></div><aside class="boundary-note"><strong data-i18n="transfer.boundary_title">Interpretation boundary</strong><p data-i18n="transfer.boundary">NotaGen was pretrained on an external ABC corpus, while MAESTRO-derived ABC is held out. This supports a cross-representation trend under distribution shift—not a direct in-distribution replication.</p></aside></section>
+    <section class="content-section section-shell" id="checkpoint-scan" aria-labelledby="checkpoint-title"><div class="section-heading"><p class="section-number">10</p><div><p class="eyebrow" data-i18n="checkpoint.kicker">Privacy–utility checkpoint scan</p><h2 id="checkpoint-title" data-i18n="checkpoint.title">Membership risk accumulates as training progresses</h2></div></div><div class="checkpoint-layout"><figure class="figure-panel checkpoint-figure"><button class="image-button" type="button" data-dialog-image="assets/figures/figure2d-checkpoint-cropped.png" aria-label="Enlarge Figure 2d checkpoint risk scan" data-i18n-aria-label="a11y.enlarge_figure2d"><img src="assets/figures/figure2d-checkpoint-cropped.png" width="352" height="415" alt="Published Figure 2d showing attack AUC increasing while training perplexity falls across checkpoints" data-i18n-alt="a11y.figure2d_alt"></button><figcaption data-i18n="checkpoint.caption">Figure 2(d), cropped from the final paper without changing the plotted content.</figcaption></figure><div class="checkpoint-copy"><p data-i18n="checkpoint.body1">The same audit pipeline is applied to intermediate checkpoints. Attack AUC rises as training continues, indicating increasing membership risk.</p><p data-i18n="checkpoint.body2">The scan can inform selection of a lower-risk checkpoint when utility is adequate. The page does not invent checkpoint values that the text does not report.</p></div></div></section>
+    <section class="content-section section-shell" id="limitations" aria-labelledby="limitations-title"><div class="section-heading"><p class="section-number">11</p><div><p class="eyebrow" data-i18n="limits.kicker">Limitations and responsible use</p><h2 id="limitations-title" data-i18n="limits.title">Evidence the paper supports—and claims it does not establish</h2></div></div><div class="support-grid"><article><p class="card-label accent-green" data-i18n="limits.supported">Supported by this paper</p><ul><li data-i18n="limits.supported1">Forward-pass membership auditing</li><li data-i18n="limits.supported2">Symbolic-music structural tokens</li><li data-i18n="limits.supported3">Low-FPR controlled evaluation</li><li data-i18n="limits.supported4">REMI main evaluation</li><li data-i18n="limits.supported5">ABC/NotaGen transfer evidence</li></ul></article><article><p class="card-label accent-amber" data-i18n="limits.not_supported">Not established by this paper</p><ul><li data-i18n="limits.not1">Generation-only commercial API performance</li><li data-i18n="limits.not2">Proof of copyright infringement</li><li data-i18n="limits.not3">Prompt-injection or jailbreak defense</li><li data-i18n="limits.not4">End-to-end AI Agent security</li><li data-i18n="limits.not5">Universal transfer to arbitrary music models</li><li data-i18n="limits.not6">Large-scale production latency</li></ul></article></div><blockquote class="responsible-use" data-i18n="limits.responsible">TS-RaMIA provides statistical auditing evidence and should be combined with provenance, licensing records, metadata, and other supporting evidence.</blockquote></section>
+    <section class="content-section section-shell" id="agent-safety" aria-labelledby="agent-title"><div class="section-heading"><p class="section-number">12</p><div><p class="eyebrow" data-i18n="agent.kicker">Conceptual transfer / future direction — not evaluated in this paper</p><h2 id="agent-title" data-i18n="agent.title">From structured music auditing to structured Agent auditing</h2></div></div><div class="mapping-grid"><article><p><strong data-i18n="agent.map1_left_title">Structural music tokens</strong><span data-i18n="agent.map1_left">Bar / Position / Tempo</span></p><p><strong data-i18n="agent.map1_right_title">Risk-critical Agent events</strong><span data-i18n="agent.map1_right">Tool calls / permission changes / external transmission / file writes</span></p></article><article><p><strong data-i18n="agent.map2_left_title">Sequence confounders</strong><span data-i18n="agent.map2_left">Structural length and event density</span></p><p><strong data-i18n="agent.map2_right_title">Trajectory confounders</strong><span data-i18n="agent.map2_right">Trajectory length / tool count / task difficulty / user type</span></p></article><article><p><strong data-i18n="agent.map3_left_title">Group-aware evaluation</strong><span data-i18n="agent.map3_left">Composer-stratified folds</span></p><p><strong data-i18n="agent.map3_right_title">Agent evaluation</strong><span data-i18n="agent.map3_right">User-, task-, domain-, or attack-family-stratified splits</span></p></article><article><p><strong data-i18n="agent.map4_left_title">Strict operating point</strong><span>TPR@1%FPR</span></p><p><strong data-i18n="agent.map4_right_title">Safety operating point</strong><span data-i18n="agent.map4_right">Detect unsafe actions without excessively blocking benign users</span></p></article></div><div class="agent-boundaries"><article><p class="card-label" data-i18n="agent.transfers">What transfers</p><ul><li data-i18n="agent.transfers1">Audit the security-relevant parts of a structured sequence.</li><li data-i18n="agent.transfers2">Control confounders before claiming an attack works.</li><li data-i18n="agent.transfers3">Evaluate at deployment-relevant low false-positive rates.</li><li data-i18n="agent.transfers4">Separate exploratory scores from calibrated decisions.</li><li data-i18n="agent.transfers5">Use group-aware splits to prevent evaluation leakage.</li></ul></article><article><p class="card-label" data-i18n="agent.not_transfers">What does not transfer directly</p><ul><li data-i18n="agent.not1">Membership inference is not prompt-injection detection.</li><li data-i18n="agent.not2">Symbolic-music structure is not identical to Agent semantics.</li><li data-i18n="agent.not3">The paper does not evaluate Tool Use, RAG, Memory, or mobile-device actions.</li><li data-i18n="agent.not4">Production systems may not expose token log-probabilities.</li><li data-i18n="agent.not5">The proposed Agent extension is future work.</li></ul></article></div><aside class="future-direction"><strong data-i18n="agent.future_label">Possible research direction — not a result of this paper</strong><p data-i18n="agent.future">A structure-aware audit for Agent trajectories could mask high-risk events such as tool invocation, permission escalation, external communication, and persistent-memory writes, then control trajectory length and task difficulty before measuring safety leakage at low FPR.</p></aside></section>
+    <section class="content-section section-shell" id="resources" aria-labelledby="resources-title"><div class="section-heading"><p class="section-number">13</p><div><p class="eyebrow" data-i18n="resources.kicker">Paper and resources</p><h2 id="resources-title" data-i18n="resources.title">Verify the primary sources</h2></div></div><div class="resource-grid"><a href="https://proceedings.mlr.press/v303/liu26a.html" target="_blank" rel="noreferrer"><span data-i18n="resources.paper">Official paper page</span><strong>PMLR 303</strong></a><a href="https://raw.githubusercontent.com/mlresearch/v303/main/assets/liu26a/liu26a.pdf" target="_blank" rel="noreferrer"><span data-i18n="resources.pdf">Official PDF</span><strong data-i18n="resources.open_pdf">Open final paper</strong></a><a href="https://github.com/kaslim/TS-RaMIA" target="_blank" rel="noreferrer"><span data-i18n="resources.repo">Project repository</span><strong>GitHub</strong></a><a href="aaai-slides.html"><span data-i18n="resources.slides">Conference slides</span><strong>EAIM @ AAAI 2026</strong></a></div><div class="citation-card"><div class="citation-head"><p class="card-label">BibTeX</p><button class="button button-quiet" id="copy-citation" type="button" data-i18n="controls.copy">Copy citation</button></div><pre id="citation"><code>@InProceedings{pmlr-v303-liu26a,
+  title = {TS-RaMIA: Membership Inference Attacks for Symbolic Music Generation Models},
+  author = {Liu, Yuxuan and Sang, Rui and Zhang, Peihong and Li, Zhixin and Zhang, Kunyang and He, Shengyuan and Li, Ye and Xu, Kaiyi and Li, Shengchen},
+  booktitle = {Proceedings of Machine Learning Research},
+  pages = {1--15},
+  year = {2026},
+  volume = {303},
+  publisher = {PMLR},
+  url = {https://proceedings.mlr.press/v303/liu26a.html}
+}</code></pre></div></section>
+    <section class="focus-stage" id="focus-stage" aria-label="TS-RaMIA Focus View" data-i18n-aria-label="a11y.focus_stage" hidden>
+      <article class="focus-slide" data-focus-slide="1" aria-labelledby="focus-title-1"><header class="focus-slide-head"><p class="focus-slide-number">01</p><div><p class="eyebrow" data-i18n="focus.kicker1">The audit question</p><h2 id="focus-title-1" tabindex="-1" data-i18n="focus.title1">Can a creator test training-set membership?</h2></div></header><div class="focus-question-grid"><article><span>H<sub>0</sub></span><strong>x ∉ D<sub>train</sub></strong><p data-i18n="focus.h0">The candidate was not used for training.</p></article><article><span>H<sub>1</sub></span><strong>x ∈ D<sub>train</sub></strong><p data-i18n="focus.h1">The candidate was used for training.</p></article><article class="focus-usecase"><span data-i18n="focus.usecase_label">Use case</span><strong data-i18n="focus.usecase">Creator / rights-holder audit</strong><p data-i18n="focus.usecase_body">A statistical signal, calibrated on validation data.</p></article></div><aside class="focus-boundary"><strong data-i18n="audit.not_title">What MIA is not</strong><p data-i18n="focus.not_mia">Not plagiarism detection, similarity search, training-data extraction, or definitive legal proof.</p></aside></article>
+      <article class="focus-slide" data-focus-slide="2" aria-labelledby="focus-title-2"><header class="focus-slide-head"><p class="focus-slide-number">02</p><div><p class="eyebrow" data-i18n="focus.kicker2">Gray-box access</p><h2 id="focus-title-2" tabindex="-1" data-i18n="focus.title2">Forward-pass evidence—without gradients or weights</h2></div></header><div class="focus-threat-grid"><article><span data-i18n="focus.available">AVAILABLE</span><strong data-i18n="focus.logprobs">Per-token log-probabilities</strong><p data-i18n="focus.logprobs_body">Teacher forcing under a known tokenizer.</p></article><article><span data-i18n="focus.not_needed">NOT NEEDED</span><strong data-i18n="focus.no_access">No gradients, model weights, optimizer state, or target training data</strong></article><article><span data-i18n="focus.deployment_gap">DEPLOYMENT GAP</span><strong data-i18n="focus.api_limit">Generation-only commercial APIs may not expose the required probabilities.</strong><p data-i18n="focus.api_limit_body">Sampling approximations add query cost and are not the paper’s primary result.</p></article></div></article>
+      <article class="focus-slide" data-focus-slide="3" aria-labelledby="focus-title-3"><header class="focus-slide-head"><p class="focus-slide-number">03</p><div><p class="eyebrow" data-i18n="focus.kicker3">The evaluation trap</p><h2 id="focus-title-3" tabindex="-1" data-i18n="focus.title3">A strong raw AUC may be measuring structural complexity</h2></div></header><div class="focus-trap-grid"><article><span data-i18n="trap.raw">Raw baseline AUC</span><strong id="focus-raw-auc">—</strong><small data-i18n="focus.apparent">Apparently useful</small></article><article class="focus-arrow"><span aria-hidden="true">→</span><strong data-i18n="focus.control">Control length + density</strong></article><article class="controlled"><span data-i18n="trap.matched">Length-matched AUC</span><strong id="focus-matched-auc">—</strong><small data-i18n="focus.near_chance">Near chance</small></article></div><div class="focus-confounders"><span data-i18n="focus.confounder1">Structural length</span><span data-i18n="focus.confounder2">Event density</span><span data-i18n="focus.confounder3">Formatting / representation</span></div><blockquote data-i18n="trap.conclusion">Without confounder control, an apparently successful attack may only be recognizing structural complexity.</blockquote></article>
+      <article class="focus-slide" data-focus-slide="4" aria-labelledby="focus-title-4"><header class="focus-slide-head"><p class="focus-slide-number">04</p><div><p class="eyebrow" data-i18n="focus.kicker4">Core insight</p><h2 id="focus-title-4" tabindex="-1" data-i18n="focus.title4">Membership leakage is localized; uniform averages dilute it</h2></div></header><div class="focus-token-grid"><article><p class="card-label">REMI STRUCTURAL MASK</p><div class="token-row"><span class="token structural">Bar</span><span class="token structural">Position</span><span class="token structural">Tempo</span><span class="token note">Pitch</span><span class="token note">Velocity</span></div></article><article><p class="card-label">ABC STRUCTURAL MASK</p><div class="token-row"><span class="token muted">Header</span><span class="token structural">|</span><span class="token structural">:</span><span class="token structural">[</span><span class="token structural">]</span><span class="token note">A–G</span></div></article></div><div class="focus-insight-strip"><p><strong data-i18n="focus.base_observation">Base observation</strong><span data-i18n="focus.base_observation_body">Per-token NLL</span></p><p><strong data-i18n="focus.local_signal">Localized signal</strong><span data-i18n="focus.local_signal_body">Structural tail statistics</span></p><p><strong data-i18n="focus.final_decision">Final decision</strong><span data-i18n="focus.final_decision_body">Directed, standardized out-of-fold meta-attacker</span></p></div><aside class="focus-boundary"><strong data-i18n="focus.direction_warning">Direction warning</strong><p data-i18n="focus.direction_warning_body">A single high or low raw NLL is not automatically a membership probability.</p></aside></article>
+      <article class="focus-slide" data-focus-slide="5" aria-labelledby="focus-title-5"><header class="focus-slide-head"><p class="focus-slide-number">05</p><div><p class="eyebrow" data-i18n="focus.kicker5">TS-RaMIA method</p><h2 id="focus-title-5" tabindex="-1" data-i18n="focus.title5">Mask → NLL → Debias → Tail → Meta-fusion</h2></div></header><div class="focus-method-grid"><figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure1-pipeline.png" aria-label="Enlarge Figure 1 in Focus View" data-i18n-aria-label="a11y.enlarge_figure1"><img src="assets/figures/figure1-pipeline.png" width="2037" height="375" alt="Published TS-RaMIA pipeline" data-i18n-alt="a11y.figure1_focus_alt"></button><figcaption data-i18n="pipeline.caption">Published Figure 1, extracted from the final PMLR paper without redrawing. The transparent outline is a webpage annotation only.</figcaption></figure><ul><li data-i18n="focus.method1">Top-k captures sparse leakage pockets.</li><li data-i18n="focus.method2">Length matching and calibration remove spurious correlations.</li><li data-i18n="focus.method3">Composer-stratified out-of-fold evaluation reduces stylistic leakage.</li></ul></div></article>
+      <article class="focus-slide" data-focus-slide="6" aria-labelledby="focus-title-6"><header class="focus-slide-head"><p class="focus-slide-number">06</p><div><p class="eyebrow" data-i18n="focus.kicker6">Controlled evidence</p><h2 id="focus-title-6" tabindex="-1" data-i18n="focus.title6">Performance at the strict low-FPR operating point</h2></div></header><div class="focus-view-tabs" role="tablist" aria-label="Focus evidence views" data-i18n-aria-label="a11y.focus_views"><button type="button" data-focus-view="raw" aria-selected="false" data-i18n="evidence.raw">Raw</button><button type="button" data-focus-view="matched" aria-selected="true" data-i18n="evidence.matched">Length-matched</button><button type="button" data-focus-view="calibrated" aria-selected="false" data-i18n="evidence.calibrated">Conditionally calibrated</button></div><div class="focus-evidence-grid"><article><span>Baseline</span><strong id="focus-baseline-auc">—</strong><small>AUC</small><p><span id="focus-baseline-tpr">—</span> TPR@1%FPR</p></article><article><span>StructTail-64</span><strong id="focus-tail-auc">—</strong><small>AUC</small><p><span id="focus-tail-tpr">—</span> TPR@1%FPR</p></article><article class="focus-best"><span>StructTail+Fusion</span><strong id="focus-fusion-auc">—</strong><small>AUC</small><p><span id="focus-fusion-tpr">—</span> TPR@1%FPR</p></article></div><div class="focus-evidence-meta"><span data-i18n="focus.primary_metric">Primary metric: TPR@1%FPR</span><span id="focus-pairs">313 matched pairs</span><span data-i18n="focus.ci">95% confidence intervals</span><span data-i18n="focus.stratified">Composer-stratified evaluation</span></div><aside class="focus-boundary"><strong data-i18n="evidence.controlled_note">Controlled evaluation view; not a per-sample probability.</strong><p id="focus-view-note">—</p></aside></article>
+      <article class="focus-slide" data-focus-slide="7" aria-labelledby="focus-title-7"><header class="focus-slide-head"><p class="focus-slide-number">07</p><div><p class="eyebrow" data-i18n="focus.kicker7">Falsification, transfer, and limits</p><h2 id="focus-title-7" tabindex="-1" data-i18n="focus.title7">What survived—and what did not</h2></div></header><div class="focus-falsification-grid"><article><strong data-i18n="focus.falsification1">Ablation</strong><ul><li data-i18n="focus.falsification1a">Top-64 is the best trade-off.</li><li data-i18n="focus.falsification1b">Windowed p95 adds a small lift.</li><li data-i18n="focus.falsification1c">Equal-N retains the trend.</li></ul></article><article><strong data-i18n="focus.falsification2">Negative results</strong><ul><li data-i18n="focus.falsification2a">Note-only is unusable without score inversion.</li><li data-i18n="focus.falsification2b">EVT adds complexity without gain.</li></ul></article><article><strong data-i18n="focus.falsification3">Cross-representation</strong><p><span id="focus-transfer-auc">—</span> AUC · <span id="focus-transfer-tpr">—</span> TPR@1%FPR</p><small data-i18n="focus.falsification3a">NotaGen under distribution shift—not a direct replication.</small></article><article class="focus-limit"><strong data-i18n="focus.falsification4">Deployment limit</strong><p data-i18n="focus.falsification4a">The method requires per-token probabilities; generation-only API performance is not established.</p></article></div></article>
+      <article class="focus-slide" data-focus-slide="8" aria-labelledby="focus-title-8"><header class="focus-slide-head"><p class="focus-slide-number">08</p><div><p class="eyebrow" data-i18n="agent.kicker">Conceptual transfer / future direction — not evaluated in this paper</p><h2 id="focus-title-8" tabindex="-1" data-i18n="agent.title">From structured music auditing to structured Agent auditing</h2></div></header><div class="focus-agent-map"><article><p><strong data-i18n="focus.agent_left1">Music structure</strong><span>Bar / Position / Tempo</span></p><p><strong data-i18n="focus.agent_right1">Risk-critical Agent events</strong><span data-i18n="focus.agent_right1_body">Tool calls / permission changes / external transmission / file writes</span></p></article><article><p><strong data-i18n="focus.agent_left2">Confounders</strong><span data-i18n="focus.agent_left2_body">Length / density / composer</span></p><p><strong data-i18n="focus.agent_right2">Agent confounders</strong><span data-i18n="focus.agent_right2_body">Trajectory length / tool count / task difficulty / user</span></p></article><article><p><strong data-i18n="focus.agent_left3">Strict evaluation</strong><span>TPR@1%FPR</span></p><p><strong data-i18n="focus.agent_right3">Safety objective</strong><span data-i18n="focus.agent_right3_body">Detect unsafe actions without overblocking benign users</span></p></article></div><div class="focus-agent-boundaries"><article><p class="card-label" data-i18n="agent.transfers">What transfers</p><p data-i18n="focus.agent_transfers">Structure-aware auditing · confounder control · low-FPR evaluation · calibrated decisions · group-aware splits.</p></article><article><p class="card-label" data-i18n="agent.not_transfers">What does not transfer directly</p><p data-i18n="focus.agent_not">Membership inference is not prompt-injection detection. The paper does not evaluate Tool Use, RAG, Memory, or mobile-device actions, and production systems may not expose token log-probabilities.</p></article></div><aside class="focus-future"><strong data-i18n="agent.future_label">Possible research direction — not a result of this paper</strong><p data-i18n="focus.agent_future">Mask high-risk Agent events, control trajectory and task confounders, then measure safety leakage at low FPR.</p></aside></article>
+    </section>
+  </main>
+  <footer class="site-footer section-shell"><p>TS-RaMIA · Yuxuan Liu · PMLR 303 · 2026</p><a href="../" data-i18n="footer.portfolio">Back to portfolio</a></footer>
+  <div class="focus-controls" id="focus-controls" hidden><button class="button button-quiet" id="focus-prev" type="button" data-i18n="controls.previous">Previous</button><p aria-live="polite" aria-atomic="true"><span id="focus-current">1</span> / 8 · <span id="focus-label">The audit question</span></p><button class="button button-primary" id="focus-next" type="button" data-i18n="controls.next">Next</button></div>
+  <dialog class="image-dialog" id="image-dialog" aria-labelledby="image-dialog-title"><h2 class="sr-only" id="image-dialog-title" data-i18n="a11y.figure_dialog">Enlarged paper figure</h2><button class="button button-quiet dialog-close" id="dialog-close" type="button" data-i18n="controls.close">Close</button><img id="dialog-image" alt=""></dialog>
+  <script src="js/i18n-v2.js?v=20260905b" defer></script><script src="js/app-v2.js?v=20260905f" defer></script>
 </body>
 </html>

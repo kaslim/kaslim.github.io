@@ -1,0 +1,108 @@
+{
+  "paper": {
+    "title": "TS-RaMIA: Membership Inference Attacks for Symbolic Music Generation Models",
+    "authors": [
+      "Yuxuan Liu",
+      "Rui Sang",
+      "Peihong Zhang",
+      "Zhixin Li",
+      "Kunyang Zhang",
+      "Shengyuan He",
+      "Ye Li",
+      "Kaiyi Xu",
+      "Shengchen Li"
+    ],
+    "venue": "EAIM @ AAAI 2026",
+    "proceedings": "Proceedings of Machine Learning Research",
+    "volume": 303,
+    "pages": "1–15",
+    "year": 2026,
+    "links": {
+      "paper": "https://proceedings.mlr.press/v303/liu26a.html",
+      "pdf": "https://raw.githubusercontent.com/mlresearch/v303/main/assets/liu26a/liu26a.pdf",
+      "repository": "https://github.com/kaslim/TS-RaMIA",
+      "slides": "aaai-slides.html"
+    },
+    "source": "PMLR 303, official paper page"
+  },
+  "dataset": {
+    "maestro": {
+      "total": 1276,
+      "members": 962,
+      "nonmembers": 314,
+      "matched_pairs": 313,
+      "source": "PMLR 303, Sections 5.2 and 5.5"
+    },
+    "abc_conversion": {
+      "successful": 1267,
+      "attempted": 1276,
+      "success_rate_percent": 99.3,
+      "source": "PMLR 303, Section 7"
+    }
+  },
+  "table1": {
+    "source": "PMLR 303, Table 1",
+    "views": {
+      "raw": {
+        "label": "Raw",
+        "note": "Potentially inflated by structural complexity.",
+        "methods": {
+          "baseline": { "auc": 0.730, "auc_ci": [0.706, 0.754], "tpr1_percent": 1.8, "tpr5_percent": 7.2, "tpr10_percent": 15.4 },
+          "structtail64": { "auc": 0.780, "auc_ci": [0.758, 0.802], "tpr1_percent": 3.1, "tpr5_percent": 11.8, "tpr10_percent": 22.6 },
+          "fusion": { "auc": 0.812, "auc_ci": [0.791, 0.833], "tpr1_percent": 8.3, "tpr5_percent": 24.1, "tpr10_percent": 38.7 }
+        }
+      },
+      "matched": {
+        "label": "Length-matched, 313 pairs",
+        "note": "Controls structural-token count through nearest-neighbor pairing.",
+        "methods": {
+          "baseline": { "auc": 0.563, "auc_ci": [0.521, 0.605], "tpr1_percent": 0.9, "tpr5_percent": 3.2, "tpr10_percent": 7.8 },
+          "structtail64": { "auc": 0.692, "auc_ci": [0.654, 0.730], "tpr1_percent": 2.4, "tpr5_percent": 9.5, "tpr10_percent": 18.3 },
+          "fusion": { "auc": 0.826, "auc_ci": [0.803, 0.848], "tpr1_percent": 14.6, "tpr5_percent": 32.7, "tpr10_percent": 48.2 }
+        }
+      },
+      "calibrated": {
+        "label": "Conditionally calibrated",
+        "note": "Removes first-order dependence on log structural length.",
+        "methods": {
+          "baseline": { "auc": 0.571, "auc_ci": [0.529, 0.613], "tpr1_percent": 1.0, "tpr5_percent": 3.5, "tpr10_percent": 8.1 },
+          "structtail64": { "auc": 0.701, "auc_ci": [0.663, 0.739], "tpr1_percent": 2.6, "tpr5_percent": 9.8, "tpr10_percent": 19.0 },
+          "fusion": { "auc": 0.818, "auc_ci": [0.795, 0.841], "tpr1_percent": 13.9, "tpr5_percent": 31.2, "tpr10_percent": 46.8 }
+        }
+      }
+    }
+  },
+  "table2": {
+    "source": "PMLR 303, Table 2",
+    "rows": [
+      { "method": "Top-32", "auc": 0.678, "auc_std": 0.018, "tpr1_percent": 2.1 },
+      { "method": "Top-64", "auc": 0.692, "auc_std": 0.015, "tpr1_percent": 2.4 },
+      { "method": "Top-96", "auc": 0.685, "auc_std": 0.016, "tpr1_percent": 2.3 },
+      { "method": "Top-128", "auc": 0.670, "auc_std": 0.019, "tpr1_percent": 2.0 },
+      { "method": "+Windowed p95", "auc": 0.709, "auc_std": 0.014, "tpr1_percent": 3.2 },
+      { "method": "Equal-N, 8 segments", "auc": 0.688, "auc_std": 0.016, "tpr1_percent": 2.3 }
+    ]
+  },
+  "negative_results": {
+    "note_only": {
+      "auc": 0.32,
+      "inverted_auc_approx": 0.68,
+      "qualification": "Score inversion requires knowing the orientation in advance and is not a usable attack as-is."
+    },
+    "evt": {
+      "auc": 0.66,
+      "nonmember_count": 314,
+      "qualification": "EVT fitting was unstable at this sample size and did not outperform simpler top-k aggregation."
+    },
+    "source": "PMLR 303, Section 6.5"
+  },
+  "transfer": {
+    "representation": "ABC / NotaGen",
+    "raw_auc": 0.73,
+    "raw_tpr1_percent": 8.9,
+    "matched_auc": 0.71,
+    "matched_auc_ci": [0.68, 0.74],
+    "qualification": "Cross-representation evidence under distribution shift; not a direct in-distribution replication.",
+    "source": "PMLR 303, Section 7"
+  }
+}
