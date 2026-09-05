@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/responsive.css?v=20260904-2">
-    <link rel="stylesheet" href="css/research-page.css?v=20260904-2">
+    <link rel="stylesheet" href="css/research-page.css?v=20260905-1">
 </head>
 <body>
     <a class="skip-link" href="#main" data-i18n="accessibility.skip">Skip to main content</a>
@@ -40,8 +40,7 @@
                 <h1 class="hero-title">MAIA</h1>
                 <p class="hero-subtitle" data-i18n="hero.subtitle">Music Adversarial Inpainting Attack</p>
                 <p class="hero-description" data-i18n="hero.description">Locate influential musical regions, regenerate only those regions, and evaluate security impact together with perceptual quality.</p>
-                <p class="hero-authors">Yuxuan Liu<sup>*</sup>, Peihong Zhang<sup>*</sup>, Rui Sang, Zhixin Li, Shengchen Li</p>
-                <p class="coauthor-note" data-i18n="hero.equal">* Equal contribution</p>
+                <p class="hero-authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Shengchen Li</p>
                 <div class="hero-actions">
                     <a class="primary-link" href="#demo" data-i18n="hero.demoCta">Open verified regeneration demo</a>
                     <a class="secondary-link" href="assets/MAIA_ISMIR_2025.pdf" target="_blank" rel="noopener" data-i18n="hero.paperCta">Read the paper</a>
@@ -53,12 +52,12 @@
         <section id="question" class="research-section section-padding" data-focus-step="1">
             <div class="container compact-container">
                 <p class="section-eyebrow" data-i18n="question.eyebrow">Research question</p>
-                <h2 class="section-title" data-i18n="question.title">Can an MIR model be challenged without turning music into noise?</h2>
-                <p class="lead-copy" data-i18n="question.body">Conventional audio attacks often optimize imperceptible perturbations without respecting musical structure. MAIA asks whether a model's most influential regions can instead be regenerated with a learned music prior, preserving a coherent listening experience while exposing model vulnerability.</p>
+                <h2 class="section-title" data-i18n="question.title">Can we induce an MIR model to misclassify by regenerating only the musical segments it relies on most?</h2>
+                <p class="lead-copy" data-i18n="question.body">Rather than dispersing dense additive perturbations across the waveform, MAIA first identifies the musical regions that contribute most to the model’s current decision. It then uses surrounding musical context to regenerate only those bounded regions, with guidance from the attack objective. The central question is whether this localized, model-aware generative intervention can achieve an effective attack while preserving musical coherence and perceptual quality.</p>
                 <div class="question-grid">
-                    <article class="research-card"><p class="card-index">01</p><h3 data-i18n="question.localizeTitle">Localize</h3><p data-i18n="question.localizeBody">Find the time–frequency regions that contribute most to the target model's decision.</p></article>
-                    <article class="research-card"><p class="card-index">02</p><h3 data-i18n="question.regenerateTitle">Regenerate</h3><p data-i18n="question.regenerateBody">Use a conditional generative inpainting model to replace bounded regions using their musical context.</p></article>
-                    <article class="research-card"><p class="card-index">03</p><h3 data-i18n="question.evaluateTitle">Evaluate jointly</h3><p data-i18n="question.evaluateBody">Measure model impact and audio quality together instead of treating either dimension in isolation.</p></article>
+                    <article class="research-card"><p class="card-index">01</p><h3 data-i18n="question.localizeTitle">Locate model-critical regions</h3><p data-i18n="question.localizeBody">Identify the time-frequency regions that contribute most to the target model’s current decision, using gradient-based analysis or query-based coarse-to-fine localization.</p></article>
+                    <article class="research-card"><p class="card-index">02</p><h3 data-i18n="question.regenerateTitle">Regenerate with musical context</h3><p data-i18n="question.regenerateBody">Use a conditional music inpainting model to reconstruct only the selected regions from their surrounding context instead of perturbing the entire track.</p></article>
+                    <article class="research-card"><p class="card-index">03</p><h3 data-i18n="question.evaluateTitle">Balance attack and fidelity</h3><p data-i18n="question.evaluateBody">Reduce confidence in the correct class while jointly evaluating attack effectiveness, musical coherence and perceptual quality.</p></article>
                 </div>
             </div>
         </section>
@@ -190,7 +189,7 @@
 
     <div id="focus-controls" class="focus-controls" hidden aria-label="Focus view navigation" data-i18n-attr="aria-label:focus.controlsAria"><button id="focus-prev" type="button" data-i18n="focus.previous">Previous</button><span id="focus-progress" aria-live="polite">1 / 8</span><button id="focus-next" type="button" data-i18n="focus.next">Next</button></div>
     <footer class="footer research-footer"><div class="container footer-grid"><p>© 2025–2026 Yuxuan Liu · MAIA</p><p data-i18n="footer.note">Research evidence is separated from the verified interactive sample.</p></div></footer>
-    <script src="js/i18n.js?v=20260904-3"></script>
+    <script src="js/i18n.js?v=20260905-1"></script>
     <script src="js/app.js?v=20260904-3"></script>
 </body>
 </html>

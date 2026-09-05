@@ -243,6 +243,25 @@ body.focus-mode .research-hero, body.focus-mode .research-footer { display: none
 body.focus-mode main { height: 100vh; padding-top: 70px; }
 body.focus-mode [data-focus-step] { display: none; }
 body.focus-mode [data-focus-step].is-focus-step { display: block; height: calc(100vh - 70px); overflow: auto; padding: 3.2rem 0 6rem; }
+body.focus-mode #question.is-focus-step { padding-top: 1.5rem; }
+body.focus-mode #question.is-focus-step .section-eyebrow { margin-bottom: 0.35rem; }
+body.focus-mode #question.is-focus-step .section-title {
+    max-width: 1120px;
+    margin: 0 auto 0.75rem;
+    font-size: clamp(2.35rem, 3.45vw, 2.9rem);
+    line-height: 1.04;
+    text-align: center;
+}
+body.focus-mode #question.is-focus-step .lead-copy {
+    max-width: 1050px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.48;
+}
+body.focus-mode #question.is-focus-step .question-grid { margin-top: 1.2rem; }
+body.focus-mode #question.is-focus-step .research-card { min-height: 198px; padding: 1rem 1.15rem; }
+body.focus-mode #question.is-focus-step .research-card h3 { margin: 0.35rem 0 0.45rem; font-size: 1.18rem; line-height: 1.18; }
+body.focus-mode #question.is-focus-step .research-card p:last-child { font-size: 0.84rem; line-height: 1.42; }
 body.focus-mode #method.is-focus-step .method-steps { gap: 1rem; }
 body.focus-mode #method.is-focus-step .method-step { padding: 1.2rem; grid-template-columns: 58px 1fr; }
 body.focus-mode #method.is-focus-step .step-number { font-size: 2rem; }
@@ -268,6 +287,7 @@ body.focus-mode #demo.is-focus-step .demo-workbench { max-height: none; }
     .hero-actions { flex-direction: column; align-items: flex-start; }
     .scope-note { flex-direction: column; gap: 0.1rem; }
     .question-grid, .threat-grid, .limitations-grid, .resource-card-grid, .citation-section, .rationale-layout { grid-template-columns: 1fr; }
+    .citation-section > *, .citation-box, .paper-table-wrap { min-width: 0; max-width: 100%; }
     .principle-strip { grid-template-columns: 1fr; }
     .rationale-layout { gap: 1rem; }
     .demo-toolbar { align-items: stretch; flex-direction: column; }
@@ -289,6 +309,10 @@ body.focus-mode #demo.is-focus-step .demo-workbench { max-height: none; }
     .focus-controls { right: 0.5rem; bottom: 0.5rem; left: 0.5rem; justify-content: space-between; }
     body.focus-mode main { padding-top: 68px; }
     body.focus-mode [data-focus-step].is-focus-step { height: calc(100vh - 68px); padding: 2rem 0 6rem; }
+    body.focus-mode #question.is-focus-step { padding-top: 1.25rem; }
+    body.focus-mode #question.is-focus-step .section-title { font-size: clamp(2rem, 8.5vw, 2.55rem); text-align: left; }
+    body.focus-mode #question.is-focus-step .lead-copy { font-size: 0.96rem; }
+    body.focus-mode #question.is-focus-step .research-card { min-height: 0; }
     body.focus-mode #demo.is-focus-step .demo-heading-grid { grid-template-columns: 1fr; gap: 0.5rem; }
     body.focus-mode #method.is-focus-step .method-step { grid-template-columns: 1fr; }
     body.focus-mode #method.is-focus-step .step-details { display: none; }

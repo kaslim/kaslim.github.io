@@ -2,13 +2,11 @@
     const supported = ['en', 'zh-CN'];
     const params = new URLSearchParams(window.location.search);
     const queryLanguage = params.get('lang');
-    let storedLanguage = null;
-    try { storedLanguage = localStorage.getItem('maia-language'); } catch (_) { storedLanguage = null; }
     let currentLanguage;
     if (queryLanguage !== null) {
         currentLanguage = supported.includes(queryLanguage) ? queryLanguage : 'en';
     } else {
-        currentLanguage = supported.includes(storedLanguage) ? storedLanguage : 'en';
+        currentLanguage = 'en';
     }
     let messages = {};
 
