@@ -1,6 +1,6 @@
 # LSA-Probe production fact audit
 
-Audit date: 2026-09-05
+Audit date: 2026-09-06
 
 Primary source: the five-page ICASSP 2026 paper PDF supplied by the author. Secondary checks used the arXiv record, the official ICASSP 2026 programme entry, and the public project repository.
 
@@ -30,10 +30,10 @@ Primary source: the five-page ICASSP 2026 paper PDF supplied by the author. Seco
 
 - `assets/figures/stability-schematic.png` is a deterministic explanatory schematic, not a measured sample or digitised experiment. It contains no empirical values and is labelled accordingly.
 - `assets/figures/audit-question-flow.svg` is a deterministic audit-flow diagram. It treats the candidate audio and audited model as joint inputs and presents a continuous statistical evidence direction rather than a categorical verdict.
-- The endpoint-versus-LSA-Probe explanation is delivered as four finished image assets: English and Chinese desktop SVGs plus English and Chinese mobile SVGs. The production page selects the appropriate complete image; it does not reconstruct this figure from HTML/CSS components.
-- The finished comparison removes the source image's repeated spectrograms, crossing arrows, long conclusion paragraphs and illustrative values 0.05/0.06. It retains only the audited scientific relationship: overlapping endpoint evidence versus the minimum time-normalized budget required to reach the same degradation target, with `C_adv(member) > C_adv(non-member)` presented as an empirical tendency.
+- The endpoint-versus-LSA-Probe explanation is delivered as four finished reference-guided raster figures: complete English and Chinese assets for desktop and mobile. The production page selects the appropriate image file; it does not reconstruct this figure from HTML/CSS components.
+- The revised paper-style comparison keeps the source image's recognizable piano-spectrogram visual language while removing repeated imagery, crossing arrows, long conclusion paragraphs and the illustrative values 0.05/0.06. It retains only the audited scientific relationship: overlapping endpoint evidence versus the minimum time-normalized budget required to reach the same degradation target, with `C_adv(member) > C_adv(non-member)` presented as an empirical tendency.
 - `assets/figures/generative-manifold.svg` is a conceptual two-dimensional projection. Both the member and non-member candidate are shown on the same learned support region; the different radii visualize the paper's empirical local-stability interpretation rather than an analytic manifold or universal theorem.
-- Each explanatory SVG has a high-resolution PNG fallback for sharing and preview. The comparison is pre-rendered in both languages and in separate desktop/mobile compositions so its labels remain legible without runtime diagram assembly.
+- Each deterministic explanatory SVG has a high-resolution PNG fallback for sharing and preview. The paper-style comparison itself is pre-rendered as complete high-resolution PNG images in both languages and in separate desktop/mobile compositions so its labels remain legible without runtime diagram assembly.
 - The two-loop walkthrough is deterministic illustrative control flow. It never produces a member/non-member verdict and never presents its symbolic state as an experiment log.
 
 ## 4.1 Preserved source explanation

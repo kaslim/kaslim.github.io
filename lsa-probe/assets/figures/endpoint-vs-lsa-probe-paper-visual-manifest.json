@@ -1,0 +1,43 @@
+{
+  "source_reference": "../legacy/lsa-probe-explanation-original.png",
+  "source_sha256": "779418010af26c1e3b12db0feb2ac626fea96a47f9fcfef773e4baf859ea4fbc",
+  "created_on": "2026-09-06",
+  "purpose": "Conceptual comparison of endpoint reconstruction evidence and LSA-Probe minimum-cost stability evidence",
+  "evidence_status": "Conceptual explanation; not measured sample-level data",
+  "editing_summary": [
+    "Retained the source figure's two-level scientific narrative and piano-spectrogram visual identity",
+    "Removed repeated images, crossing connectors, long prose, and the illustrative 0.05/0.06 values",
+    "Added aligned member and non-member lanes, overlapping endpoint evidence, and a shared degradation threshold",
+    "Created separate complete English and Chinese desktop and mobile image assets"
+  ],
+  "assets": [
+    {
+      "file": "endpoint-vs-lsa-probe-paper-visual-en.png",
+      "language": "en",
+      "viewport": "desktop",
+      "dimensions": [1672, 941],
+      "sha256": "2a1790a0f4ec62dd3ce92916d3c46949b292c7c6ed001d08d1b39ffaca056b6d"
+    },
+    {
+      "file": "endpoint-vs-lsa-probe-paper-visual-zh.png",
+      "language": "zh-CN",
+      "viewport": "desktop",
+      "dimensions": [1672, 941],
+      "sha256": "c6b0376950c724517996d7ab8c535cb267bb028ef51a074ee236eb1abf651d91"
+    },
+    {
+      "file": "endpoint-vs-lsa-probe-paper-visual-mobile-en.png",
+      "language": "en",
+      "viewport": "mobile",
+      "dimensions": [985, 1597],
+      "sha256": "e5d36b6499b00eae737d43395ce85f3b92af465b5c7f21ab2a6a9e18cbb9a50a"
+    },
+    {
+      "file": "endpoint-vs-lsa-probe-paper-visual-mobile-zh.png",
+      "language": "zh-CN",
+      "viewport": "mobile",
+      "dimensions": [985, 1597],
+      "sha256": "82196fd23c3951ba46566d2a2c2a40cf204a88b630967d19d92343fb883c6207"
+    }
+  ]
+}
