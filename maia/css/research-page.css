@@ -87,7 +87,6 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .secondary-link { color: white; border: 1px solid rgba(255,255,255,0.5); }
 .secondary-link:hover { color: white; background: rgba(255,255,255,0.1); }
 .scope-note { display: flex; gap: 0.75rem; padding: 0.8rem 1rem; border-left: 3px solid #ffd479; background: rgba(0,0,0,0.17); font-size: 0.9rem; }
-.hero-scope { max-width: 760px; }
 
 .research-section { background: var(--research-paper); }
 .alternate-section { background: #eef2f4; }
