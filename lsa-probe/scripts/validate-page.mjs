@@ -77,7 +77,7 @@ for (const relative of [
   assert(fs.statSync(path.join(root, relative)).size > 10_000, `Figure asset is unexpectedly small: ${relative}`);
 }
 
-assert((html.match(/data-focus-slide="[1-8]"/g) || []).length === 8, "Focus View must expose exactly eight dedicated presentation steps.");
+assert((html.match(/data-focus-slide="(?:[1-9])"/g) || []).length === 9, "Focus View must expose exactly nine dedicated presentation steps.");
 assert(html.includes("js/app-v2.js") && !html.includes('src="js/app.js"'), "Production must load only the current interaction script.");
 assert(!i18nSource.includes("localStorage.getItem"), "A parameterless URL must not inherit language from localStorage.");
 assert(app.includes("slide.scrollTop = 0"), "Focus step changes must reset the content scroll position.");
@@ -106,6 +106,6 @@ console.log("- Best AUC: 0.67; best TPR@1% FPR: 0.20");
 console.log("- No production mock/random-data dependencies");
 console.log(`- Translation parity: ${Object.keys(en).length} keys`);
 console.log(`- Local assets: ${localRefs.length} references resolved`);
-console.log("- Focus View: 8 steps");
+console.log("- Focus View: 9 steps");
 console.log("- Figure 2: 4/4 preserved originals and verified crop hashes");
 console.log("- Parameterless URL language: English fallback independent of localStorage");

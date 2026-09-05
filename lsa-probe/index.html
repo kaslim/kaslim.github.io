@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Evidence-first research page for LSA-Probe, a white-box membership audit for music diffusion models.">
-  <meta name="theme-color" content="#0b0f17">
+  <meta name="theme-color" content="#f6f8fb">
   <title>LSA-Probe · Evidence-first membership auditing</title>
   <link rel="stylesheet" href="css/site.css">
 </head>
@@ -12,13 +12,30 @@
   <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
   <header class="site-header" id="site-header">
-    <a class="brand" href="#overview" aria-label="LSA-Probe overview">
-      <span class="brand-mark" aria-hidden="true">LSA</span>
-      <span>Probe</span>
-    </a>
-    <nav class="primary-nav" id="section-menu" aria-label="Primary navigation" data-i18n-aria-label="a11y.primary_nav">
+    <div class="header-identity">
+      <a class="portfolio-link" href="../"><span class="portfolio-desktop" data-i18n="nav.portfolio">← Yuxuan Liu / Portfolio</span><span class="portfolio-mobile" data-i18n="nav.portfolio_short">← Portfolio</span></a>
+      <a class="brand" href="#overview" aria-label="LSA-Probe overview">
+        <span class="brand-mark" aria-hidden="true">LSA</span>
+        <span>Probe</span>
+      </a>
+    </div>
+    <nav class="primary-nav" aria-label="Primary navigation" data-i18n-aria-label="a11y.primary_nav">
       <a href="#overview" data-i18n="nav.overview">Overview</a>
       <a href="#audit-question" data-i18n="nav.audit">Audit Question</a>
+      <a href="#method" data-i18n="nav.method">Method</a>
+      <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
+      <a href="#reliability" data-i18n="nav.reliability">Reliability</a>
+    </nav>
+    <div class="header-actions">
+      <button class="button button-quiet sections-toggle" id="sections-toggle" type="button" aria-expanded="false" aria-controls="section-menu" data-i18n="controls.sections">Sections</button>
+      <button class="button button-quiet" id="language-toggle" type="button" aria-label="Switch language" data-i18n-aria-label="a11y.language">中文</button>
+      <button class="button button-primary" id="focus-toggle" type="button" data-i18n="controls.focus">Focus View</button>
+    </div>
+    <nav class="section-menu" id="section-menu" aria-label="All sections" data-i18n-aria-label="a11y.sections_nav" hidden>
+      <a class="menu-portfolio" href="../" data-i18n="nav.portfolio_home">Portfolio Home</a>
+      <a href="#overview" data-i18n="nav.overview">Overview</a>
+      <a href="#audit-question" data-i18n="nav.audit">Audit Question</a>
+      <a href="#diffusion-primer" data-i18n="nav.primer">Diffusion Primer</a>
       <a href="#threat-model" data-i18n="nav.threat">Threat Model</a>
       <a href="#core-insight" data-i18n="nav.insight">Core Insight</a>
       <a href="#method" data-i18n="nav.method">Method</a>
@@ -27,11 +44,6 @@
       <a href="#agent-safety" data-i18n="nav.agent">Agent Safety</a>
       <a href="#resources" data-i18n="nav.resources">Resources</a>
     </nav>
-    <div class="header-actions">
-      <button class="button button-quiet sections-toggle" id="sections-toggle" type="button" aria-expanded="false" aria-controls="section-menu" data-i18n="controls.sections">Sections</button>
-      <button class="button button-quiet" id="language-toggle" type="button" aria-label="Switch language" data-i18n-aria-label="a11y.language">中文</button>
-      <button class="button button-primary" id="focus-toggle" type="button" data-i18n="controls.focus">Focus View</button>
-    </div>
   </header>
 
   <main id="main">
@@ -56,8 +68,8 @@
           <span data-i18n="hero.metric_gain">TPR@1% FPR gain</span>
         </div>
         <div class="metric-row">
-          <strong>0.67</strong>
-          <span data-i18n="hero.metric_auc">Best observed AUC</span>
+          <strong>1% FPR</strong>
+          <span data-i18n="hero.metric_operating">Primary audit operating point</span>
         </div>
         <div class="metric-row">
           <strong>2 × 2</strong>
@@ -97,9 +109,54 @@
       </aside>
     </section>
 
-    <section class="content-section section-shell focus-section" id="threat-model" data-focus-step="2" aria-labelledby="threat-title">
+    <section class="content-section section-shell focus-section" id="diffusion-primer" data-focus-step="2" aria-labelledby="primer-title">
       <div class="section-heading">
         <p class="section-number">02</p>
+        <div>
+          <p class="eyebrow" data-i18n="primer.kicker">Background bridge</p>
+          <h2 id="primer-title" data-i18n="primer.title">Diffusion models in 60 seconds</h2>
+          <p data-i18n="primer.intro">Before discussing membership, we need one piece of background: a diffusion model learns to reverse a gradual noising process.</p>
+        </div>
+      </div>
+      <div class="primer-flow" role="img" aria-label="Clean audio is gradually noised to an intermediate diffusion state, then a learned reverse process reconstructs audio" data-i18n-aria-label="a11y.primer_flow">
+        <article><span>01</span><strong data-i18n="primer.stage_clean">Clean audio</strong><p class="equation-small">x<sub>0</sub></p></article>
+        <article><span>02</span><strong data-i18n="primer.stage_forward">Forward noising</strong><p data-i18n="primer.stage_forward_note">Add Gaussian noise according to timestep t</p></article>
+        <article class="accent"><span>03</span><strong data-i18n="primer.stage_intermediate">Intermediate state</strong><p class="equation-small">x<sub>t</sub></p></article>
+        <article><span>04</span><strong data-i18n="primer.stage_reverse">Learned reverse process</strong><p class="equation-small">R<sub>t</sub>(·; θ)</p></article>
+        <article><span>05</span><strong data-i18n="primer.stage_reconstructed">Reconstructed audio</strong><p class="equation-small">x̂<sub>0</sub></p></article>
+      </div>
+      <div class="primer-equations">
+        <article>
+          <p class="card-label" data-i18n="primer.forward_title">Forward process</p>
+          <p class="equation">x<sub>t</sub> = √ᾱ<sub>t</sub>x<sub>0</sub> + √(1−ᾱ<sub>t</sub>)ε, &nbsp; ε∼𝒩(0,I)</p>
+          <p data-i18n="primer.forward_body">The forward process mixes clean audio with Gaussian noise according to timestep t. A trained diffusion model learns a reverse mapping that progressively removes this noise.</p>
+        </article>
+        <article>
+          <p class="card-label" data-i18n="primer.reverse_title">Reverse mapping</p>
+          <p class="equation">x̂<sub>0</sub> = R<sub>t</sub>(x<sub>t</sub>; θ)</p>
+          <p data-i18n="primer.reverse_body">LSA-Probe does not only inspect the final reconstruction error. It intervenes at an intermediate state and observes how stable the learned reverse mapping is around that candidate.</p>
+        </article>
+      </div>
+      <div class="primer-timeline" aria-label="Diffusion timestep intuition" data-i18n-aria-label="a11y.primer_timeline">
+        <span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span>
+        <span class="accent"><strong>t≈0.6T</strong><small data-i18n="primer.mid_result">Mid-trajectory; strongest observed membership separation</small></span>
+        <span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span>
+      </div>
+      <p class="fine-print primer-boundary" data-i18n="primer.boundary">The paper finds the strongest membership separation around the middle of the reverse trajectory, with t_ratio=0.6 used in the main setting. This is an experimental finding in the evaluated settings, not a universal property of every diffusion model.</p>
+      <div class="innovation-panel" aria-labelledby="innovation-title">
+        <div class="panel-head"><p class="eyebrow" data-i18n="innovation.kicker">Method in one glance</p><h3 id="innovation-title" data-i18n="innovation.title">What does LSA-Probe change?</h3></div>
+        <div class="innovation-grid">
+          <article><span>01</span><h4 data-i18n="innovation.card1_title">Stability instead of endpoint loss</h4><p data-i18n="innovation.card1_body">Replace a noisy single reconstruction signal with the minimum intervention required to destabilize the local reverse process.</p></article>
+          <article><span>02</span><h4 data-i18n="innovation.card2_title">Time-normalized probing</h4><p data-i18n="innovation.card2_body">Scale the perturbation by the natural forward-noise level so that budgets are comparable across diffusion timesteps.</p></article>
+          <article><span>03</span><h4 data-i18n="innovation.card3_title">Minimum adversarial cost</h4><p data-i18n="innovation.card3_body">Use inner PGD to search for a degradation direction and outer bisection to find the smallest successful budget.</p></article>
+        </div>
+        <p class="innovation-note" data-i18n="innovation.note">The resulting score does not require an explicit likelihood or a separately trained shadow model.</p>
+      </div>
+    </section>
+
+    <section class="content-section section-shell focus-section" id="threat-model" data-focus-step="3" aria-labelledby="threat-title">
+      <div class="section-heading">
+        <p class="section-number">03</p>
         <div>
           <p class="eyebrow" data-i18n="threat.kicker">Access assumptions</p>
           <h2 id="threat-title" data-i18n="threat.title">A strong, explicit white-box threat model</h2>
@@ -134,9 +191,9 @@
       </aside>
     </section>
 
-    <section class="content-section section-shell focus-section" id="endpoint-loss" data-focus-step="3" aria-labelledby="endpoint-title">
+    <section class="content-section section-shell focus-section" id="endpoint-loss" data-focus-step="4" aria-labelledby="endpoint-title">
       <div class="section-heading">
-        <p class="section-number">03</p>
+        <p class="section-number">04</p>
         <div>
           <p class="eyebrow" data-i18n="endpoint.kicker">Why the baseline is weak</p>
           <h2 id="endpoint-title" data-i18n="endpoint.title">Why endpoint reconstruction error is insufficient</h2>
@@ -160,9 +217,9 @@
       </div>
     </section>
 
-    <section class="content-section section-shell focus-section" id="core-insight" data-focus-step="4" aria-labelledby="insight-title">
+    <section class="content-section section-shell focus-section" id="core-insight" data-focus-step="5" aria-labelledby="insight-title">
       <div class="section-heading">
-        <p class="section-number">04</p>
+        <p class="section-number">05</p>
         <div>
           <p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p>
           <h2 id="insight-title" data-i18n="insight.title">Measure the intervention required to break local stability</h2>
@@ -188,6 +245,19 @@
           <p class="fine-print" data-i18n="insight.caution">This is an empirical local-geometric interpretation, not an analytic recovery of a data manifold or a universal claim about diffusion models.</p>
         </aside>
       </div>
+      <details class="technical-details intuition-details">
+        <summary><span data-i18n="intuition.title">First-order intuition: why should members require a larger budget?</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
+        <div class="intuition-content">
+          <div class="intuition-equations">
+            <p class="equation">x̂<sub>0</sub> = R<sub>t</sub>(x<sub>t</sub>; θ)</p>
+            <p class="equation">x̂<sub>0</sub><sup>δ</sup> = R<sub>t</sub>(x<sub>t</sub> + δ<sub>t</sub>; θ)</p>
+            <p class="equation">R<sub>t</sub>(x<sub>t</sub>+δ<sub>t</sub>;θ) ≈ R<sub>t</sub>(x<sub>t</sub>;θ) + J<sub>R<sub>t</sub></sub>(x<sub>t</sub>)δ<sub>t</sub></p>
+          </div>
+          <p data-i18n="intuition.body">The local Jacobian describes how sensitive the reverse mapping is to a small intervention around the candidate state. If the learned mapping is locally smoother around a training member, the same perturbation budget produces less output degradation. Reaching the fixed threshold τ therefore requires a larger budget, producing a larger Cadv.</p>
+          <p class="intuition-relation" data-i18n="intuition.relation">Lower local sensitivity → larger required budget → higher Cadv → more member-like</p>
+          <aside class="boundary-note"><strong data-i18n="intuition.boundary_title">Interpretation boundary</strong><p data-i18n="intuition.boundary">This is a local, first-order interpretation of the empirical stability signal. It is not an analytic recovery of the data manifold and not a universal theorem that applies to every diffusion model.</p></aside>
+        </div>
+      </details>
       <div class="threshold-panel" aria-labelledby="threshold-title">
         <div class="panel-head">
           <p class="eyebrow" data-i18n="threshold.kicker">A critical distinction</p>
@@ -214,9 +284,9 @@
       </div>
     </section>
 
-    <section class="content-section section-shell focus-section" id="method" data-focus-step="5" aria-labelledby="method-title">
+    <section class="content-section section-shell focus-section" id="method" data-focus-step="6" aria-labelledby="method-title">
       <div class="section-heading">
-        <p class="section-number">05</p>
+        <p class="section-number">06</p>
         <div>
           <p class="eyebrow" data-i18n="method.kicker">Two-loop adversarial probe</p>
           <h2 id="method-title" data-i18n="method.title">Inner PGD finds direction; outer bisection finds cost</h2>
@@ -289,17 +359,76 @@
         </div>
         <p class="walkthrough-status" id="walk-status" data-i18n="walkthrough.ready">Ready. Start with the full admissible interval.</p>
       </div>
+      <details class="technical-details model-path-details">
+        <summary><span data-i18n="model_paths.title">One probe, two diffusion families</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
+        <div class="model-path-grid">
+          <article>
+            <p class="card-label">DiffWave</p>
+            <h3 data-i18n="model_paths.wave_title">Waveform diffusion</h3>
+            <ol>
+              <li data-i18n="model_paths.wave1">Start from waveform x₀.</li>
+              <li data-i18n="model_paths.wave2">Forward-noise it to waveform state xₜ.</li>
+              <li data-i18n="model_paths.wave3">Apply δₜ=σₜδ̃ directly in waveform space.</li>
+              <li data-i18n="model_paths.wave4">Run the differentiable reverse operator.</li>
+              <li data-i18n="model_paths.wave5">Measure degradation between reconstructed waveforms.</li>
+            </ol>
+          </article>
+          <article>
+            <p class="card-label">MusicLDM</p>
+            <h3 data-i18n="model_paths.latent_title">Latent diffusion</h3>
+            <ol>
+              <li data-i18n="model_paths.latent1">Encode the waveform with the VAE encoder: z₀=Enc(x₀).</li>
+              <li data-i18n="model_paths.latent2">Forward-noise it to latent state zₜ.</li>
+              <li data-i18n="model_paths.latent3">Apply the time-normalized perturbation in latent space.</li>
+              <li data-i18n="model_paths.latent4">Run the latent reverse process.</li>
+              <li data-i18n="model_paths.latent5">Decode with the frozen decoder.</li>
+              <li data-i18n="model_paths.latent6">Measure perceptual distance on the resulting waveforms.</li>
+            </ol>
+          </article>
+        </div>
+        <div class="model-path-equations">
+          <p class="equation">x̂<sub>0</sub> = Dec(R<sub>t</sub>(z<sub>t</sub>; θ))</p>
+          <p class="equation">x̂<sub>0</sub><sup>δ</sup> = Dec(R<sub>t</sub>(z<sub>t</sub> + σ<sub>t</sub>δ̃; θ))</p>
+        </div>
+        <ul class="check-list shared-controls">
+          <li data-i18n="model_paths.control1">The forward noise is fixed for each paired evaluation so that the measured difference reflects the added intervention rather than a new random noise realization.</li>
+          <li data-i18n="model_paths.control2">When conditioning is used, the text prompt and guidance remain fixed between the clean and perturbed reverse passes.</li>
+        </ul>
+      </details>
     </section>
 
-    <section class="content-section section-shell focus-section" id="evidence" data-focus-step="6" aria-labelledby="evidence-title">
+    <section class="content-section section-shell focus-section" id="evidence" data-focus-step="7" aria-labelledby="evidence-title">
       <div class="section-heading">
-        <p class="section-number">06</p>
+        <p class="section-number">07</p>
         <div>
           <p class="eyebrow" data-i18n="evidence.kicker">Published aggregate results</p>
           <h2 id="evidence-title" data-i18n="evidence.title">Evidence at the strict low-FPR operating point</h2>
           <p data-i18n="evidence.intro">All values below are transcribed from Table 1. No per-sample distributions or ROC points are reconstructed.</p>
         </div>
       </div>
+      <details class="technical-details low-fpr-details">
+        <summary><span data-i18n="low_fpr.title">Why focus on TPR at only 1% FPR?</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
+        <div class="low-fpr-content">
+          <p data-i18n="low_fpr.body">Membership auditing is a high-cost decision problem. When the non-member population is much larger than the member population, even a seemingly small false-positive rate can produce many false alerts. The operating point must therefore control false positives before recall is interpreted.</p>
+          <p class="arithmetic-note"><strong data-i18n="low_fpr.example_label">Illustrative arithmetic—not a paper experiment</strong><span data-i18n="low_fpr.example">Among 10,000 non-members, an FPR of 1% corresponds to approximately 100 false positives.</span></p>
+          <ul class="check-list"><li data-i18n="low_fpr.point1">Best TPR@1% FPR is 20%.</li><li data-i18n="low_fpr.point2">Roughly 80% of members remain missed.</li><li data-i18n="low_fpr.point3">Precision depends on the true member base rate.</li><li data-i18n="low_fpr.point4">A membership score is not standalone legal evidence.</li></ul>
+        </div>
+      </details>
+      <details class="technical-details baseline-details">
+        <summary><span data-i18n="baselines.title">What is LSA-Probe compared against?</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
+        <div class="table-wrap baseline-table-wrap" tabindex="0" aria-label="Baseline comparison map" data-i18n-aria-label="a11y.baseline_table">
+          <table class="baseline-table">
+            <thead><tr><th data-i18n="baselines.method">Method</th><th data-i18n="baselines.signal">Signal</th><th data-i18n="baselines.comparison">Limitation or difference from LSA-Probe</th></tr></thead>
+            <tbody>
+              <tr><td data-i18n="baselines.endpoint_title">Endpoint loss</td><td data-i18n="baselines.endpoint_signal">Denoising or reconstruction loss measured at a timestep or at the endpoint.</td><td data-i18n="baselines.endpoint_diff">A single loss can be confounded by timestep, noise seed, content complexity and perceptual mismatch.</td></tr>
+              <tr><td data-i18n="baselines.trajectory_title">Trajectory / PIA / PIAN</td><td data-i18n="baselines.trajectory_signal">Distance between a recovered diffusion-trajectory point and the model-predicted trajectory point.</td><td data-i18n="baselines.trajectory_diff">Measures trajectory mismatch rather than the minimum worst-case intervention required to cross a perceptual threshold.</td></tr>
+              <tr><td>SecMI</td><td data-i18n="baselines.secmi_signal">A diffusion-process membership signal used as an existing comparison baseline.</td><td data-i18n="baselines.secmi_diff">Does not use LSA-Probe’s time-normalized adversarial-cost construction.</td></tr>
+              <tr class="ours-row"><td>LSA-Probe</td><td data-i18n="baselines.lsa_signal">The minimum time-normalized perturbation budget required to exceed a fixed perceptual degradation threshold.</td><td data-i18n="baselines.lsa_diff">Measures local generative stability using inner PGD and outer bisection.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="compute-parity" data-i18n="baselines.compute">All baselines were matched within ±5% per-sample wall-clock time on an A100-80GB.</p>
+      </details>
       <div class="evidence-summary">
         <div><strong>0.20</strong><span data-i18n="evidence.best_tpr">Best TPR@1% FPR</span></div>
         <div><strong>0.67</strong><span data-i18n="evidence.best_auc">Best observed AUC</span></div>
@@ -359,9 +488,9 @@
       </div>
     </section>
 
-    <section class="content-section section-shell focus-section" id="reliability" data-focus-step="7" aria-labelledby="reliability-title">
+    <section class="content-section section-shell focus-section" id="reliability" data-focus-step="8" aria-labelledby="reliability-title">
       <div class="section-heading">
-        <p class="section-number">07</p>
+        <p class="section-number">08</p>
         <div>
           <p class="eyebrow" data-i18n="reliability.kicker">Reliability and limitations</p>
           <h2 id="reliability-title" data-i18n="reliability.title">How the evidence was controlled</h2>
@@ -394,11 +523,24 @@
           <li data-i18n="limitations.item10">Defenses need further study: differential privacy, regularization, deduplication, audit-aware training and reduced memorization.</li>
         </ol>
       </div>
+      <section class="defense-panel" aria-labelledby="defense-title">
+        <div class="panel-head">
+          <p class="eyebrow" data-i18n="defense.kicker">Future evaluation</p>
+          <h3 id="defense-title" data-i18n="defense.title">Defensive implications and open evaluation questions</h3>
+          <span class="status-tag" data-i18n="defense.status">Not experimentally evaluated in the current paper</span>
+        </div>
+        <div class="defense-grid">
+          <article><span>01</span><h4 data-i18n="defense.card1_title">Training-data hygiene</h4><p data-i18n="defense.card1_body">Deduplication, artist-aware splitting and provenance control reduce accidental duplication and leakage, but do not by themselves guarantee the absence of memorization.</p></article>
+          <article><span>02</span><h4 data-i18n="defense.card2_title">Memorization reduction</h4><p data-i18n="defense.card2_body">Regularization, early stopping, audit-aware training and differential privacy are potential directions for reducing membership leakage.</p></article>
+          <article><span>03</span><h4 data-i18n="defense.card3_title">Access control</h4><p data-i18n="defense.card3_body">LSA-Probe requires parameters, intermediate states and gradients. Restricting access changes the practical threat surface, although it does not eliminate the underlying memorization risk.</p></article>
+          <article><span>04</span><h4 data-i18n="defense.card4_title">Adaptive evaluation</h4><p data-i18n="defense.card4_body">A meaningful defense evaluation must consider an auditor or attacker who knows the defense and can recalibrate the probe, threshold or optimization procedure.</p></article>
+        </div>
+      </section>
     </section>
 
-    <section class="content-section section-shell focus-section" id="agent-safety" data-focus-step="8" aria-labelledby="agent-title">
+    <section class="content-section section-shell focus-section" id="agent-safety" data-focus-step="9" aria-labelledby="agent-title">
       <div class="section-heading">
-        <p class="section-number">08</p>
+        <p class="section-number">09</p>
         <div>
           <p class="eyebrow" data-i18n="agent.kicker">Future direction</p>
           <h2 id="agent-title" data-i18n="agent.title">From Generative-Model Auditing to Agent Safety</h2>
@@ -430,7 +572,7 @@
 
     <section class="content-section section-shell" id="resources" aria-labelledby="resources-title">
       <div class="section-heading">
-        <p class="section-number">09</p>
+        <p class="section-number">10</p>
         <div>
           <p class="eyebrow" data-i18n="resources.kicker">Paper and resources</p>
           <h2 id="resources-title" data-i18n="resources.title">Verify the primary sources</h2>
@@ -458,88 +600,59 @@
 
     <section class="focus-stage" id="focus-stage" aria-label="Focus View presentation" data-i18n-aria-label="a11y.focus_stage" hidden>
       <article class="focus-slide" data-focus-slide="1" aria-labelledby="focus-title-1">
-        <header class="focus-slide-head">
-          <p class="focus-slide-number">01</p>
-          <div><p class="eyebrow" data-i18n="focus.kicker1">Audit question + white-box access</p><h2 id="focus-title-1" tabindex="-1" data-i18n="audit.title">What are we auditing?</h2></div>
-        </header>
-        <div class="focus-audit-flow" role="img" aria-label="Candidate audio, audited model, membership audit score, and membership question" data-i18n-aria-label="a11y.focus_audit_flow">
-          <div><span>01</span><strong data-i18n="audit.flow_candidate">Candidate audio clip</strong></div>
-          <div><span>02</span><strong data-i18n="audit.flow_model">Audited music diffusion model</strong></div>
-          <div><span>03</span><strong data-i18n="focus.audit_score">Membership audit score</strong></div>
-          <div><span>04</span><strong data-i18n="audit.flow_question">Was this clip used during training?</strong></div>
-        </div>
-        <div class="focus-access-strip" aria-label="White-box access assumptions" data-i18n-aria-label="a11y.focus_access">
-          <strong data-i18n="focus.whitebox">White-box access</strong>
-          <span data-i18n="focus.parameters">Model parameters</span><span data-i18n="focus.sampler">Reverse sampler</span><span data-i18n="focus.states">Intermediate states</span><span data-i18n="focus.gradients">Gradients</span>
-        </div>
-        <aside class="focus-boundary"><strong data-i18n="threat.boundary_title">Operational boundary</strong><p data-i18n="focus.audit_boundary">For developers or authorized auditors—not a remote black-box attack available to an ordinary user.</p></aside>
+        <header class="focus-slide-head"><p class="focus-slide-number">01</p><div><p class="eyebrow" data-i18n="audit.kicker">Audit question</p><h2 id="focus-title-1" tabindex="-1" data-i18n="audit.title">What are we auditing?</h2><p data-i18n="audit.intro">Given a candidate audio clip and an audited music diffusion model, estimate whether the clip was used during training.</p></div></header>
+        <div class="focus-audit-flow" role="img" aria-label="Candidate audio, audited model, membership audit score, and membership question" data-i18n-aria-label="a11y.focus_audit_flow"><div><span>01</span><strong data-i18n="audit.flow_candidate">Candidate audio clip</strong></div><div><span>02</span><strong data-i18n="audit.flow_model">Audited music diffusion model</strong></div><div><span>03</span><strong data-i18n="focus.audit_score">Membership audit score</strong></div><div><span>04</span><strong data-i18n="audit.flow_question">Was this clip used during training?</strong></div></div>
+        <aside class="focus-boundary"><strong data-i18n="audit.boundary_title">Evidence boundary</strong><p data-i18n="audit.boundary">Membership inference produces a statistical audit signal. It is not training-data extraction, model inversion, attribute inference, or standalone legal proof of copyright infringement.</p></aside>
       </article>
 
       <article class="focus-slide" data-focus-slide="2" aria-labelledby="focus-title-2">
-        <header class="focus-slide-head"><p class="focus-slide-number">02</p><div><p class="eyebrow" data-i18n="endpoint.kicker">Why the baseline is weak</p><h2 id="focus-title-2" tabindex="-1" data-i18n="endpoint.title">Why endpoint reconstruction error is insufficient</h2></div></header>
-        <div class="focus-factor-grid">
-          <article><strong data-i18n="endpoint.factor1_title">Timestep</strong><p data-i18n="endpoint.factor1_body">Reconstruction error changes with the diffusion state.</p></article>
-          <article><strong data-i18n="endpoint.factor2_title">Randomness</strong><p data-i18n="endpoint.factor2_body">Injected noise and sampling choices alter the endpoint.</p></article>
-          <article><strong data-i18n="endpoint.factor3_title">Content</strong><p data-i18n="endpoint.factor3_body">Timbre and musical complexity can confound raw loss.</p></article>
-          <article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article>
-        </div>
-        <div class="focus-timeline">
-          <span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span>
-          <span class="accent"><strong>t≈0.6T</strong><small data-i18n="endpoint.mid">Mid-trajectory; strongest separation here</small></span>
-          <span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span>
-        </div>
-        <blockquote class="focus-quote" data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilize the local reverse process.</blockquote>
+        <header class="focus-slide-head"><p class="focus-slide-number">02</p><div><p class="eyebrow" data-i18n="primer.kicker">Background bridge</p><h2 id="focus-title-2" tabindex="-1" data-i18n="primer.title">Diffusion models in 60 seconds</h2></div></header>
+        <div class="focus-primer-flow"><article><span>01</span><strong data-i18n="primer.stage_clean">Clean audio</strong><p>x<sub>0</sub></p></article><article><span>02</span><strong data-i18n="primer.stage_forward">Forward noising</strong><p>+ ε</p></article><article class="accent"><span>03</span><strong data-i18n="primer.stage_intermediate">Intermediate state</strong><p>x<sub>t</sub></p></article><article><span>04</span><strong data-i18n="primer.stage_reverse">Learned reverse process</strong><p>R<sub>t</sub></p></article><article><span>05</span><strong data-i18n="primer.stage_reconstructed">Reconstructed audio</strong><p>x̂<sub>0</sub></p></article></div>
+        <div class="focus-primer-equations"><p class="equation">x<sub>t</sub> = √ᾱ<sub>t</sub>x<sub>0</sub> + √(1−ᾱ<sub>t</sub>)ε</p><p class="equation">x̂<sub>0</sub> = R<sub>t</sub>(x<sub>t</sub>; θ)</p></div>
+        <div class="focus-timeline"><span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span><span class="accent"><strong>t≈0.6T</strong><small data-i18n="primer.mid_result">Mid-trajectory; strongest observed membership separation</small></span><span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span></div>
+        <aside class="focus-boundary"><strong data-i18n="innovation.card1_title">Stability instead of endpoint loss</strong><p data-i18n="primer.focus_bridge">Probe an intermediate state and measure how much intervention is required to destabilize its learned reverse mapping.</p></aside>
       </article>
 
       <article class="focus-slide" data-focus-slide="3" aria-labelledby="focus-title-3">
-        <header class="focus-slide-head"><p class="focus-slide-number">03</p><div><p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p><h2 id="focus-title-3" tabindex="-1" data-i18n="focus.insight_title">Latent stability and the audit score</h2></div></header>
-        <div class="focus-insight-grid">
-          <figure class="focus-schematic"><img src="assets/figures/stability-schematic.png" alt="Conceptual member and non-member stability curves" data-i18n-alt="a11y.stability_alt" width="1672" height="941"><figcaption data-i18n="insight.caption">Conceptual schematic — not measured sample data</figcaption></figure>
-          <div class="focus-score-card"><p class="card-label" data-i18n="insight.score_label">Audit score</p><p class="equation">C<sub>adv</sub>(x) = min η</p><p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p><p class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</p><p class="fine-print" data-i18n="insight.caution">This is an empirical local-geometric interpretation, not an analytic recovery of a data manifold or a universal claim about diffusion models.</p></div>
-        </div>
+        <header class="focus-slide-head"><p class="focus-slide-number">03</p><div><p class="eyebrow" data-i18n="threat.kicker">Access assumptions</p><h2 id="focus-title-3" tabindex="-1" data-i18n="threat.title">A strong, explicit white-box threat model</h2></div></header>
+        <div class="focus-access-chain"><article><span data-i18n="threat.actor_label">Actor</span><strong data-i18n="threat.actor">Developer / authorized auditor</strong></article><article><span data-i18n="threat.access_label">Access</span><strong data-i18n="threat.access">Parameters, sampler, intermediate states, gradients</strong></article><article><span data-i18n="threat.output_label">Output</span><strong data-i18n="threat.output">Statistical membership audit score</strong></article></div>
+        <div class="focus-access-strip" aria-label="White-box access assumptions" data-i18n-aria-label="a11y.focus_access"><strong data-i18n="focus.whitebox">White-box access</strong><span data-i18n="focus.parameters">Model parameters</span><span data-i18n="focus.sampler">Reverse sampler</span><span data-i18n="focus.states">Intermediate states</span><span data-i18n="focus.gradients">Gradients</span><span data-i18n="focus.no_shadow">No shadow models</span><span data-i18n="focus.dev_set">Independent non-member development set</span></div>
+        <aside class="focus-boundary"><strong data-i18n="threat.boundary_title">Operational boundary</strong><p data-i18n="threat.boundary">LSA-Probe is best understood as an authorized internal audit method, not a remote black-box attack available to an ordinary user.</p></aside>
       </article>
 
       <article class="focus-slide" data-focus-slide="4" aria-labelledby="focus-title-4">
-        <header class="focus-slide-head"><p class="focus-slide-number">04</p><div><p class="eyebrow" data-i18n="threshold.kicker">A critical distinction</p><h2 id="focus-title-4" tabindex="-1" data-i18n="focus.threshold_title">Two thresholds + time normalization</h2></div></header>
-        <div class="focus-threshold-grid">
-          <article><span>1</span><h3 data-i18n="threshold.tau_title">Perceptual degradation threshold τ</h3><p class="equation-small">D(x̂<sub>0</sub>, x̂<sub>0</sub><sup>δ</sup>) ≥ τ</p><p data-i18n="threshold.tau_body">Defines the degradation target. It is calibrated as P95 on an independent non-member development set at ηref=0.05. It is not the membership cutoff.</p></article>
-          <article><span>2</span><h3 data-i18n="threshold.score_title">Adversarial cost Cadv</h3><p class="equation-small">C<sub>adv</sub>(x) = min η</p><p data-i18n="threshold.score_body">Measures the minimum time-normalized budget required to reach τ for each candidate.</p></article>
-          <article><span>3</span><h3 data-i18n="threshold.decision_title">Membership decision cutoff</h3><p class="equation-small">FPR = 1% → TPR@1% FPR</p><p data-i18n="threshold.decision_body">A separate cutoff on Cadv defines the operating point, such as FPR=1%, and yields TPR@1% FPR.</p></article>
-        </div>
-        <div class="focus-normalization"><p class="equation">δ<sub>t</sub> = σ<sub>t</sub> δ̃ &nbsp;&nbsp; σ<sub>t</sub> = √(1−ᾱ<sub>t</sub>)</p><p data-i18n="focus.normalization_body">Natural noise scale changes with diffusion time, so raw perturbation norms are not directly comparable. Time normalization makes budgets comparable across timesteps.</p></div>
+        <header class="focus-slide-head"><p class="focus-slide-number">04</p><div><p class="eyebrow" data-i18n="endpoint.kicker">Why the baseline is weak</p><h2 id="focus-title-4" tabindex="-1" data-i18n="endpoint.title">Why endpoint reconstruction error is insufficient</h2></div></header>
+        <div class="focus-factor-grid"><article><strong data-i18n="endpoint.factor1_title">Timestep</strong><p data-i18n="endpoint.factor1_body">Reconstruction error changes with the diffusion state.</p></article><article><strong data-i18n="endpoint.factor2_title">Randomness</strong><p data-i18n="endpoint.factor2_body">Injected noise and sampling choices alter the endpoint.</p></article><article><strong data-i18n="endpoint.factor3_title">Content</strong><p data-i18n="endpoint.factor3_body">Timbre and musical complexity can confound raw loss.</p></article><article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article></div>
+        <blockquote class="focus-quote" data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilize the local reverse process.</blockquote>
       </article>
 
       <article class="focus-slide" data-focus-slide="5" aria-labelledby="focus-title-5">
-        <header class="focus-slide-head"><p class="focus-slide-number">05</p><div><p class="eyebrow" data-i18n="method.kicker">Two-loop adversarial probe</p><h2 id="focus-title-5" tabindex="-1" data-i18n="method.title">Inner PGD finds direction; outer bisection finds cost</h2><p data-i18n="method.intro">The method searches for a strong local degradation direction at each budget, then finds the smallest successful budget.</p></div></header>
-        <div class="focus-method-grid">
-          <figure class="focus-framework"><button class="image-button" type="button" data-dialog-image="assets/figures/framework.png" data-i18n-aria-label="a11y.enlarge_framework" aria-label="Enlarge the LSA-Probe framework figure"><img src="assets/figures/framework.png" alt="LSA-Probe framework showing forward diffusion, time-normalized perturbation, inner PGD, outer bisection and membership decision" data-i18n-alt="a11y.framework_alt" width="2816" height="1536"></button></figure>
-          <div class="focus-method-side"><ol class="focus-method-steps"><li><span>01</span><p data-i18n="method.step1">Forward diffuse the candidate to an intermediate state.</p></li><li><span>02</span><p data-i18n="method.step2">Inject a time-normalized bounded perturbation.</p></li><li><span>03</span><p data-i18n="method.step3">Use inner PGD to find the strongest degradation direction.</p></li><li><span>04</span><p data-i18n="method.step4">Use outer bisection to find the minimum successful budget.</p></li></ol><button class="button button-secondary" type="button" id="focus-walkthrough-open" data-i18n="controls.open_walkthrough">Open algorithm walkthrough</button></div>
-        </div>
+        <header class="focus-slide-head"><p class="focus-slide-number">05</p><div><p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p><h2 id="focus-title-5" tabindex="-1" data-i18n="focus.insight_title">Latent stability and adversarial cost</h2></div></header>
+        <div class="focus-insight-grid"><figure class="focus-schematic"><img src="assets/figures/stability-schematic.png" alt="Conceptual member and non-member stability curves" data-i18n-alt="a11y.stability_alt" width="1672" height="941"><figcaption data-i18n="insight.caption">Conceptual schematic — not measured sample data</figcaption></figure><div class="focus-score-card"><p class="card-label" data-i18n="insight.score_label">Audit score</p><p class="equation">C<sub>adv</sub>(x) = min η</p><p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p><p class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</p><p class="fine-print" data-i18n="insight.caution">This is an empirical local-geometric interpretation, not an analytic recovery of a data manifold or a universal claim about diffusion models.</p></div></div>
+        <div class="focus-threshold-strip"><span><strong>τ</strong><small data-i18n="focus.tau_short">Perceptual degradation target; not the membership cutoff</small></span><span><strong>C<sub>adv</sub></strong><small data-i18n="focus.cost_short">Minimum time-normalized budget reaching τ</small></span><span><strong data-i18n="focus.cutoff_short_title">Decision cutoff</strong><small data-i18n="focus.cutoff_short">A separate threshold sets the FPR operating point</small></span></div>
       </article>
 
       <article class="focus-slide" data-focus-slide="6" aria-labelledby="focus-title-6">
-        <header class="focus-slide-head"><p class="focus-slide-number">06</p><div><p class="eyebrow" data-i18n="evidence.kicker">Published aggregate results</p><h2 id="focus-title-6" tabindex="-1" data-i18n="evidence.title">Evidence at the strict low-FPR operating point</h2></div></header>
+        <header class="focus-slide-head"><p class="focus-slide-number">06</p><div><p class="eyebrow" data-i18n="method.kicker">Two-loop adversarial probe</p><h2 id="focus-title-6" tabindex="-1" data-i18n="method.title">Inner PGD finds direction; outer bisection finds cost</h2></div></header>
+        <div class="focus-method-grid"><figure class="focus-framework"><button class="image-button" type="button" data-dialog-image="assets/figures/framework.png" data-i18n-aria-label="a11y.enlarge_framework" aria-label="Enlarge the LSA-Probe framework figure"><img src="assets/figures/framework.png" alt="LSA-Probe framework showing forward diffusion, time-normalized perturbation, inner PGD, outer bisection and membership decision" data-i18n-alt="a11y.framework_alt" width="2816" height="1536"></button></figure><div class="focus-method-side"><p class="equation focus-method-equation">δ<sub>t</sub>=σ<sub>t</sub>δ̃</p><ol class="focus-method-steps"><li><span>01</span><p data-i18n="method.step1">Forward diffuse the candidate to an intermediate state.</p></li><li><span>02</span><p data-i18n="method.step2">Inject a time-normalized bounded perturbation.</p></li><li><span>03</span><p data-i18n="method.step3">Use inner PGD to find the strongest degradation direction.</p></li><li><span>04</span><p data-i18n="method.step4">Use outer bisection to find the minimum successful budget.</p></li></ol><button class="button button-secondary" type="button" id="focus-walkthrough-open" data-i18n="controls.open_walkthrough">Open algorithm walkthrough</button></div></div>
+      </article>
+
+      <article class="focus-slide" data-focus-slide="7" aria-labelledby="focus-title-7">
+        <header class="focus-slide-head"><p class="focus-slide-number">07</p><div><p class="eyebrow" data-i18n="evidence.kicker">Published aggregate results</p><h2 id="focus-title-7" tabindex="-1" data-i18n="evidence.title">Evidence at the strict low-FPR operating point</h2></div></header>
         <div class="focus-result-grid"><article><strong data-i18n="focus.result_gain_value">+3–8 pp</strong><span data-i18n="focus.result_gain">Absolute TPR@1% FPR gain</span></article><article><strong>0.20</strong><span data-i18n="evidence.best_tpr">Best TPR@1% FPR</span></article><article><strong>0.67</strong><span data-i18n="evidence.best_auc">Best observed AUC</span></article></div>
         <aside class="focus-evidence-boundary"><strong data-i18n="evidence.interpret_title">What the result does—and does not—show</strong><ul><li data-i18n="focus.evidence_point1">The strict low-FPR operating point improves in all four model–dataset combinations.</li><li data-i18n="focus.evidence_point2">Best TPR@1% FPR is still 20%, so roughly 80% of members remain missed in the best case.</li><li data-i18n="focus.evidence_point3">The method strengthens the audit signal; it does not solve membership auditing outright.</li><li data-i18n="focus.evidence_point4">Precision still depends on the true member base rate.</li></ul></aside>
       </article>
 
-      <article class="focus-slide" data-focus-slide="7" aria-labelledby="focus-title-7">
-        <header class="focus-slide-head"><p class="focus-slide-number">07</p><div><p class="eyebrow" data-i18n="reliability.kicker">Reliability and limitations</p><h2 id="focus-title-7" tabindex="-1" data-i18n="focus.reliability_title">How the evidence was controlled—and where it stops</h2></div></header>
-        <div class="focus-reliability-grid">
-          <article><p class="card-label" data-i18n="focus.data_controls">Data and split controls</p><p data-i18n="focus.data_controls_body">MAESTRO piece/artist split · FMA track/artist split · Chromaprint + LSH + manual review.</p></article>
-          <article><p class="card-label" data-i18n="reliability.stats_title">Statistical protocol</p><p data-i18n="focus.stats_body">DeLong for AUC · 10,000 bootstrap resamples elsewhere · Holm–Bonferroni correction.</p></article>
-          <article><p class="card-label" data-i18n="focus.compute_fairness">Compute fairness</p><p data-i18n="focus.compute_body">B=10 outer · K=12 inner · roughly (K+2)B reverse passes · baselines matched within ±5% wall-clock on A100-80GB.</p></article>
-        </div>
+      <article class="focus-slide" data-focus-slide="8" aria-labelledby="focus-title-8">
+        <header class="focus-slide-head"><p class="focus-slide-number">08</p><div><p class="eyebrow" data-i18n="reliability.kicker">Reliability and limitations</p><h2 id="focus-title-8" tabindex="-1" data-i18n="focus.reliability_defense_title">Reliability, limitations and defenses</h2></div></header>
+        <div class="focus-reliability-grid"><article><p class="card-label" data-i18n="focus.data_controls">Data and split controls</p><p data-i18n="focus.data_controls_body">MAESTRO piece/artist split · FMA track/artist split · Chromaprint + LSH + manual review.</p></article><article><p class="card-label" data-i18n="reliability.stats_title">Statistical protocol</p><p data-i18n="focus.stats_body">DeLong for AUC · 10,000 bootstrap resamples elsewhere · Holm–Bonferroni correction.</p></article><article><p class="card-label" data-i18n="focus.compute_fairness">Compute fairness</p><p data-i18n="focus.compute_body">B=10 outer · K=12 inner · roughly (K+2)B reverse passes · baselines matched within ±5% wall-clock on A100-80GB.</p></article></div>
         <div class="focus-limit-strip"><strong data-i18n="limitations.title">Limitations and open questions</strong><span data-i18n="limitations.item1">Strong white-box access is required: parameters, sampler, intermediate states and gradients.</span><span data-i18n="limitations.item2">Repeated PGD, restarts and bisection make the audit computationally expensive.</span><span data-i18n="limitations.item3">The best TPR@1% FPR is still only 20%.</span><span data-i18n="limitations.item4">Evaluation covers two model families and two music datasets.</span></div>
+        <aside class="focus-defense"><strong data-i18n="defense.status">Not experimentally evaluated in the current paper</strong><p data-i18n="focus.defense_short">Potential directions include data hygiene, memorization reduction, access control and adaptive evaluation against defenses.</p></aside>
       </article>
 
-      <article class="focus-slide" data-focus-slide="8" aria-labelledby="focus-title-8">
-        <header class="focus-slide-head"><p class="focus-slide-number">08</p><div><p class="eyebrow" data-i18n="agent.kicker">Future direction</p><h2 id="focus-title-8" tabindex="-1" data-i18n="agent.title">From Generative-Model Auditing to Agent Safety</h2><p data-i18n="agent.subtitle">A methodological transfer, not an experimental result of LSA-Probe.</p></div></header>
-        <div class="focus-transfer-grid">
-          <article><p><strong data-i18n="focus.asset">Protected asset</strong><span data-i18n="focus.asset_lsa">Training audio</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.asset_agent">User data, memory, retrieved content and tool permissions</span></p></article>
-          <article><p><strong data-i18n="focus.intervention">Bounded intervention</strong><span data-i18n="focus.intervention_lsa">Destabilize a diffusion trajectory</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.intervention_agent">Change an agent decision or tool action</span></p></article>
-          <article><p><strong data-i18n="focus.operating_point">Strict operating point</strong><span>TPR@1% FPR</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.operating_agent">Avoid blocking legitimate users or safe tasks because of false alarms</span></p></article>
-        </div>
+      <article class="focus-slide" data-focus-slide="9" aria-labelledby="focus-title-9">
+        <header class="focus-slide-head"><p class="focus-slide-number">09</p><div><p class="eyebrow" data-i18n="agent.kicker">Future direction</p><h2 id="focus-title-9" tabindex="-1" data-i18n="agent.title">From Generative-Model Auditing to Agent Safety</h2><p data-i18n="agent.subtitle">A methodological transfer, not an experimental result of LSA-Probe.</p></div></header>
+        <div class="focus-transfer-grid"><article><p><strong data-i18n="focus.asset">Protected asset</strong><span data-i18n="focus.asset_lsa">Training audio</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.asset_agent">User data, memory, retrieved content and tool permissions</span></p></article><article><p><strong data-i18n="focus.intervention">Bounded intervention</strong><span data-i18n="focus.intervention_lsa">Destabilize a diffusion trajectory</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.intervention_agent">Change an agent decision or tool action</span></p></article><article><p><strong data-i18n="focus.operating_point">Strict operating point</strong><span>TPR@1% FPR</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.operating_agent">Avoid blocking legitimate users or safe tasks because of false alarms</span></p></article></div>
         <div class="focus-agent-boundaries"><article><p class="card-label" data-i18n="agent.transfers_title">What transfers</p><p data-i18n="focus.transfers_short">Asset definition · authorized internal auditing · bounded worst-case intervention · strict low-FPR evaluation · uncertainty-aware audit trails.</p></article><article><p class="card-label" data-i18n="agent.not_title">What does not transfer directly</p><p data-i18n="focus.not_short">Audio latents are not LLM hidden states; diffusion trajectories are not agent plans. The paper does not establish protection against prompt injection, jailbreaks, unsafe tool calls or mobile-agent attacks.</p></article></div>
         <aside class="focus-future"><strong data-i18n="focus.future_label">Possible research direction — not a result of this paper</strong><p data-i18n="focus.future_body">Generalize stability-based auditing to agent decision trajectories while jointly measuring unsafe decisions, task utility and side effects.</p></aside>
       </article>
@@ -553,7 +666,7 @@
 
   <div class="focus-controls" id="focus-controls" hidden>
     <button class="button button-quiet" type="button" id="focus-prev" data-i18n="controls.previous">Previous</button>
-    <p aria-live="polite" aria-atomic="true"><span id="focus-current">1</span> / 8 · <span id="focus-label">What are we auditing?</span></p>
+    <p aria-live="polite" aria-atomic="true"><span id="focus-current">1</span> / 9 · <span id="focus-label">What are we auditing?</span></p>
     <button class="button button-primary" type="button" id="focus-next" data-i18n="controls.next">Next</button>
   </div>
 

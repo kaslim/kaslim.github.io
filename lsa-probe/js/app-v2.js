@@ -14,6 +14,7 @@
   const datasetSelect = document.querySelector("#dataset-select");
   const unitToggle = document.querySelector("#unit-toggle");
   const evidenceError = document.querySelector("#evidence-error");
+  const focusCount = focusSlides.length;
 
   let focusMode = false;
   let focusStep = 1;
@@ -38,14 +39,25 @@
 
   const ordinaryAnchorForStep = {
     1: "#audit-question",
-    2: "#endpoint-loss",
-    3: "#core-insight",
-    4: "#core-insight",
-    5: "#method",
-    6: "#evidence",
-    7: "#reliability",
-    8: "#agent-safety"
+    2: "#diffusion-primer",
+    3: "#threat-model",
+    4: "#endpoint-loss",
+    5: "#core-insight",
+    6: "#method",
+    7: "#evidence",
+    8: "#reliability",
+    9: "#agent-safety"
   };
+
+  function inferFocusStep() {
+    const sections = [...document.querySelectorAll(".focus-section[data-focus-step]")];
+    const marker = window.scrollY + Math.min(window.innerHeight * 0.38, 280);
+    let inferred = 1;
+    sections.forEach((section) => {
+      if (section.offsetTop <= marker) inferred = Number(section.dataset.focusStep) || inferred;
+    });
+    return inferred;
+  }
 
   function focusName(step) {
     return i18n.t(`focus.step${step}`);
@@ -84,7 +96,7 @@
     focusCurrent.textContent = String(focusStep);
     focusLabel.textContent = focusName(focusStep);
     focusPrev.disabled = focusStep === 1;
-    focusNext.disabled = focusStep === 8;
+    focusNext.disabled = focusStep === focusCount;
     focusToggle.textContent = i18n.t(focusMode ? "controls.exit_focus" : "controls.focus");
     focusToggle.setAttribute("aria-pressed", String(focusMode));
     updateUrlForFocus();
@@ -97,12 +109,13 @@
   }
 
   function setFocusStep(nextStep, moveFocus = true) {
-    focusStep = Math.max(1, Math.min(8, nextStep));
+    focusStep = Math.max(1, Math.min(focusCount, nextStep));
     renderFocus({ moveFocus });
   }
 
   function toggleFocus() {
     const leavingStep = focusStep;
+    if (!focusMode) focusStep = inferFocusStep();
     focusMode = !focusMode;
     renderFocus({ moveFocus: focusMode });
     if (!focusMode) {
@@ -252,6 +265,7 @@
     const toggle = document.querySelector("#sections-toggle");
     header.classList.remove("nav-open");
     toggle.setAttribute("aria-expanded", "false");
+    document.querySelector("#section-menu").hidden = true;
     if (restoreFocus) toggle.focus();
   }
 
@@ -263,6 +277,7 @@
       const open = !header.classList.contains("nav-open");
       header.classList.toggle("nav-open", open);
       toggle.setAttribute("aria-expanded", String(open));
+      menu.hidden = !open;
       if (open) menu.querySelector("a")?.focus();
     });
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => closeSectionsMenu()));
@@ -278,7 +293,7 @@
     const params = new URLSearchParams(window.location.search);
     focusMode = params.get("focus") === "1";
     const requestedStep = Number(params.get("step"));
-    if (Number.isInteger(requestedStep)) focusStep = Math.max(1, Math.min(8, requestedStep));
+    if (Number.isInteger(requestedStep)) focusStep = Math.max(1, Math.min(focusCount, requestedStep));
     renderFocus();
 
     focusToggle.addEventListener("click", toggleFocus);
@@ -293,6 +308,8 @@
       if (["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(document.activeElement?.tagName)) return;
       if (event.key === "ArrowLeft") setFocusStep(focusStep - 1);
       if (event.key === "ArrowRight") setFocusStep(focusStep + 1);
+      if (event.key === "Home") setFocusStep(1);
+      if (event.key === "End") setFocusStep(focusCount);
     });
 
     let touchStartX = null;
