@@ -242,11 +242,16 @@
 
     document.querySelectorAll("[data-dialog-image]").forEach((button) => {
       button.addEventListener("click", () => {
-        const source = button.querySelector("img");
+        const isChinese = i18n.language === "zh-CN";
+        const isMobile = window.matchMedia("(max-width: 560px)").matches;
+        const source = button.querySelector(isChinese ? ".localized-figure-zh img" : ".localized-figure-en img") || button.querySelector("img");
+        const localizedSource = isMobile
+          ? (isChinese ? button.dataset.dialogImageMobileZh : button.dataset.dialogImageMobileEn)
+          : (isChinese ? button.dataset.dialogImageZh : button.dataset.dialogImageEn);
         returnFocus = button;
         dialogVector.hidden = true;
         dialogImage.hidden = false;
-        dialogImage.src = button.dataset.dialogImage;
+        dialogImage.src = localizedSource || button.dataset.dialogImage;
         dialogImage.alt = source?.alt || "";
         dialog.showModal();
       });

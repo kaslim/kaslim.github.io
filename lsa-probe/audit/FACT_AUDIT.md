@@ -30,9 +30,10 @@ Primary source: the five-page ICASSP 2026 paper PDF supplied by the author. Seco
 
 - `assets/figures/stability-schematic.png` is a deterministic explanatory schematic, not a measured sample or digitised experiment. It contains no empirical values and is labelled accordingly.
 - `assets/figures/audit-question-flow.svg` is a deterministic audit-flow diagram. It treats the candidate audio and audited model as joint inputs and presents a continuous statistical evidence direction rather than a categorical verdict.
-- `assets/figures/endpoint-vs-lsa-probe.svg` is a deterministic redrawing of the author-provided explanation image. The illustrative values 0.05 and 0.06 were intentionally removed; the replacement uses only symbolic endpoint distance, fixed threshold tau and minimum budget C_adv.
+- The endpoint-versus-LSA-Probe explanation is delivered as four finished image assets: English and Chinese desktop SVGs plus English and Chinese mobile SVGs. The production page selects the appropriate complete image; it does not reconstruct this figure from HTML/CSS components.
+- The finished comparison removes the source image's repeated spectrograms, crossing arrows, long conclusion paragraphs and illustrative values 0.05/0.06. It retains only the audited scientific relationship: overlapping endpoint evidence versus the minimum time-normalized budget required to reach the same degradation target, with `C_adv(member) > C_adv(non-member)` presented as an empirical tendency.
 - `assets/figures/generative-manifold.svg` is a conceptual two-dimensional projection. Both the member and non-member candidate are shown on the same learned support region; the different radii visualize the paper's empirical local-stability interpretation rather than an analytic manifold or universal theorem.
-- Each of the three new SVGs has a high-resolution PNG fallback for sharing and preview. Natural-language labels in the production SVGs are translated by the page i18n system.
+- Each explanatory SVG has a high-resolution PNG fallback for sharing and preview. The comparison is pre-rendered in both languages and in separate desktop/mobile compositions so its labels remain legible without runtime diagram assembly.
 - The two-loop walkthrough is deterministic illustrative control flow. It never produces a member/non-member verdict and never presents its symbolic state as an experiment log.
 
 ## 4.1 Preserved source explanation

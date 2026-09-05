@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1120" viewBox="0 0 720 1120" role="img" aria-labelledby="title desc">
+  <title id="title">Endpoint reconstruction evidence compared with LSA-Probe</title>
+  <desc id="desc">Mobile conceptual comparison showing overlapping endpoint evidence and the different minimum perturbation budgets required to reach the same degradation threshold.</desc>
+  <defs><linearGradient id="spec" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#175C78"/><stop offset=".5" stop-color="#0F766E"/><stop offset="1" stop-color="#D97706"/></linearGradient></defs>
+  <rect width="720" height="1120" fill="#F6F8FB"/>
+  <rect x="22" y="18" width="676" height="1084" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="52" y="66" fill="#175C78" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="760" letter-spacing="1.5">CONCEPTUAL COMPARISON</text>
+  <text x="52" y="99" fill="#64748B" font-family="Inter, Arial, sans-serif" font-size="20">not measured sample-level data</text>
+
+  <rect x="48" y="128" width="624" height="382" rx="22" fill="#FFFFFF" stroke="#D9E1EA" stroke-width="2"/>
+  <text x="76" y="178" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="760">Endpoint reconstruction loss</text>
+  <text x="76" y="216" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="22">D(x₀, x̂₀)</text>
+  <line x1="76" y1="238" x2="644" y2="238" stroke="#E2E8F0" stroke-width="2"/>
+  <text x="78" y="300" fill="#0F766E" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="740">Member</text>
+  <text x="78" y="392" fill="#A45B08" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="740">Non-member</text>
+  <g transform="translate(250 260)"><rect width="145" height="56" rx="9" fill="#E8F1F5" stroke="#CBD5E1" stroke-width="2"/><g fill="url(#spec)"><rect x="15" y="27" width="9" height="19"/><rect x="31" y="12" width="9" height="34"/><rect x="47" y="22" width="9" height="24"/><rect x="63" y="8" width="9" height="38"/><rect x="79" y="18" width="9" height="28"/><rect x="95" y="13" width="9" height="33"/><rect x="111" y="26" width="9" height="20"/><rect x="127" y="18" width="9" height="28"/></g></g>
+  <g transform="translate(250 352)"><rect width="145" height="56" rx="9" fill="#FFF5DF" stroke="#E5C986" stroke-width="2"/><g fill="url(#spec)"><rect x="15" y="27" width="9" height="19"/><rect x="31" y="12" width="9" height="34"/><rect x="47" y="22" width="9" height="24"/><rect x="63" y="8" width="9" height="38"/><rect x="79" y="18" width="9" height="28"/><rect x="95" y="13" width="9" height="33"/><rect x="111" y="26" width="9" height="20"/><rect x="127" y="18" width="9" height="28"/></g></g>
+  <text x="426" y="294" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="21">→ R<tspan baseline-shift="sub" font-size="15">t</tspan> →</text><text x="426" y="386" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="21">→ R<tspan baseline-shift="sub" font-size="15">t</tspan> →</text>
+  <g transform="translate(520 274)"><circle cx="35" cy="61" r="47" fill="#0F766E" fill-opacity=".18" stroke="#0F766E" stroke-width="3"/><circle cx="73" cy="61" r="47" fill="#D97706" fill-opacity=".18" stroke="#D97706" stroke-width="3" stroke-dasharray="9 7"/></g>
+  <text x="556" y="471" text-anchor="middle" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700">Overlapping evidence</text>
+
+  <rect x="48" y="536" width="624" height="526" rx="22" fill="#F8FBFC" stroke="#B7CBD5" stroke-width="2"/>
+  <text x="76" y="586" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="760">LSA-Probe</text>
+  <text x="76" y="622" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="22">minimum cost to reach <tspan font-family="Times New Roman, STIXGeneral, serif">&#x03C4;</tspan></text>
+  <text x="644" y="604" text-anchor="end" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="22">δ<tspan baseline-shift="sub" font-size="16">t</tspan>=σ<tspan baseline-shift="sub" font-size="16">t</tspan>δ̃</text>
+  <line x1="76" y1="647" x2="644" y2="647" stroke="#D9E1EA" stroke-width="2"/>
+  <text x="78" y="708" fill="#0F766E" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="740">Member x<tspan baseline-shift="sub" font-size="16">t</tspan></text>
+  <line x1="255" y1="698" x2="604" y2="698" stroke="#DDE7EC" stroke-width="17" stroke-linecap="round"/><line x1="255" y1="698" x2="565" y2="698" stroke="#0F766E" stroke-width="17" stroke-linecap="round"/><circle cx="565" cy="698" r="12" fill="#FFFFFF" stroke="#0F766E" stroke-width="5"/>
+  <text x="78" y="798" fill="#A45B08" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="740">Non-member x<tspan baseline-shift="sub" font-size="16">t</tspan></text>
+  <line x1="255" y1="788" x2="604" y2="788" stroke="#DDE7EC" stroke-width="17" stroke-linecap="round"/><line x1="255" y1="788" x2="420" y2="788" stroke="#D97706" stroke-width="17" stroke-linecap="round"/><circle cx="420" cy="788" r="12" fill="#FFFFFF" stroke="#D97706" stroke-width="5" stroke-dasharray="5 4"/>
+  <rect x="76" y="838" width="568" height="78" rx="16" fill="#FFFFFF" stroke="#E45756" stroke-width="3"/>
+  <text x="360" y="887" text-anchor="middle" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="760">same degradation target · D = <tspan font-family="Times New Roman, STIXGeneral, serif">&#x03C4;</tspan></text>
+  <rect x="76" y="936" width="568" height="94" rx="16" fill="#E8F1F5" stroke="#B7CBD5" stroke-width="2"/>
+  <text x="360" y="976" text-anchor="middle" fill="#0F172A" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="760">C<tspan baseline-shift="sub" font-size="17">adv</tspan>(member) &gt; C<tspan baseline-shift="sub" font-size="17">adv</tspan>(non-member)</text>
+  <text x="360" y="1008" text-anchor="middle" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="650">higher cost → more member-like</text>
+</svg>

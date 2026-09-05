@@ -17,8 +17,13 @@ const zh = JSON.parse(read("locales/zh-CN.json"));
 const failures = [];
 const explanatorySvgs = [
   "assets/figures/audit-question-flow.svg",
-  "assets/figures/endpoint-vs-lsa-probe.svg",
   "assets/figures/generative-manifold.svg"
+];
+const comparisonFigures = [
+  "assets/figures/endpoint-vs-lsa-probe-en.svg",
+  "assets/figures/endpoint-vs-lsa-probe-zh.svg",
+  "assets/figures/endpoint-vs-lsa-probe-mobile-en.svg",
+  "assets/figures/endpoint-vs-lsa-probe-mobile-zh.svg"
 ];
 
 function assert(condition, message) {
@@ -62,6 +67,15 @@ for (const relative of explanatorySvgs) {
   const svg = read(relative);
   for (const match of svg.matchAll(/data-i18n="([^"]+)"/g)) htmlKeys.add(match[1]);
 }
+for (const relative of comparisonFigures) {
+  assert(fs.existsSync(path.join(root, relative)), `Missing finished comparison figure: ${relative}`);
+  assert(fs.statSync(path.join(root, relative)).size > 2_000, `Finished comparison SVG is unexpectedly small: ${relative}`);
+  const svg = read(relative);
+  assert(!svg.includes("0.05") && !svg.includes("0.06"), `Legacy illustrative values must not appear in: ${relative}`);
+  const png = relative.replace(/\.svg$/, "@2x.png");
+  assert(fs.existsSync(path.join(root, png)), `Missing high-resolution comparison PNG: ${png}`);
+  assert(fs.statSync(path.join(root, png)).size > 10_000, `Comparison PNG is unexpectedly small: ${png}`);
+}
 for (const key of htmlKeys) {
   assert(Object.hasOwn(en, key), `Missing English translation key: ${key}`);
   assert(Object.hasOwn(zh, key), `Missing Chinese translation key: ${key}`);
@@ -98,8 +112,9 @@ const legacyExplanation = path.join(root, "assets/legacy/lsa-probe-explanation-o
 const digest = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 assert(fs.existsSync(legacyExplanation), "Missing preserved original LSA-Probe explanation image.");
 assert(digest(legacyExplanation) === explanationManifest.sha256, "Preserved explanation image hash mismatch.");
-const comparisonSvg = read("assets/figures/endpoint-vs-lsa-probe.svg");
-assert(!comparisonSvg.includes("0.05") && !comparisonSvg.includes("0.06"), "Illustrative legacy values 0.05/0.06 must not appear in the new comparison figure.");
+assert(html.includes("endpoint-vs-lsa-probe-en.svg") && html.includes("endpoint-vs-lsa-probe-mobile-zh.svg"), "Production page must load the finished bilingual comparison figures.");
+assert(!html.includes("comparison-mobile"), "Production page must not rebuild the comparison from HTML/CSS components.");
+assert(!html.includes('data-dialog-svg="assets/figures/endpoint-vs-lsa-probe.svg"'), "Production page must not load the previous embedded comparison SVG.");
 const manifoldSvg = read("assets/figures/generative-manifold.svg");
 assert(manifoldSvg.includes("svg.manifold.member") && manifoldSvg.includes("svg.manifold.nonmember"), "Generative-support figure must show both candidates on the same support region.");
 
@@ -133,6 +148,6 @@ console.log(`- Translation parity: ${Object.keys(en).length} keys`);
 console.log(`- Local assets: ${localRefs.length} references resolved`);
 console.log("- Focus View: 9 steps");
 console.log("- Figure 2: 4/4 preserved originals and verified crop hashes");
-console.log("- Explanatory graphics: 3 SVGs + 3 high-resolution PNG fallbacks");
+console.log("- Explanatory graphics: 2 translated SVGs plus 4 finished bilingual/responsive comparison figures, all with high-resolution PNG fallbacks");
 console.log("- User reference image: preserved with verified SHA-256");
 console.log("- Parameterless URL language: English fallback independent of localStorage");

@@ -209,29 +209,28 @@
         <article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article>
       </div>
       <blockquote data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilize the local reverse process.</blockquote>
-      <figure class="vector-figure comparison-visual">
-        <button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/endpoint-vs-lsa-probe.svg" data-i18n-aria-label="a11y.enlarge_comparison" aria-label="Enlarge the endpoint and LSA-Probe comparison">
-          <object class="translatable-svg" data="assets/figures/endpoint-vs-lsa-probe.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
+      <figure class="vector-figure comparison-visual finished-comparison">
+        <button
+          class="image-button vector-button"
+          type="button"
+          data-dialog-image="assets/figures/endpoint-vs-lsa-probe-en.svg"
+          data-dialog-image-en="assets/figures/endpoint-vs-lsa-probe-en.svg"
+          data-dialog-image-zh="assets/figures/endpoint-vs-lsa-probe-zh.svg"
+          data-dialog-image-mobile-en="assets/figures/endpoint-vs-lsa-probe-mobile-en.svg"
+          data-dialog-image-mobile-zh="assets/figures/endpoint-vs-lsa-probe-mobile-zh.svg"
+          data-i18n-aria-label="a11y.enlarge_comparison"
+          aria-label="Enlarge the endpoint and LSA-Probe comparison">
+          <picture class="localized-figure localized-figure-en">
+            <source media="(max-width: 560px)" srcset="assets/figures/endpoint-vs-lsa-probe-mobile-en.svg">
+            <img src="assets/figures/endpoint-vs-lsa-probe-en.svg" width="1600" height="900" loading="lazy" decoding="async" data-i18n-alt="a11y.comparison_alt" alt="Conceptual comparison of endpoint reconstruction evidence and LSA-Probe minimum-cost stability evidence">
+          </picture>
+          <picture class="localized-figure localized-figure-zh">
+            <source media="(max-width: 560px)" srcset="assets/figures/endpoint-vs-lsa-probe-mobile-zh.svg">
+            <img src="assets/figures/endpoint-vs-lsa-probe-zh.svg" width="1600" height="900" loading="lazy" decoding="async" data-i18n-alt="a11y.comparison_alt" alt="终点重建证据与 LSA-Probe 最小稳定性代价的概念对比">
+          </picture>
         </button>
         <figcaption data-i18n="comparison.caption">Conceptual comparison of endpoint reconstruction evidence and LSA-Probe’s minimum-cost stability signal. The diagram illustrates the method hypothesis; it is not measured sample-level data.</figcaption>
       </figure>
-      <div class="comparison-mobile" aria-label="Conceptual comparison of endpoint reconstruction evidence and LSA-Probe minimum-cost stability evidence" data-i18n-aria-label="a11y.comparison_alt">
-        <article>
-          <p class="card-label" data-i18n="svg.compare.endpoint_title">Endpoint reconstruction loss</p>
-          <div class="mobile-lanes"><span><i class="lane-signal member"></i><strong data-i18n="svg.compare.member">Member candidate</strong></span><span><i class="lane-signal nonmember"></i><strong data-i18n="svg.compare.nonmember">Non-member candidate</strong></span></div>
-          <p class="equation-small">D(x<sub>0</sub>, x̂<sub>0</sub>)</p>
-          <strong class="mobile-overlap" data-i18n="svg.compare.overlap">Overlapping endpoint evidence</strong>
-        </article>
-        <article>
-          <p class="card-label" data-i18n="svg.compare.lsa_title">LSA-Probe: minimum cost to break local stability</p>
-          <div class="budget-row member"><strong data-i18n="svg.compare.member_state">Member xₜ</strong><span></span><small data-i18n="svg.compare.larger_budget">Larger minimum budget</small></div>
-          <div class="budget-row nonmember"><strong data-i18n="svg.compare.nonmember_state">Non-member xₜ</strong><span></span><small data-i18n="svg.compare.smaller_budget">Smaller minimum budget</small></div>
-          <p class="equation-small">δ<sub>t</sub>=σ<sub>t</sub>δ̃ · D≥τ</p>
-          <strong class="mobile-relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</strong>
-          <small data-i18n="svg.compare.member_like">Higher cost → more member-like</small>
-        </article>
-        <p data-i18n="comparison.caption">Conceptual comparison of endpoint reconstruction evidence and LSA-Probe’s minimum-cost stability signal. The diagram illustrates the method hypothesis; it is not measured sample-level data.</p>
-      </div>
       <div class="timeline-card">
         <p class="card-label" data-i18n="endpoint.timeline_title">Correct diffusion-time direction</p>
         <div class="timeline-labels">
