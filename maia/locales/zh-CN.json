@@ -33,6 +33,8 @@
     "gradcam2Body": "将所选类别得分的梯度反向传播到目标卷积层，并对空间位置上的梯度求平均，为每个特征图通道得到类别相关的重要性权重。",
     "backwardGradient": "类别梯度",
     "gradcamWeightAria": "Grad-CAM 通道权重公式",
+    "gradcamWeightingAlt": "Grad-CAM 类别梯度加权示意图：当前类别得分反向传播到卷积特征图，特征图的空间平均梯度得到通道权重 alpha 下标 k 上标 c",
+    "gradcamWeightFormulaText": "Grad-CAM 通道权重：alpha 下标 k 上标 c 等于一除以 Z，乘以在 u、v 上的求和；求和项为 y-hat 上标 c 对 F 下标 k 上标 l 在 u、v 处的偏导数。",
     "gradcam3Title": "3. 将正向判别证据映射回谱图",
     "gradcam3Body": "将加权特征图聚合并经过 ReLU，只保留对当前类别产生正贡献的部分。归一化并映射回原始谱图后，高响应区域成为候选对抗修改区域。",
     "figure2Alt": "来自 MAIA 论文的梅尔谱图 Grad-CAM 热力图",

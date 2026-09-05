@@ -162,21 +162,11 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
 .spectrogram-mark { width: 100%; height: 20px; margin-top: 0.35rem; background: repeating-linear-gradient(90deg, #153a53 0 5px, #5b9db7 5px 8px, #d5a64f 8px 10px); }
 .model-node { border-color: #7fa9bd; background: #eef7fb; }
 .score-node { flex: 0 0 48px; border-color: #b79b62; background: #fff8e7; }
-.feature-map-flow { display: flex; flex: 1; align-items: center; justify-content: center; gap: 0.55rem; margin-top: 0.7rem; }
-.score-chip, .weight-chip { display: grid; width: 52px; height: 52px; place-items: center; border: 1px solid #a9bdc8; border-radius: 50%; background: white; color: var(--research-ink); font-weight: 750; }
-.gradient-arrow { position: relative; max-width: 78px; padding-top: 1.2rem; color: var(--research-muted); font-size: 0.62rem; text-align: center; }
-.gradient-arrow::before { content: '←'; position: absolute; inset: -0.2rem 0 auto; color: var(--research-blue); font-size: 1.3rem; }
-.feature-stack { display: grid; gap: 0.25rem; }
-.feature-stack span { display: grid; width: 50px; height: 34px; place-items: center; border: 1px solid #98adba; background: repeating-linear-gradient(45deg, #eef4f7, #eef4f7 5px, #dbe7ec 5px, #dbe7ec 10px); color: var(--research-ink); font-size: 0.72rem; }
+.gradcam-weighting-asset { display: flex; flex: 1; min-height: 0; flex-direction: column; justify-content: center; margin-top: 0.7rem; }
+.gradcam-weighting-asset img { display: block; width: 100%; height: auto; border: 1px solid #c7d1d8; border-radius: 6px; background: #fbfcfd; }
+.gradcam-weighting-asset .asset-label { margin-top: 0.6rem; }
 .formula-block { width: 100%; max-width: 100%; margin-top: 0.75rem; padding: 0.7rem; overflow-x: auto; border: 1px solid #c7d1d8; border-radius: 6px; background: white; color: #243b53; font: 600 0.76rem/1.6 'SFMono-Regular', Consolas, monospace; text-align: center; white-space: nowrap; }
-.indexed-symbol { display: inline-flex; align-items: center; vertical-align: middle; }
-.math-scripts { position: relative; display: inline-block; width: 0.75em; height: 1.45em; margin-left: 0.06em; font-size: 0.68em; line-height: 1; vertical-align: middle; }
-.math-scripts sup, .math-scripts sub { position: absolute; left: 0; font-size: 1em; line-height: 1; }
-.math-scripts sup { top: 0; }
-.math-scripts sub { bottom: 0; }
-.math-superscript { position: relative; top: -0.52em; margin-left: 0.05em; font-size: 0.68em; line-height: 1; }
-.summation-symbol { position: relative; display: inline-flex; align-items: center; padding: 0 0.42em 0.72em; font-size: 1.12em; line-height: 1; vertical-align: middle; }
-.summation-symbol sub { position: absolute; bottom: 0; left: 50%; font-size: 0.58em; line-height: 1; white-space: nowrap; transform: translateX(-50%); }
+.sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
 .method-boundary { margin: 0.9rem 0 0; padding: 0.85rem 1rem; border-left: 3px solid var(--research-gold); background: #fff8e8; color: var(--research-ink-soft); font-size: 0.86rem; }
 .chunk-track { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: auto; border: 1px solid #9fb2be; border-radius: 6px; overflow: hidden; }
 .chunk-track span { display: grid; min-height: 64px; place-items: center; border-right: 1px solid #c6d2d9; background: white; color: var(--research-ink); }
@@ -487,7 +477,7 @@ body.focus-mode #demo.is-focus-step .demo-workbench { max-height: none; }
     .summary-hint { width: 100%; justify-content: space-between; }
     .mechanism-card { min-height: 0; }
     .mechanism-card figcaption span { min-height: 0; }
-    .compact-flow, .feature-map-flow, .generator-row { flex-wrap: wrap; }
+    .compact-flow, .generator-row { flex-wrap: wrap; }
     .compact-flow .flow-node { flex: 1 1 35%; }
     .query-rank { grid-template-columns: 1fr 1fr; }
     .query-rank .rank-bars { grid-column: 1 / -1; }

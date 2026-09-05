@@ -33,6 +33,8 @@
     "gradcam2Body": "Gradients of the selected class score are propagated to the target convolutional layer. Spatially averaged gradients assign a class-specific importance weight to each feature-map channel.",
     "backwardGradient": "class gradients",
     "gradcamWeightAria": "Grad-CAM channel weight formula",
+    "gradcamWeightingAlt": "Grad-CAM class-gradient weighting: the current class score is back-propagated to convolutional feature maps, whose spatially averaged gradients produce the channel weight alpha k superscript c",
+    "gradcamWeightFormulaText": "Grad-CAM channel weight: alpha subscript k superscript c equals one over Z times the sum over u and v of the partial derivative of y-hat superscript c with respect to F subscript k superscript l at u, v.",
     "gradcam3Title": "3. Map positive evidence back to the spectrogram",
     "gradcam3Body": "The weighted feature maps are aggregated and passed through ReLU. After normalization and coordinate mapping, high-intensity areas become candidate adversarial regions.",
     "figure2Alt": "Grad-CAM heatmap on a mel-spectrogram from the MAIA paper",
