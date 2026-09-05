@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title" data-i18n="a11y.manifold_title">Conceptual generative manifold</title>
+  <desc id="desc" data-i18n="a11y.manifold_alt">Conceptual two-dimensional projection of a learned generative support region with member and non-member candidates on the same support but different empirical local stability radii.</desc>
+  <defs>
+    <linearGradient id="support" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9edf1"/><stop offset=".5" stop-color="#d8f1ea"/><stop offset="1" stop-color="#f7e8c9"/></linearGradient>
+    <linearGradient id="map" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#175c78"/><stop offset="1" stop-color="#0f766e"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1l10 5-10 5z" fill="#175c78"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#172033" flood-opacity=".08"/></filter>
+  </defs>
+  <rect x="8" y="8" width="1584" height="884" rx="30" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="64" y="70" fill="#475569" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="650" data-i18n="svg.manifold.ambient">Latent ambient space — conceptual 2D projection</text>
+  <g filter="url(#shadow)">
+    <path d="M120 560C210 310 390 215 603 321c162 81 288 9 416-107 154-138 347-75 445 49 93 117 50 270-68 343-142 89-268 28-414 40-200 16-316 158-530 121-213-37-395-57-332-207z" fill="url(#support)" stroke="#7aa6b4" stroke-width="4"/>
+  </g>
+  <path d="M180 567C280 348 421 301 595 385c173 84 295 4 432-101 138-107 277-62 365 41" fill="none" stroke="#175c78" stroke-width="4" stroke-dasharray="12 12" opacity=".65"/>
+  <text x="800" y="205" text-anchor="middle" fill="#175c78" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="750" data-i18n="svg.manifold.support">Learned generative support</text>
+  <text x="800" y="242" text-anchor="middle" fill="#475569" font-family="Inter,Arial,sans-serif" font-size="22" data-i18n="svg.manifold.factors">Pitch · rhythm · timbre · dynamics</text>
+
+  <g opacity=".8" fill="#175c78">
+    <circle cx="315" cy="545" r="8"/><circle cx="438" cy="418" r="7"/><circle cx="546" cy="520" r="8"/><circle cx="725" cy="403" r="7"/><circle cx="890" cy="348" r="7"/><circle cx="1062" cy="355" r="8"/><circle cx="1230" cy="470" r="7"/><circle cx="1358" cy="524" r="8"/>
+  </g>
+  <g fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round">
+    <path d="M390 623v-74c0-17 20-17 20 0v36c0-17 21-17 21 0v29"/><path d="M830 492v-72c0-17 20-17 20 0v35c0-17 21-17 21 0v29"/><path d="M1180 600v-71c0-17 20-17 20 0v35c0-17 21-17 21 0v29"/>
+  </g>
+
+  <circle cx="590" cy="500" r="154" fill="#0f766e" fill-opacity=".08" stroke="#0f766e" stroke-width="5"/>
+  <circle cx="590" cy="500" r="18" fill="#0f766e" stroke="#fff" stroke-width="6"/>
+  <path d="M590 500l126-85" stroke="#0f766e" stroke-width="6" marker-end="url(#arrow)"/>
+  <text x="590" y="700" text-anchor="middle" fill="#0f766e" font-family="Inter,Arial,sans-serif" font-size="29" font-weight="750" data-i18n="svg.manifold.member">Member candidate</text>
+  <text x="590" y="734" text-anchor="middle" fill="#475569" font-family="Inter,Arial,sans-serif" font-size="22" data-i18n="svg.manifold.larger_radius">Larger empirical stability radius</text>
+  <text x="656" y="451" fill="#0f766e" font-family="Inter,Arial,sans-serif" font-size="24">δ<tspan baseline-shift="sub" font-size="17">t</tspan></text>
+
+  <circle cx="1110" cy="478" r="92" fill="#d97706" fill-opacity=".08" stroke="#d97706" stroke-width="5" stroke-dasharray="13 10"/>
+  <circle cx="1110" cy="478" r="18" fill="#fff" stroke="#d97706" stroke-width="6"/>
+  <path d="M1110 478l68-56" stroke="#d97706" stroke-width="6" stroke-dasharray="12 8" marker-end="url(#arrow)"/>
+  <text x="1110" y="665" text-anchor="middle" fill="#9a6413" font-family="Inter,Arial,sans-serif" font-size="29" font-weight="750" data-i18n="svg.manifold.nonmember">Non-member candidate</text>
+  <text x="1110" y="699" text-anchor="middle" fill="#475569" font-family="Inter,Arial,sans-serif" font-size="22" data-i18n="svg.manifold.smaller_radius">Smaller empirical stability radius</text>
+  <text x="1162" y="444" fill="#9a6413" font-family="Inter,Arial,sans-serif" font-size="24">δ<tspan baseline-shift="sub" font-size="17">t</tspan></text>
+
+  <g transform="translate(1280 682)">
+    <rect width="235" height="126" rx="18" fill="#e8f1f5" stroke="#175c78" stroke-width="2"/>
+    <text x="118" y="54" text-anchor="middle" fill="#0f172a" font-family="Inter,Arial,sans-serif" font-size="27" font-weight="700">R<tspan baseline-shift="sub" font-size="19">t</tspan><tspan>(·;θ)</tspan></text>
+    <text x="118" y="88" text-anchor="middle" fill="#475569" font-family="Inter,Arial,sans-serif" font-size="21" data-i18n="svg.manifold.reverse">Learned reverse mapping</text>
+  </g>
+  <path d="M1210 596c46 43 68 59 91 82" fill="none" stroke="#175c78" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(90 788)">
+    <rect width="1075" height="62" rx="16" fill="#f1f5f9"/>
+    <text x="538" y="40" text-anchor="middle" fill="#0f172a" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700">C<tspan baseline-shift="sub" font-size="18">adv</tspan>(member) &gt; C<tspan baseline-shift="sub" font-size="18">adv</tspan>(non-member) · τ <tspan data-i18n="svg.manifold.same_target">is the same degradation target</tspan></text>
+  </g>
+</svg>

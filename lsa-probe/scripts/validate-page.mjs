@@ -11,9 +11,15 @@ const app = read("js/app-v2.js");
 const i18nSource = read("js/i18n.js");
 const evidence = JSON.parse(read("data/evidence.json"));
 const cropManifest = JSON.parse(read("assets/figures/figure2-crop-manifest.json"));
+const explanationManifest = JSON.parse(read("assets/legacy/lsa-probe-explanation-manifest.json"));
 const en = JSON.parse(read("locales/en.json"));
 const zh = JSON.parse(read("locales/zh-CN.json"));
 const failures = [];
+const explanatorySvgs = [
+  "assets/figures/audit-question-flow.svg",
+  "assets/figures/endpoint-vs-lsa-probe.svg",
+  "assets/figures/generative-manifold.svg"
+];
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
@@ -52,6 +58,10 @@ for (const spelling of ["authorised", "authorisation", "destabilise", "generalis
 
 const htmlKeys = new Set();
 for (const match of html.matchAll(/data-i18n(?:-aria-label|-alt)?="([^"]+)"/g)) htmlKeys.add(match[1]);
+for (const relative of explanatorySvgs) {
+  const svg = read(relative);
+  for (const match of svg.matchAll(/data-i18n="([^"]+)"/g)) htmlKeys.add(match[1]);
+}
 for (const key of htmlKeys) {
   assert(Object.hasOwn(en, key), `Missing English translation key: ${key}`);
   assert(Object.hasOwn(zh, key), `Missing Chinese translation key: ${key}`);
@@ -60,7 +70,7 @@ for (const key of Object.keys(en)) assert(Object.hasOwn(zh, key), `Chinese dicti
 for (const key of Object.keys(zh)) assert(Object.hasOwn(en, key), `English dictionary missing Chinese key: ${key}`);
 
 const localRefs = [];
-for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+for (const match of html.matchAll(/(?:src|href|data|data-dialog-svg)="([^"]+)"/g)) {
   const ref = match[1];
   if (!ref.startsWith("http") && !ref.startsWith("#") && !ref.startsWith("../")) localRefs.push(ref);
 }
@@ -76,6 +86,22 @@ for (const relative of [
 ]) {
   assert(fs.statSync(path.join(root, relative)).size > 10_000, `Figure asset is unexpectedly small: ${relative}`);
 }
+for (const relative of explanatorySvgs) {
+  assert(fs.existsSync(path.join(root, relative)), `Missing explanatory SVG: ${relative}`);
+  assert(fs.statSync(path.join(root, relative)).size > 2_000, `Explanatory SVG is unexpectedly small: ${relative}`);
+  const png = relative.replace(/\.svg$/, "@2x.png");
+  assert(fs.existsSync(path.join(root, png)), `Missing high-resolution PNG fallback: ${png}`);
+  assert(fs.statSync(path.join(root, png)).size > 10_000, `PNG fallback is unexpectedly small: ${png}`);
+}
+
+const legacyExplanation = path.join(root, "assets/legacy/lsa-probe-explanation-original.png");
+const digest = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+assert(fs.existsSync(legacyExplanation), "Missing preserved original LSA-Probe explanation image.");
+assert(digest(legacyExplanation) === explanationManifest.sha256, "Preserved explanation image hash mismatch.");
+const comparisonSvg = read("assets/figures/endpoint-vs-lsa-probe.svg");
+assert(!comparisonSvg.includes("0.05") && !comparisonSvg.includes("0.06"), "Illustrative legacy values 0.05/0.06 must not appear in the new comparison figure.");
+const manifoldSvg = read("assets/figures/generative-manifold.svg");
+assert(manifoldSvg.includes("svg.manifold.member") && manifoldSvg.includes("svg.manifold.nonmember"), "Generative-support figure must show both candidates on the same support region.");
 
 assert((html.match(/data-focus-slide="(?:[1-9])"/g) || []).length === 9, "Focus View must expose exactly nine dedicated presentation steps.");
 assert(html.includes("js/app-v2.js") && !html.includes('src="js/app.js"'), "Production must load only the current interaction script.");
@@ -85,7 +111,6 @@ assert(cropManifest.panels.length === 4, "Figure 2 crop manifest must contain fo
 for (const panel of cropManifest.panels) {
   const source = path.join(root, panel.source);
   const output = path.join(root, panel.output);
-  const digest = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
   assert(fs.existsSync(source), `Missing preserved original Figure 2 panel: ${panel.source}`);
   assert(fs.existsSync(output), `Missing cropped Figure 2 panel: ${panel.output}`);
   assert(digest(source) === panel.source_sha256, `Original Figure 2 hash mismatch: ${panel.source}`);
@@ -108,4 +133,6 @@ console.log(`- Translation parity: ${Object.keys(en).length} keys`);
 console.log(`- Local assets: ${localRefs.length} references resolved`);
 console.log("- Focus View: 9 steps");
 console.log("- Figure 2: 4/4 preserved originals and verified crop hashes");
+console.log("- Explanatory graphics: 3 SVGs + 3 high-resolution PNG fallbacks");
+console.log("- User reference image: preserved with verified SHA-256");
 console.log("- Parameterless URL language: English fallback independent of localStorage");

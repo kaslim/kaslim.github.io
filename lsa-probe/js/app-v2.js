@@ -209,17 +209,55 @@
     renderWalkthrough();
   }
 
+  function translateSvgDocument(svgDocument) {
+    if (!svgDocument) return;
+    svgDocument.documentElement.setAttribute("lang", i18n.language);
+    svgDocument.querySelectorAll("[data-i18n]").forEach((node) => {
+      node.textContent = i18n.t(node.dataset.i18n);
+    });
+  }
+
+  function translateEmbeddedSvgs() {
+    document.querySelectorAll("object.translatable-svg, object.dialog-vector").forEach((object) => {
+      try {
+        translateSvgDocument(object.contentDocument);
+      } catch (error) {
+        console.error("[LSA-Probe SVG i18n]", error);
+      }
+    });
+  }
+
+  function setupEmbeddedSvgs() {
+    document.querySelectorAll("object.translatable-svg").forEach((object) => {
+      object.addEventListener("load", () => translateSvgDocument(object.contentDocument));
+      if (object.contentDocument) translateSvgDocument(object.contentDocument);
+    });
+  }
+
   function setupImageDialog() {
     const dialog = document.querySelector("#image-dialog");
     const dialogImage = document.querySelector("#dialog-image");
+    const dialogVector = document.querySelector("#dialog-vector");
     let returnFocus = null;
 
     document.querySelectorAll("[data-dialog-image]").forEach((button) => {
       button.addEventListener("click", () => {
         const source = button.querySelector("img");
         returnFocus = button;
+        dialogVector.hidden = true;
+        dialogImage.hidden = false;
         dialogImage.src = button.dataset.dialogImage;
         dialogImage.alt = source?.alt || "";
+        dialog.showModal();
+      });
+    });
+    document.querySelectorAll("[data-dialog-svg]").forEach((button) => {
+      button.addEventListener("click", () => {
+        returnFocus = button;
+        dialogImage.hidden = true;
+        dialogVector.hidden = false;
+        dialogVector.data = button.dataset.dialogSvg;
+        dialogVector.onload = () => translateSvgDocument(dialogVector.contentDocument);
         dialog.showModal();
       });
     });
@@ -356,6 +394,7 @@
     focusToggle.textContent = i18n.t(focusMode ? "controls.exit_focus" : "controls.focus");
     renderWalkthrough();
     renderExplorer();
+    translateEmbeddedSvgs();
   });
 
   async function initialize() {
@@ -363,6 +402,7 @@
     setupControls();
     setupSectionsMenu();
     setupFocusInteractions();
+    setupEmbeddedSvgs();
     setupImageDialog();
     setupWalkthroughDialog();
     renderWalkthrough();

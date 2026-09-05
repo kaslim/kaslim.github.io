@@ -88,25 +88,27 @@
           <p data-i18n="audit.intro">Given a candidate audio clip and an audited music diffusion model, estimate whether the clip was used during training.</p>
         </div>
       </div>
-      <div class="audit-flow" role="img" aria-label="Candidate audio is evaluated through an audited diffusion model to produce a membership audit score" data-i18n-aria-label="a11y.audit_flow">
-        <div><span>01</span><strong data-i18n="audit.flow_candidate">Candidate audio clip</strong></div>
-        <div><span>02</span><strong data-i18n="audit.flow_model">Audited music diffusion model</strong></div>
-        <div><span>03</span><strong data-i18n="audit.flow_question">Was this clip used during training?</strong></div>
+      <figure class="vector-figure audit-visual">
+        <button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/audit-question-flow.svg" data-i18n-aria-label="a11y.enlarge_audit" aria-label="Enlarge the LSA-Probe audit flow">
+          <object class="translatable-svg" data="assets/figures/audit-question-flow.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
+        </button>
+      </figure>
+      <div class="audit-mobile-flow" role="img" aria-label="Candidate audio and an audited music diffusion model are inputs to an authorized probe that produces statistical membership evidence" data-i18n-aria-label="a11y.audit_flow">
+        <div class="mobile-input-pair">
+          <article><span class="wave-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.candidate">Candidate audio</strong></article>
+          <span aria-hidden="true">+</span>
+          <article><span class="model-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.model">Audited diffusion model</strong></article>
+        </div>
+        <span class="flow-arrow" aria-hidden="true">↓</span>
+        <article class="mobile-probe"><span class="probe-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.probe">Authorized probe</strong><small>C<sub>adv</sub>(x)</small></article>
+        <span class="flow-arrow" aria-hidden="true">↓</span>
+        <div class="mobile-evidence"><strong data-i18n="svg.audit.evidence">Membership evidence</strong><span aria-hidden="true"></span><div><small data-i18n="svg.audit.nonmember_like">More non-member-like</small><small data-i18n="svg.audit.member_like">More member-like</small></div></div>
       </div>
-      <div class="two-column compact-grid">
-        <article class="definition-card">
-          <p class="card-label" data-i18n="audit.member_label">Member</p>
-          <p data-i18n="audit.member_body">The clip belongs to the target model’s training set.</p>
-        </article>
-        <article class="definition-card">
-          <p class="card-label" data-i18n="audit.nonmember_label">Non-member</p>
-          <p data-i18n="audit.nonmember_body">The clip was not included in the target model’s training set.</p>
-        </article>
+      <div class="audit-legend" aria-label="Member and non-member definitions" data-i18n-aria-label="a11y.audit_legend">
+        <span><i class="legend-dot member" aria-hidden="true"></i><strong data-i18n="audit.member_label">Member</strong><small data-i18n="audit.member_body">The clip belongs to the target model’s training set.</small></span>
+        <span><i class="legend-dot nonmember" aria-hidden="true"></i><strong data-i18n="audit.nonmember_label">Non-member</strong><small data-i18n="audit.nonmember_body">The clip was not included in the target model’s training set.</small></span>
       </div>
-      <aside class="boundary-note">
-        <strong data-i18n="audit.boundary_title">Evidence boundary</strong>
-        <p data-i18n="audit.boundary">Membership inference produces a statistical audit signal. It is not training-data extraction, model inversion, attribute inference, or standalone legal proof of copyright infringement.</p>
-      </aside>
+      <p class="compact-boundary"><span aria-hidden="true">i</span><strong data-i18n="audit.boundary_short">Statistical audit signal — not data extraction, model inversion, or standalone legal proof.</strong></p>
     </section>
 
     <section class="content-section section-shell focus-section" id="diffusion-primer" data-focus-step="2" aria-labelledby="primer-title">
@@ -207,6 +209,29 @@
         <article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article>
       </div>
       <blockquote data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilize the local reverse process.</blockquote>
+      <figure class="vector-figure comparison-visual">
+        <button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/endpoint-vs-lsa-probe.svg" data-i18n-aria-label="a11y.enlarge_comparison" aria-label="Enlarge the endpoint and LSA-Probe comparison">
+          <object class="translatable-svg" data="assets/figures/endpoint-vs-lsa-probe.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
+        </button>
+        <figcaption data-i18n="comparison.caption">Conceptual comparison of endpoint reconstruction evidence and LSA-Probe’s minimum-cost stability signal. The diagram illustrates the method hypothesis; it is not measured sample-level data.</figcaption>
+      </figure>
+      <div class="comparison-mobile" aria-label="Conceptual comparison of endpoint reconstruction evidence and LSA-Probe minimum-cost stability evidence" data-i18n-aria-label="a11y.comparison_alt">
+        <article>
+          <p class="card-label" data-i18n="svg.compare.endpoint_title">Endpoint reconstruction loss</p>
+          <div class="mobile-lanes"><span><i class="lane-signal member"></i><strong data-i18n="svg.compare.member">Member candidate</strong></span><span><i class="lane-signal nonmember"></i><strong data-i18n="svg.compare.nonmember">Non-member candidate</strong></span></div>
+          <p class="equation-small">D(x<sub>0</sub>, x̂<sub>0</sub>)</p>
+          <strong class="mobile-overlap" data-i18n="svg.compare.overlap">Overlapping endpoint evidence</strong>
+        </article>
+        <article>
+          <p class="card-label" data-i18n="svg.compare.lsa_title">LSA-Probe: minimum cost to break local stability</p>
+          <div class="budget-row member"><strong data-i18n="svg.compare.member_state">Member xₜ</strong><span></span><small data-i18n="svg.compare.larger_budget">Larger minimum budget</small></div>
+          <div class="budget-row nonmember"><strong data-i18n="svg.compare.nonmember_state">Non-member xₜ</strong><span></span><small data-i18n="svg.compare.smaller_budget">Smaller minimum budget</small></div>
+          <p class="equation-small">δ<sub>t</sub>=σ<sub>t</sub>δ̃ · D≥τ</p>
+          <strong class="mobile-relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</strong>
+          <small data-i18n="svg.compare.member_like">Higher cost → more member-like</small>
+        </article>
+        <p data-i18n="comparison.caption">Conceptual comparison of endpoint reconstruction evidence and LSA-Probe’s minimum-cost stability signal. The diagram illustrates the method hypothesis; it is not measured sample-level data.</p>
+      </div>
       <div class="timeline-card">
         <p class="card-label" data-i18n="endpoint.timeline_title">Correct diffusion-time direction</p>
         <div class="timeline-labels">
@@ -226,6 +251,26 @@
           <p data-i18n="insight.body">Training members empirically occupy more stable local regions of the learned reverse mapping. They require a larger bounded perturbation to reach the same perceptual degradation target.</p>
         </div>
       </div>
+      <section class="manifold-primer" aria-labelledby="manifold-title">
+        <div class="manifold-copy">
+          <p class="eyebrow" data-i18n="manifold.kicker">Geometric intuition</p>
+          <h3 id="manifold-title" data-i18n="manifold.title">What do we mean by a generative manifold?</h3>
+          <p data-i18n="manifold.body1">Audio latents live in a high-dimensional ambient space, but plausible musical signals occupy a structured region shaped by factors such as pitch, rhythm, timbre and dynamics. A trained diffusion model learns an approximate reverse mapping around this data-supported region.</p>
+          <p data-i18n="manifold.body2">In LSA-Probe, “generative manifold” does not mean that we analytically recover the true data manifold. It is a local geometric interpretation of how stable the learned reverse process is around a candidate intermediate state.</p>
+          <p data-i18n="manifold.body3">We therefore probe the size of the local neighborhood that can be perturbed before the reconstructed audio crosses a fixed perceptual degradation threshold.</p>
+        </div>
+        <figure class="vector-figure manifold-visual">
+          <button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/generative-manifold.svg" data-i18n-aria-label="a11y.enlarge_manifold" aria-label="Enlarge the conceptual generative manifold">
+            <object class="translatable-svg" data="assets/figures/generative-manifold.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
+          </button>
+        </figure>
+        <div class="manifold-legend">
+          <article><i class="legend-symbol ambient" aria-hidden="true"></i><p><strong data-i18n="manifold.legend1_title">Ambient space</strong><span data-i18n="manifold.legend1_body">All possible latent states.</span></p></article>
+          <article><i class="legend-symbol support" aria-hidden="true"></i><p><strong data-i18n="manifold.legend2_title">Learned generative support</strong><span data-i18n="manifold.legend2_body">Structured states mapped toward plausible audio.</span></p></article>
+          <article><i class="legend-symbol radius" aria-hidden="true"></i><p><strong data-i18n="manifold.legend3_title">Local stability radius</strong><span data-i18n="manifold.legend3_body">Normalized budget required to reach degradation threshold τ.</span></p></article>
+        </div>
+        <p class="interpretation-boundary"><span aria-hidden="true">i</span><span><strong data-i18n="manifold.boundary_title">Interpretation boundary</strong><span data-i18n="manifold.boundary">The surface and neighborhood radii are conceptual projections. LSA-Probe measures empirical local stability; it does not recover a literal manifold or prove that every training member is more stable than every non-member.</span></span></p>
+      </section>
       <div class="insight-layout">
         <figure class="research-figure schematic-figure">
           <div class="axis-label axis-y" data-i18n="insight.axis_y">Perceptual degradation D</div>
@@ -601,8 +646,13 @@
     <section class="focus-stage" id="focus-stage" aria-label="Focus View presentation" data-i18n-aria-label="a11y.focus_stage" hidden>
       <article class="focus-slide" data-focus-slide="1" aria-labelledby="focus-title-1">
         <header class="focus-slide-head"><p class="focus-slide-number">01</p><div><p class="eyebrow" data-i18n="audit.kicker">Audit question</p><h2 id="focus-title-1" tabindex="-1" data-i18n="audit.title">What are we auditing?</h2><p data-i18n="audit.intro">Given a candidate audio clip and an audited music diffusion model, estimate whether the clip was used during training.</p></div></header>
-        <div class="focus-audit-flow" role="img" aria-label="Candidate audio, audited model, membership audit score, and membership question" data-i18n-aria-label="a11y.focus_audit_flow"><div><span>01</span><strong data-i18n="audit.flow_candidate">Candidate audio clip</strong></div><div><span>02</span><strong data-i18n="audit.flow_model">Audited music diffusion model</strong></div><div><span>03</span><strong data-i18n="focus.audit_score">Membership audit score</strong></div><div><span>04</span><strong data-i18n="audit.flow_question">Was this clip used during training?</strong></div></div>
-        <aside class="focus-boundary"><strong data-i18n="audit.boundary_title">Evidence boundary</strong><p data-i18n="audit.boundary">Membership inference produces a statistical audit signal. It is not training-data extraction, model inversion, attribute inference, or standalone legal proof of copyright infringement.</p></aside>
+        <figure class="focus-vector-figure"><button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/audit-question-flow.svg" data-i18n-aria-label="a11y.enlarge_audit" aria-label="Enlarge the LSA-Probe audit flow"><object class="translatable-svg" data="assets/figures/audit-question-flow.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object></button></figure>
+        <div class="audit-mobile-flow focus-audit-mobile" role="img" aria-label="Candidate audio and an audited music diffusion model are inputs to an authorized probe that produces statistical membership evidence" data-i18n-aria-label="a11y.audit_flow">
+          <div class="mobile-input-pair"><article><span class="wave-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.candidate">Candidate audio</strong></article><span aria-hidden="true">+</span><article><span class="model-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.model">Audited diffusion model</strong></article></div>
+          <span class="flow-arrow" aria-hidden="true">↓</span><article class="mobile-probe"><span class="probe-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.probe">Authorized probe</strong><small>C<sub>adv</sub>(x)</small></article>
+          <span class="flow-arrow" aria-hidden="true">↓</span><div class="mobile-evidence"><strong data-i18n="svg.audit.evidence">Membership evidence</strong><span aria-hidden="true"></span><div><small data-i18n="svg.audit.nonmember_like">More non-member-like</small><small data-i18n="svg.audit.member_like">More member-like</small></div></div>
+        </div>
+        <aside class="focus-boundary compact"><strong data-i18n="audit.boundary_short">Statistical audit signal — not data extraction, model inversion, or standalone legal proof.</strong></aside>
       </article>
 
       <article class="focus-slide" data-focus-slide="2" aria-labelledby="focus-title-2">
@@ -628,7 +678,7 @@
 
       <article class="focus-slide" data-focus-slide="5" aria-labelledby="focus-title-5">
         <header class="focus-slide-head"><p class="focus-slide-number">05</p><div><p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p><h2 id="focus-title-5" tabindex="-1" data-i18n="focus.insight_title">Latent stability and adversarial cost</h2></div></header>
-        <div class="focus-insight-grid"><figure class="focus-schematic"><img src="assets/figures/stability-schematic.png" alt="Conceptual member and non-member stability curves" data-i18n-alt="a11y.stability_alt" width="1672" height="941"><figcaption data-i18n="insight.caption">Conceptual schematic — not measured sample data</figcaption></figure><div class="focus-score-card"><p class="card-label" data-i18n="insight.score_label">Audit score</p><p class="equation">C<sub>adv</sub>(x) = min η</p><p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p><p class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</p><p class="fine-print" data-i18n="insight.caution">This is an empirical local-geometric interpretation, not an analytic recovery of a data manifold or a universal claim about diffusion models.</p></div></div>
+        <div class="focus-insight-grid"><figure class="focus-vector-figure focus-manifold"><button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/generative-manifold.svg" data-i18n-aria-label="a11y.enlarge_manifold" aria-label="Enlarge the conceptual generative manifold"><object class="translatable-svg" data="assets/figures/generative-manifold.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object></button></figure><div class="focus-score-card"><p class="card-label" data-i18n="insight.score_label">Audit score</p><p class="equation">C<sub>adv</sub>(x) = min η</p><p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p><p class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</p><p class="empirical-tag" data-i18n="manifold.empirical">Empirical tendency in the evaluated settings</p><p class="fine-print" data-i18n="manifold.boundary">The surface and neighborhood radii are conceptual projections. LSA-Probe measures empirical local stability; it does not recover a literal manifold or prove that every training member is more stable than every non-member.</p></div></div>
         <div class="focus-threshold-strip"><span><strong>τ</strong><small data-i18n="focus.tau_short">Perceptual degradation target; not the membership cutoff</small></span><span><strong>C<sub>adv</sub></strong><small data-i18n="focus.cost_short">Minimum time-normalized budget reaching τ</small></span><span><strong data-i18n="focus.cutoff_short_title">Decision cutoff</strong><small data-i18n="focus.cutoff_short">A separate threshold sets the FPR operating point</small></span></div>
       </article>
 
@@ -673,6 +723,7 @@
   <dialog class="image-dialog" id="image-dialog">
     <button class="button button-quiet dialog-close" type="button" id="dialog-close" data-i18n="controls.close">Close</button>
     <img id="dialog-image" alt="">
+    <object class="dialog-vector" id="dialog-vector" type="image/svg+xml" aria-hidden="true" hidden></object>
   </dialog>
 
   <dialog class="walkthrough-dialog" id="focus-walkthrough-dialog" aria-labelledby="focus-walkthrough-title">
