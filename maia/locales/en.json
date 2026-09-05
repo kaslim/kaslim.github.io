@@ -13,6 +13,7 @@
     "subtitle": "A three-step importance-driven adversarial inpainting framework",
     "step1Title": "Importance Analysis",
     "step1Body": "Identify critical time-frequency regions that most influence the model's decision",
+    "step1HeatmapCaption": "The paper's Grad-CAM heatmap makes the default method view concrete: brighter time-frequency regions contribute more strongly to the model's current decision.",
     "routesAria": "White-box and black-box localization routes",
     "whiteRoute": "White-box",
     "whiteRouteBody": "Class gradients reveal positive evidence.",

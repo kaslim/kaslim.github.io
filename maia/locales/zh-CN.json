@@ -13,6 +13,7 @@
     "subtitle": "由重要区域驱动的三阶段音乐对抗补全框架",
     "step1Title": "重要区域分析",
     "step1Body": "定位最影响模型决策的关键时频区域",
+    "step1HeatmapCaption": "论文中的 Grad-CAM 热力图让默认方法视图直接呈现定位结果：亮度更高的时频区域对模型当前判别贡献更大。",
     "routesAria": "白盒与黑盒定位路线",
     "whiteRoute": "白盒",
     "whiteRouteBody": "通过类别梯度识别正向判别证据。",

@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/responsive.css?v=20260904-2">
-    <link rel="stylesheet" href="css/research-page.css?v=20260905-2">
+    <link rel="stylesheet" href="css/research-page.css?v=20260905-4">
 </head>
 <body>
     <a class="skip-link" href="#main" data-i18n="accessibility.skip">Skip to main content</a>
@@ -94,6 +94,10 @@
                                 <span><strong data-i18n="method.whiteRoute">White-box</strong><small data-i18n="method.whiteRouteBody">Class gradients reveal positive evidence.</small></span>
                                 <span><strong data-i18n="method.blackRoute">Black-box</strong><small data-i18n="method.blackRouteBody">Repeated masks reveal influential intervals.</small></span>
                             </div>
+                            <figure class="importance-preview">
+                                <img src="assets/figures/2.png" alt="Grad-CAM heatmap on a mel-spectrogram from the MAIA paper" data-i18n-attr="alt:method.figure2Alt">
+                                <figcaption><span class="asset-label" data-i18n="method.paperFigureLabel">Paper figure</span><span data-i18n="method.step1HeatmapCaption">The paper's Grad-CAM heatmap makes the default method view concrete: brighter time-frequency regions contribute more strongly to the model's current decision.</span></figcaption>
+                            </figure>
                         </div>
                     </div>
 
@@ -115,8 +119,8 @@
                                     </figure>
                                     <figure class="mechanism-card">
                                         <figcaption><strong data-i18n="method.gradcam2Title">2. Weight feature maps by class gradients</strong><span data-i18n="method.gradcam2Body">Gradients of the selected class score are propagated to the target convolutional layer. Spatially averaged gradients assign a class-specific importance weight to each feature-map channel.</span></figcaption>
-                                        <div class="feature-map-flow" aria-hidden="true"><span class="score-chip">ŷ<sup>c</sup></span><span class="gradient-arrow" data-i18n="method.backwardGradient">class gradients</span><div class="feature-stack"><span>F<sub>1</sub><sup>l</sup></span><span>F<sub>2</sub><sup>l</sup></span><span>F<sub>k</sub><sup>l</sup></span></div><span class="flow-arrow">→</span><span class="weight-chip">α<sub>k</sub><sup>c</sup></span></div>
-                                        <div class="formula-block" tabindex="0" aria-label="Grad-CAM channel weight formula" data-i18n-attr="aria-label:method.gradcamWeightAria">α<sub>k</sub><sup>c</sup> = (1 / Z) ∑<sub>u,v</sub> ∂ŷ<sup>c</sup> / ∂F<sub>k</sub><sup>l</sup>(u,v)</div>
+                                        <div class="feature-map-flow" aria-hidden="true"><span class="score-chip">ŷ<span class="math-superscript">c</span></span><span class="gradient-arrow" data-i18n="method.backwardGradient">class gradients</span><div class="feature-stack"><span><span class="indexed-symbol">F<span class="math-scripts"><sup>l</sup><sub>1</sub></span></span></span><span><span class="indexed-symbol">F<span class="math-scripts"><sup>l</sup><sub>2</sub></span></span></span><span><span class="indexed-symbol">F<span class="math-scripts"><sup>l</sup><sub>k</sub></span></span></span></div><span class="flow-arrow">→</span><span class="weight-chip"><span class="indexed-symbol">α<span class="math-scripts"><sup>c</sup><sub>k</sub></span></span></span></div>
+                                        <div class="formula-block" tabindex="0" aria-label="Grad-CAM channel weight formula" data-i18n-attr="aria-label:method.gradcamWeightAria"><span class="indexed-symbol">α<span class="math-scripts"><sup>c</sup><sub>k</sub></span></span> = (1 / Z) <span class="summation-symbol">∑<sub>u,v</sub></span> ∂ŷ<span class="math-superscript">c</span> / ∂<span class="indexed-symbol">F<span class="math-scripts"><sup>l</sup><sub>k</sub></span></span>(u,v)</div>
                                     </figure>
                                     <figure class="mechanism-card paper-evidence-card">
                                         <figcaption><strong data-i18n="method.gradcam3Title">3. Map positive evidence back to the spectrogram</strong><span data-i18n="method.gradcam3Body">The weighted feature maps are aggregated and passed through ReLU. After normalization and coordinate mapping, high-intensity areas become candidate adversarial regions.</span></figcaption>
