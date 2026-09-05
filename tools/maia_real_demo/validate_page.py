@@ -85,7 +85,7 @@ def main() -> int:
         missing = sorted(used_keys - keys)
         check(not missing, f"{language} locale misses keys: {missing}", failures)
     check(locale_keys["en"] == locale_keys["zh-CN"], "English and Chinese locale key sets differ", failures)
-    check(sorted(focus_steps) == list(range(1, 9)), f"Focus steps must be 1..8, found {sorted(focus_steps)}", failures)
+    check(sorted(focus_steps) == list(range(1, 10)), f"Focus steps must be 1..9, found {sorted(focus_steps)}", failures)
     for path in sorted(local_paths):
         check(path.exists(), f"Missing local page asset: {path.relative_to(ROOT)}", failures)
 
@@ -136,7 +136,7 @@ def main() -> int:
     print(f"- locale keys: {len(locale_keys['en'])} per language")
     print(f"- translated DOM keys: {len(used_keys)}")
     print(f"- local HTML assets checked: {len(local_paths)}")
-    print("- focus sequence: 1..8")
+    print("- focus sequence: 1..9")
     print("- active data source: verified real-demo manifest")
     print("- protected figures: byte-identical")
     print("- prohibited legacy/random references: absent")

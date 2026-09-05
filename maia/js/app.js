@@ -28,12 +28,19 @@
         focusToggle.setAttribute('aria-label', t(focusEnabled ? 'focus.exitAria' : 'focus.enterAria'));
     }
     function setFocus(enabled, step = focusStep) {
+        const wasEnabled = focusEnabled;
+        const priorStep = focusStep;
         focusEnabled = enabled;
         focusStep = Math.min(focusSections.length, Math.max(1, step));
         if (window.MAIADemo && typeof window.MAIADemo.pauseAll === 'function') window.MAIADemo.pauseAll();
+        if (enabled && focusStep === 4 && (!wasEnabled || priorStep !== focusStep)) {
+            document.querySelectorAll('#method details.technical-panel').forEach((panel) => { panel.open = false; });
+        }
         replaceQuery(enabled ? { focus: '1', step: String(focusStep) } : { focus: null, step: null });
         updateFocusUi();
-        if (enabled) focusSections[focusStep - 1].scrollTop = 0;
+        if (enabled) {
+            focusSections[focusStep - 1].scrollTop = 0;
+        }
     }
     function moveFocus(delta) {
         if (!focusEnabled) return;
@@ -58,6 +65,37 @@
         if (event.key === 'Escape') { event.preventDefault(); setFocus(false); }
         if (event.key === 'ArrowLeft') { event.preventDefault(); moveFocus(-1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); moveFocus(1); }
+        if (event.key === 'Home') { event.preventDefault(); setFocus(true, 1); }
+        if (event.key === 'End') { event.preventDefault(); setFocus(true, focusSections.length); }
+    });
+
+    const technicalPanels = Array.from(document.querySelectorAll('details.technical-panel'));
+    technicalPanels.forEach((panel) => {
+        const summary = panel.querySelector('summary');
+        const syncState = () => summary.setAttribute('aria-expanded', String(panel.open));
+        syncState();
+        panel.addEventListener('toggle', syncState);
+    });
+
+    const refinementAnimation = document.getElementById('refinement-animation');
+    const refinementToggle = document.getElementById('refinement-toggle');
+    const refinementReset = document.getElementById('refinement-reset');
+    let refinementPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function updateRefinementAnimation() {
+        refinementAnimation.classList.toggle('is-paused', refinementPaused);
+        refinementToggle.textContent = t(refinementPaused ? 'method.resumeAnimation' : 'method.pauseAnimation');
+        refinementToggle.setAttribute('aria-label', t(refinementPaused ? 'method.resumeAnimationAria' : 'method.pauseAnimationAria'));
+        refinementToggle.setAttribute('aria-pressed', String(refinementPaused));
+    }
+    refinementToggle.addEventListener('click', () => {
+        refinementPaused = !refinementPaused;
+        updateRefinementAnimation();
+    });
+    refinementReset.addEventListener('click', () => {
+        refinementAnimation.classList.remove('is-resetting');
+        void refinementAnimation.offsetWidth;
+        refinementAnimation.classList.add('is-resetting');
+        window.setTimeout(() => refinementAnimation.classList.remove('is-resetting'), 60);
     });
 
     function stabilizeDeepLink() {
@@ -318,9 +356,10 @@
 
     const demo = new VerifiedDemo();
     window.MAIADemo = demo;
-    window.addEventListener('maia:languagechange', () => { updateFocusUi(); demo.refreshLanguage(); });
+    window.addEventListener('maia:languagechange', () => { updateFocusUi(); updateRefinementAnimation(); demo.refreshLanguage(); });
     window.MAIAI18n.ready.then(() => {
         updateFocusUi();
+        updateRefinementAnimation();
         demo.initialize();
     }).catch((error) => console.error(error));
 

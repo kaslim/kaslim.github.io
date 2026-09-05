@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/responsive.css?v=20260904-2">
-    <link rel="stylesheet" href="css/research-page.css?v=20260905-1">
+    <link rel="stylesheet" href="css/research-page.css?v=20260905-2">
 </head>
 <body>
     <a class="skip-link" href="#main" data-i18n="accessibility.skip">Skip to main content</a>
@@ -24,6 +24,7 @@
                 <a href="#method" data-i18n="nav.method">Method</a>
                 <a href="#demo" data-i18n="nav.demo">Verified Demo</a>
                 <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
+                <a href="#attack-properties" data-i18n="nav.robustness">Robustness</a>
                 <a href="#resources" data-i18n="nav.resources">Resources</a>
             </div>
             <div class="nav-actions">
@@ -90,13 +91,70 @@
                         <div class="step-number">01</div>
                         <div class="step-content">
                             <h3 data-i18n="method.step1Title">Importance Analysis</h3><p data-i18n="method.step1Body">Identify critical time-frequency regions that most influence the model's decision</p>
-                            <div class="step-details">
-                                <div class="detail-item"><h4 data-i18n="method.whiteTitle">White-box: Grad-CAM</h4><p data-i18n="method.whiteBody">Use gradient-weighted class activation mapping on the target model's final-block representation.</p><div class="formula">M<sub>c</sub>(x,y) = ReLU(Σ<sub>k</sub> α<sub>k</sub><sup>c</sup> F<sub>k</sub><sup>l</sup>(x,y))</div></div>
-                                <div class="detail-item"><h4 data-i18n="method.blackTitle">Black-box: Coarse-to-Fine</h4><p data-i18n="method.blackBody">Rank masked chunks by loss change per unit duration, then refine the most influential chunk.</p><div class="formula">I(C<sub>i</sub>) = [L(M(x̃<sub>-C<sub>i</sub></sub>), y) - L(M(x), y)] / duration(C<sub>i</sub>)</div></div>
+                            <div class="method-route" aria-label="White-box and black-box localization routes" data-i18n-attr="aria-label:method.routesAria">
+                                <span><strong data-i18n="method.whiteRoute">White-box</strong><small data-i18n="method.whiteRouteBody">Class gradients reveal positive evidence.</small></span>
+                                <span><strong data-i18n="method.blackRoute">Black-box</strong><small data-i18n="method.blackRouteBody">Repeated masks reveal influential intervals.</small></span>
                             </div>
-                            <div class="step-visualization"><div class="viz-placeholder" id="gradcam-viz"><img src="assets/figures/2.png" alt="Grad-CAM heatmap on mel-spectrogram" data-i18n-attr="alt:method.figure2Alt" style="width:100%;border-radius:8px;display:block;" /><p class="viz-caption" data-i18n="method.figure2Caption">Grad-CAM heatmap on mel-spectrogram</p></div></div>
                         </div>
                     </div>
+
+                    <div class="technical-deep-dive">
+                        <div class="technical-heading">
+                            <div><span class="schematic-status" data-i18n="method.schematicStatus">Mechanism schematics</span><h3 data-i18n="method.deepDiveTitle">Technical deep dive: How are the critical regions located?</h3></div>
+                            <p data-i18n="method.deepDiveBody">Open either access setting when you want the computation, formula, and evidence boundary.</p>
+                        </div>
+
+                        <details class="technical-panel" data-tech-panel="gradcam">
+                            <summary><span data-i18n="method.gradcamTitle">White-box localization: Grad-CAM</span><span class="summary-hint"><span data-i18n="method.expandHint">Expand only when needed</span><span class="chevron" aria-hidden="true"></span></span></summary>
+                            <div class="technical-panel-body">
+                                <div class="mechanism-grid gradcam-grid">
+                                    <figure class="mechanism-card">
+                                        <figcaption><strong data-i18n="method.gradcam1Title">1. Input and class score</strong><span data-i18n="method.gradcam1Body">The waveform is converted into a time-frequency representation and passed through the target MIR model. Grad-CAM starts from the score of the model’s current class.</span></figcaption>
+                                        <div class="mini-flow compact-flow" aria-hidden="true">
+                                            <span class="flow-node"><b data-i18n="method.waveform">Waveform</b><i class="waveform-mark"></i></span><span class="flow-arrow">→</span><span class="flow-node"><b>Log-mel</b><i class="spectrogram-mark"></i></span><span class="flow-arrow">→</span><span class="flow-node model-node"><b data-i18n="method.targetModel">Target MIR model</b></span><span class="flow-arrow">→</span><span class="flow-node score-node"><b>ŷ<sup>c</sup></b></span>
+                                        </div>
+                                    </figure>
+                                    <figure class="mechanism-card">
+                                        <figcaption><strong data-i18n="method.gradcam2Title">2. Weight feature maps by class gradients</strong><span data-i18n="method.gradcam2Body">Gradients of the selected class score are propagated to the target convolutional layer. Spatially averaged gradients assign a class-specific importance weight to each feature-map channel.</span></figcaption>
+                                        <div class="feature-map-flow" aria-hidden="true"><span class="score-chip">ŷ<sup>c</sup></span><span class="gradient-arrow" data-i18n="method.backwardGradient">class gradients</span><div class="feature-stack"><span>F<sub>1</sub><sup>l</sup></span><span>F<sub>2</sub><sup>l</sup></span><span>F<sub>k</sub><sup>l</sup></span></div><span class="flow-arrow">→</span><span class="weight-chip">α<sub>k</sub><sup>c</sup></span></div>
+                                        <div class="formula-block" tabindex="0" aria-label="Grad-CAM channel weight formula" data-i18n-attr="aria-label:method.gradcamWeightAria">α<sub>k</sub><sup>c</sup> = (1 / Z) ∑<sub>u,v</sub> ∂ŷ<sup>c</sup> / ∂F<sub>k</sub><sup>l</sup>(u,v)</div>
+                                    </figure>
+                                    <figure class="mechanism-card paper-evidence-card">
+                                        <figcaption><strong data-i18n="method.gradcam3Title">3. Map positive evidence back to the spectrogram</strong><span data-i18n="method.gradcam3Body">The weighted feature maps are aggregated and passed through ReLU. After normalization and coordinate mapping, high-intensity areas become candidate adversarial regions.</span></figcaption>
+                                        <div class="formula-block" tabindex="0" aria-label="Grad-CAM heatmap formula" data-i18n-attr="aria-label:method.gradcamHeatmapAria">M<sup>c</sup>(u,v) = ReLU(∑<sub>k</sub> α<sub>k</sub><sup>c</sup> F<sub>k</sub><sup>l</sup>(u,v))</div>
+                                        <img src="assets/figures/2.png" alt="Grad-CAM heatmap on mel-spectrogram from the MAIA paper" data-i18n-attr="alt:method.figure2Alt">
+                                        <span class="asset-label" data-i18n="method.paperFigureLabel">Paper figure</span>
+                                    </figure>
+                                </div>
+                                <p class="method-boundary" data-i18n="method.gradcamBoundary">Grad-CAM is an existing localization method. MAIA’s contribution is not the invention of Grad-CAM, but its use within an importance-driven music inpainting attack pipeline.</p>
+                            </div>
+                        </details>
+
+                        <details class="technical-panel" data-tech-panel="blackbox">
+                            <summary><span data-i18n="method.coarseTitle">Black-box localization: Coarse-to-fine queries</span><span class="summary-hint"><span data-i18n="method.expandHint">Expand only when needed</span><span class="chevron" aria-hidden="true"></span></span></summary>
+                            <div class="technical-panel-body">
+                                <div class="mechanism-grid blackbox-grid">
+                                    <figure class="mechanism-card">
+                                        <figcaption><strong data-i18n="method.coarse1Title">1. Partition and mask</strong><span data-i18n="method.coarse1Body">The audio is divided into non-overlapping coarse chunks. Each chunk is zero-masked in turn, with a short Tukey taper applied at its boundaries.</span></figcaption>
+                                        <div class="chunk-track" aria-hidden="true"><span>C<sub>1</sub></span><span>C<sub>2</sub></span><span class="masked-chunk">C<sub>3</sub><small>0.5 s</small></span><span>C<sub>4</sub></span><span>C<sub>5</sub></span></div>
+                                        <div class="taper-note"><span data-i18n="method.zeroMask">Zero mask</span><span>+</span><span data-i18n="method.tukey">Tukey boundary taper</span></div>
+                                    </figure>
+                                    <figure class="mechanism-card">
+                                        <figcaption><strong data-i18n="method.coarse2Title">2. Query the model and rank the chunks</strong><span data-i18n="method.coarse2Body">A chunk is considered important when masking it produces a large change in the loss associated with the original label. Division by duration keeps scores comparable across different segment lengths.</span></figcaption>
+                                        <div class="query-rank" aria-hidden="true"><span class="flow-node">M(x)</span><span class="flow-node">M(x̃<sub>−C<sub>i</sub></sub>)</span><div class="rank-bars"><i style="--rank:52%">C<sub>1</sub></i><i class="is-top" style="--rank:92%">C<sub>3</sub></i><i style="--rank:66%">C<sub>4</sub></i></div></div>
+                                        <div class="formula-block" tabindex="0" aria-label="Black-box chunk importance formula" data-i18n-attr="aria-label:method.blackImportanceAria">I(C<sub>i</sub>) = [L(M(x̃<sub>−C<sub>i</sub></sub>), y) − L(M(x), y)] / duration(C<sub>i</sub>)</div>
+                                    </figure>
+                                    <figure class="mechanism-card">
+                                        <figcaption><strong data-i18n="method.coarse3Title">3. Refine until the desired granularity</strong><span data-i18n="method.coarse3Body">The highest-scoring segment is recursively subdivided and evaluated again. Refinement continues until the desired granularity is reached or the query budget is exhausted, after which the top-ranked regions are selected.</span></figcaption>
+                                        <div id="refinement-animation" class="refinement-animation" aria-label="Illustrative coarse-to-fine refinement" data-i18n-attr="aria-label:method.refinementAria"><div class="refinement-level level-coarse"><span></span><span class="active"></span><span></span></div><div class="refinement-connector" aria-hidden="true">↓</div><div class="refinement-level level-medium"><span></span><span></span><span class="active"></span></div><div class="refinement-connector" aria-hidden="true">↓</div><div class="refinement-level level-fine"><span></span><span class="active"></span><span></span><span></span></div></div>
+                                        <div class="animation-controls"><button id="refinement-toggle" class="inline-control" type="button" data-i18n="method.pauseAnimation" data-i18n-attr="aria-label:method.pauseAnimationAria">Pause</button><button id="refinement-reset" class="inline-control" type="button" data-i18n="method.resetAnimation" data-i18n-attr="aria-label:method.resetAnimationAria">Reset</button><span data-i18n="method.schematicNote">Illustrative mechanism — not a measured sample</span></div>
+                                    </figure>
+                                </div>
+                                <p class="method-boundary" data-i18n="method.blackBoundary">This procedure does not require model parameters or gradients, but it does require prediction feedback from repeated model queries. The paper’s 1,000-query cap applies to the overall black-box attack, not to each localization round.</p>
+                            </div>
+                        </details>
+                    </div>
+
                     <div class="method-step">
                         <div class="step-number">02</div>
                         <div class="step-content">
@@ -109,8 +167,41 @@
                         <div class="step-number">03</div>
                         <div class="step-content">
                             <h3 data-i18n="method.step3Title">Adversarial Inpainting</h3><p data-i18n="method.step3Body">Reconstruct selected segments with GACELA and task-specific adversarial guidance</p>
-                            <div class="step-details"><div class="detail-item"><h4 data-i18n="method.gacelaTitle">GACELA Inpainting Model</h4><p data-i18n="method.gacelaBody">A generative adversarial context encoder reconstructs missing music from the audio surrounding each selected region.</p></div><div class="detail-item"><h4 data-i18n="method.lossTitle">White-box Objective</h4><p data-i18n="method.lossBody">Balance reconstruction fidelity and untargeted attack effectiveness through a weighted objective.</p><div class="formula">L = λ<sub>rec</sub> L<sub>rec</sub> + λ<sub>att</sub> L<sub>attack</sub></div></div></div>
+                            <div class="context-regeneration">
+                                <div class="context-copy"><span class="schematic-status" data-i18n="method.schematicStatus">Mechanism schematic</span><h4 data-i18n="method.contextTitle">Context-conditioned local regeneration</h4><p data-i18n="method.contextBody">GACELA does not generate an isolated segment from scratch. Its generator is conditioned on the audio surrounding the masked interval, allowing the regenerated gap to connect with the musical content before and after it. MAIA keeps the outside context unchanged and modifies only the selected region.</p></div>
+                                <div class="context-flow" aria-label="Context-conditioned GACELA regeneration schematic" data-i18n-attr="aria-label:method.contextFlowAria">
+                                    <div class="mask-intro"><span data-i18n="method.originalAudio">Original audio x</span><b aria-hidden="true">→</b><span data-i18n="method.applyMask">Apply mask m</span></div>
+                                    <div class="audio-context-row"><span class="unchanged"><b data-i18n="method.leftContext">Unchanged left context</b></span><span class="missing"><b data-i18n="method.maskedRegion">Masked region</b></span><span class="unchanged"><b data-i18n="method.rightContext">Unchanged right context</b></span></div>
+                                    <span class="context-arrow" aria-hidden="true">↓</span>
+                                    <div class="generator-row"><span><b data-i18n="method.contextRepresentation">Context representation / log-magnitude mel spectrogram</b></span><span class="flow-arrow">+</span><span><b>z</b></span><span class="flow-arrow">→</span><span class="generator-node"><b data-i18n="method.contextGeneration">Context-conditioned generation</b><small data-i18n="method.gacelaGenerator">Pretrained GACELA generator Gθ</small></span></div>
+                                    <span class="context-arrow" aria-hidden="true">↓</span>
+                                    <div class="audio-context-row output-row"><span class="unchanged"><b data-i18n="method.leftContext">Unchanged left context</b></span><span class="generated-gap"><b data-i18n="method.generatedSegment">Generated local segment</b></span><span class="unchanged"><b data-i18n="method.rightContext">Unchanged right context</b></span></div>
+                                    <p data-i18n="method.outsideUnchanged">Only the selected interval is replaced; audio outside the mask comes directly from the original input.</p>
+                                </div>
+                            </div>
                             <div class="step-visualization"><div class="inpainting-comparison" id="inpainting-viz"><div class="comparison-item"><img src="assets/figures/4.png" alt="Before Inpainting" data-i18n-attr="alt:method.figure4BeforeAlt" style="width:100%;border-radius:8px;display:block;" /><p data-i18n="method.before">Before Inpainting</p></div><div class="arrow">→</div><div class="comparison-item"><img src="assets/figures/4.png" alt="After Inpainting" data-i18n-attr="alt:method.figure4AfterAlt" style="width:100%;border-radius:8px;display:block;" /><p data-i18n="method.after">After Inpainting</p></div></div><p class="viz-caption" data-i18n="method.figure4Caption">The paper figure illustrates context-conditioned local music reconstruction.</p></div>
+                            <div class="optimization-panels">
+                                <details class="technical-panel optimization-panel" data-tech-panel="white-optimization">
+                                    <summary><span data-i18n="method.whiteOptimizationTitle">White-box optimization: reconstruction, attack, and re-inpainting</span><span class="summary-hint"><span data-i18n="method.expandHint">Expand only when needed</span><span class="chevron" aria-hidden="true"></span></span></summary>
+                                    <div class="technical-panel-body optimization-body">
+                                        <div class="formula-block formula-large" tabindex="0" data-i18n-attr="aria-label:method.whiteObjectiveAria">ℒ = λ<sub>rec</sub> ℒ<sub>rec</sub>(x<sub>inp</sub><sup>(k)</sup>, x) + λ<sub>att</sub> ℒ<sub>attack</sub>(M(x<sub>inp</sub><sup>(k)</sup>), y)</div>
+                                        <div class="objective-grid"><p><strong>ℒ<sub>rec</sub></strong><span data-i18n="method.recLossBody">Keeps the local reconstruction consistent with the musical context and perceptual quality.</span></p><p><strong>ℒ<sub>attack</sub></strong><span data-i18n="method.attackLossBody">Reduces confidence in the original correct label y for an untargeted attack.</span></p><p><strong>λ<sub>rec</sub>, λ<sub>att</sub></strong><span data-i18n="method.lambdaBody">Control the fidelity–attack trade-off; both are grid-searched over {0.5, 1.0, 2.0}.</span></p><p><strong data-i18n="method.iterationsLabel">Iterations</strong><span data-i18n="method.iterationsBody">The white-box experiment performs at most 10 optimization iterations.</span></p></div>
+                                        <div class="formula-block formula-large" tabindex="0" data-i18n-attr="aria-label:method.maskedUpdateAria">x<sub>inp</sub><sup>(k+1)</sup> ← x<sub>inp</sub><sup>(k)</sup> − α · sign(∇<sub>x<sub>inp</sub></sub>ℒ ⊙ m)</div>
+                                        <p class="formula-note" data-i18n="method.maskConstraint">The mask confines the update to the selected region.</p>
+                                        <div class="formula-block formula-large" tabindex="0" data-i18n-attr="aria-label:method.reinpaintingAria">x<sub>inp</sub><sup>(k+1)</sup> = x ⊙ (1−m) + G<sub>θ</sub>(x<sub>inp</sub><sup>(k+1)</sup> ⊙ m, x ⊙ (1−m)) ⊙ m</div>
+                                        <div class="optimization-cycle" aria-label="White-box optimization cycle" data-i18n-attr="aria-label:method.whiteCycleAria"><span data-i18n="method.forwardEvaluation">Forward evaluation</span><b>→</b><span data-i18n="method.maskedUpdate">Masked gradient update</span><b>→</b><span data-i18n="method.contextReinpaint">Context-conditioned re-inpainting</span><b>→</b><span data-i18n="method.evaluateAgain">Evaluate again</span></div>
+                                        <p class="method-boundary" data-i18n="method.whitePriorBoundary">The pretrained GACELA model is used as a generative prior. MAIA iteratively updates the selected audio region and re-projects it through the inpainting process; it does not jointly retrain GACELA with the target MIR model.</p>
+                                    </div>
+                                </details>
+                                <details class="technical-panel optimization-panel" data-tech-panel="black-optimization">
+                                    <summary><span data-i18n="method.blackOptimizationTitle">Black-box optimization: latent-space search with CMA-ES</span><span class="summary-hint"><span data-i18n="method.expandHint">Expand only when needed</span><span class="chevron" aria-hidden="true"></span></span></summary>
+                                    <div class="technical-panel-body optimization-body">
+                                        <div class="formula-pair"><div class="formula-block formula-large" tabindex="0" data-i18n-attr="aria-label:method.cmaAria">z<sup>(k+1)</sup> = CMA-ES(z<sup>(k)</sup>, F(M, x<sub>inp</sub><sup>(k)</sup>))</div><div class="formula-block formula-large" tabindex="0" data-i18n-attr="aria-label:method.blackOutputAria">x̂<sub>inp</sub> = G<sub>θ</sub>(ẑ, x ⊙ (1−m))</div></div>
+                                        <ol class="compact-procedure"><li data-i18n="method.blackOpt1">Process candidate regions from highest to lowest importance.</li><li data-i18n="method.blackOpt2">Sample latent candidates from the current CMA-ES distribution.</li><li data-i18n="method.blackOpt3">Use GACELA to generate candidate fills under the same surrounding context.</li><li data-i18n="method.blackOpt4">Query the target model for prediction-label or confidence feedback.</li><li data-i18n="method.blackOpt5">Favor candidates that improve the attack objective and update the latent distribution.</li><li data-i18n="method.blackOpt6">Re-inpaint while preserving context continuity.</li><li data-i18n="method.blackOpt7">Stop after misclassification or when the overall query budget is exhausted.</li></ol>
+                                        <div class="comparison-strip"><span><strong data-i18n="method.whiteShort">White-box</strong><small data-i18n="method.whiteShortBody">Uses gradients to update the selected region.</small></span><span><strong data-i18n="method.blackShort">Black-box</strong><small data-i18n="method.blackShortBody">Uses model feedback to search the GACELA latent variable.</small></span><span><strong data-i18n="method.sharedShort">Shared constraint</strong><small data-i18n="method.sharedShortBody">Both modify only localized regions and condition on the unchanged context.</small></span></div>
+                                    </div>
+                                </details>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,19 +253,38 @@
                 <div class="evidence-heading"><div><p class="section-eyebrow" data-i18n="evidence.eyebrow">Aggregate paper results</p><h2 class="section-title" data-i18n="evidence.title">Evidence and limitations</h2></div><p data-i18n="evidence.disclaimer">These values are aggregate results from Table 1 of the paper. They are not predictions or metrics for the interactive sample above.</p></div>
                 <div class="aggregate-results" aria-label="MAIA aggregate results" data-i18n-attr="aria-label:evidence.resultsAria"><article><span>MAIA-WB / CSI</span><strong>92.8%</strong><small>ASR · MOS 4.0</small></article><article><span>MAIA-WB / MGC</span><strong>93.5%</strong><small>ASR · MOS 3.8</small></article><article><span>MAIA-BB / CSI</span><strong>80.1%</strong><small>ASR · MOS 3.6</small></article><article><span>MAIA-BB / MGC</span><strong>77.9%</strong><small>ASR · MOS 3.3</small></article></div>
                 <div class="paper-table-wrap" tabindex="0" role="region" aria-label="Paper Table 1 MAIA rows" data-i18n-attr="aria-label:evidence.tableAria"><table class="paper-results-table"><caption data-i18n="evidence.tableCaption">Table 1 excerpt — MAIA rows reported for two tasks and two access settings</caption><thead><tr><th data-i18n="evidence.setting">Setting</th><th data-i18n="evidence.task">Task</th><th>ASR</th><th data-i18n="evidence.postAttack">Post-attack score</th><th>FAD</th><th>LSD</th><th>MOS</th></tr></thead><tbody><tr><td>MAIA-WB</td><td>CSI</td><td>92.8%</td><td>mAP 0.488</td><td>11.25</td><td>1.58</td><td>4.0</td></tr><tr><td>MAIA-WB</td><td>MGC</td><td>93.5%</td><td>ACC 0.466</td><td>13.85</td><td>1.94</td><td>3.8</td></tr><tr><td>MAIA-BB</td><td>CSI</td><td>80.1%</td><td>mAP 0.594</td><td>12.56</td><td>1.90</td><td>3.6</td></tr><tr><td>MAIA-BB</td><td>MGC</td><td>77.9%</td><td>ACC 0.601</td><td>14.68</td><td>1.85</td><td>3.3</td></tr></tbody></table></div>
-                <div class="limitations-grid"><article><h3 data-i18n="evidence.limit1Title">Scope of evaluation</h3><p data-i18n="evidence.limit1Body">The paper studies two MIR tasks and two target system–dataset pairs; broader generalization requires additional targets and music domains.</p></article><article><h3 data-i18n="evidence.limit2Title">Access assumptions</h3><p data-i18n="evidence.limit2Body">White-box MAIA requires gradients and model access. Black-box MAIA relies on query feedback and uses up to 1,000 queries.</p></article><article><h3 data-i18n="evidence.limit3Title">Demo boundary</h3><p data-i18n="evidence.limit3Body">The public sample verifies GACELA-based local regeneration only. No target classifier, retrieval model, prediction, or attack-search loop was run for it.</p></article></div>
+                <div class="limitations-grid"><article><h3 data-i18n="evidence.limit1Title">Scope of evaluation</h3><p data-i18n="evidence.limit1Body">The paper studies two MIR tasks and two target system–dataset pairs; broader generalization requires additional targets and music domains.</p></article><article><h3 data-i18n="evidence.limit2Title">Access assumptions</h3><p data-i18n="evidence.limit2Body">White-box MAIA requires gradients and model access. Black-box MAIA relies on query feedback and uses up to 1,000 queries.</p></article></div>
                 <p class="evaluation-note" data-i18n="evidence.evaluation">The paper evaluates ASR, post-attack mAP or accuracy, FAD using MERT-V0, LSD, and a five-point subjective listening study with 100 participants.</p>
             </div>
         </section>
 
-        <section id="agent-safety" class="research-section section-padding agent-bridge" data-focus-step="7">
+        <section id="attack-properties" class="research-section section-padding attack-properties" data-focus-step="7">
+            <div class="container">
+                <div class="hypothesis-heading"><div><p class="section-eyebrow" data-i18n="robustness.eyebrow">Evaluation roadmap</p><h2 class="section-title" data-i18n="robustness.title">Beyond attack success: transferability and transformation robustness</h2></div><div><span class="hypothesis-status" data-i18n="robustness.status">Not evaluated in the current paper</span><p data-i18n="robustness.subtitle">Mechanism-based hypotheses and an evaluation roadmap—not additional results reported by the MAIA paper.</p></div></div>
+                <div class="robustness-table-wrap" tabindex="0" role="region" aria-label="Transferability and transformation robustness hypotheses" data-i18n-attr="aria-label:robustness.tableAria">
+                    <table class="robustness-table">
+                        <thead><tr><th data-i18n="robustness.property">Property</th><th data-i18n="robustness.additive">Additive perturbation attacks</th><th data-i18n="robustness.maiaHypothesis">MAIA mechanism hypothesis</th><th data-i18n="robustness.evidenceStatus">Evidence status</th></tr></thead>
+                        <tbody>
+                            <tr><th scope="row" data-i18n="robustness.transferTitle">Cross-model transferability</th><td data-i18n="robustness.transferAdditive">Perturbations optimized for one source model may transfer when different models share similar decision boundaries, but transfer is not guaranteed.</td><td data-i18n="robustness.transferMaia">MAIA’s localization and optimization are also source-model-aware. Local content-level regeneration may affect features shared by multiple models, but it may also overfit the source model’s important regions.</td><td><span class="status-open" data-i18n="robustness.transferStatus">Open question—requires source-to-target transfer experiments.</span></td></tr>
+                            <tr><th scope="row" data-i18n="robustness.codecTitle">Lossy transcoding and compression</th><td data-i18n="robustness.codecAdditive">Fine-grained, low-amplitude perturbations can be attenuated or distorted by MP3/AAC encoding, resampling, and bitrate changes.</td><td data-i18n="robustness.codecMaia">Because MAIA replaces a local region with plausible generated musical content, its modification may be less dependent on exact waveform-level noise. This suggests possible persistence after transcoding, but it was not tested.</td><td><span class="status-hypothesis" data-i18n="robustness.codecStatus">Hypothesis only—no codec-robustness result is reported.</span></td></tr>
+                            <tr><th scope="row" data-i18n="robustness.denoiseTitle">Denoising and filtering</th><td data-i18n="robustness.denoiseAdditive">Noise-like components may be reduced by denoisers or frequency filtering, although adaptive attacks can be designed against a known defense.</td><td data-i18n="robustness.denoiseMaia">Content-like inpainted segments may not be recognized as noise by a denoiser, but denoising can still alter generated details and reduce attack effectiveness.</td><td><span class="status-open" data-i18n="robustness.denoiseStatus">Open question—requires post-denoising attack evaluation.</span></td></tr>
+                            <tr><th scope="row" data-i18n="robustness.temporalTitle">Temporal and playback transformations</th><td data-i18n="robustness.temporalAdditive">Cropping, time shifting, resampling, loudness normalization, or playback-recording can disrupt perturbations that depend on precise alignment.</td><td data-i18n="robustness.temporalMaia">MAIA modifies bounded musical content, but its importance mask and target-model effect may still depend on timing and alignment.</td><td><span class="status-unestablished" data-i18n="robustness.temporalStatus">Not established by the current experiments.</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="roadmap-grid"><article><span class="card-index">01</span><h3 data-i18n="robustness.road1Title">Cross-model transfer matrix</h3><p data-i18n="robustness.road1Body">Craft attacks on one MIR model and evaluate them directly on different architectures and training datasets without re-optimizing the adversarial sample.</p></article><article><span class="card-index">02</span><h3 data-i18n="robustness.road2Title">Audio transformation suite</h3><p data-i18n="robustness.road2Body">Evaluate MP3/AAC transcoding at multiple bitrates, resampling, denoising, filtering, loudness normalization, time shifting, and playback-recording transformations.</p></article><article><span class="card-index">03</span><h3 data-i18n="robustness.road3Title">Retained effectiveness and utility</h3><p data-i18n="robustness.road3Body">Measure post-transformation attack success, confidence change, perceptual distance, and listening quality instead of reporting attack success alone.</p></article></div>
+                <blockquote class="robustness-conclusion" data-i18n="robustness.conclusion">MAIA demonstrates a stronger attack–quality trade-off than the evaluated PGD, C&amp;W, NES, and ZOO baselines in the paper’s original settings. Whether this advantage extends to cross-model transfer or real audio-processing pipelines remains an empirical question.</blockquote>
+            </div>
+        </section>
+
+        <section id="agent-safety" class="research-section section-padding agent-bridge" data-focus-step="8">
             <div class="container"><p class="section-eyebrow" data-i18n="bridge.eyebrow">Methodological bridge</p><h2 class="section-title" data-i18n="bridge.title">From Localized Music Attacks to Multimodal Agent Safety</h2><p class="section-subtitle" data-i18n="bridge.subtitle">A methodological transfer, not an experimental result of MAIA.</p>
                 <div class="bridge-grid"><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m1">Locate influential audio regions</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a1">Identify high-risk observations, context, memory, or actions</strong></div></article><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m2">Apply bounded generative edits</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a2">Construct controlled multimodal counterfactual inputs</strong></div></article><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m3">Evaluate white-box and black-box attacks</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a3">Perform gradient-based and query-based red teaming</strong></div></article><article class="bridge-row"><div><small>MAIA</small><strong data-i18n="bridge.m4">Measure attack effectiveness and perceptual quality together</strong></div><div class="transfer-label" data-i18n="bridge.transfer">Method transfer</div><div><small data-i18n="bridge.agentLabel">Agent Safety</small><strong data-i18n="bridge.a4">Evaluate security impact, task utility, side effects, and human perception</strong></div></article></div>
                 <blockquote class="boundary-note" data-i18n="bridge.boundary">MAIA does not directly solve prompt injection, jailbreak, tool authorization, or trusted execution. The bridge identifies a transferable evaluation methodology: locate influential inputs, apply bounded counterfactual changes, and jointly measure attack effectiveness and utility preservation.</blockquote>
             </div>
         </section>
 
-        <section id="resources" class="resources-section section-padding research-resources" data-focus-step="8">
+        <section id="resources" class="resources-section section-padding research-resources" data-focus-step="9">
             <div class="container"><p class="section-eyebrow" data-i18n="resources.eyebrow">Paper and resources</p><h2 class="section-title" data-i18n="resources.title">Read, reproduce, and inspect</h2>
                 <div class="resource-card-grid"><a class="resource-card" href="assets/MAIA_ISMIR_2025.pdf" target="_blank" rel="noopener"><span data-i18n="resources.paperType">Paper</span><strong data-i18n="resources.paperTitle">MAIA at ISMIR 2025</strong><small data-i18n="resources.paperBody">Full method, experiments, and limitations</small></a><a class="resource-card" href="https://github.com/andimarafioti/GACELA" target="_blank" rel="noopener"><span data-i18n="resources.modelType">Model source</span><strong>GACELA</strong><small data-i18n="resources.modelBody">Official code used by the regeneration demo</small></a><a class="resource-card" href="data/manifests/real-demo.json" target="_blank" rel="noopener"><span data-i18n="resources.dataType">Provenance</span><strong data-i18n="resources.dataTitle">Verified demo manifest</strong><small data-i18n="resources.dataBody">Hashes, checkpoint, seeds, regions, and licence</small></a></div>
                 <div class="citation-section"><div><h3 data-i18n="resources.citation">Citation</h3><p data-i18n="resources.citationNote">The official English title is retained in the formal citation.</p></div><div class="citation-box"><pre><code id="citation-text">@inproceedings{liu2025maia,
@@ -187,9 +297,9 @@
         </section>
     </main>
 
-    <div id="focus-controls" class="focus-controls" hidden aria-label="Focus view navigation" data-i18n-attr="aria-label:focus.controlsAria"><button id="focus-prev" type="button" data-i18n="focus.previous">Previous</button><span id="focus-progress" aria-live="polite">1 / 8</span><button id="focus-next" type="button" data-i18n="focus.next">Next</button></div>
+    <div id="focus-controls" class="focus-controls" hidden aria-label="Focus view navigation" data-i18n-attr="aria-label:focus.controlsAria"><button id="focus-prev" type="button" data-i18n="focus.previous">Previous</button><span id="focus-progress" aria-live="polite">1 / 9</span><button id="focus-next" type="button" data-i18n="focus.next">Next</button></div>
     <footer class="footer research-footer"><div class="container footer-grid"><p>© 2025–2026 Yuxuan Liu · MAIA</p><p data-i18n="footer.note">Research evidence is separated from the verified interactive sample.</p></div></footer>
     <script src="js/i18n.js?v=20260905-1"></script>
-    <script src="js/app.js?v=20260904-3"></script>
+    <script src="js/app.js?v=20260905-4"></script>
 </body>
 </html>
