@@ -177,3 +177,47 @@ final result: passed
 - Local browser logs show no new console or network errors after the fixes.
 
 final result: passed
+
+---
+
+# Homepage design QA
+
+Date: 2026-09-07
+
+## Scope
+
+- Source of visual truth: the previously deployed homepage at `https://kaslim.github.io/`.
+- Implementation under review: the local homepage at `http://127.0.0.1:8765/`.
+- Requested changes: add a complete English/Chinese language system and replace all nine cards in `05 · Demos` with current project-page thumbnails.
+- Protected content: the existing visual identity, non-homepage project pages, hidden IPAP content, and the unrelated modified CV asset.
+
+## Visual comparison
+
+- Full-page comparison: `audit/homepage-2026-09-07/source-vs-implementation-full.png`
+- Focused Demos comparison: `audit/homepage-2026-09-07/source-vs-implementation-demos.png`
+- English source capture: `audit/homepage-2026-09-07/source-home-en.jpg`
+- English implementation capture: `audit/homepage-2026-09-07/implementation-home-en.jpg`
+- Chinese mobile capture: `audit/homepage-2026-09-07/implementation-mobile-zh-390x844.png`
+
+The source and implementation were captured in the same in-app browser state. The desktop browser override was 1440 × 900; the resulting page screenshot area was 1425 × 891 after browser chrome and scrollbar allocation. The mobile browser override was 390 × 844; the resulting page screenshot area was 375 × 812.
+
+## Findings
+
+- Typography: the Charter/Georgia serif hierarchy and compact UI sans-serif labels remain consistent with the source.
+- Layout: shell width, section rhythm, hero arrangement, card grids, and mobile stacking remain visually aligned with the original homepage.
+- Color: parchment, ink-blue, stone, and restrained border palette are unchanged.
+- Imagery: all nine Demos covers now use deterministic captures of their current project pages. No generated or fabricated scientific visuals are used.
+- Copy: English remains the no-parameter default. Chinese translations cover navigation, hero, research, publications, Demos, toolkit, FAQ, contact, metadata, alt text, and ARIA labels.
+- Responsive behavior: the desktop three-column Demos grid, tablet single-column cards, and 390 × 844 mobile stack were visually checked. No document-level horizontal overflow was observed.
+- Accessibility: skip link, semantic headings, visible focus states, translated image alternatives, translated navigation labels, and language-button accessible names were checked.
+- Interaction: language switching preserves the hash and expanded-publication state; all nine visible Demo images load at 1200 × 750; the browser console has no warnings or errors.
+
+## Issue status
+
+- P0 blockers: none.
+- P1 functional or accessibility issues: none.
+- P2 visual inconsistencies: none remaining after final comparison.
+
+## Final result
+
+passed
