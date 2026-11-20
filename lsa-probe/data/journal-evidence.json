@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "protocol": {
+    "id": "journal-audioldm-july-2026-draft",
+    "model_family": "AudioLDM-style",
+    "split": "heldout",
+    "targets": ["M2", "M4", "M6"],
+    "development_targets": ["M1", "M3", "M5"],
+    "unit": "proportion",
+    "calibration_fpr_target": 0.01,
+    "aggregation": "Within-target folds, then across held-out targets. Worst FPR is the maximum empirical FPR across targets, as reported.",
+    "source": {
+      "title": "Mitigating Musical-Similarity Confounding in Membership Inference for Music Diffusion Models",
+      "version": "July 2026 experimental section",
+      "main": "Primary heldout comparison",
+      "ablation": "Ablation of MS-CHN local hard-null construction",
+      "status": "manuscript-reported",
+      "raw_replay": "unresolved",
+      "public_provenance": "audit/FACT_AUDIT.md"
+    }
+  },
+  "tables": {
+    "main": ["secmi", "loss", "lr", "terminal", "endpoint", "raw", "mschn"],
+    "ablation": ["raw", "random", "clap", "mschn"]
+  },
+  "methods": {
+    "secmi":    {"auc": 0.5236, "tpr": 0.0206, "fpr": 0.0096, "worst_fpr": 0.0131},
+    "loss":     {"auc": 0.5025, "tpr": 0.0201, "fpr": 0.0112, "worst_fpr": 0.0176},
+    "lr":       {"auc": 0.5092, "tpr": 0.0075, "fpr": 0.0097, "worst_fpr": 0.0105},
+    "terminal": {"auc": 0.4966, "tpr": 0.0089, "fpr": 0.0094, "worst_fpr": 0.0106},
+    "endpoint": {"auc": 0.5022, "tpr": 0.0087, "fpr": 0.0089, "worst_fpr": 0.0106},
+    "raw":      {"auc": 0.6267, "tpr": 0.0919, "fpr": 0.0056, "worst_fpr": 0.0090},
+    "mschn":    {"auc": 0.7021, "tpr": 0.1655, "fpr": 0.0070, "worst_fpr": 0.0074},
+    "random":   {"auc": 0.6525, "tpr": 0.0501, "fpr": 0.0075, "worst_fpr": 0.0091},
+    "clap":     {"auc": 0.6701, "tpr": 0.0946, "fpr": 0.0104, "worst_fpr": 0.0126}
+  },
+  "diagnostics": {
+    "source": "July 2026 experimental section, Problem Verification",
+    "status": "manuscript-reported",
+    "top_bin_fpr_lift": {"raw_ms_music_neighborhoods": 4.64, "raw_ms_random_neighborhoods": 1.21}
+  }
+}

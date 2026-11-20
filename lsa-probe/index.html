@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Evidence-first research page for LSA-Probe, a white-box membership audit for music diffusion models.">
+  <meta name="description" content="LSA-Probe and MS-CHN study white-box membership auditing for music diffusion models.">
   <meta name="theme-color" content="#f6f8fb">
-  <title>LSA-Probe · Evidence-first membership auditing</title>
-  <link rel="stylesheet" href="css/site.css">
+  <title>LSA-Probe / MS-CHN · Membership auditing for music diffusion</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/site.css?v=20261120">
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -14,471 +15,345 @@
   <header class="site-header" id="site-header">
     <div class="header-identity">
       <a class="portfolio-link" href="../"><span class="portfolio-desktop" data-i18n="nav.portfolio">← Yuxuan Liu / Portfolio</span><span class="portfolio-mobile" data-i18n="nav.portfolio_short">← Portfolio</span></a>
-      <a class="brand" href="#overview" aria-label="LSA-Probe overview">
+      <a class="brand" href="#overview" aria-label="LSA-Probe overview" data-i18n-aria-label="a11y.brand">
         <span class="brand-mark" aria-hidden="true">LSA</span>
         <span>Probe</span>
       </a>
     </div>
     <nav class="primary-nav" aria-label="Primary navigation" data-i18n-aria-label="a11y.primary_nav">
-      <a href="#overview" data-i18n="nav.overview">Overview</a>
-      <a href="#audit-question" data-i18n="nav.audit">Audit Question</a>
-      <a href="#method" data-i18n="nav.method">Method</a>
-      <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
-      <a href="#reliability" data-i18n="nav.reliability">Reliability</a>
-    </nav>
+<a href="#audit-question" data-i18n="nav.study1">Task</a>
+<a href="#controlled-training" data-i18n="nav.study2">Controlled Training</a>
+<a href="#endpoint-loss" data-i18n="nav.study3">Baselines</a>
+<a href="#method" data-i18n="nav.study4">Stability</a>
+<a href="#ms-chn" data-i18n="nav.study6">MS-CHN</a>
+<a href="#evidence" data-i18n="nav.study7">Results</a>
+<a href="#resources" data-i18n="nav.study8">Protocol &amp; Resources</a>
+</nav>
     <div class="header-actions">
       <button class="button button-quiet sections-toggle" id="sections-toggle" type="button" aria-expanded="false" aria-controls="section-menu" data-i18n="controls.sections">Sections</button>
       <button class="button button-quiet" id="language-toggle" type="button" aria-label="Switch language" data-i18n-aria-label="a11y.language">中文</button>
       <button class="button button-primary" id="focus-toggle" type="button" data-i18n="controls.focus">Focus View</button>
     </div>
     <nav class="section-menu" id="section-menu" aria-label="All sections" data-i18n-aria-label="a11y.sections_nav" hidden>
-      <a class="menu-portfolio" href="../" data-i18n="nav.portfolio_home">Portfolio Home</a>
-      <a href="#overview" data-i18n="nav.overview">Overview</a>
-      <a href="#audit-question" data-i18n="nav.audit">Audit Question</a>
-      <a href="#diffusion-primer" data-i18n="nav.primer">Diffusion Primer</a>
-      <a href="#threat-model" data-i18n="nav.threat">Threat Model</a>
-      <a href="#core-insight" data-i18n="nav.insight">Core Insight</a>
-      <a href="#method" data-i18n="nav.method">Method</a>
-      <a href="#evidence" data-i18n="nav.evidence">Evidence</a>
-      <a href="#reliability" data-i18n="nav.reliability">Reliability</a>
-      <a href="#agent-safety" data-i18n="nav.agent">Agent Safety</a>
-      <a href="#resources" data-i18n="nav.resources">Resources</a>
-    </nav>
+<a href="#audit-question" data-i18n="nav.study1">Task</a>
+<a href="#controlled-training" data-i18n="nav.study2">Controlled Training</a>
+<a href="#endpoint-loss" data-i18n="nav.study3">Baselines</a>
+<a href="#method" data-i18n="nav.study4">Stability</a>
+<a href="#raw-stability" data-i18n="nav.study5">Raw MS</a>
+<a href="#ms-chn" data-i18n="nav.study6">MS-CHN</a>
+<a href="#evidence" data-i18n="nav.study7">Results</a>
+<a href="#resources" data-i18n="nav.study8">Protocol &amp; Resources</a>
+</nav>
   </header>
 
   <main id="main">
-    <section class="hero section-shell" id="overview" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow" data-i18n="hero.venue">ICASSP 2026 · Oral · Information Forensics and Security</p>
-        <h1 id="hero-title">LSA-Probe</h1>
-        <p class="paper-title" data-i18n="hero.paper_title">Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation</p>
-        <p class="hero-deck" data-i18n="hero.deck">We replace a noisy endpoint signal with a behavioral stability score: the minimum time-normalized latent perturbation required to cross a fixed perceptual degradation threshold.</p>
-        <p class="authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Yizhou Tan, Yiqiang Cai, Shengchen Li</p>
-        <p class="affiliation">Xi’an Jiaotong-Liverpool University, Suzhou, China</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#method" data-i18n="hero.cta_method">Understand the method</a>
-          <a class="button button-secondary" href="#evidence" data-i18n="hero.cta_evidence">Inspect the evidence</a>
-          <a class="button button-quiet" href="https://arxiv.org/abs/2602.01645" target="_blank" rel="noreferrer" data-i18n="hero.cta_paper">Read the paper</a>
-        </div>
-      </div>
-      <aside class="hero-ledger" aria-label="Headline evidence" data-i18n-aria-label="a11y.headline_evidence">
-        <p class="ledger-kicker" data-i18n="hero.ledger_title">Paper-level evidence</p>
-        <div class="metric-row">
-          <strong>+3–8 pp</strong>
-          <span data-i18n="hero.metric_gain">TPR@1% FPR gain</span>
-        </div>
-        <div class="metric-row">
-          <strong>1% FPR</strong>
-          <span data-i18n="hero.metric_operating">Primary audit operating point</span>
-        </div>
-        <div class="metric-row">
-          <strong>2 × 2</strong>
-          <span data-i18n="hero.metric_scope">Model families × datasets</span>
-        </div>
-        <p class="ledger-note" data-i18n="hero.ledger_note">Aggregate results, not a claim about every sample.</p>
-      </aside>
-    </section>
+<section class="hero section-shell" id="overview" aria-labelledby="hero-title">
+<div class="hero-copy">
+<p class="eyebrow" data-i18n="hero.kicker">Research on music diffusion models</p>
+<h1 id="hero-title" data-i18n="hero.title">Training membership in music diffusion</h1>
+<p class="hero-deck" data-i18n="hero.deck">Given a candidate track and a music model checkpoint, what does the model’s response tell us about whether that track was used for training?</p>
+<div class="hero-actions"><a href="#audit-question" class="button button-primary" data-i18n="hero.task">Explore the audit</a><a href="#evidence" class="button button-secondary" data-i18n="hero.results">See the results</a>
+</div>
+</div>
+<aside class="hero-ledger">
+<p class="ledger-kicker" data-i18n="hero.conf">LSA-Probe · ICASSP 2026</p>
+<p data-i18n="hero.conf_question">How much perturbation does it take to change the model’s response?</p>
+<p class="ledger-kicker" data-i18n="hero.journal">MS-CHN · Journal manuscript</p>
+<p data-i18n="hero.journal_question">Is that response unusually stable among similar non-members?</p>
+</aside>
+</section>
 
-    <section class="content-section section-shell focus-section" id="audit-question" data-focus-step="1" aria-labelledby="audit-title">
-      <div class="section-heading">
-        <p class="section-number">01</p>
-        <div>
-          <p class="eyebrow" data-i18n="audit.kicker">Audit question</p>
-          <h2 id="audit-title" data-i18n="audit.title">What are we auditing?</h2>
-          <p data-i18n="audit.intro">Given a candidate audio clip and an audited music diffusion model, estimate whether the clip was used during training.</p>
-        </div>
-      </div>
-      <figure class="vector-figure audit-visual">
-        <button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/audit-question-flow.svg" data-i18n-aria-label="a11y.enlarge_audit" aria-label="Enlarge the LSA-Probe audit flow">
-          <object class="translatable-svg" data="assets/figures/audit-question-flow.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
-        </button>
-      </figure>
-      <div class="audit-mobile-flow" role="img" aria-label="Candidate audio and an audited music diffusion model are inputs to an authorized probe that produces statistical membership evidence" data-i18n-aria-label="a11y.audit_flow">
-        <div class="mobile-input-pair">
-          <article><span class="wave-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.candidate">Candidate audio</strong></article>
-          <span aria-hidden="true">+</span>
-          <article><span class="model-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.model">Audited diffusion model</strong></article>
-        </div>
-        <span class="flow-arrow" aria-hidden="true">↓</span>
-        <article class="mobile-probe"><span class="probe-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.probe">Authorized probe</strong><small>C<sub>adv</sub>(x)</small></article>
-        <span class="flow-arrow" aria-hidden="true">↓</span>
-        <div class="mobile-evidence"><strong data-i18n="svg.audit.evidence">Membership evidence</strong><span aria-hidden="true"></span><div><small data-i18n="svg.audit.nonmember_like">More non-member-like</small><small data-i18n="svg.audit.member_like">More member-like</small></div></div>
-      </div>
-      <div class="audit-legend" aria-label="Member and non-member definitions" data-i18n-aria-label="a11y.audit_legend">
-        <span><i class="legend-dot member" aria-hidden="true"></i><strong data-i18n="audit.member_label">Member</strong><small data-i18n="audit.member_body">The clip belongs to the target model’s training set.</small></span>
-        <span><i class="legend-dot nonmember" aria-hidden="true"></i><strong data-i18n="audit.nonmember_label">Non-member</strong><small data-i18n="audit.nonmember_body">The clip was not included in the target model’s training set.</small></span>
-      </div>
-      <p class="compact-boundary"><span aria-hidden="true">i</span><strong data-i18n="audit.boundary_short">Statistical audit signal — not data extraction, model inversion, or standalone legal proof.</strong></p>
-    </section>
+<section class="content-section section-shell focus-section study-section" id="audit-question" data-focus-step="1" aria-labelledby="audit-question-title">
+<div class="section-heading">
+<div>
+<h2 id="audit-question-title" data-i18n="study.audit-question.title">What are we auditing?</h2>
+</div>
+</div>
+<p data-i18n="task.lead">A membership inference attack (MIA) estimates whether a candidate training item belongs to the training set of a specified checkpoint. It provides statistical evidence for data provenance, privacy and model security audits.</p>
+<ol class="study-flow">
+<li data-i18n="task.flow.1">Candidate music + checkpoint</li>
+<li data-i18n="task.flow.2">Model-response score</li>
+<li data-i18n="task.flow.3">Non-member reference and calibration</li>
+<li data-i18n="task.flow.4">Membership evidence</li>
+</ol>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="task.item.title">Membership is checkpoint-specific</h3>
+<p data-i18n="task.item.body">The journal training unit is an FMA track. A query uses a fixed crop. Every crop of one track shares its label for that target, even if the exact waveform was never seen. Its label can change with the checkpoint.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="task.access.title">White-box access</h3>
+<p data-i18n="task.access.body">Loss baselines and fixed-direction stability use forward queries and intermediate states. Conference LSA-Probe also backpropagates through the reverse computation. MS-CHN additionally requires music known to be absent from the target training set.</p>
+</article>
+</div>
+<p class="study-note" data-i18n="task.boundary">Training manifests establish experimental labels and are withheld from the scorer. A positive decision is statistical evidence about the audited training stage. A legal finding requires separate evidence.</p>
+</section>
 
-    <section class="content-section section-shell focus-section" id="diffusion-primer" data-focus-step="2" aria-labelledby="primer-title">
-      <div class="section-heading">
-        <p class="section-number">02</p>
-        <div>
-          <p class="eyebrow" data-i18n="primer.kicker">Background bridge</p>
-          <h2 id="primer-title" data-i18n="primer.title">Diffusion models in 60 seconds</h2>
-          <p data-i18n="primer.intro">Before discussing membership, we need one piece of background: a diffusion model learns to reverse a gradual noising process.</p>
-        </div>
-      </div>
-      <div class="primer-flow" role="img" aria-label="Clean audio is gradually noised to an intermediate diffusion state, then a learned reverse process reconstructs audio" data-i18n-aria-label="a11y.primer_flow">
-        <article><span>01</span><strong data-i18n="primer.stage_clean">Clean audio</strong><p class="equation-small">x<sub>0</sub></p></article>
-        <article><span>02</span><strong data-i18n="primer.stage_forward">Forward noising</strong><p data-i18n="primer.stage_forward_note">Add Gaussian noise according to timestep t</p></article>
-        <article class="accent"><span>03</span><strong data-i18n="primer.stage_intermediate">Intermediate state</strong><p class="equation-small">x<sub>t</sub></p></article>
-        <article><span>04</span><strong data-i18n="primer.stage_reverse">Learned reverse process</strong><p class="equation-small">R<sub>t</sub>(·; θ)</p></article>
-        <article><span>05</span><strong data-i18n="primer.stage_reconstructed">Reconstructed audio</strong><p class="equation-small">x̂<sub>0</sub></p></article>
-      </div>
-      <div class="primer-equations">
-        <article>
-          <p class="card-label" data-i18n="primer.forward_title">Forward process</p>
-          <p class="equation">x<sub>t</sub> = √ᾱ<sub>t</sub>x<sub>0</sub> + √(1−ᾱ<sub>t</sub>)ε, &nbsp; ε∼𝒩(0,I)</p>
-          <p data-i18n="primer.forward_body">The forward process mixes clean audio with Gaussian noise according to timestep t. A trained diffusion model learns a reverse mapping that progressively removes this noise.</p>
-        </article>
-        <article>
-          <p class="card-label" data-i18n="primer.reverse_title">Reverse mapping</p>
-          <p class="equation">x̂<sub>0</sub> = R<sub>t</sub>(x<sub>t</sub>; θ)</p>
-          <p data-i18n="primer.reverse_body">LSA-Probe does not only inspect the final reconstruction error. It intervenes at an intermediate state and observes how stable the learned reverse mapping is around that candidate.</p>
-        </article>
-      </div>
-      <div class="primer-timeline" aria-label="Diffusion timestep intuition" data-i18n-aria-label="a11y.primer_timeline">
-        <span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span>
-        <span class="accent"><strong>t≈0.6T</strong><small data-i18n="primer.mid_result">Mid-trajectory; strongest observed membership separation</small></span>
-        <span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span>
-      </div>
-      <p class="fine-print primer-boundary" data-i18n="primer.boundary">The paper finds the strongest membership separation around the middle of the reverse trajectory, with t_ratio=0.6 used in the main setting. This is an experimental finding in the evaluated settings, not a universal property of every diffusion model.</p>
-      <div class="innovation-panel" aria-labelledby="innovation-title">
-        <div class="panel-head"><p class="eyebrow" data-i18n="innovation.kicker">Method in one glance</p><h3 id="innovation-title" data-i18n="innovation.title">What does LSA-Probe change?</h3></div>
-        <div class="innovation-grid">
-          <article><span>01</span><h4 data-i18n="innovation.card1_title">Stability instead of endpoint loss</h4><p data-i18n="innovation.card1_body">Replace a noisy single reconstruction signal with the minimum intervention required to destabilize the local reverse process.</p></article>
-          <article><span>02</span><h4 data-i18n="innovation.card2_title">Time-normalized probing</h4><p data-i18n="innovation.card2_body">Scale the perturbation by the natural forward-noise level so that budgets are comparable across diffusion timesteps.</p></article>
-          <article><span>03</span><h4 data-i18n="innovation.card3_title">Minimum adversarial cost</h4><p data-i18n="innovation.card3_body">Use inner PGD to search for a degradation direction and outer bisection to find the smallest successful budget.</p></article>
-        </div>
-        <p class="innovation-note" data-i18n="innovation.note">The resulting score does not require an explicit likelihood or a separately trained shadow model.</p>
-      </div>
-    </section>
+<section class="content-section section-shell focus-section study-section" id="controlled-training" data-focus-step="2" aria-labelledby="controlled-training-title">
+<div class="section-heading">
+<div>
+<h2 id="controlled-training-title" data-i18n="study.controlled-training.title">How do we establish membership ground truth?</h2>
+</div>
+</div>
+<p data-i18n="training.intro">We train controlled targets with documented training sets so we can check membership against each checkpoint’s manifest. The journal labels concern the denoiser’s training stage. Pretrained components have their own training histories.</p>
+<h3 data-i18n="training.views">Four different changes in the pipeline</h3>
+<ul class="study-list">
+<li data-i18n="training.types.1">Preprocessing sets sample rate, channel and amplitude conventions.</li>
+<li data-i18n="training.types.2">Training views vary the crop of one track. All six inspected AudioLDM configs set audio mixup to zero. Other augmentation switches lack aligned evidence.</li>
+<li data-i18n="training.types.3">Forward Gaussian noise is part of the diffusion process.</li>
+<li data-i18n="training.types.4">The audit adds a controlled perturbation δ to an intermediate state.</li>
+</ul>
+<details class="study-details">
+<summary data-i18n="training.conf.details">ICASSP 2026 training settings</summary>
+<div class="study-details-body">
+<div class="table-wrap study-table">
+<table>
+<caption data-i18n="training.conf.caption">Conference paper, §3</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="training.conf.column0">Setting</th>
+<th scope="col" data-i18n="training.conf.column1">Paper report</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row" data-i18n="training.conf.row0.0">Corpus and units</th>
+<td data-i18n="training.conf.row0.1">MAESTRO v3 and FMA-Large. Four-second training clips are members. Validation or test clips supply non-members.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.conf.row1.0">Audio and splits</th>
+<td data-i18n="training.conf.row1.1">22.05 kHz training and 16 kHz scoring. The paper reports stratification by piece or track and artist, with Chromaprint and LSH duplicate and cover screening.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.conf.row2.0">DiffWave</th>
+<td data-i18n="training.conf.row2.1">Waveform DDPM in the DiffWave family. The paper reports 200,000 steps, batch 32, AdamW and cosine learning-rate decay.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.conf.row3.0">MusicLDM</th>
+<td data-i18n="training.conf.row3.1">Unconditional diffusion in VAE latents. The decoder is frozen during auditing and the reported probe distances compare decoded waveforms.</td>
+</tr>
+</tbody>
+</table>
+</div><a href="https://arxiv.org/html/2602.01645v1#S3.SS2" data-i18n="training.conf.source">Conference training and split description</a>
+</div>
+</details>
+<details class="study-details">
+<summary data-i18n="training.journal.details">Journal training artifacts</summary>
+<div class="study-details-body">
+<div class="table-wrap study-table">
+<table>
+<caption data-i18n="training.journal.caption">Located FMA-Large training records</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="training.journal.column0">Setting</th>
+<th scope="col" data-i18n="training.journal.column1">Artifact finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row" data-i18n="training.journal.row0.0">Source tracks</th>
+<td data-i18n="training.journal.row0.1">Each of six AudioLDM-style targets has 95,916 training, 5,328 validation-pool and 5,330 test-pool tracks. The three source pools have zero track-ID overlap within each target. The inspected training runner builds its validation loader from the test pool. Audit folds are downstream.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row1.0">AudioLDM-style input</th>
+<td data-i18n="training.journal.row1.1">Train with a random 10.24 s crop. The loader samples starts over the available range and retries quiet windows up to ten draws. Validation uses the center crop. The loader resamples to 16 kHz, uses the first channel, removes the mean and peak-normalizes to 0.5. It pads short usable clips with zeros. The training loader advances to the next track after an extraction exception. Manifest counts describe dataset inclusion.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row2.0">AudioLDM-style model</th>
+<td data-i18n="training.journal.row2.1">Latent U-Net with ε prediction, a frozen pretrained KL autoencoder, its frozen pretrained HiFi-GAN vocoder, and frozen pretrained CLAP. Training conditions on manifest captions mapped to FiLM, with 0.10 classifier-free condition dropout. The mel input has 64 bands, a 1,024-sample FFT and window, and a 160-sample hop.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row3.0">AudioLDM-style training</th>
+<td data-i18n="training.journal.row3.1">AdamW, learning rate 0.0001, 2,000-step warmup, configured batch size 2, and a 1,000-step diffusion schedule with linear schedule endpoints 0.0015 and 0.0195. The trainer selects by step count. The six weights contain EMA state and record global_step 800,000 internally; their inventory labels read 799,999.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row4.0">DiffWave-style record</th>
+<td data-i18n="training.journal.row4.1">One completed FMA run uses unconditional waveform diffusion, with 30 dilated residual layers, 64 residual channels and a dilation cycle of 10. Its config uses 16 kHz, 10.24 s crops, seed 0, batch 4, Adam at 0.0002 and 800,000 steps. The full six-target family remains unverified.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="study-note" data-i18n="training.split">The journal design is track-based. Artists, albums and alternative recording versions can span roles.</p>
+</div>
+</details>
+</section>
 
-    <section class="content-section section-shell focus-section" id="threat-model" data-focus-step="3" aria-labelledby="threat-title">
-      <div class="section-heading">
-        <p class="section-number">03</p>
-        <div>
-          <p class="eyebrow" data-i18n="threat.kicker">Access assumptions</p>
-          <h2 id="threat-title" data-i18n="threat.title">A strong, explicit white-box threat model</h2>
-          <p data-i18n="threat.intro">LSA-Probe is designed for a developer or authorized auditor who can inspect and differentiate through the model’s reverse process.</p>
-        </div>
-      </div>
-      <div class="threat-layout">
-        <div class="access-chain" aria-label="Authorised auditor access chain" data-i18n-aria-label="a11y.threat_flow">
-          <div>
-            <span class="chain-overline" data-i18n="threat.actor_label">Actor</span>
-            <strong data-i18n="threat.actor">Developer / authorized auditor</strong>
-          </div>
-          <div>
-            <span class="chain-overline" data-i18n="threat.access_label">Access</span>
-            <strong data-i18n="threat.access">Parameters, sampler, intermediate states, gradients</strong>
-          </div>
-          <div>
-            <span class="chain-overline" data-i18n="threat.output_label">Output</span>
-            <strong data-i18n="threat.output">Statistical membership audit score</strong>
-          </div>
-        </div>
-        <ul class="check-list">
-          <li data-i18n="threat.point1">Can run forward diffusion and deterministic reverse sampling.</li>
-          <li data-i18n="threat.point2">Can compute gradients with respect to an intermediate diffusion state.</li>
-          <li data-i18n="threat.point3">Does not need shadow models or member labels from the target model.</li>
-          <li data-i18n="threat.point4">Does need an independent non-member development set for calibration.</li>
-        </ul>
-      </div>
-      <aside class="boundary-note">
-        <strong data-i18n="threat.boundary_title">Operational boundary</strong>
-        <p data-i18n="threat.boundary">LSA-Probe is best understood as an authorized internal audit method, not a remote black-box attack available to an ordinary user.</p>
-      </aside>
-    </section>
+<section class="content-section section-shell focus-section study-section" id="endpoint-loss" data-focus-step="3" aria-labelledby="endpoint-loss-title">
+<div class="section-heading">
+<div>
+<h2 id="endpoint-loss-title" data-i18n="study.endpoint-loss.title">What do the baselines measure?</h2>
+</div>
+</div>
+<p data-i18n="baseline.intro">Add noise to a candidate and start denoising from the constructed state. Models may recover familiar training data more easily. Musical complexity, timbre, timesteps and noise draws also affect errors.</p>
+<div class="study-grid ">
+<p class="study-formula">x<sub>t</sub> = √ᾱ<sub>t</sub> x<sub>0</sub> + √(1 − ᾱ<sub>t</sub>) ε, &nbsp; ε ∼ N(0, I)</p>
+<p class="study-formula">x̂<sub>0</sub> = R<sub>θ,t→0</sub>(x<sub>t</sub>)</p>
+<p class="study-formula">E<sub>rec</sub>(x<sub>0</sub>; t) = d(x̂<sub>0</sub>, x<sub>0</sub>)</p>
+<p class="study-formula">z<sub>0</sub> = Enc(x<sub>0</sub>)</p>
+</div>
+<p data-i18n="baseline.space">These equations illustrate waveform diffusion and endpoint error. Latent diffusion applies the noise and reverse steps in z-space. A latent MSE compares internal tensors. A waveform comparison requires decoding.</p>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="baseline.loss.title">Diffusion Loss</h3>
+<p data-i18n="baseline.loss.body">Compare predicted noise with the injected ε. The located AudioLDM baseline code includes a normalized error norm and MSE variants. Its configuration uses six timestep ratios from 0.10 to 0.80, three seeded draws per ratio and a fixed “music” prompt at guidance scale 1.0.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="baseline.endpoint.title">Endpoint Reconstruction</h3>
+<p data-i18n="baseline.endpoint.body">Compare the recovered endpoint with the clean input. A located journal baseline uses single-step predicted-clean latent MSE. A full reverse rollout defines a different comparison.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="baseline.secmi.title">SecMI-style posterior error</h3>
+<p data-i18n="baseline.secmi.body">A music adaptation of step-wise error, comparing a local deterministic forward/return estimate with its reference state.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="baseline.other.title">Other baseline signals</h3>
+<p data-i18n="baseline.other.body">Likelihood Ratio contrasts target and reference denoising evidence. Terminal Denoising Error measures error near the clean end. Embedding NN uses proximity in an embedding space. Lower errors are oriented toward higher membership evidence.</p>
+</article>
+</div>
+<p class="study-note" data-i18n="baseline.equiv">At fixed t with the same noise and ε parameterization, single-step clean-sample MSE equals noise-prediction MSE scaled by (1 − ᾱₜ) / ᾱₜ. They can carry the same evidence.</p><a href="https://proceedings.mlr.press/v202/duan23b.html" data-i18n="baseline.source">Original SecMI paper</a>
+</section>
 
-    <section class="content-section section-shell focus-section" id="endpoint-loss" data-focus-step="4" aria-labelledby="endpoint-title">
-      <div class="section-heading">
-        <p class="section-number">04</p>
-        <div>
-          <p class="eyebrow" data-i18n="endpoint.kicker">Why the baseline is weak</p>
-          <h2 id="endpoint-title" data-i18n="endpoint.title">Why endpoint reconstruction error is insufficient</h2>
-          <p data-i18n="endpoint.intro">A single reconstruction loss is a noisy endpoint observation, especially in the strict low-FPR regime that matters for high-cost audits.</p>
-        </div>
-      </div>
-      <div class="factor-grid">
-        <article><strong data-i18n="endpoint.factor1_title">Timestep</strong><p data-i18n="endpoint.factor1_body">Reconstruction error changes with the diffusion state.</p></article>
-        <article><strong data-i18n="endpoint.factor2_title">Randomness</strong><p data-i18n="endpoint.factor2_body">Injected noise and sampling choices alter the endpoint.</p></article>
-        <article><strong data-i18n="endpoint.factor3_title">Content</strong><p data-i18n="endpoint.factor3_body">Timbre and musical complexity can confound raw loss.</p></article>
-        <article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article>
-      </div>
-      <blockquote data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilize the local reverse process.</blockquote>
-      <figure class="vector-figure comparison-visual finished-comparison">
-        <button
-          class="image-button vector-button"
-          type="button"
-          data-dialog-image="assets/figures/endpoint-vs-lsa-probe-paper-visual-en.png"
-          data-dialog-image-en="assets/figures/endpoint-vs-lsa-probe-paper-visual-en.png"
-          data-dialog-image-zh="assets/figures/endpoint-vs-lsa-probe-paper-visual-zh.png"
-          data-dialog-image-mobile-en="assets/figures/endpoint-vs-lsa-probe-paper-visual-mobile-en.png"
-          data-dialog-image-mobile-zh="assets/figures/endpoint-vs-lsa-probe-paper-visual-mobile-zh.png"
-          data-i18n-aria-label="a11y.enlarge_comparison"
-          aria-label="Enlarge the endpoint and LSA-Probe comparison">
-          <picture class="localized-figure localized-figure-en">
-            <source media="(max-width: 560px)" srcset="assets/figures/endpoint-vs-lsa-probe-paper-visual-mobile-en.png" width="985" height="1597">
-            <img src="assets/figures/endpoint-vs-lsa-probe-paper-visual-en.png" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="a11y.comparison_alt" alt="Conceptual comparison of endpoint reconstruction evidence and LSA-Probe minimum-cost stability evidence">
-          </picture>
-          <picture class="localized-figure localized-figure-zh">
-            <source media="(max-width: 560px)" srcset="assets/figures/endpoint-vs-lsa-probe-paper-visual-mobile-zh.png" width="985" height="1597">
-            <img src="assets/figures/endpoint-vs-lsa-probe-paper-visual-zh.png" width="1672" height="941" loading="lazy" decoding="async" data-i18n-alt="a11y.comparison_alt" alt="终点重建证据与 LSA-Probe 最小稳定性代价的概念对比">
-          </picture>
-        </button>
-        <figcaption data-i18n="comparison.caption">Conceptual comparison of endpoint reconstruction evidence and LSA-Probe’s minimum-cost stability signal. The diagram illustrates the method hypothesis; it is not measured sample-level data.</figcaption>
-      </figure>
-      <div class="timeline-card">
-        <p class="card-label" data-i18n="endpoint.timeline_title">Correct diffusion-time direction</p>
-        <div class="timeline-labels">
-          <span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span>
-          <span><strong>t≈0.6T</strong><small data-i18n="endpoint.mid">Mid-trajectory; strongest separation here</small></span>
-          <span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span>
-        </div>
-      </div>
-    </section>
+<section class="content-section section-shell focus-section study-section" id="method" data-focus-step="4" aria-labelledby="method-title">
+<div class="section-heading">
+<div>
+<h2 id="method-title" data-i18n="study.method.title">LSA-Probe measures the cost of changing a response</h2>
+</div>
+</div>
+<div class="study-grid comparison-grid" role="group" aria-label="Conceptual comparison" data-i18n-aria-label="stability.figure">
+<article class="study-card">
+<h3 data-i18n="stability.rec.title">Reconstruction error</h3>
+<p data-i18n="stability.rec.body">Compare the original candidate with the recovered output.</p>
+<div class="comparison-pair" aria-hidden="true"><span data-i18n="stability.original">Original candidate</span><b>↔</b><span data-i18n="stability.recovered">Recovered output</span></div>
+</article>
+<article class="study-card">
+<h3 data-i18n="stability.local.title">Local stability</h3>
+<p data-i18n="stability.local.body">Compare the unperturbed response with the perturbed response.</p>
+<div class="comparison-pair" aria-hidden="true"><span data-i18n="stability.unperturbed">Unperturbed response</span><b>↔</b><span data-i18n="stability.perturbed">Perturbed response</span></div>
+</article>
+</div>
+<p class="study-formula">d(R<sub>t</sub>(z<sub>t</sub> + δ<sub>t</sub>), R<sub>t</sub>(z<sub>t</sub>))</p>
+<p data-i18n="stability.pair">Both branches share the candidate state, conditioning and sampler settings. Paired forward noise or fixed randomness isolates the perturbation in the comparison.</p>
+<h3 data-i18n="lsa.name">Latent Stability Adversarial Probe · ICASSP 2026</h3>
+<ol class="study-list">
+<li data-i18n="lsa.search.1">Scale the perturbation by the forward noise amplitude √(1 − ᾱₜ).</li>
+<li data-i18n="lsa.search.2">Inner projected gradient descent (PGD) searches for a direction that increases response change.</li>
+<li data-i18n="lsa.search.3">Outer bisection estimates the budget needed to cross a fixed perceptual degradation level. A larger budget provides more member-like evidence in the reported probe.</li>
+</ol>
+<p class="study-note" data-i18n="lsa.boundary">The normalization scale, DDIM randomness, perceptual degradation threshold and final membership cutoff serve distinct purposes. The budget is a search approximation. Member stability is a hypothesis tested on these targets.</p>
+<details class="study-details">
+<summary data-i18n="lsa.details">Table 1 probe settings</summary>
+<div class="study-details-body">
+<p data-i18n="lsa.settings">Deterministic DDIM, timestep ratio 0.60, ℓ₂ budget up to 0.80, and CDPAM degradation. The paper reports 12 PGD steps, five restarts and ten bisection iterations. The matched-compute comparison uses per-sample wall-clock time on A100-80GB within 5%.</p>
+</div>
+</details>
+</section>
 
-    <section class="content-section section-shell focus-section" id="core-insight" data-focus-step="5" aria-labelledby="insight-title">
-      <div class="section-heading">
-        <p class="section-number">05</p>
-        <div>
-          <p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p>
-          <h2 id="insight-title" data-i18n="insight.title">Measure the intervention required to break local stability</h2>
-          <p data-i18n="insight.body">Training members empirically occupy more stable local regions of the learned reverse mapping. They require a larger bounded perturbation to reach the same perceptual degradation target.</p>
-        </div>
-      </div>
-      <section class="manifold-primer" aria-labelledby="manifold-title">
-        <div class="manifold-copy">
-          <p class="eyebrow" data-i18n="manifold.kicker">Geometric intuition</p>
-          <h3 id="manifold-title" data-i18n="manifold.title">What do we mean by a generative manifold?</h3>
-          <p data-i18n="manifold.body1">Audio latents live in a high-dimensional ambient space, but plausible musical signals occupy a structured region shaped by factors such as pitch, rhythm, timbre and dynamics. A trained diffusion model learns an approximate reverse mapping around this data-supported region.</p>
-          <p data-i18n="manifold.body2">In LSA-Probe, “generative manifold” does not mean that we analytically recover the true data manifold. It is a local geometric interpretation of how stable the learned reverse process is around a candidate intermediate state.</p>
-          <p data-i18n="manifold.body3">We therefore probe the size of the local neighborhood that can be perturbed before the reconstructed audio crosses a fixed perceptual degradation threshold.</p>
-        </div>
-        <figure class="vector-figure manifold-visual">
-          <button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/generative-manifold.svg" data-i18n-aria-label="a11y.enlarge_manifold" aria-label="Enlarge the conceptual generative manifold">
-            <object class="translatable-svg" data="assets/figures/generative-manifold.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object>
-          </button>
-        </figure>
-        <div class="manifold-legend">
-          <article><i class="legend-symbol ambient" aria-hidden="true"></i><p><strong data-i18n="manifold.legend1_title">Ambient space</strong><span data-i18n="manifold.legend1_body">All possible latent states.</span></p></article>
-          <article><i class="legend-symbol support" aria-hidden="true"></i><p><strong data-i18n="manifold.legend2_title">Learned generative support</strong><span data-i18n="manifold.legend2_body">Structured states mapped toward plausible audio.</span></p></article>
-          <article><i class="legend-symbol radius" aria-hidden="true"></i><p><strong data-i18n="manifold.legend3_title">Local stability radius</strong><span data-i18n="manifold.legend3_body">Normalized budget required to reach degradation threshold τ.</span></p></article>
-        </div>
-        <p class="interpretation-boundary"><span aria-hidden="true">i</span><span><strong data-i18n="manifold.boundary_title">Interpretation boundary</strong><span data-i18n="manifold.boundary">The surface and neighborhood radii are conceptual projections. LSA-Probe measures empirical local stability; it does not recover a literal manifold or prove that every training member is more stable than every non-member.</span></span></p>
-      </section>
-      <div class="insight-layout">
-        <figure class="research-figure schematic-figure">
-          <div class="axis-label axis-y" data-i18n="insight.axis_y">Perceptual degradation D</div>
-          <img src="assets/figures/stability-schematic.png" alt="Conceptual curves where the member reaches the same degradation threshold at a larger perturbation budget" data-i18n-alt="a11y.stability_alt" width="1672" height="941">
-          <div class="axis-label axis-x" data-i18n="insight.axis_x">Perturbation budget η</div>
-          <figcaption>
-            <span class="legend-item"><i class="swatch amber"></i><span data-i18n="insight.nonmember_curve">Non-member schematic</span></span>
-            <span class="legend-item"><i class="swatch mint"></i><span data-i18n="insight.member_curve">Member schematic</span></span>
-            <strong data-i18n="insight.caption">Conceptual schematic — not measured sample data</strong>
-          </figcaption>
-        </figure>
-        <aside class="equation-card">
-          <p class="card-label" data-i18n="insight.score_label">Audit score</p>
-          <p class="equation">C<sub>adv</sub>(x) = min η</p>
-          <p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p>
-          <div class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</div>
-          <p class="fine-print" data-i18n="insight.caution">This is an empirical local-geometric interpretation, not an analytic recovery of a data manifold or a universal claim about diffusion models.</p>
-        </aside>
-      </div>
-      <details class="technical-details intuition-details">
-        <summary><span data-i18n="intuition.title">First-order intuition: why should members require a larger budget?</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
-        <div class="intuition-content">
-          <div class="intuition-equations">
-            <p class="equation">x̂<sub>0</sub> = R<sub>t</sub>(x<sub>t</sub>; θ)</p>
-            <p class="equation">x̂<sub>0</sub><sup>δ</sup> = R<sub>t</sub>(x<sub>t</sub> + δ<sub>t</sub>; θ)</p>
-            <p class="equation">R<sub>t</sub>(x<sub>t</sub>+δ<sub>t</sub>;θ) ≈ R<sub>t</sub>(x<sub>t</sub>;θ) + J<sub>R<sub>t</sub></sub>(x<sub>t</sub>)δ<sub>t</sub></p>
-          </div>
-          <p data-i18n="intuition.body">The local Jacobian describes how sensitive the reverse mapping is to a small intervention around the candidate state. If the learned mapping is locally smoother around a training member, the same perturbation budget produces less output degradation. Reaching the fixed threshold τ therefore requires a larger budget, producing a larger Cadv.</p>
-          <p class="intuition-relation" data-i18n="intuition.relation">Lower local sensitivity → larger required budget → higher Cadv → more member-like</p>
-          <aside class="boundary-note"><strong data-i18n="intuition.boundary_title">Interpretation boundary</strong><p data-i18n="intuition.boundary">This is a local, first-order interpretation of the empirical stability signal. It is not an analytic recovery of the data manifold and not a universal theorem that applies to every diffusion model.</p></aside>
-        </div>
-      </details>
-      <div class="threshold-panel" aria-labelledby="threshold-title">
-        <div class="panel-head">
-          <p class="eyebrow" data-i18n="threshold.kicker">A critical distinction</p>
-          <h3 id="threshold-title" data-i18n="threshold.title">Two thresholds, two different jobs</h3>
-        </div>
-        <div class="threshold-flow">
-          <article>
-            <span>1</span>
-            <h4 data-i18n="threshold.tau_title">Perceptual degradation threshold τ</h4>
-            <p class="equation-small">D(x̂<sub>0</sub>, x̂<sub>0</sub><sup>δ</sup>) ≥ τ</p>
-            <p data-i18n="threshold.tau_body">Defines the degradation target. It is calibrated as P95 on an independent non-member development set at ηref=0.05. It is not the membership cutoff.</p>
-          </article>
-          <article>
-            <span>2</span>
-            <h4 data-i18n="threshold.score_title">Adversarial cost Cadv</h4>
-            <p data-i18n="threshold.score_body">Measures the minimum time-normalized budget required to reach τ for each candidate.</p>
-          </article>
-          <article>
-            <span>3</span>
-            <h4 data-i18n="threshold.decision_title">Membership decision cutoff</h4>
-            <p data-i18n="threshold.decision_body">A separate cutoff on Cadv defines the operating point, such as FPR=1%, and yields TPR@1% FPR.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+<section class="content-section section-shell focus-section study-section" id="raw-stability" data-focus-step="5" aria-labelledby="raw-stability-title">
+<div class="section-heading">
+<div>
+<h2 id="raw-stability-title" data-i18n="study.raw-stability.title">Raw Manifold Stability uses fixed perturbations</h2>
+</div>
+</div>
+<p data-i18n="raw.intro">The journal’s Raw Manifold Stability score probes with fixed-amplitude directions using forward computations. Its evidence comes from the response to a small neighborhood of the intermediate state.</p>
+<ol class="study-list">
+<li data-i18n="raw.steps.1">At each selected time, divide the paired response distance by the perturbation norm for each seeded direction.</li>
+<li data-i18n="raw.steps.2">Take the negative high quantile of directional sensitivities. Greater sensitivity gives lower stability.</li>
+<li data-i18n="raw.steps.3">Transform the time coordinates against reference non-members. Add the strongest H positive coordinates to form Sₘₛ.</li>
+</ol>
+<details class="study-details">
+<summary data-i18n="raw.details">Reported probe and response</summary>
+<div class="study-details-body">
+<p data-i18n="raw.config">The draft specifies t/T ∈ {0.55, 0.60, 0.65, 0.70}, η = 0.001, eight directions and direction quantile 0.90. TSS4 names the four time coordinates. H = 2 is the number retained after reference rank transformation and Gaussianization. The inspected AudioLDM wrapper rolls back multiple DDIM steps and returns a latent. The inspected DiffWave pilot uses deterministic reverse steps in waveform space. Historical code sums the top two coordinates even when negative. The final positive-only rule and response implementation still require an aligned artifact.</p>
+</div>
+</details>
+<p class="study-note" data-i18n="raw.boundary">Raw MS extracts local-response evidence. Similar non-members can still have high raw scores.</p>
+</section>
 
-    <section class="content-section section-shell focus-section" id="method" data-focus-step="6" aria-labelledby="method-title">
-      <div class="section-heading">
-        <p class="section-number">06</p>
-        <div>
-          <p class="eyebrow" data-i18n="method.kicker">Two-loop adversarial probe</p>
-          <h2 id="method-title" data-i18n="method.title">Inner PGD finds direction; outer bisection finds cost</h2>
-          <p data-i18n="method.intro">The method searches for a strong local degradation direction at each budget, then finds the smallest successful budget.</p>
-        </div>
-      </div>
-      <figure class="research-figure framework-figure">
-        <button class="image-button" type="button" data-dialog-image="assets/figures/framework.png" data-i18n-aria-label="a11y.enlarge_framework" aria-label="Enlarge the LSA-Probe framework figure">
-          <img src="assets/figures/framework.png" alt="LSA-Probe framework showing forward diffusion, time-normalized perturbation, inner PGD, outer bisection and membership decision" data-i18n-alt="a11y.framework_alt" width="2816" height="1536">
-        </button>
-        <figcaption data-i18n="method.framework_caption">Author-provided expanded framework, checked against Figure 1 in the paper. Image pixels are unchanged.</figcaption>
-      </figure>
-      <ol class="method-steps">
-        <li><span>01</span><p data-i18n="method.step1">Forward diffuse the candidate to an intermediate state.</p></li>
-        <li><span>02</span><p data-i18n="method.step2">Inject a time-normalized bounded perturbation.</p></li>
-        <li><span>03</span><p data-i18n="method.step3">Use inner PGD to find the strongest degradation direction.</p></li>
-        <li><span>04</span><p data-i18n="method.step4">Use outer bisection to find the minimum successful budget.</p></li>
-      </ol>
-      <div class="normalisation-note">
-        <p class="equation">δ<sub>t</sub> = σ<sub>t</sub> δ̃ &nbsp;&nbsp; σ<sub>t</sub> = √(1−ᾱ<sub>t</sub>)</p>
-        <p data-i18n="method.normalisation">The raw scale of an intervention is not comparable across diffusion timesteps because the forward noise variance changes with t. Scaling δ̃ by σt places the perturbation on the timestep’s natural noise scale.</p>
-      </div>
-      <details class="technical-details">
-        <summary data-i18n="method.details_title">Technical details</summary>
-        <div class="parameter-grid">
-          <div><span>t<sub>ratio</sub></span><strong>0.6</strong></div>
-          <div><span>p</span><strong>2</strong></div>
-          <div><span>η<sub>max</sub></span><strong>0.8</strong></div>
-          <div><span data-i18n="method.sampler">Sampler</span><strong>deterministic DDIM</strong></div>
-          <div><span data-i18n="method.outer">Outer bisection</span><strong>B = 10</strong></div>
-          <div><span data-i18n="method.inner">Inner PGD</span><strong>K = 12</strong></div>
-          <div><span data-i18n="method.restarts">Restarts</span><strong>r = 5</strong></div>
-          <div><span data-i18n="method.momentum">Momentum</span><strong>0.9</strong></div>
-          <div><span data-i18n="method.step_size">Step size</span><strong>α = βη/K</strong></div>
-          <div><span>β</span><strong>[0.2, 0.3]</strong></div>
-          <div><span data-i18n="method.metric">Primary metric</span><strong>CDPAM</strong></div>
-          <div><span data-i18n="method.stop">Early stopping</span><strong>ΔD/D &lt; 1% × 3 or ‖∇‖ &lt; 10<sup>−6</sup></strong></div>
-        </div>
-      </details>
-      <div class="walkthrough" aria-labelledby="walkthrough-title">
-        <div class="walkthrough-head">
-          <div>
-            <p class="eyebrow" data-i18n="walkthrough.kicker">Algorithm walkthrough · Illustrative control flow · Not a measured sample</p>
-            <h3 id="walkthrough-title" data-i18n="walkthrough.title">Watch the two loops coordinate</h3>
-          </div>
-          <div class="walkthrough-controls">
-            <button class="button button-secondary" type="button" id="walk-play" data-i18n="controls.play">Play</button>
-            <button class="button button-quiet" type="button" id="walk-pause" data-i18n="controls.pause">Pause</button>
-            <button class="button button-quiet" type="button" id="walk-step" data-i18n="controls.step">Step</button>
-            <button class="button button-quiet" type="button" id="walk-reset" data-i18n="controls.reset">Reset</button>
-          </div>
-        </div>
-        <div class="walkthrough-stage" aria-live="polite">
-          <div class="loop-state">
-            <span data-i18n="walkthrough.outer_label">Outer bisection interval</span>
-            <strong id="walk-interval">[0, ηmax]</strong>
-          </div>
-          <div class="loop-state">
-            <span data-i18n="walkthrough.inner_label">Inner PGD state</span>
-            <strong id="walk-pgd">δ̃(0)</strong>
-          </div>
-          <div class="loop-state">
-            <span data-i18n="walkthrough.check_label">Degradation check</span>
-            <strong id="walk-check">D ≥ τ ?</strong>
-          </div>
-          <div class="loop-state accent">
-            <span data-i18n="walkthrough.output_label">Symbolic output</span>
-            <strong id="walk-output">C<sub>adv</sub> ≈ u</strong>
-          </div>
-        </div>
-        <p class="walkthrough-status" id="walk-status" data-i18n="walkthrough.ready">Ready. Start with the full admissible interval.</p>
-      </div>
-      <details class="technical-details model-path-details">
-        <summary><span data-i18n="model_paths.title">One probe, two diffusion families</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
-        <div class="model-path-grid">
-          <article>
-            <p class="card-label">DiffWave</p>
-            <h3 data-i18n="model_paths.wave_title">Waveform diffusion</h3>
-            <ol>
-              <li data-i18n="model_paths.wave1">Start from waveform x₀.</li>
-              <li data-i18n="model_paths.wave2">Forward-noise it to waveform state xₜ.</li>
-              <li data-i18n="model_paths.wave3">Apply δₜ=σₜδ̃ directly in waveform space.</li>
-              <li data-i18n="model_paths.wave4">Run the differentiable reverse operator.</li>
-              <li data-i18n="model_paths.wave5">Measure degradation between reconstructed waveforms.</li>
-            </ol>
-          </article>
-          <article>
-            <p class="card-label">MusicLDM</p>
-            <h3 data-i18n="model_paths.latent_title">Latent diffusion</h3>
-            <ol>
-              <li data-i18n="model_paths.latent1">Encode the waveform with the VAE encoder: z₀=Enc(x₀).</li>
-              <li data-i18n="model_paths.latent2">Forward-noise it to latent state zₜ.</li>
-              <li data-i18n="model_paths.latent3">Apply the time-normalized perturbation in latent space.</li>
-              <li data-i18n="model_paths.latent4">Run the latent reverse process.</li>
-              <li data-i18n="model_paths.latent5">Decode with the frozen decoder.</li>
-              <li data-i18n="model_paths.latent6">Measure perceptual distance on the resulting waveforms.</li>
-            </ol>
-          </article>
-        </div>
-        <div class="model-path-equations">
-          <p class="equation">x̂<sub>0</sub> = Dec(R<sub>t</sub>(z<sub>t</sub>; θ))</p>
-          <p class="equation">x̂<sub>0</sub><sup>δ</sup> = Dec(R<sub>t</sub>(z<sub>t</sub> + σ<sub>t</sub>δ̃; θ))</p>
-        </div>
-        <ul class="check-list shared-controls">
-          <li data-i18n="model_paths.control1">The forward noise is fixed for each paired evaluation so that the measured difference reflects the added intervention rather than a new random noise realization.</li>
-          <li data-i18n="model_paths.control2">When conditioning is used, the text prompt and guidance remain fixed between the clean and perturbed reverse passes.</li>
-        </ul>
-      </details>
-    </section>
+<section class="content-section section-shell focus-section study-section" id="ms-chn" data-focus-step="6" aria-labelledby="ms-chn-title">
+<div class="section-heading">
+<div>
+<h2 id="ms-chn-title" data-i18n="study.ms-chn.title">Compare stability against similar non-members</h2>
+</div>
+</div>
+<p class="study-question" data-i18n="chn.question">How much of high stability is evidence of training exposure, and how much is the response we would expect for similar music?</p>
+<p data-i18n="chn.motivation">Random cropping gives a training track several possible views. Generalization can give unseen tracks with similar rhythm, harmony, timbre, production or style high stability too. A global comparison can count this shared response as evidence about a particular track. Naturally occurring musical similarity can produce the same problem.</p>
+<ol class="study-list">
+<li data-i18n="chn.steps.1">Represent music with frozen CLAP and acoustic descriptors. Fit preprocessing on known reference non-members in C_ref.</li>
+<li data-i18n="chn.steps.2">Retrieve k nearest reference non-members. Similarity selects the comparison group.</li>
+<li data-i18n="chn.steps.3">Estimate the upper quantile of their Raw MS scores and subtract it from the candidate score. The draft uses k = 200 and q = 0.95.</li>
+</ol>
+<p class="study-formula">Q<sub>local</sub><sup>ref</sup>(x) = Quantile<sub>q</sub>{S<sub>MS</sub>(u) ∶ u ∈ N<sub>k</sub><sup>ref</sup>(x)}</p>
+<p class="study-formula">S<sub>CHN</sub><sup>ref</sup>(x) = S<sub>MS</sub>(x) − Q<sub>local</sub><sup>ref</sup>(x)</p>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="chn.common.title">Stable candidate, stable neighbors</h3>
+<p data-i18n="chn.common.body">If similar non-members also score high, the candidate’s stability is less unusual.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="chn.excess.title">Stability above the local background</h3>
+<p data-i18n="chn.excess.body">A candidate well above its neighbors retains stronger conditional excess evidence. Some non-members can still exceed their background.</p>
+</article>
+</div>
+<p class="study-note" data-i18n="chn.boundary">A positive residual places a candidate above its local quantile. The final decision uses a separate 1% calibration. MS-CHN addresses similarity-related score variation. The role of augmentation remains a mechanism hypothesis.</p>
+<details class="study-details">
+<summary data-i18n="chn.details">Feature processing and scope</summary>
+<div class="study-details-body">
+<p data-i18n="chn.features">A located feature export has 512 CLAP and 93 acoustic columns (605 total). An earlier export reported 87 acoustic and 599 joint. The method draft describes L₂-normalized CLAP, reference-fitted robust acoustic scaling and concatenation. Historical code uses Euclidean neighbors. Final column selection, scaling and family weights await the aligned configuration.</p>
+<p data-i18n="chn.scope">The score estimates excess stability relative to similar non-members. It cannot identify which crop was presented during training or reconstruct an unaugmented original.</p>
+</div>
+</details>
+</section>
 
-    <section class="content-section section-shell focus-section" id="evidence" data-focus-step="7" aria-labelledby="evidence-title">
-      <div class="section-heading">
-        <p class="section-number">07</p>
-        <div>
-          <p class="eyebrow" data-i18n="evidence.kicker">Published aggregate results</p>
-          <h2 id="evidence-title" data-i18n="evidence.title">Evidence at the strict low-FPR operating point</h2>
-          <p data-i18n="evidence.intro">All values below are transcribed from Table 1. No per-sample distributions or ROC points are reconstructed.</p>
-        </div>
-      </div>
-      <details class="technical-details low-fpr-details">
-        <summary><span data-i18n="low_fpr.title">Why focus on TPR at only 1% FPR?</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
-        <div class="low-fpr-content">
-          <p data-i18n="low_fpr.body">Membership auditing is a high-cost decision problem. When the non-member population is much larger than the member population, even a seemingly small false-positive rate can produce many false alerts. The operating point must therefore control false positives before recall is interpreted.</p>
-          <p class="arithmetic-note"><strong data-i18n="low_fpr.example_label">Illustrative arithmetic—not a paper experiment</strong><span data-i18n="low_fpr.example">Among 10,000 non-members, an FPR of 1% corresponds to approximately 100 false positives.</span></p>
-          <ul class="check-list"><li data-i18n="low_fpr.point1">Best TPR@1% FPR is 20%.</li><li data-i18n="low_fpr.point2">Roughly 80% of members remain missed.</li><li data-i18n="low_fpr.point3">Precision depends on the true member base rate.</li><li data-i18n="low_fpr.point4">A membership score is not standalone legal evidence.</li></ul>
-        </div>
-      </details>
-      <details class="technical-details baseline-details">
-        <summary><span data-i18n="baselines.title">What is LSA-Probe compared against?</span><small data-i18n="controls.expand_needed">Expand only when needed</small></summary>
-        <div class="table-wrap baseline-table-wrap" tabindex="0" aria-label="Baseline comparison map" data-i18n-aria-label="a11y.baseline_table">
-          <table class="baseline-table">
-            <thead><tr><th data-i18n="baselines.method">Method</th><th data-i18n="baselines.signal">Signal</th><th data-i18n="baselines.comparison">Limitation or difference from LSA-Probe</th></tr></thead>
-            <tbody>
-              <tr><td data-i18n="baselines.endpoint_title">Endpoint loss</td><td data-i18n="baselines.endpoint_signal">Denoising or reconstruction loss measured at a timestep or at the endpoint.</td><td data-i18n="baselines.endpoint_diff">A single loss can be confounded by timestep, noise seed, content complexity and perceptual mismatch.</td></tr>
-              <tr><td data-i18n="baselines.trajectory_title">Trajectory / PIA / PIAN</td><td data-i18n="baselines.trajectory_signal">Distance between a recovered diffusion-trajectory point and the model-predicted trajectory point.</td><td data-i18n="baselines.trajectory_diff">Measures trajectory mismatch rather than the minimum worst-case intervention required to cross a perceptual threshold.</td></tr>
-              <tr><td>SecMI</td><td data-i18n="baselines.secmi_signal">A diffusion-process membership signal used as an existing comparison baseline.</td><td data-i18n="baselines.secmi_diff">Does not use LSA-Probe’s time-normalized adversarial-cost construction.</td></tr>
-              <tr class="ours-row"><td>LSA-Probe</td><td data-i18n="baselines.lsa_signal">The minimum time-normalized perturbation budget required to exceed a fixed perceptual degradation threshold.</td><td data-i18n="baselines.lsa_diff">Measures local generative stability using inner PGD and outer bisection.</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="compute-parity" data-i18n="baselines.compute">All baselines were matched within ±5% per-sample wall-clock time on an A100-80GB.</p>
-      </details>
-      <div class="evidence-summary">
-        <div><strong>0.20</strong><span data-i18n="evidence.best_tpr">Best TPR@1% FPR</span></div>
-        <div><strong>0.67</strong><span data-i18n="evidence.best_auc">Best observed AUC</span></div>
-        <div><strong>~80%</strong><span data-i18n="evidence.missed">Members still missed at the best strict operating point</span></div>
-      </div>
-      <div class="explorer" aria-labelledby="explorer-title">
+<section class="content-section section-shell focus-section study-section" id="evidence" data-focus-step="7" aria-labelledby="evidence-title">
+<div class="section-heading">
+<div>
+<h2 id="evidence-title" data-i18n="study.evidence.title">What was observed?</h2>
+</div>
+</div>
+<div class="study-evidence" data-conference-results>
+<h3 data-i18n="result.conf">Conference results · ICASSP 2026</h3>
+<p data-i18n="result.conf.intro">The conference reports gains of 3–8 percentage points at 1% FPR across its four comparisons. Best Baseline is the best of Loss, Trajectory and SecMI. The paper uses DeLong for AUC confidence intervals and sample bootstrap for TPR intervals.</p>
+<div class="table-wrap study-table">
+<table>
+<caption data-i18n="result.conf.table.caption">Conference Table 1 · TPR (95% CI) / AUC ± 95% CI half-width</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="result.conf.table.column0">Model / corpus</th>
+<th scope="col" data-i18n="result.conf.table.column1">Best baseline</th>
+<th scope="col" data-i18n="result.conf.table.column2">LSA-Probe</th>
+<th scope="col" data-i18n="result.conf.table.column3">Δ TPR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">MusicLDM / MAESTRO</th>
+<td>10% (7%–12%) / 0.58 ± 0.02</td>
+<td>13% (10%–15%) / 0.61 ± 0.03</td>
+<td>+3 pp</td>
+</tr>
+<tr>
+<th scope="row">MusicLDM / FMA-Large</th>
+<td>8% (5%–10%) / 0.56 ± 0.01</td>
+<td>14% (10%–16%) / 0.59 ± 0.02</td>
+<td>+6 pp</td>
+</tr>
+<tr>
+<th scope="row">DiffWave / MAESTRO</th>
+<td>12% (9%–15%) / 0.63 ± 0.02</td>
+<td>20% (16%–24%) / 0.67 ± 0.02</td>
+<td>+8 pp</td>
+</tr>
+<tr>
+<th scope="row">DiffWave / FMA-Large</th>
+<td>11% (8%–14%) / 0.62 ± 0.02</td>
+<td>18% (14%–22%) / 0.66 ± 0.02</td>
+<td>+7 pp</td>
+</tr>
+</tbody>
+</table>
+</div><a href="https://arxiv.org/html/2602.01645v1#S2.T1" data-i18n="result.conf.link">Table 1 and source protocol</a>
+</div>
+<div class="explorer" aria-labelledby="explorer-title">
         <div class="explorer-controls">
           <div>
             <p class="card-label" id="explorer-title" data-i18n="explorer.title">Evidence Explorer</p>
@@ -490,257 +365,552 @@
           <label><span data-i18n="explorer.dataset">Dataset</span>
             <select id="dataset-select"><option>MAESTRO</option><option>FMA-Large</option></select>
           </label>
-          <button class="button button-quiet" type="button" id="unit-toggle" data-i18n="explorer.show_percent">Show percentages</button>
+          <button class="button button-quiet" type="button" id="unit-toggle" data-i18n="explorer.show_decimal">Show decimals</button>
         </div>
         <div class="explorer-output" id="explorer-output" aria-live="polite">
-          <article><span data-i18n="explorer.baseline">Best baseline</span><strong id="baseline-tpr">0.10</strong><small id="baseline-detail">TPR@1% FPR · CI 0.07–0.12 · AUC 0.58±0.02</small></article>
-          <article class="accent"><span>LSA-Probe</span><strong id="lsa-tpr">0.13</strong><small id="lsa-detail">TPR@1% FPR · CI 0.10–0.15 · AUC 0.61±0.03</small></article>
-          <article><span data-i18n="explorer.absolute_gain">Absolute gain</span><strong id="delta-tpr">+0.03</strong><small id="delta-detail">TPR +0.03 · AUC +0.03</small></article>
+          <article><span data-i18n="explorer.baseline">Best baseline</span><strong id="baseline-tpr">10%</strong><small id="baseline-detail">TPR@1% FPR · 95% CI 7%–12% · AUC 0.58±0.02</small>
+</article>
+          <article class="accent"><span>LSA-Probe</span><strong id="lsa-tpr">13%</strong><small id="lsa-detail">TPR@1% FPR · 95% CI 10%–15% · AUC 0.61±0.03</small>
+</article>
+          <article><span data-i18n="explorer.absolute_gain">Absolute gain</span><strong id="delta-tpr">+3 pp</strong><small id="delta-detail">TPR +3 pp · AUC +0.03</small>
+</article>
         </div>
-        <p class="data-error" id="evidence-error" hidden data-i18n="explorer.error">Verified evidence data could not be loaded. The page will not manufacture a replacement.</p>
+        <p class="data-error" id="evidence-error" hidden data-i18n="explorer.error">The conference result data could not be loaded.</p>
       </div>
-      <div class="table-wrap" tabindex="0" aria-label="Table 1 results" data-i18n-aria-label="a11y.table_results">
-        <table id="results-table">
-          <caption data-i18n="table.caption">Table 1 · decimal proportions; confidence interval in parentheses and AUC mean±standard deviation</caption>
-          <thead><tr>
-            <th data-i18n="table.model">Model</th><th data-i18n="table.dataset">Dataset</th><th data-i18n="table.baseline">Best Baseline TPR@1% / AUC</th><th data-i18n="table.lsa">LSA-Probe TPR@1% / AUC</th><th>Δ TPR</th><th>Δ AUC</th>
-          </tr></thead>
-          <tbody>
-            <tr><td>MusicLDM</td><td>MAESTRO</td><td>0.10 (0.07–0.12) / 0.58±0.02</td><td>0.13 (0.10–0.15) / 0.61±0.03</td><td>+0.03</td><td>+0.03</td></tr>
-            <tr><td>MusicLDM</td><td>FMA-Large</td><td>0.08 (0.05–0.10) / 0.56±0.01</td><td>0.14 (0.10–0.16) / 0.59±0.02</td><td>+0.06</td><td>+0.03</td></tr>
-            <tr><td>DiffWave</td><td>MAESTRO</td><td>0.12 (0.09–0.15) / 0.63±0.02</td><td>0.20 (0.16–0.24) / 0.67±0.02</td><td>+0.08</td><td>+0.04</td></tr>
-            <tr><td>DiffWave</td><td>FMA-Large</td><td>0.11 (0.08–0.14) / 0.62±0.02</td><td>0.18 (0.14–0.22) / 0.66±0.02</td><td>+0.07</td><td>+0.04</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <aside class="boundary-note evidence-boundary">
-        <strong data-i18n="evidence.interpret_title">What the result does—and does not—show</strong>
-        <p data-i18n="evidence.interpret">LSA-Probe consistently improves the strict low-FPR operating point, but the best TPR at 1% FPR is 20%. The method therefore provides a stronger audit signal without solving membership auditing outright. Precision still depends on the real member base rate.</p>
-      </aside>
-      <div class="paper-figure-panel" id="figure-2">
+<details class="study-details">
+<summary data-i18n="result.figures">Open conference paper figures</summary>
+<div class="study-details-body">
+<div class="paper-figure-panel" id="figure-2">
         <div class="panel-head">
           <p class="eyebrow" data-i18n="figure2.kicker">Published Figure 2</p>
-          <h3 data-i18n="figure2.title">What the ablations support</h3>
-          <p data-i18n="figure2.intro">These are the original embedded raster panels extracted from the supplied paper PDF, not reconstructed curves.</p>
+          <h3 data-i18n="figure2.title">Conference Figure 2</h3>
+          <p data-i18n="figure2.intro">Panels extracted from the conference paper.</p>
         </div>
         <div class="figure-grid">
-          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-a-low-fpr-roc-cropped.png" aria-label="Enlarge low-FPR ROC panel" data-i18n-aria-label="a11y.enlarge_roc"><img src="assets/figures/figure2-a-low-fpr-roc-cropped.png" alt="Published low-FPR ROC panel" data-i18n-alt="a11y.roc_alt" width="1248" height="811"></button><figcaption data-i18n="figure2.cap1">Low-FPR ROC improvement</figcaption></figure>
-          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-b-timestep-cropped.png" aria-label="Enlarge timestep ablation panel" data-i18n-aria-label="a11y.enlarge_timestep"><img src="assets/figures/figure2-b-timestep-cropped.png" alt="Published timestep ablation panel" data-i18n-alt="a11y.timestep_alt" width="1040" height="644"></button><figcaption data-i18n="figure2.cap2">Mid-trajectory timestep advantage</figcaption></figure>
-          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-c-budget-cropped.png" aria-label="Enlarge budget ablation panel" data-i18n-aria-label="a11y.enlarge_budget"><img src="assets/figures/figure2-c-budget-cropped.png" alt="Published perturbation-budget ablation panel" data-i18n-alt="a11y.budget_alt" width="1037" height="644"></button><figcaption data-i18n="figure2.cap3">Budget saturation around 0.6–0.8</figcaption></figure>
-          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-d-metric-cropped.png" aria-label="Enlarge metric robustness panel" data-i18n-aria-label="a11y.enlarge_metric"><img src="assets/figures/figure2-d-metric-cropped.png" alt="Published perceptual metric comparison panel" data-i18n-alt="a11y.metric_alt" width="1040" height="642"></button><figcaption data-i18n="figure2.cap4">CDPAM and MR-STFT outperform MSE distances at low FPR</figcaption></figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-a-low-fpr-roc-cropped.png" aria-label="Enlarge low-FPR ROC panel" data-i18n-aria-label="a11y.enlarge_roc"><img src="assets/figures/figure2-a-low-fpr-roc-cropped.png" alt="Published low-FPR ROC panel" data-i18n-alt="a11y.roc_alt" width="1248" height="811"></button>
+<figcaption data-i18n="figure2.cap1">Low-FPR ROC</figcaption>
+</figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-b-timestep-cropped.png" aria-label="Enlarge timestep ablation panel" data-i18n-aria-label="a11y.enlarge_timestep"><img src="assets/figures/figure2-b-timestep-cropped.png" alt="Published timestep ablation panel" data-i18n-alt="a11y.timestep_alt" width="1040" height="644"></button>
+<figcaption data-i18n="figure2.cap2">Mid-trajectory timestep advantage</figcaption>
+</figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-c-budget-cropped.png" aria-label="Enlarge budget ablation panel" data-i18n-aria-label="a11y.enlarge_budget"><img src="assets/figures/figure2-c-budget-cropped.png" alt="Published perturbation-budget ablation panel" data-i18n-alt="a11y.budget_alt" width="1037" height="644"></button>
+<figcaption data-i18n="figure2.cap3">Budget saturation around 0.6–0.8</figcaption>
+</figure>
+          <figure><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-d-metric-cropped.png" aria-label="Enlarge metric robustness panel" data-i18n-aria-label="a11y.enlarge_metric"><img src="assets/figures/figure2-d-metric-cropped.png" alt="Published perceptual metric comparison panel" data-i18n-alt="a11y.metric_alt" width="1040" height="642"></button>
+<figcaption data-i18n="figure2.cap4">CDPAM and MR-STFT outperform MSE distances at low FPR</figcaption>
+</figure>
         </div>
       </div>
-    </section>
+</div>
+</details>
+<h3 data-i18n="result.journal">Journal manuscript results</h3>
+<p class="study-note" data-i18n="result.journal.status">Draft-reported AudioLDM-style results. The located manuscript reports these values under its earlier calibration description. The original training labels and scores for the later independent-reference protocol have yet to be aligned to these tables. Treat the results as manuscript reports with unresolved replay provenance.</p>
+<p data-i18n="result.journal.summary">The draft reports member recall of 9.19% for Raw MS and 16.55% for MS-CHN, a gain of 7.36 percentage points under the same nominal 1% calibration target. Their measured FPRs are 0.56% and 0.70%, respectively.</p>
+<p data-i18n="result.journal.pending">The September-only DiffWave main comparison, Embedding NN, acoustic-only ablation and paired top-bin lifts await source alignment.</p>
+<div class="journal-explorer" data-journal-explorer>
+<label class="journal-filter"><span data-i18n="journal.filter">Journal result table</span>
+<select><option value="main" data-i18n="journal.main">Main comparison</option><option value="ablation" data-i18n="journal.ablation">Neighborhood ablation</option></select></label>
+<p data-journal-status role="status" data-i18n="journal.loading">Loading draft-reported values…</p>
+<div class="table-wrap study-table journal-table" hidden>
+<table>
+<caption data-i18n="journal.caption">AudioLDM-style · Held-out M2/M4/M6 · Draft-reported</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="journal.method">Method</th>
+<th scope="col" data-i18n="journal.auc">AUC</th>
+<th scope="col" data-i18n="journal.tpr">TPR at 1% target</th>
+<th scope="col" data-i18n="journal.fpr">Empirical FPR</th>
+<th scope="col" data-i18n="journal.worst">Worst target FPR</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+<h3 data-i18n="result.questions">What the journal experiments ask</h3>
+<ol class="study-list">
+<li data-i18n="result.rq.1">Do false positives concentrate? The earlier draft reports a 4.64× average top-bin lift for Raw MS in music-matched neighborhoods and 1.21× with random neighborhoods. Lift is top-bin FPR divided by overall FPR. Values above 1 indicate concentration.</li>
+<li data-i18n="result.rq.2">Does probing help? The draft reports AUC 0.6267 and 9.19% recall for Raw MS. These describe signal on its evaluated targets and operating point.</li>
+<li data-i18n="result.rq.3">Does matching help? The draft-reported joint feature row increases recall. The ablation and historical score replay differ in their label and calibration provenance, so the size of the gain awaits reconciliation.</li>
+</ol>
+<p class="study-note" data-i18n="result.limits">Similarity-conditioned scoring can leave uneven false-positive risk. An augmentation-on/off effect needs matched training runs. Results are specific to these datasets, model families and access assumptions.</p>
+</section>
 
-    <section class="content-section section-shell focus-section" id="reliability" data-focus-step="8" aria-labelledby="reliability-title">
-      <div class="section-heading">
-        <p class="section-number">08</p>
-        <div>
-          <p class="eyebrow" data-i18n="reliability.kicker">Reliability and limitations</p>
-          <h2 id="reliability-title" data-i18n="reliability.title">How the evidence was controlled</h2>
-          <p data-i18n="reliability.intro">The evaluation spans waveform and latent diffusion, two music domains, leakage controls, uncertainty estimates and compute-matched baselines.</p>
-        </div>
-      </div>
-      <div class="reliability-grid">
-        <article><p class="card-label" data-i18n="reliability.models_title">Models</p><p><strong>DiffWave</strong> · <span data-i18n="reliability.diffwave">waveform DDPM</span><br><strong>MusicLDM</strong> · <span data-i18n="reliability.musicldm">VAE latent diffusion</span></p></article>
-        <article><p class="card-label" data-i18n="reliability.datasets_title">Datasets</p><p><strong>MAESTRO v3</strong> · <span data-i18n="reliability.maestro">solo piano</span><br><strong>FMA-Large</strong> · <span data-i18n="reliability.fma">multi-genre music</span></p></article>
-        <article><p class="card-label" data-i18n="reliability.setup_title">Main setup</p><p data-i18n="reliability.setup">Deterministic DDIM · t_ratio=0.6 · p=2 · ηmax=0.8 · CDPAM · 22.05 kHz training audio · in-graph resampling to 16 kHz for metrics.</p></article>
-        <article><p class="card-label" data-i18n="reliability.split_title">Split controls</p><p data-i18n="reliability.split">Piece/artist splits for MAESTRO; track/artist splits for FMA; Chromaprint + LSH duplicate and cover checks with manual review.</p></article>
-        <article><p class="card-label" data-i18n="reliability.stats_title">Statistical protocol</p><p data-i18n="reliability.stats">DeLong AUC intervals; sample-level bootstrap elsewhere; 10,000 resamples; Holm–Bonferroni correction.</p></article>
-        <article><p class="card-label" data-i18n="reliability.compute_title">Compute accounting</p><p data-i18n="reliability.compute">B=10 outer × K=12 inner, roughly (K+2)B reverse passes per sample; baselines matched within ±5% wall-clock on an A100-80GB.</p></article>
-      </div>
-      <div class="limitations" id="limitations" aria-labelledby="limitations-title">
-        <div class="panel-head">
-          <p class="eyebrow" data-i18n="limitations.kicker">Scientific boundary</p>
-          <h3 id="limitations-title" data-i18n="limitations.title">Limitations and open questions</h3>
-        </div>
-        <ol class="limitations-list">
-          <li data-i18n="limitations.item1">Strong white-box access is required: parameters, sampler, intermediate states and gradients.</li>
-          <li data-i18n="limitations.item2">Repeated PGD, restarts and bisection make the audit computationally expensive.</li>
-          <li data-i18n="limitations.item3">The best TPR@1% FPR is still only 20%.</li>
-          <li data-i18n="limitations.item4">Evaluation covers two model families and two music datasets.</li>
-          <li data-i18n="limitations.item5">Threshold calibration depends on an independent non-member development set.</li>
-          <li data-i18n="limitations.item6">Cross-model and cross-domain threshold transfer remain underexplored.</li>
-          <li data-i18n="limitations.item7">Results do not directly generalize to text LLMs or multimodal agents.</li>
-          <li data-i18n="limitations.item8">A membership score is not standalone legal evidence.</li>
-          <li data-i18n="limitations.item9">“Generative manifold” is an empirical local-geometric description, not an analytically recovered manifold.</li>
-          <li data-i18n="limitations.item10">Defenses need further study: differential privacy, regularization, deduplication, audit-aware training and reduced memorization.</li>
-        </ol>
-      </div>
-      <section class="defense-panel" aria-labelledby="defense-title">
-        <div class="panel-head">
-          <p class="eyebrow" data-i18n="defense.kicker">Future evaluation</p>
-          <h3 id="defense-title" data-i18n="defense.title">Defensive implications and open evaluation questions</h3>
-          <span class="status-tag" data-i18n="defense.status">Not experimentally evaluated in the current paper</span>
-        </div>
-        <div class="defense-grid">
-          <article><span>01</span><h4 data-i18n="defense.card1_title">Training-data hygiene</h4><p data-i18n="defense.card1_body">Deduplication, artist-aware splitting and provenance control reduce accidental duplication and leakage, but do not by themselves guarantee the absence of memorization.</p></article>
-          <article><span>02</span><h4 data-i18n="defense.card2_title">Memorization reduction</h4><p data-i18n="defense.card2_body">Regularization, early stopping, audit-aware training and differential privacy are potential directions for reducing membership leakage.</p></article>
-          <article><span>03</span><h4 data-i18n="defense.card3_title">Access control</h4><p data-i18n="defense.card3_body">LSA-Probe requires parameters, intermediate states and gradients. Restricting access changes the practical threat surface, although it does not eliminate the underlying memorization risk.</p></article>
-          <article><span>04</span><h4 data-i18n="defense.card4_title">Adaptive evaluation</h4><p data-i18n="defense.card4_body">A meaningful defense evaluation must consider an auditor or attacker who knows the defense and can recalibrate the probe, threshold or optimization procedure.</p></article>
-        </div>
-      </section>
-    </section>
-
-    <section class="content-section section-shell focus-section" id="agent-safety" data-focus-step="9" aria-labelledby="agent-title">
-      <div class="section-heading">
-        <p class="section-number">09</p>
-        <div>
-          <p class="eyebrow" data-i18n="agent.kicker">Future direction</p>
-          <h2 id="agent-title" data-i18n="agent.title">From Generative-Model Auditing to Agent Safety</h2>
-          <p data-i18n="agent.subtitle">A methodological transfer, not an experimental result of LSA-Probe.</p>
-        </div>
-      </div>
-      <div class="transfer-grid">
-        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa1">Define the protected training-data asset</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent1">Define protected user data, memory, retrieved content and tool permissions</span></p></article>
-        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa2">Specify white-box developer-side access</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent2">Build authorized internal red-team and audit infrastructure</span></p></article>
-        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa3">Measure the minimum intervention needed to destabilize a trajectory</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent3">Measure the minimum bounded intervention needed to change a decision or tool action</span></p></article>
-        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa4">Evaluate at strict low-FPR operating points</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent4">Control false alarms before blocking legitimate tasks or users</span></p></article>
-        <article><p><strong>LSA-Probe</strong><br><span data-i18n="agent.lsa5">Treat membership as statistical evidence</span></p><p><strong>Agent Safety</strong><br><span data-i18n="agent.agent5">Preserve audit trails and uncertainty rather than issuing absolute claims</span></p></article>
-      </div>
-      <div class="two-column agent-boundaries">
-        <article>
-          <p class="card-label" data-i18n="agent.transfers_title">What transfers</p>
-          <p data-i18n="agent.transfers">Asset definition, authorized access, bounded intervention, strict operating points and uncertainty-aware audit trails.</p>
-        </article>
-        <article>
-          <p class="card-label" data-i18n="agent.not_title">What does not transfer directly</p>
-          <p data-i18n="agent.not_body">Audio latents are not LLM hidden states; diffusion trajectories are not agent plans. LSA-Probe does not detect prompt injection, stop jailbreaks, solve tool authorization, provide trusted execution or establish effectiveness for mobile agents.</p>
-        </article>
-      </div>
-      <aside class="future-note">
-        <strong data-i18n="agent.direction_title">Possible research direction</strong>
-        <p data-i18n="agent.direction">Generalise stability-based auditing from generative trajectories to agent decision trajectories: measure the minimum bounded intervention required to trigger an unsafe decision while jointly tracking task utility and side effects.</p>
-      </aside>
-    </section>
-
-    <section class="content-section section-shell" id="resources" aria-labelledby="resources-title">
-      <div class="section-heading">
-        <p class="section-number">10</p>
-        <div>
-          <p class="eyebrow" data-i18n="resources.kicker">Paper and resources</p>
-          <h2 id="resources-title" data-i18n="resources.title">Verify the primary sources</h2>
-          <p data-i18n="resources.intro">The public repository currently exposes a project README rather than a complete implementation or checkpoints.</p>
-        </div>
-      </div>
-      <div class="resource-grid">
-        <a href="https://arxiv.org/abs/2602.01645" target="_blank" rel="noreferrer"><span data-i18n="resources.paper_label">Paper</span><strong data-i18n="resources.paper_link">Read on arXiv</strong></a>
-        <a href="https://www.cmsworkshops.com/ICASSP2026/view_paper.php?PaperNum=17815&amp;bare=1" target="_blank" rel="noreferrer"><span data-i18n="resources.program_label">ICASSP Program</span><strong data-i18n="resources.program_link">View the oral schedule</strong></a>
-        <a href="https://github.com/kaslim/LSA-Probe" target="_blank" rel="noreferrer"><span data-i18n="resources.repo_label">Project Repository</span><strong data-i18n="resources.repo_link">Open on GitHub</strong></a>
-      </div>
-      <div class="citation-card">
+<section class="content-section section-shell focus-section study-section" id="resources" data-focus-step="8" aria-labelledby="resources-title">
+<div class="section-heading">
+<div>
+<h2 id="resources-title" data-i18n="study.resources.title">Separate score fitting from threshold calibration</h2>
+</div>
+</div>
+<p data-i18n="protocol.intro">Fit the full scoring map before threshold calibration. In each target and fold, check role disjointness and ground truth using original track IDs.</p>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="protocol.ref.title">C_ref · Reference</h3>
+<p data-i18n="protocol.ref.body">Known non-members fit per-time score transforms and feature preprocessing, and populate the local score library. Exclude the query’s own track when scoring reference items.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="protocol.thr.title">C_thr · Threshold calibration</h3>
+<p data-i18n="protocol.thr.body">A separate set of known non-members calibrates the decision after the score mapping is frozen.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="protocol.e0.title">E₀ · Evaluation non-members</h3>
+<p data-i18n="protocol.e0.body">Held-out non-members measure the empirical false-positive rate.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="protocol.e1.title">E₁ · Evaluation members</h3>
+<p data-i18n="protocol.e1.body">Members held out of score fitting measure the true-positive rate, or member recall.</p>
+</article>
+</div>
+<p class="study-formula">p(x) = [1 + #{u ∈ C<sub>thr</sub> ∶ S(u) ≥ S(x)}] / (|C<sub>thr</sub>| + 1)</p>
+<p data-i18n="protocol.rank">For the rank-calibrated rule, flag when p(x) ≤ 0.01. This rank measures score extremeness among calibration non-members. It does not estimate the probability that a query is a member. Empirical FPR can vary across finite batches and subgroups.</p>
+<details class="study-details">
+<summary data-i18n="protocol.details">Draft design and aggregation</summary>
+<div class="study-details-body">
+<p data-i18n="protocol.design">The September design summary specifies five rotating non-member folds, with 5,000 reference tracks, 2,000 threshold-calibration tracks, 1,000 evaluation non-members and 500 evaluation members per target and fold. Choose configurations on M1/M3/M5 and D1/D3/D5; then evaluate on M2/M4/M6 and D2/D4/D6. Aggregate within target first and use independently trained targets as the units of cross-target variation.</p>
+<p class="study-note" data-i18n="protocol.verify">Role manifests and aligned scores are needed to verify those sizes, disjointness, leave-one-out and near-duplicate rules. Earlier manuscript tables describe a shared calibration pool. Repeated tracks across folds do not create new independent observations.</p>
+</div>
+</details>
+<h3 data-i18n="resource.title">Papers and evidence</h3>
+<p data-i18n="resource.conf">Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation</p>
+<p class="authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Yizhou Tan, Yiqiang Cai, Shengchen Li</p>
+<p data-i18n="resource.publication">Published at ICASSP 2026. The companion project repository contains a README.</p>
+<div class="study-links"><a href="https://doi.org/10.1109/ICASSP55912.2026.11461689" data-i18n="resource.doi">IEEE DOI</a><a href="https://arxiv.org/html/2602.01645v1" data-i18n="resource.arxiv">Full text</a><a href="https://github.com/kaslim/LSA-Probe" data-i18n="resource.repo">Project repository</a><a href="https://github.com/kaslim/kaslim.github.io/blob/main/lsa-probe/audit/FACT_AUDIT.md" data-i18n="resource.audit">Evidence and provenance notes</a>
+</div>
+<p data-i18n="resource.journal.title">Mitigating Musical-Similarity Confounding in Membership Inference for Music Diffusion Models</p>
+<p data-i18n="resource.journal.status">Journal manuscript. No public author list or publication record has been verified for this version.</p>
+<div class="citation-card">
         <div class="citation-head">
           <p class="card-label">BibTeX</p>
-          <button class="button button-quiet" id="copy-citation" type="button" data-i18n="controls.copy">Copy citation</button>
+          <button class="button button-quiet" data-copy-citation id="copy-citation" type="button" data-i18n="controls.copy">Copy citation</button>
         </div>
         <pre id="citation"><code>@inproceedings{liu2026membership,
   title={Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation},
   author={Liu, Yuxuan and Zhang, Peihong and Sang, Rui and Li, Zhixin and Tan, Yizhou and Cai, Yiqiang and Li, Shengchen},
   booktitle={2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
-  year={2026}
+  year={2026},
+  doi={10.1109/ICASSP55912.2026.11461689}
 }</code></pre>
       </div>
-    </section>
+<details class="study-details">
+<summary data-i18n="agent.outlook">Future direction · Agent safety</summary>
+<div class="study-details-body">
+<p data-i18n="agent.copy">Behavioral probes may also help diagnose safety failures in agents by comparing responses under matched interventions. This is a research direction outside the music audit experiments.</p>
+</div>
+</details>
+</section>
 
-    <section class="focus-stage" id="focus-stage" aria-label="Focus View presentation" data-i18n-aria-label="a11y.focus_stage" hidden>
-      <article class="focus-slide" data-focus-slide="1" aria-labelledby="focus-title-1">
-        <header class="focus-slide-head"><p class="focus-slide-number">01</p><div><p class="eyebrow" data-i18n="audit.kicker">Audit question</p><h2 id="focus-title-1" tabindex="-1" data-i18n="audit.title">What are we auditing?</h2><p data-i18n="audit.intro">Given a candidate audio clip and an audited music diffusion model, estimate whether the clip was used during training.</p></div></header>
-        <figure class="focus-vector-figure"><button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/audit-question-flow.svg" data-i18n-aria-label="a11y.enlarge_audit" aria-label="Enlarge the LSA-Probe audit flow"><object class="translatable-svg" data="assets/figures/audit-question-flow.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object></button></figure>
-        <div class="audit-mobile-flow focus-audit-mobile" role="img" aria-label="Candidate audio and an audited music diffusion model are inputs to an authorized probe that produces statistical membership evidence" data-i18n-aria-label="a11y.audit_flow">
-          <div class="mobile-input-pair"><article><span class="wave-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.candidate">Candidate audio</strong></article><span aria-hidden="true">+</span><article><span class="model-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.model">Audited diffusion model</strong></article></div>
-          <span class="flow-arrow" aria-hidden="true">↓</span><article class="mobile-probe"><span class="probe-icon" aria-hidden="true"></span><strong data-i18n="svg.audit.probe">Authorized probe</strong><small>C<sub>adv</sub>(x)</small></article>
-          <span class="flow-arrow" aria-hidden="true">↓</span><div class="mobile-evidence"><strong data-i18n="svg.audit.evidence">Membership evidence</strong><span aria-hidden="true"></span><div><small data-i18n="svg.audit.nonmember_like">More non-member-like</small><small data-i18n="svg.audit.member_like">More member-like</small></div></div>
+<section class="focus-stage" id="focus-stage" aria-label="Focus View presentation" data-i18n-aria-label="a11y.focus_stage" hidden>
+<article class="focus-slide study-section" data-focus-slide="1" aria-labelledby="focus-title-1" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-1" tabindex="-1" data-i18n="study.audit-question.title">What are we auditing?</h2>
+</header>
+<p data-i18n="task.lead">A membership inference attack (MIA) estimates whether a candidate training item belongs to the training set of a specified checkpoint. It provides statistical evidence for data provenance, privacy and model security audits.</p>
+<ol class="study-flow">
+<li data-i18n="task.flow.1">Candidate music + checkpoint</li>
+<li data-i18n="task.flow.2">Model-response score</li>
+<li data-i18n="task.flow.3">Non-member reference and calibration</li>
+<li data-i18n="task.flow.4">Membership evidence</li>
+</ol>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="task.item.title">Membership is checkpoint-specific</h3>
+<p data-i18n="task.item.body">The journal training unit is an FMA track. A query uses a fixed crop. Every crop of one track shares its label for that target, even if the exact waveform was never seen. Its label can change with the checkpoint.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="task.access.title">White-box access</h3>
+<p data-i18n="task.access.body">Loss baselines and fixed-direction stability use forward queries and intermediate states. Conference LSA-Probe also backpropagates through the reverse computation. MS-CHN additionally requires music known to be absent from the target training set.</p>
+</article>
+</div>
+<p class="study-note" data-i18n="task.boundary">Training manifests establish experimental labels and are withheld from the scorer. A positive decision is statistical evidence about the audited training stage. A legal finding requires separate evidence.</p>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="2" aria-labelledby="focus-title-2" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-2" tabindex="-1" data-i18n="study.controlled-training.title">How do we establish membership ground truth?</h2>
+</header>
+<p data-i18n="training.intro">We train controlled targets with documented training sets so we can check membership against each checkpoint’s manifest. The journal labels concern the denoiser’s training stage. Pretrained components have their own training histories.</p>
+<h3 data-i18n="training.views">Four different changes in the pipeline</h3>
+<ul class="study-list">
+<li data-i18n="training.types.1">Preprocessing sets sample rate, channel and amplitude conventions.</li>
+<li data-i18n="training.types.2">Training views vary the crop of one track. All six inspected AudioLDM configs set audio mixup to zero. Other augmentation switches lack aligned evidence.</li>
+<li data-i18n="training.types.3">Forward Gaussian noise is part of the diffusion process.</li>
+<li data-i18n="training.types.4">The audit adds a controlled perturbation δ to an intermediate state.</li>
+</ul>
+<details class="study-details">
+<summary data-i18n="training.conf.details">ICASSP 2026 training settings</summary>
+<div class="study-details-body">
+<div class="table-wrap study-table">
+<table>
+<caption data-i18n="training.conf.caption">Conference paper, §3</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="training.conf.column0">Setting</th>
+<th scope="col" data-i18n="training.conf.column1">Paper report</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row" data-i18n="training.conf.row0.0">Corpus and units</th>
+<td data-i18n="training.conf.row0.1">MAESTRO v3 and FMA-Large. Four-second training clips are members. Validation or test clips supply non-members.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.conf.row1.0">Audio and splits</th>
+<td data-i18n="training.conf.row1.1">22.05 kHz training and 16 kHz scoring. The paper reports stratification by piece or track and artist, with Chromaprint and LSH duplicate and cover screening.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.conf.row2.0">DiffWave</th>
+<td data-i18n="training.conf.row2.1">Waveform DDPM in the DiffWave family. The paper reports 200,000 steps, batch 32, AdamW and cosine learning-rate decay.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.conf.row3.0">MusicLDM</th>
+<td data-i18n="training.conf.row3.1">Unconditional diffusion in VAE latents. The decoder is frozen during auditing and the reported probe distances compare decoded waveforms.</td>
+</tr>
+</tbody>
+</table>
+</div><a href="https://arxiv.org/html/2602.01645v1#S3.SS2" data-i18n="training.conf.source">Conference training and split description</a>
+</div>
+</details>
+<details class="study-details">
+<summary data-i18n="training.journal.details">Journal training artifacts</summary>
+<div class="study-details-body">
+<div class="table-wrap study-table">
+<table>
+<caption data-i18n="training.journal.caption">Located FMA-Large training records</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="training.journal.column0">Setting</th>
+<th scope="col" data-i18n="training.journal.column1">Artifact finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row" data-i18n="training.journal.row0.0">Source tracks</th>
+<td data-i18n="training.journal.row0.1">Each of six AudioLDM-style targets has 95,916 training, 5,328 validation-pool and 5,330 test-pool tracks. The three source pools have zero track-ID overlap within each target. The inspected training runner builds its validation loader from the test pool. Audit folds are downstream.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row1.0">AudioLDM-style input</th>
+<td data-i18n="training.journal.row1.1">Train with a random 10.24 s crop. The loader samples starts over the available range and retries quiet windows up to ten draws. Validation uses the center crop. The loader resamples to 16 kHz, uses the first channel, removes the mean and peak-normalizes to 0.5. It pads short usable clips with zeros. The training loader advances to the next track after an extraction exception. Manifest counts describe dataset inclusion.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row2.0">AudioLDM-style model</th>
+<td data-i18n="training.journal.row2.1">Latent U-Net with ε prediction, a frozen pretrained KL autoencoder, its frozen pretrained HiFi-GAN vocoder, and frozen pretrained CLAP. Training conditions on manifest captions mapped to FiLM, with 0.10 classifier-free condition dropout. The mel input has 64 bands, a 1,024-sample FFT and window, and a 160-sample hop.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row3.0">AudioLDM-style training</th>
+<td data-i18n="training.journal.row3.1">AdamW, learning rate 0.0001, 2,000-step warmup, configured batch size 2, and a 1,000-step diffusion schedule with linear schedule endpoints 0.0015 and 0.0195. The trainer selects by step count. The six weights contain EMA state and record global_step 800,000 internally; their inventory labels read 799,999.</td>
+</tr>
+<tr>
+<th scope="row" data-i18n="training.journal.row4.0">DiffWave-style record</th>
+<td data-i18n="training.journal.row4.1">One completed FMA run uses unconditional waveform diffusion, with 30 dilated residual layers, 64 residual channels and a dilation cycle of 10. Its config uses 16 kHz, 10.24 s crops, seed 0, batch 4, Adam at 0.0002 and 800,000 steps. The full six-target family remains unverified.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="study-note" data-i18n="training.split">The journal design is track-based. Artists, albums and alternative recording versions can span roles.</p>
+</div>
+</details>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="3" aria-labelledby="focus-title-3" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-3" tabindex="-1" data-i18n="study.endpoint-loss.title">What do the baselines measure?</h2>
+</header>
+<p data-i18n="baseline.intro">Add noise to a candidate and start denoising from the constructed state. Models may recover familiar training data more easily. Musical complexity, timbre, timesteps and noise draws also affect errors.</p>
+<div class="study-grid ">
+<p class="study-formula">x<sub>t</sub> = √ᾱ<sub>t</sub> x<sub>0</sub> + √(1 − ᾱ<sub>t</sub>) ε, &nbsp; ε ∼ N(0, I)</p>
+<p class="study-formula">x̂<sub>0</sub> = R<sub>θ,t→0</sub>(x<sub>t</sub>)</p>
+<p class="study-formula">E<sub>rec</sub>(x<sub>0</sub>; t) = d(x̂<sub>0</sub>, x<sub>0</sub>)</p>
+<p class="study-formula">z<sub>0</sub> = Enc(x<sub>0</sub>)</p>
+</div>
+<p data-i18n="baseline.space">These equations illustrate waveform diffusion and endpoint error. Latent diffusion applies the noise and reverse steps in z-space. A latent MSE compares internal tensors. A waveform comparison requires decoding.</p>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="baseline.loss.title">Diffusion Loss</h3>
+<p data-i18n="baseline.loss.body">Compare predicted noise with the injected ε. The located AudioLDM baseline code includes a normalized error norm and MSE variants. Its configuration uses six timestep ratios from 0.10 to 0.80, three seeded draws per ratio and a fixed “music” prompt at guidance scale 1.0.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="baseline.endpoint.title">Endpoint Reconstruction</h3>
+<p data-i18n="baseline.endpoint.body">Compare the recovered endpoint with the clean input. A located journal baseline uses single-step predicted-clean latent MSE. A full reverse rollout defines a different comparison.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="baseline.secmi.title">SecMI-style posterior error</h3>
+<p data-i18n="baseline.secmi.body">A music adaptation of step-wise error, comparing a local deterministic forward/return estimate with its reference state.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="baseline.other.title">Other baseline signals</h3>
+<p data-i18n="baseline.other.body">Likelihood Ratio contrasts target and reference denoising evidence. Terminal Denoising Error measures error near the clean end. Embedding NN uses proximity in an embedding space. Lower errors are oriented toward higher membership evidence.</p>
+</article>
+</div>
+<p class="study-note" data-i18n="baseline.equiv">At fixed t with the same noise and ε parameterization, single-step clean-sample MSE equals noise-prediction MSE scaled by (1 − ᾱₜ) / ᾱₜ. They can carry the same evidence.</p><a href="https://proceedings.mlr.press/v202/duan23b.html" data-i18n="baseline.source">Original SecMI paper</a>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="4" aria-labelledby="focus-title-4" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-4" tabindex="-1" data-i18n="study.method.title">LSA-Probe measures the cost of changing a response</h2>
+</header>
+<div class="study-grid comparison-grid" role="group" aria-label="Conceptual comparison" data-i18n-aria-label="stability.figure">
+<article class="study-card">
+<h3 data-i18n="stability.rec.title">Reconstruction error</h3>
+<p data-i18n="stability.rec.body">Compare the original candidate with the recovered output.</p>
+<div class="comparison-pair" aria-hidden="true"><span data-i18n="stability.original">Original candidate</span><b>↔</b><span data-i18n="stability.recovered">Recovered output</span></div>
+</article>
+<article class="study-card">
+<h3 data-i18n="stability.local.title">Local stability</h3>
+<p data-i18n="stability.local.body">Compare the unperturbed response with the perturbed response.</p>
+<div class="comparison-pair" aria-hidden="true"><span data-i18n="stability.unperturbed">Unperturbed response</span><b>↔</b><span data-i18n="stability.perturbed">Perturbed response</span></div>
+</article>
+</div>
+<p class="study-formula">d(R<sub>t</sub>(z<sub>t</sub> + δ<sub>t</sub>), R<sub>t</sub>(z<sub>t</sub>))</p>
+<p data-i18n="stability.pair">Both branches share the candidate state, conditioning and sampler settings. Paired forward noise or fixed randomness isolates the perturbation in the comparison.</p>
+<h3 data-i18n="lsa.name">Latent Stability Adversarial Probe · ICASSP 2026</h3>
+<ol class="study-list">
+<li data-i18n="lsa.search.1">Scale the perturbation by the forward noise amplitude √(1 − ᾱₜ).</li>
+<li data-i18n="lsa.search.2">Inner projected gradient descent (PGD) searches for a direction that increases response change.</li>
+<li data-i18n="lsa.search.3">Outer bisection estimates the budget needed to cross a fixed perceptual degradation level. A larger budget provides more member-like evidence in the reported probe.</li>
+</ol>
+<p class="study-note" data-i18n="lsa.boundary">The normalization scale, DDIM randomness, perceptual degradation threshold and final membership cutoff serve distinct purposes. The budget is a search approximation. Member stability is a hypothesis tested on these targets.</p>
+<details class="study-details">
+<summary data-i18n="lsa.details">Table 1 probe settings</summary>
+<div class="study-details-body">
+<p data-i18n="lsa.settings">Deterministic DDIM, timestep ratio 0.60, ℓ₂ budget up to 0.80, and CDPAM degradation. The paper reports 12 PGD steps, five restarts and ten bisection iterations. The matched-compute comparison uses per-sample wall-clock time on A100-80GB within 5%.</p>
+</div>
+</details><button id="focus-walkthrough-open" class="button button-secondary" type="button" data-i18n="controls.open_walkthrough">Open search walkthrough</button>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="5" aria-labelledby="focus-title-5" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-5" tabindex="-1" data-i18n="study.raw-stability.title">Raw Manifold Stability uses fixed perturbations</h2>
+</header>
+<p data-i18n="raw.intro">The journal’s Raw Manifold Stability score probes with fixed-amplitude directions using forward computations. Its evidence comes from the response to a small neighborhood of the intermediate state.</p>
+<ol class="study-list">
+<li data-i18n="raw.steps.1">At each selected time, divide the paired response distance by the perturbation norm for each seeded direction.</li>
+<li data-i18n="raw.steps.2">Take the negative high quantile of directional sensitivities. Greater sensitivity gives lower stability.</li>
+<li data-i18n="raw.steps.3">Transform the time coordinates against reference non-members. Add the strongest H positive coordinates to form Sₘₛ.</li>
+</ol>
+<details class="study-details">
+<summary data-i18n="raw.details">Reported probe and response</summary>
+<div class="study-details-body">
+<p data-i18n="raw.config">The draft specifies t/T ∈ {0.55, 0.60, 0.65, 0.70}, η = 0.001, eight directions and direction quantile 0.90. TSS4 names the four time coordinates. H = 2 is the number retained after reference rank transformation and Gaussianization. The inspected AudioLDM wrapper rolls back multiple DDIM steps and returns a latent. The inspected DiffWave pilot uses deterministic reverse steps in waveform space. Historical code sums the top two coordinates even when negative. The final positive-only rule and response implementation still require an aligned artifact.</p>
+</div>
+</details>
+<p class="study-note" data-i18n="raw.boundary">Raw MS extracts local-response evidence. Similar non-members can still have high raw scores.</p>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="6" aria-labelledby="focus-title-6" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-6" tabindex="-1" data-i18n="study.ms-chn.title">Compare stability against similar non-members</h2>
+</header>
+<p class="study-question" data-i18n="chn.question">How much of high stability is evidence of training exposure, and how much is the response we would expect for similar music?</p>
+<p data-i18n="chn.motivation">Random cropping gives a training track several possible views. Generalization can give unseen tracks with similar rhythm, harmony, timbre, production or style high stability too. A global comparison can count this shared response as evidence about a particular track. Naturally occurring musical similarity can produce the same problem.</p>
+<ol class="study-list">
+<li data-i18n="chn.steps.1">Represent music with frozen CLAP and acoustic descriptors. Fit preprocessing on known reference non-members in C_ref.</li>
+<li data-i18n="chn.steps.2">Retrieve k nearest reference non-members. Similarity selects the comparison group.</li>
+<li data-i18n="chn.steps.3">Estimate the upper quantile of their Raw MS scores and subtract it from the candidate score. The draft uses k = 200 and q = 0.95.</li>
+</ol>
+<p class="study-formula">Q<sub>local</sub><sup>ref</sup>(x) = Quantile<sub>q</sub>{S<sub>MS</sub>(u) ∶ u ∈ N<sub>k</sub><sup>ref</sup>(x)}</p>
+<p class="study-formula">S<sub>CHN</sub><sup>ref</sup>(x) = S<sub>MS</sub>(x) − Q<sub>local</sub><sup>ref</sup>(x)</p>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="chn.common.title">Stable candidate, stable neighbors</h3>
+<p data-i18n="chn.common.body">If similar non-members also score high, the candidate’s stability is less unusual.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="chn.excess.title">Stability above the local background</h3>
+<p data-i18n="chn.excess.body">A candidate well above its neighbors retains stronger conditional excess evidence. Some non-members can still exceed their background.</p>
+</article>
+</div>
+<p class="study-note" data-i18n="chn.boundary">A positive residual places a candidate above its local quantile. The final decision uses a separate 1% calibration. MS-CHN addresses similarity-related score variation. The role of augmentation remains a mechanism hypothesis.</p>
+<details class="study-details">
+<summary data-i18n="chn.details">Feature processing and scope</summary>
+<div class="study-details-body">
+<p data-i18n="chn.features">A located feature export has 512 CLAP and 93 acoustic columns (605 total). An earlier export reported 87 acoustic and 599 joint. The method draft describes L₂-normalized CLAP, reference-fitted robust acoustic scaling and concatenation. Historical code uses Euclidean neighbors. Final column selection, scaling and family weights await the aligned configuration.</p>
+<p data-i18n="chn.scope">The score estimates excess stability relative to similar non-members. It cannot identify which crop was presented during training or reconstruct an unaugmented original.</p>
+</div>
+</details>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="7" aria-labelledby="focus-title-7" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-7" tabindex="-1" data-i18n="study.evidence.title">What was observed?</h2>
+</header>
+<div class="study-evidence" data-conference-results>
+<h3 data-i18n="result.conf">Conference results · ICASSP 2026</h3>
+<p data-i18n="result.conf.intro">The conference reports gains of 3–8 percentage points at 1% FPR across its four comparisons. Best Baseline is the best of Loss, Trajectory and SecMI. The paper uses DeLong for AUC confidence intervals and sample bootstrap for TPR intervals.</p>
+<div class="table-wrap study-table">
+<table>
+<caption data-i18n="result.conf.table.caption">Conference Table 1 · TPR (95% CI) / AUC ± 95% CI half-width</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="result.conf.table.column0">Model / corpus</th>
+<th scope="col" data-i18n="result.conf.table.column1">Best baseline</th>
+<th scope="col" data-i18n="result.conf.table.column2">LSA-Probe</th>
+<th scope="col" data-i18n="result.conf.table.column3">Δ TPR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">MusicLDM / MAESTRO</th>
+<td>10% (7%–12%) / 0.58 ± 0.02</td>
+<td>13% (10%–15%) / 0.61 ± 0.03</td>
+<td>+3 pp</td>
+</tr>
+<tr>
+<th scope="row">MusicLDM / FMA-Large</th>
+<td>8% (5%–10%) / 0.56 ± 0.01</td>
+<td>14% (10%–16%) / 0.59 ± 0.02</td>
+<td>+6 pp</td>
+</tr>
+<tr>
+<th scope="row">DiffWave / MAESTRO</th>
+<td>12% (9%–15%) / 0.63 ± 0.02</td>
+<td>20% (16%–24%) / 0.67 ± 0.02</td>
+<td>+8 pp</td>
+</tr>
+<tr>
+<th scope="row">DiffWave / FMA-Large</th>
+<td>11% (8%–14%) / 0.62 ± 0.02</td>
+<td>18% (14%–22%) / 0.66 ± 0.02</td>
+<td>+7 pp</td>
+</tr>
+</tbody>
+</table>
+</div><a href="https://arxiv.org/html/2602.01645v1#S2.T1" data-i18n="result.conf.link">Table 1 and source protocol</a>
+</div>
+<h3 data-i18n="result.journal">Journal manuscript results</h3>
+<p class="study-note" data-i18n="result.journal.status">Draft-reported AudioLDM-style results. The located manuscript reports these values under its earlier calibration description. The original training labels and scores for the later independent-reference protocol have yet to be aligned to these tables. Treat the results as manuscript reports with unresolved replay provenance.</p>
+<p data-i18n="result.journal.summary">The draft reports member recall of 9.19% for Raw MS and 16.55% for MS-CHN, a gain of 7.36 percentage points under the same nominal 1% calibration target. Their measured FPRs are 0.56% and 0.70%, respectively.</p>
+<p data-i18n="result.journal.pending">The September-only DiffWave main comparison, Embedding NN, acoustic-only ablation and paired top-bin lifts await source alignment.</p>
+<div class="journal-explorer" data-journal-explorer>
+<label class="journal-filter"><span data-i18n="journal.filter">Journal result table</span>
+<select><option value="main" data-i18n="journal.main">Main comparison</option><option value="ablation" data-i18n="journal.ablation">Neighborhood ablation</option></select></label>
+<p data-journal-status role="status" data-i18n="journal.loading">Loading draft-reported values…</p>
+<div class="table-wrap study-table journal-table" hidden>
+<table>
+<caption data-i18n="journal.caption">AudioLDM-style · Held-out M2/M4/M6 · Draft-reported</caption>
+<thead>
+<tr>
+<th scope="col" data-i18n="journal.method">Method</th>
+<th scope="col" data-i18n="journal.auc">AUC</th>
+<th scope="col" data-i18n="journal.tpr">TPR at 1% target</th>
+<th scope="col" data-i18n="journal.fpr">Empirical FPR</th>
+<th scope="col" data-i18n="journal.worst">Worst target FPR</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+<h3 data-i18n="result.questions">What the journal experiments ask</h3>
+<ol class="study-list">
+<li data-i18n="result.rq.1">Do false positives concentrate? The earlier draft reports a 4.64× average top-bin lift for Raw MS in music-matched neighborhoods and 1.21× with random neighborhoods. Lift is top-bin FPR divided by overall FPR. Values above 1 indicate concentration.</li>
+<li data-i18n="result.rq.2">Does probing help? The draft reports AUC 0.6267 and 9.19% recall for Raw MS. These describe signal on its evaluated targets and operating point.</li>
+<li data-i18n="result.rq.3">Does matching help? The draft-reported joint feature row increases recall. The ablation and historical score replay differ in their label and calibration provenance, so the size of the gain awaits reconciliation.</li>
+</ol>
+<p class="study-note" data-i18n="result.limits">Similarity-conditioned scoring can leave uneven false-positive risk. An augmentation-on/off effect needs matched training runs. Results are specific to these datasets, model families and access assumptions.</p>
+<figure class="study-focus-figure"><button class="image-button" type="button" data-dialog-image="assets/figures/figure2-a-low-fpr-roc-cropped.png" aria-label="Enlarge low-FPR ROC panel" data-i18n-aria-label="a11y.enlarge_roc"><img src="assets/figures/figure2-a-low-fpr-roc-cropped.png" alt="Published low-FPR ROC panel" data-i18n-alt="a11y.roc_alt" width="1248" height="811" loading="lazy"></button>
+<figcaption data-i18n="figure2.cap1">Low-FPR ROC</figcaption>
+</figure>
+</article>
+
+<article class="focus-slide study-section" data-focus-slide="8" aria-labelledby="focus-title-8" hidden>
+<header class="study-focus-head">
+<h2 id="focus-title-8" tabindex="-1" data-i18n="study.resources.title">Separate score fitting from threshold calibration</h2>
+</header>
+<p data-i18n="protocol.intro">Fit the full scoring map before threshold calibration. In each target and fold, check role disjointness and ground truth using original track IDs.</p>
+<div class="study-grid ">
+<article class="study-card">
+<h3 data-i18n="protocol.ref.title">C_ref · Reference</h3>
+<p data-i18n="protocol.ref.body">Known non-members fit per-time score transforms and feature preprocessing, and populate the local score library. Exclude the query’s own track when scoring reference items.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="protocol.thr.title">C_thr · Threshold calibration</h3>
+<p data-i18n="protocol.thr.body">A separate set of known non-members calibrates the decision after the score mapping is frozen.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="protocol.e0.title">E₀ · Evaluation non-members</h3>
+<p data-i18n="protocol.e0.body">Held-out non-members measure the empirical false-positive rate.</p>
+</article>
+<article class="study-card">
+<h3 data-i18n="protocol.e1.title">E₁ · Evaluation members</h3>
+<p data-i18n="protocol.e1.body">Members held out of score fitting measure the true-positive rate, or member recall.</p>
+</article>
+</div>
+<p class="study-formula">p(x) = [1 + #{u ∈ C<sub>thr</sub> ∶ S(u) ≥ S(x)}] / (|C<sub>thr</sub>| + 1)</p>
+<p data-i18n="protocol.rank">For the rank-calibrated rule, flag when p(x) ≤ 0.01. This rank measures score extremeness among calibration non-members. It does not estimate the probability that a query is a member. Empirical FPR can vary across finite batches and subgroups.</p>
+<details class="study-details">
+<summary data-i18n="protocol.details">Draft design and aggregation</summary>
+<div class="study-details-body">
+<p data-i18n="protocol.design">The September design summary specifies five rotating non-member folds, with 5,000 reference tracks, 2,000 threshold-calibration tracks, 1,000 evaluation non-members and 500 evaluation members per target and fold. Choose configurations on M1/M3/M5 and D1/D3/D5; then evaluate on M2/M4/M6 and D2/D4/D6. Aggregate within target first and use independently trained targets as the units of cross-target variation.</p>
+<p class="study-note" data-i18n="protocol.verify">Role manifests and aligned scores are needed to verify those sizes, disjointness, leave-one-out and near-duplicate rules. Earlier manuscript tables describe a shared calibration pool. Repeated tracks across folds do not create new independent observations.</p>
+</div>
+</details>
+<h3 data-i18n="resource.title">Papers and evidence</h3>
+<p data-i18n="resource.conf">Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation</p>
+<p class="authors">Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Yizhou Tan, Yiqiang Cai, Shengchen Li</p>
+<p data-i18n="resource.publication">Published at ICASSP 2026. The companion project repository contains a README.</p>
+<div class="study-links"><a href="https://doi.org/10.1109/ICASSP55912.2026.11461689" data-i18n="resource.doi">IEEE DOI</a><a href="https://arxiv.org/html/2602.01645v1" data-i18n="resource.arxiv">Full text</a><a href="https://github.com/kaslim/LSA-Probe" data-i18n="resource.repo">Project repository</a><a href="https://github.com/kaslim/kaslim.github.io/blob/main/lsa-probe/audit/FACT_AUDIT.md" data-i18n="resource.audit">Evidence and provenance notes</a>
+</div>
+<p data-i18n="resource.journal.title">Mitigating Musical-Similarity Confounding in Membership Inference for Music Diffusion Models</p>
+<p data-i18n="resource.journal.status">Journal manuscript. No public author list or publication record has been verified for this version.</p>
+<div class="citation-card">
+        <div class="citation-head">
+          <p class="card-label">BibTeX</p>
+          <button class="button button-quiet" data-copy-citation id="focus-copy-citation" type="button" data-i18n="controls.copy">Copy citation</button>
         </div>
-        <aside class="focus-boundary compact"><strong data-i18n="audit.boundary_short">Statistical audit signal — not data extraction, model inversion, or standalone legal proof.</strong></aside>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="2" aria-labelledby="focus-title-2">
-        <header class="focus-slide-head"><p class="focus-slide-number">02</p><div><p class="eyebrow" data-i18n="primer.kicker">Background bridge</p><h2 id="focus-title-2" tabindex="-1" data-i18n="primer.title">Diffusion models in 60 seconds</h2></div></header>
-        <div class="focus-primer-flow"><article><span>01</span><strong data-i18n="primer.stage_clean">Clean audio</strong><p>x<sub>0</sub></p></article><article><span>02</span><strong data-i18n="primer.stage_forward">Forward noising</strong><p>+ ε</p></article><article class="accent"><span>03</span><strong data-i18n="primer.stage_intermediate">Intermediate state</strong><p>x<sub>t</sub></p></article><article><span>04</span><strong data-i18n="primer.stage_reverse">Learned reverse process</strong><p>R<sub>t</sub></p></article><article><span>05</span><strong data-i18n="primer.stage_reconstructed">Reconstructed audio</strong><p>x̂<sub>0</sub></p></article></div>
-        <div class="focus-primer-equations"><p class="equation">x<sub>t</sub> = √ᾱ<sub>t</sub>x<sub>0</sub> + √(1−ᾱ<sub>t</sub>)ε</p><p class="equation">x̂<sub>0</sub> = R<sub>t</sub>(x<sub>t</sub>; θ)</p></div>
-        <div class="focus-timeline"><span><strong>t≈0</strong><small data-i18n="endpoint.clean">Near the clean sample</small></span><span class="accent"><strong>t≈0.6T</strong><small data-i18n="primer.mid_result">Mid-trajectory; strongest observed membership separation</small></span><span><strong>t≈T</strong><small data-i18n="endpoint.noisy">Near the high-noise state</small></span></div>
-        <aside class="focus-boundary"><strong data-i18n="innovation.card1_title">Stability instead of endpoint loss</strong><p data-i18n="primer.focus_bridge">Probe an intermediate state and measure how much intervention is required to destabilize its learned reverse mapping.</p></aside>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="3" aria-labelledby="focus-title-3">
-        <header class="focus-slide-head"><p class="focus-slide-number">03</p><div><p class="eyebrow" data-i18n="threat.kicker">Access assumptions</p><h2 id="focus-title-3" tabindex="-1" data-i18n="threat.title">A strong, explicit white-box threat model</h2></div></header>
-        <div class="focus-access-chain"><article><span data-i18n="threat.actor_label">Actor</span><strong data-i18n="threat.actor">Developer / authorized auditor</strong></article><article><span data-i18n="threat.access_label">Access</span><strong data-i18n="threat.access">Parameters, sampler, intermediate states, gradients</strong></article><article><span data-i18n="threat.output_label">Output</span><strong data-i18n="threat.output">Statistical membership audit score</strong></article></div>
-        <div class="focus-access-strip" aria-label="White-box access assumptions" data-i18n-aria-label="a11y.focus_access"><strong data-i18n="focus.whitebox">White-box access</strong><span data-i18n="focus.parameters">Model parameters</span><span data-i18n="focus.sampler">Reverse sampler</span><span data-i18n="focus.states">Intermediate states</span><span data-i18n="focus.gradients">Gradients</span><span data-i18n="focus.no_shadow">No shadow models</span><span data-i18n="focus.dev_set">Independent non-member development set</span></div>
-        <aside class="focus-boundary"><strong data-i18n="threat.boundary_title">Operational boundary</strong><p data-i18n="threat.boundary">LSA-Probe is best understood as an authorized internal audit method, not a remote black-box attack available to an ordinary user.</p></aside>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="4" aria-labelledby="focus-title-4">
-        <header class="focus-slide-head"><p class="focus-slide-number">04</p><div><p class="eyebrow" data-i18n="endpoint.kicker">Why the baseline is weak</p><h2 id="focus-title-4" tabindex="-1" data-i18n="endpoint.title">Why endpoint reconstruction error is insufficient</h2></div></header>
-        <div class="focus-factor-grid"><article><strong data-i18n="endpoint.factor1_title">Timestep</strong><p data-i18n="endpoint.factor1_body">Reconstruction error changes with the diffusion state.</p></article><article><strong data-i18n="endpoint.factor2_title">Randomness</strong><p data-i18n="endpoint.factor2_body">Injected noise and sampling choices alter the endpoint.</p></article><article><strong data-i18n="endpoint.factor3_title">Content</strong><p data-i18n="endpoint.factor3_body">Timbre and musical complexity can confound raw loss.</p></article><article><strong data-i18n="endpoint.factor4_title">Perception</strong><p data-i18n="endpoint.factor4_body">Waveform MSE need not track what listeners perceive.</p></article></div>
-        <blockquote class="focus-quote" data-i18n="endpoint.conclusion">Instead of asking whether one reconstruction has a small error, LSA-Probe asks how much worst-case, time-normalized intervention is required to destabilize the local reverse process.</blockquote>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="5" aria-labelledby="focus-title-5">
-        <header class="focus-slide-head"><p class="focus-slide-number">05</p><div><p class="eyebrow" data-i18n="insight.kicker">Latent stability hypothesis</p><h2 id="focus-title-5" tabindex="-1" data-i18n="focus.insight_title">Latent stability and adversarial cost</h2></div></header>
-        <div class="focus-insight-grid"><figure class="focus-vector-figure focus-manifold"><button class="image-button vector-button" type="button" data-dialog-svg="assets/figures/generative-manifold.svg" data-i18n-aria-label="a11y.enlarge_manifold" aria-label="Enlarge the conceptual generative manifold"><object class="translatable-svg" data="assets/figures/generative-manifold.svg" type="image/svg+xml" aria-hidden="true" tabindex="-1"></object></button></figure><div class="focus-score-card"><p class="card-label" data-i18n="insight.score_label">Audit score</p><p class="equation">C<sub>adv</sub>(x) = min η</p><p data-i18n="insight.score_body">Minimum perturbation budget that reaches the fixed perceptual degradation target.</p><p class="relation">C<sub>adv</sub>(member) &gt; C<sub>adv</sub>(non-member)</p><p class="empirical-tag" data-i18n="manifold.empirical">Empirical tendency in the evaluated settings</p><p class="fine-print" data-i18n="manifold.boundary">The surface and neighborhood radii are conceptual projections. LSA-Probe measures empirical local stability; it does not recover a literal manifold or prove that every training member is more stable than every non-member.</p></div></div>
-        <div class="focus-threshold-strip"><span><strong>τ</strong><small data-i18n="focus.tau_short">Perceptual degradation target; not the membership cutoff</small></span><span><strong>C<sub>adv</sub></strong><small data-i18n="focus.cost_short">Minimum time-normalized budget reaching τ</small></span><span><strong data-i18n="focus.cutoff_short_title">Decision cutoff</strong><small data-i18n="focus.cutoff_short">A separate threshold sets the FPR operating point</small></span></div>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="6" aria-labelledby="focus-title-6">
-        <header class="focus-slide-head"><p class="focus-slide-number">06</p><div><p class="eyebrow" data-i18n="method.kicker">Two-loop adversarial probe</p><h2 id="focus-title-6" tabindex="-1" data-i18n="method.title">Inner PGD finds direction; outer bisection finds cost</h2></div></header>
-        <div class="focus-method-grid"><figure class="focus-framework"><button class="image-button" type="button" data-dialog-image="assets/figures/framework.png" data-i18n-aria-label="a11y.enlarge_framework" aria-label="Enlarge the LSA-Probe framework figure"><img src="assets/figures/framework.png" alt="LSA-Probe framework showing forward diffusion, time-normalized perturbation, inner PGD, outer bisection and membership decision" data-i18n-alt="a11y.framework_alt" width="2816" height="1536"></button></figure><div class="focus-method-side"><p class="equation focus-method-equation">δ<sub>t</sub>=σ<sub>t</sub>δ̃</p><ol class="focus-method-steps"><li><span>01</span><p data-i18n="method.step1">Forward diffuse the candidate to an intermediate state.</p></li><li><span>02</span><p data-i18n="method.step2">Inject a time-normalized bounded perturbation.</p></li><li><span>03</span><p data-i18n="method.step3">Use inner PGD to find the strongest degradation direction.</p></li><li><span>04</span><p data-i18n="method.step4">Use outer bisection to find the minimum successful budget.</p></li></ol><button class="button button-secondary" type="button" id="focus-walkthrough-open" data-i18n="controls.open_walkthrough">Open algorithm walkthrough</button></div></div>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="7" aria-labelledby="focus-title-7">
-        <header class="focus-slide-head"><p class="focus-slide-number">07</p><div><p class="eyebrow" data-i18n="evidence.kicker">Published aggregate results</p><h2 id="focus-title-7" tabindex="-1" data-i18n="evidence.title">Evidence at the strict low-FPR operating point</h2></div></header>
-        <div class="focus-result-grid"><article><strong data-i18n="focus.result_gain_value">+3–8 pp</strong><span data-i18n="focus.result_gain">Absolute TPR@1% FPR gain</span></article><article><strong>0.20</strong><span data-i18n="evidence.best_tpr">Best TPR@1% FPR</span></article><article><strong>0.67</strong><span data-i18n="evidence.best_auc">Best observed AUC</span></article></div>
-        <aside class="focus-evidence-boundary"><strong data-i18n="evidence.interpret_title">What the result does—and does not—show</strong><ul><li data-i18n="focus.evidence_point1">The strict low-FPR operating point improves in all four model–dataset combinations.</li><li data-i18n="focus.evidence_point2">Best TPR@1% FPR is still 20%, so roughly 80% of members remain missed in the best case.</li><li data-i18n="focus.evidence_point3">The method strengthens the audit signal; it does not solve membership auditing outright.</li><li data-i18n="focus.evidence_point4">Precision still depends on the true member base rate.</li></ul></aside>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="8" aria-labelledby="focus-title-8">
-        <header class="focus-slide-head"><p class="focus-slide-number">08</p><div><p class="eyebrow" data-i18n="reliability.kicker">Reliability and limitations</p><h2 id="focus-title-8" tabindex="-1" data-i18n="focus.reliability_defense_title">Reliability, limitations and defenses</h2></div></header>
-        <div class="focus-reliability-grid"><article><p class="card-label" data-i18n="focus.data_controls">Data and split controls</p><p data-i18n="focus.data_controls_body">MAESTRO piece/artist split · FMA track/artist split · Chromaprint + LSH + manual review.</p></article><article><p class="card-label" data-i18n="reliability.stats_title">Statistical protocol</p><p data-i18n="focus.stats_body">DeLong for AUC · 10,000 bootstrap resamples elsewhere · Holm–Bonferroni correction.</p></article><article><p class="card-label" data-i18n="focus.compute_fairness">Compute fairness</p><p data-i18n="focus.compute_body">B=10 outer · K=12 inner · roughly (K+2)B reverse passes · baselines matched within ±5% wall-clock on A100-80GB.</p></article></div>
-        <div class="focus-limit-strip"><strong data-i18n="limitations.title">Limitations and open questions</strong><span data-i18n="limitations.item1">Strong white-box access is required: parameters, sampler, intermediate states and gradients.</span><span data-i18n="limitations.item2">Repeated PGD, restarts and bisection make the audit computationally expensive.</span><span data-i18n="limitations.item3">The best TPR@1% FPR is still only 20%.</span><span data-i18n="limitations.item4">Evaluation covers two model families and two music datasets.</span></div>
-        <aside class="focus-defense"><strong data-i18n="defense.status">Not experimentally evaluated in the current paper</strong><p data-i18n="focus.defense_short">Potential directions include data hygiene, memorization reduction, access control and adaptive evaluation against defenses.</p></aside>
-      </article>
-
-      <article class="focus-slide" data-focus-slide="9" aria-labelledby="focus-title-9">
-        <header class="focus-slide-head"><p class="focus-slide-number">09</p><div><p class="eyebrow" data-i18n="agent.kicker">Future direction</p><h2 id="focus-title-9" tabindex="-1" data-i18n="agent.title">From Generative-Model Auditing to Agent Safety</h2><p data-i18n="agent.subtitle">A methodological transfer, not an experimental result of LSA-Probe.</p></div></header>
-        <div class="focus-transfer-grid"><article><p><strong data-i18n="focus.asset">Protected asset</strong><span data-i18n="focus.asset_lsa">Training audio</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.asset_agent">User data, memory, retrieved content and tool permissions</span></p></article><article><p><strong data-i18n="focus.intervention">Bounded intervention</strong><span data-i18n="focus.intervention_lsa">Destabilize a diffusion trajectory</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.intervention_agent">Change an agent decision or tool action</span></p></article><article><p><strong data-i18n="focus.operating_point">Strict operating point</strong><span>TPR@1% FPR</span></p><p><strong data-i18n="focus.agent_label">Agent Safety</strong><span data-i18n="focus.operating_agent">Avoid blocking legitimate users or safe tasks because of false alarms</span></p></article></div>
-        <div class="focus-agent-boundaries"><article><p class="card-label" data-i18n="agent.transfers_title">What transfers</p><p data-i18n="focus.transfers_short">Asset definition · authorized internal auditing · bounded worst-case intervention · strict low-FPR evaluation · uncertainty-aware audit trails.</p></article><article><p class="card-label" data-i18n="agent.not_title">What does not transfer directly</p><p data-i18n="focus.not_short">Audio latents are not LLM hidden states; diffusion trajectories are not agent plans. The paper does not establish protection against prompt injection, jailbreaks, unsafe tool calls or mobile-agent attacks.</p></article></div>
-        <aside class="focus-future"><strong data-i18n="focus.future_label">Possible research direction — not a result of this paper</strong><p data-i18n="focus.future_body">Generalize stability-based auditing to agent decision trajectories while jointly measuring unsafe decisions, task utility and side effects.</p></aside>
-      </article>
-    </section>
-  </main>
+        <pre id="focus-citation"><code>@inproceedings{liu2026membership,
+  title={Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation},
+  author={Liu, Yuxuan and Zhang, Peihong and Sang, Rui and Li, Zhixin and Tan, Yizhou and Cai, Yiqiang and Li, Shengchen},
+  booktitle={2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  year={2026},
+  doi={10.1109/ICASSP55912.2026.11461689}
+}</code></pre>
+      </div>
+</article>
+</section>
+</main>
 
   <footer class="site-footer section-shell">
-    <p>LSA-Probe · Yuxuan Liu · ICASSP 2026</p>
-    <a href="../" data-i18n="footer.portfolio">Back to portfolio</a>
-  </footer>
+<p>LSA-Probe / MS-CHN</p><a href="../" data-i18n="nav.portfolio_home">Portfolio home</a>
+</footer>
 
   <div class="focus-controls" id="focus-controls" hidden>
     <button class="button button-quiet" type="button" id="focus-prev" data-i18n="controls.previous">Previous</button>
-    <p aria-live="polite" aria-atomic="true"><span id="focus-current">1</span> / 9 · <span id="focus-label">What are we auditing?</span></p>
+    <p aria-live="polite" aria-atomic="true"><span id="focus-current">1</span> / 8 · <span id="focus-label">Task</span>
+</p>
     <button class="button button-primary" type="button" id="focus-next" data-i18n="controls.next">Next</button>
   </div>
 
-  <dialog class="image-dialog" id="image-dialog">
+  <dialog class="image-dialog" id="image-dialog" aria-label="Paper figure" data-i18n-aria-label="a11y.figure_dialog">
     <button class="button button-quiet dialog-close" type="button" id="dialog-close" data-i18n="controls.close">Close</button>
     <img id="dialog-image" alt="">
-    <object class="dialog-vector" id="dialog-vector" type="image/svg+xml" aria-hidden="true" hidden></object>
   </dialog>
 
   <dialog class="walkthrough-dialog" id="focus-walkthrough-dialog" aria-labelledby="focus-walkthrough-title">
     <button class="button button-quiet dialog-close" type="button" id="focus-walkthrough-close" data-i18n="controls.close">Close</button>
     <div class="walkthrough-head">
-      <div><p class="eyebrow" data-i18n="walkthrough.kicker">Algorithm walkthrough · Illustrative control flow · Not a measured sample</p><h2 id="focus-walkthrough-title" data-i18n="walkthrough.title">Watch the two loops coordinate</h2></div>
-      <div class="walkthrough-controls"><button class="button button-secondary" type="button" id="focus-walk-play" data-i18n="controls.play">Play</button><button class="button button-quiet" type="button" id="focus-walk-pause" data-i18n="controls.pause">Pause</button><button class="button button-quiet" type="button" id="focus-walk-step" data-i18n="controls.step">Step</button><button class="button button-quiet" type="button" id="focus-walk-reset" data-i18n="controls.reset">Reset</button></div>
+      <div>
+<p class="eyebrow" data-i18n="walkthrough.kicker">Algorithm walkthrough · Illustrative control flow · Not a measured sample</p>
+<h2 id="focus-walkthrough-title" data-i18n="walkthrough.title">Watch the two loops coordinate</h2>
+</div>
+      <div class="walkthrough-controls"><button class="button button-secondary" type="button" id="focus-walk-play" data-i18n="controls.play">Play</button><button class="button button-quiet" type="button" id="focus-walk-pause" data-i18n="controls.pause">Pause</button><button class="button button-quiet" type="button" id="focus-walk-step" data-i18n="controls.step">Step</button><button class="button button-quiet" type="button" id="focus-walk-reset" data-i18n="controls.reset">Reset</button>
+</div>
     </div>
     <div class="walkthrough-stage" aria-live="polite">
-      <div class="loop-state"><span data-i18n="walkthrough.outer_label">Outer bisection interval</span><strong id="focus-walk-interval">[0, ηmax]</strong></div>
-      <div class="loop-state"><span data-i18n="walkthrough.inner_label">Inner PGD state</span><strong id="focus-walk-pgd">δ̃(0)</strong></div>
-      <div class="loop-state"><span data-i18n="walkthrough.check_label">Degradation check</span><strong id="focus-walk-check">D ≥ τ ?</strong></div>
-      <div class="loop-state accent"><span data-i18n="walkthrough.output_label">Symbolic output</span><strong>C<sub>adv</sub>≈u</strong></div>
+      <div class="loop-state"><span data-i18n="walkthrough.outer_label">Outer bisection interval</span><strong id="focus-walk-interval">[0, ηmax]</strong>
+</div>
+      <div class="loop-state"><span data-i18n="walkthrough.inner_label">Inner PGD state</span><strong id="focus-walk-pgd">δ̃(0)</strong>
+</div>
+      <div class="loop-state"><span data-i18n="walkthrough.check_label">Degradation check</span><strong id="focus-walk-check">D ≥ τ ?</strong>
+</div>
+      <div class="loop-state accent"><span data-i18n="walkthrough.output_label">Symbolic output</span><strong>C<sub>adv</sub>≈u</strong>
+</div>
     </div>
     <p class="walkthrough-status" id="focus-walk-status" data-i18n="walkthrough.ready">Ready. Start with the full admissible interval.</p>
   </dialog>
 
-  <script src="js/i18n.js" defer></script>
-  <script src="js/app-v2.js" defer></script>
+  <script src="js/i18n.js?v=20261120" defer></script>
+  <script src="js/app-v2.js?v=20261120" defer></script>
 </body>
 </html>

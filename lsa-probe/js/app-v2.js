@@ -19,7 +19,9 @@
   let focusMode = false;
   let focusStep = 1;
   let evidence = [];
-  let percentageMode = false;
+  let percentageMode = true;
+  let journalEvidence;
+  let journalLoadFailed = false;
   let walkIndex = 0;
   let walkTimer = null;
 
@@ -33,29 +35,20 @@
   ];
 
   const walkthroughTargets = [
-    { interval: "#walk-interval", pgd: "#walk-pgd", check: "#walk-check", status: "#walk-status" },
     { interval: "#focus-walk-interval", pgd: "#focus-walk-pgd", check: "#focus-walk-check", status: "#focus-walk-status" }
   ];
 
-  const ordinaryAnchorForStep = {
-    1: "#audit-question",
-    2: "#diffusion-primer",
-    3: "#threat-model",
-    4: "#endpoint-loss",
-    5: "#core-insight",
-    6: "#method",
-    7: "#evidence",
-    8: "#reliability",
-    9: "#agent-safety"
-  };
+  const focusSections = [...document.querySelectorAll(".focus-section[data-focus-step]")];
+  const ordinaryAnchorForStep = new Map(
+    focusSections.map((section) => [Number(section.dataset.focusStep), section])
+  );
 
   function inferFocusStep() {
-    const sections = [...document.querySelectorAll(".focus-section[data-focus-step]")];
     const marker = window.scrollY + Math.min(window.innerHeight * 0.38, 280);
     let inferred = 1;
-    sections.forEach((section) => {
-      if (section.offsetTop <= marker) inferred = Number(section.dataset.focusStep) || inferred;
-    });
+    for (const section of focusSections) {
+      if (section.offsetTop <= marker) inferred = Number(section.dataset.focusStep);
+    }
     return inferred;
   }
 
@@ -63,14 +56,16 @@
     return i18n.t(`focus.step${step}`);
   }
 
-  function updateUrlForFocus() {
+  function updateUrlForFocus({ setAnchor = false } = {}) {
     const url = new URL(window.location.href);
     if (focusMode) {
+      url.hash = "";
       url.searchParams.set("focus", "1");
       url.searchParams.set("step", String(focusStep));
     } else {
       url.searchParams.delete("focus");
       url.searchParams.delete("step");
+      if (setAnchor) url.hash = ordinaryAnchorForStep.get(focusStep).id;
     }
     window.history.replaceState({}, "", url);
   }
@@ -80,7 +75,7 @@
     walkTimer = null;
   }
 
-  function renderFocus({ moveFocus = false } = {}) {
+  function renderFocus({ moveFocus = false, setAnchor = false } = {}) {
     document.body.classList.toggle("focus-mode", focusMode);
     focusControls.hidden = !focusMode;
     focusStage.hidden = !focusMode;
@@ -99,7 +94,7 @@
     focusNext.disabled = focusStep === focusCount;
     focusToggle.textContent = i18n.t(focusMode ? "controls.exit_focus" : "controls.focus");
     focusToggle.setAttribute("aria-pressed", String(focusMode));
-    updateUrlForFocus();
+    updateUrlForFocus({ setAnchor });
     pauseWalkthrough();
 
     if (moveFocus && focusMode) {
@@ -115,21 +110,33 @@
 
   function toggleFocus() {
     const leavingStep = focusStep;
-    if (!focusMode) focusStep = inferFocusStep();
-    focusMode = !focusMode;
-    renderFocus({ moveFocus: focusMode });
     if (!focusMode) {
-      window.requestAnimationFrame(() => document.querySelector(ordinaryAnchorForStep[leavingStep])?.scrollIntoView({ block: "start" }));
+      closeSectionsMenu();
+      focusStep = inferFocusStep();
+    }
+    focusMode = !focusMode;
+    renderFocus({ moveFocus: focusMode, setAnchor: !focusMode });
+    if (!focusMode) {
+      const section = ordinaryAnchorForStep.get(leavingStep);
+      window.requestAnimationFrame(() => {
+        section.scrollIntoView({ block: "start" });
+        const heading = section.querySelector("h2");
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      });
     }
   }
 
-  function formatProportion(value, signed = false) {
-    const prefix = signed && value > 0 ? "+" : "";
-    return percentageMode ? `${prefix}${Math.round(value * 100)}%` : `${prefix}${value.toFixed(2)}`;
+  function formatPercent(value, digits) {
+    return (value * 100).toFixed(digits) + "%";
+  }
+
+  function formatProportion(value) {
+    return percentageMode ? formatPercent(value, 0) : value.toFixed(2);
   }
 
   function formatTprGain(value) {
-    return percentageMode ? `+${Math.round(value * 100)} pp` : `+${value.toFixed(2)}`;
+    return percentageMode ? `+${(value * 100).toFixed(0)} pp` : `+${value.toFixed(2)}`;
   }
 
   function renderExplorer() {
@@ -146,10 +153,10 @@
     document.querySelector("#lsa-tpr").textContent = formatProportion(lsa.tpr);
     document.querySelector("#delta-tpr").textContent = formatTprGain(record.delta_tpr);
     document.querySelector("#baseline-detail").textContent = i18n.t("explorer.tpr_detail", {
-      low: formatProportion(baseline.ci[0]), high: formatProportion(baseline.ci[1]), auc: baseline.auc.toFixed(2), std: baseline.auc_std.toFixed(2)
+      low: formatProportion(baseline.ci[0]), high: formatProportion(baseline.ci[1]), auc: baseline.auc.toFixed(2), ci: baseline.auc_ci_half_width.toFixed(2)
     });
     document.querySelector("#lsa-detail").textContent = i18n.t("explorer.tpr_detail", {
-      low: formatProportion(lsa.ci[0]), high: formatProportion(lsa.ci[1]), auc: lsa.auc.toFixed(2), std: lsa.auc_std.toFixed(2)
+      low: formatProportion(lsa.ci[0]), high: formatProportion(lsa.ci[1]), auc: lsa.auc.toFixed(2), ci: lsa.auc_ci_half_width.toFixed(2)
     });
     document.querySelector("#delta-detail").textContent = i18n.t("explorer.delta_detail", {
       tpr: formatTprGain(record.delta_tpr), auc: `+${record.delta_auc.toFixed(2)}`
@@ -170,6 +177,48 @@
       evidenceError.hidden = false;
       document.querySelector("#explorer-output").hidden = true;
     }
+  }
+
+  const journalExplorers = [...document.querySelectorAll("[data-journal-explorer]")];
+
+  function renderJournal(panel) {
+    const status = panel.querySelector("[data-journal-status]");
+    if (journalLoadFailed) status.textContent = i18n.t("journal.error");
+    if (!journalEvidence) return;
+    const tableKey = panel.querySelector("select").value;
+    const body = panel.querySelector("tbody");
+    const rows = journalEvidence.tables[tableKey].map((method) => {
+      const record = journalEvidence.methods[method];
+      const row = document.createElement("tr");
+      row.classList.toggle("result-highlight", method === "raw" || method === "mschn");
+      const label = document.createElement("th");
+      label.scope = "row";
+      label.textContent = i18n.t(`journal.${method}`);
+      row.append(label);
+      for (const metric of [record.auc.toFixed(4), ...[record.tpr, record.fpr, record.worst_fpr].map((value) => formatPercent(value, 2))]) {
+        const cell = document.createElement("td");
+        cell.textContent = metric;
+        row.append(cell);
+      }
+      return row;
+    });
+    body.replaceChildren(...rows);
+    status.hidden = true;
+    panel.querySelector(".journal-table").hidden = false;
+  }
+
+  async function loadJournal() {
+    try {
+      const response = await fetch("data/journal-evidence.json", { cache: "no-store" });
+      if (!response.ok) throw new Error(`Journal evidence request failed (${response.status})`);
+      const payload = await response.json();
+      if (payload.schema_version !== 1) throw new Error("Unexpected journal evidence schema");
+      journalEvidence = payload;
+    } catch (error) {
+      journalLoadFailed = true;
+      console.error("[LSA-Probe journal evidence]", error);
+    }
+    journalExplorers.forEach(renderJournal);
   }
 
   function renderWalkthrough() {
@@ -209,60 +258,15 @@
     renderWalkthrough();
   }
 
-  function translateSvgDocument(svgDocument) {
-    if (!svgDocument) return;
-    svgDocument.documentElement.setAttribute("lang", i18n.language);
-    svgDocument.querySelectorAll("[data-i18n]").forEach((node) => {
-      node.textContent = i18n.t(node.dataset.i18n);
-    });
-  }
-
-  function translateEmbeddedSvgs() {
-    document.querySelectorAll("object.translatable-svg, object.dialog-vector").forEach((object) => {
-      try {
-        translateSvgDocument(object.contentDocument);
-      } catch (error) {
-        console.error("[LSA-Probe SVG i18n]", error);
-      }
-    });
-  }
-
-  function setupEmbeddedSvgs() {
-    document.querySelectorAll("object.translatable-svg").forEach((object) => {
-      object.addEventListener("load", () => translateSvgDocument(object.contentDocument));
-      if (object.contentDocument) translateSvgDocument(object.contentDocument);
-    });
-  }
-
   function setupImageDialog() {
     const dialog = document.querySelector("#image-dialog");
     const dialogImage = document.querySelector("#dialog-image");
-    const dialogVector = document.querySelector("#dialog-vector");
     let returnFocus = null;
-
     document.querySelectorAll("[data-dialog-image]").forEach((button) => {
       button.addEventListener("click", () => {
-        const isChinese = i18n.language === "zh-CN";
-        const isMobile = window.matchMedia("(max-width: 560px)").matches;
-        const source = button.querySelector(isChinese ? ".localized-figure-zh img" : ".localized-figure-en img") || button.querySelector("img");
-        const localizedSource = isMobile
-          ? (isChinese ? button.dataset.dialogImageMobileZh : button.dataset.dialogImageMobileEn)
-          : (isChinese ? button.dataset.dialogImageZh : button.dataset.dialogImageEn);
         returnFocus = button;
-        dialogVector.hidden = true;
-        dialogImage.hidden = false;
-        dialogImage.src = localizedSource || button.dataset.dialogImage;
-        dialogImage.alt = source?.alt || "";
-        dialog.showModal();
-      });
-    });
-    document.querySelectorAll("[data-dialog-svg]").forEach((button) => {
-      button.addEventListener("click", () => {
-        returnFocus = button;
-        dialogImage.hidden = true;
-        dialogVector.hidden = false;
-        dialogVector.data = button.dataset.dialogSvg;
-        dialogVector.onload = () => translateSvgDocument(dialogVector.contentDocument);
+        dialogImage.src = button.dataset.dialogImage;
+        dialogImage.alt = button.querySelector("img").alt;
         dialog.showModal();
       });
     });
@@ -270,16 +274,7 @@
     dialog.addEventListener("click", (event) => {
       if (event.target === dialog) dialog.close();
     });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && dialog.open) {
-        event.preventDefault();
-        dialog.close();
-      }
-    });
-    dialog.addEventListener("close", () => {
-      returnFocus?.focus();
-      returnFocus = null;
-    });
+    dialog.addEventListener("close", () => returnFocus?.focus());
   }
 
   function setupWalkthroughDialog() {
@@ -343,29 +338,35 @@
     focusPrev.addEventListener("click", () => setFocusStep(focusStep - 1));
     focusNext.addEventListener("click", () => setFocusStep(focusStep + 1));
     document.addEventListener("keydown", (event) => {
-      if (!focusMode || document.querySelector("dialog[open]")) return;
+      if (!focusMode || event.defaultPrevented || document.querySelector("dialog[open]")) return;
       if (event.key === "Escape") {
         toggleFocus();
         return;
       }
-      if (["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(document.activeElement?.tagName)) return;
+      if (document.activeElement?.closest("input, select, textarea, button, summary, .table-wrap")) return;
       if (event.key === "ArrowLeft") setFocusStep(focusStep - 1);
       if (event.key === "ArrowRight") setFocusStep(focusStep + 1);
       if (event.key === "Home") setFocusStep(1);
       if (event.key === "End") setFocusStep(focusCount);
     });
 
-    let touchStartX = null;
-    document.addEventListener("touchstart", (event) => {
-      if (focusMode && !document.querySelector("dialog[open]")) touchStartX = event.changedTouches[0].clientX;
+    let touchStart;
+    focusStage.addEventListener("touchstart", (event) => {
+      touchStart = null;
+      if (!focusMode || event.target.closest(".table-wrap, button, select, a, summary")) return;
+      const touch = event.changedTouches[0];
+      touchStart = { x: touch.clientX, y: touch.clientY };
     }, { passive: true });
-    document.addEventListener("touchend", (event) => {
-      if (!focusMode || touchStartX === null || document.querySelector("dialog[open]")) return;
-      const distance = event.changedTouches[0].clientX - touchStartX;
-      touchStartX = null;
-      if (Math.abs(distance) < 60) return;
-      setFocusStep(focusStep + (distance < 0 ? 1 : -1));
+    focusStage.addEventListener("touchend", (event) => {
+      if (!touchStart || document.querySelector("dialog[open]")) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - touchStart.x;
+      const dy = touch.clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(dx) < 60 || Math.abs(dx) < 1.5 * Math.abs(dy)) return;
+      setFocusStep(focusStep + (dx < 0 ? 1 : -1));
     }, { passive: true });
+    focusStage.addEventListener("touchcancel", () => { touchStart = null; });
   }
 
   function bindWalkthroughControls(prefix = "walk") {
@@ -383,14 +384,26 @@
       percentageMode = !percentageMode;
       renderExplorer();
     });
-    bindWalkthroughControls("walk");
+    journalExplorers.forEach((panel) => {
+      panel.querySelector("select").addEventListener("change", () => renderJournal(panel));
+    });
     bindWalkthroughControls("focus-walk");
-    document.querySelector("#copy-citation").addEventListener("click", async (event) => {
-      const button = event.currentTarget;
-      const text = document.querySelector("#citation").innerText;
-      await navigator.clipboard.writeText(text);
-      button.textContent = i18n.t("controls.copied");
-      window.setTimeout(() => { button.textContent = i18n.t("controls.copy"); }, 1600);
+    document.querySelectorAll("[data-copy-citation]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const citation = button.closest(".citation-card").querySelector("pre");
+        try {
+          await navigator.clipboard.writeText(citation.innerText);
+          button.textContent = i18n.t("controls.copied");
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(citation);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          button.textContent = i18n.t("controls.copy_failed");
+        }
+        window.setTimeout(() => { button.textContent = i18n.t("controls.copy"); }, 1600);
+      });
     });
   }
 
@@ -399,7 +412,7 @@
     focusToggle.textContent = i18n.t(focusMode ? "controls.exit_focus" : "controls.focus");
     renderWalkthrough();
     renderExplorer();
-    translateEmbeddedSvgs();
+    journalExplorers.forEach(renderJournal);
   });
 
   async function initialize() {
@@ -407,11 +420,10 @@
     setupControls();
     setupSectionsMenu();
     setupFocusInteractions();
-    setupEmbeddedSvgs();
     setupImageDialog();
     setupWalkthroughDialog();
     renderWalkthrough();
-    await loadEvidence();
+    await Promise.all([loadEvidence(), loadJournal()]);
   }
 
   initialize().catch((error) => console.error("[LSA-Probe initialize]", error));

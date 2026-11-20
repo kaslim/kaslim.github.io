@@ -1,77 +1,34 @@
-# LSA-Probe production fact audit
+# LSA-Probe / MS-CHN evidence notes
 
-Audit date: 2026-09-06
+Updated 2026-11-20.
 
-Primary source: the five-page ICASSP 2026 paper PDF supplied by the author. Secondary checks used the arXiv record, the official ICASSP 2026 programme entry, and the public project repository.
+`raw-verified` denotes a claim checked against aligned experimental artifacts. `manuscript-reported` denotes a value checked in a manuscript. `unresolved` denotes incomplete provenance or a conflict between versions.
 
-## 1. Paper facts retained
+| Claim | Source | Protocol | Evidence status |
+| --- | --- | --- | --- |
+| Conference title, authors, and published status | [IEEE DOI](https://doi.org/10.1109/ICASSP55912.2026.11461689) and [arXiv record](https://arxiv.org/abs/2602.01645) | ICASSP 2026 | manuscript-reported |
+| Four conference results and 3–8 percentage-point TPR gains | [Table 1](https://arxiv.org/html/2602.01645v1#S2.T1) and [conference evidence](../data/evidence.json) | Matched-compute MusicLDM/DiffWave × MAESTRO v3/FMA-Large | manuscript-reported |
+| Confidence intervals and training details | [Conference §3](https://arxiv.org/html/2602.01645v1#S3) | ICASSP 2026 | manuscript-reported |
+| FMA source pools of 95,916 / 5,328 / 5,330 disjoint track IDs per AudioLDM-style target, mixup 0, and checkpoint metadata at step 800,000 | Six original manifest sets, checkpoint metadata, inventory and training configurations | Six AudioLDM-style targets, upstream of the journal audit folds | raw-verified |
+| An 800,000-step DiffWave-style FMA run | One checkpoint inventory and its saved training configuration | Local waveform extension | raw-verified for one run |
+| Four time coordinates and top-two aggregation, fixed perturbations, and a 200-neighbor local q95 | Journal method drafts and historical configuration | Raw MS / MS-CHN | manuscript-reported, final run alignment unresolved |
+| 93 acoustic and 512 CLAP columns in the located export | Feature header, excluding three metadata columns | Extended feature export | raw-verified for the export |
+| 87 acoustic and 599 joint features | Earlier feature extraction report | Historical feature export | manuscript-reported dimensions; final feature selection unresolved |
+| AudioLDM-style TPR, AUC and empirical FPR, plus neighborhood ablation and diagnostic lift | July 2026 experimental section, primary and ablation tables, Problem Verification subsection, and [journal evidence](../data/journal-evidence.json) | M2/M4/M6 with the earlier calibration-pool description | manuscript-reported, original-label replay unresolved |
+| September C_ref/C_thr/E₀/E₁ role counts and two-family design | September 2026 design summary | Separate score-fitting and threshold-calibration pools | unresolved against final fold manifests |
+| Embedding NN main result, acoustic-only ablation, DiffWave-style main rows and paired lift reductions in the September summary | September 2026 results summary | Later protocol | unresolved against the underlying manuscript and score files |
+| Causal effect of augmentation switches | Matched augmentation-on/off targets and aligned score caches would be needed | Paired controlled training | unresolved |
 
-- Formal title: *Membership Inference Attack Against Music Diffusion Models via Generative Manifold Perturbation*.
-- Authors: Yuxuan Liu, Peihong Zhang, Rui Sang, Zhixin Li, Yizhou Tan, Yiqiang Cai, Shengchen Li.
-- Affiliation: Xi’an Jiaotong-Liverpool University, Suzhou, China.
-- Venue: 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), oral presentation in Information Forensics and Security.
-- Threat model: white-box, developer-side or authorised audit with access to parameters, sampler, intermediate states and gradients. Shadow models and labelled target-model members are not required; an independent non-member development set is required for calibration.
-- Core score: the minimum time-normalised latent perturbation budget required to reach a fixed perceptual degradation target.
-- Time convention: t≈0 is near the clean sample, t≈T is near the high-noise state, and t_ratio=0.6 is the main operating point.
+## Conference scope
 
-## 2. Paper experiment facts retained
+Best Baseline is the best of Loss, Trajectory and SecMI. The AUC ± entries are 95% CI half-widths. The paper specifies DeLong for AUC and sample-level bootstrap for TPR. Matched compute applies to the comparison documented in Table 1 and §3.3. The description of DiffWave as an official U-Net in §3.2 conflicts with the [official DiffWave architecture](https://github.com/lmnt-com/diffwave/blob/master/src/diffwave/model.py). The site uses “waveform DDPM” for the conference target. The primary perceptual threshold determines the probe budget. A separate score cutoff defines the membership operating point.
 
-- The production evidence table is a literal transcription of Table 1: four model–dataset rows, confidence intervals, AUC mean±standard deviation and absolute improvements.
-- The four production evidence figures are the original embedded raster panels extracted from the supplied PDF without redrawing their contents.
-- Main settings: deterministic DDIM, p=2, eta_max=0.8, outer bisection B=10, inner PGD K=12, five restarts, momentum 0.9, alpha=beta*eta/K with beta in [0.2, 0.3], and CDPAM as the primary perceptual metric.
-- Statistical protocol: DeLong confidence intervals for AUC; sample-level bootstrap for other operating points; 10,000 resamples; Holm–Bonferroni correction; baselines matched within ±5% compute.
+The original and cropped [Figure 2 panels](../assets/figures/figure2-crop-manifest.json) are traceable to the paper. The diagrams on the page and the PGD/bisection walkthrough are conceptual.
 
-## 3. Real images retained
+## Journal scope
 
-- `assets/figures/framework.png`: an author-provided high-resolution framework image, checked against Figure 1 in the paper and copied without pixel modification.
-- `assets/figures/figure2-*.png`: the four embedded colour panels extracted directly from Figure 2 in the supplied paper PDF.
+The inspected AudioLDM-style records verify training-source membership at track level. The inventory label 799,999 and the embedded checkpoint step 800,000 refer to the same selected weights. Historical scoring code uses multi-step reverse responses and sums the two largest transformed time coordinates without a positivity clamp. The later positive-only formulation still needs an aligned final scorer and score cache. The paper’s latest independent audit fold design requires its own per-role track lists. The local FMA splits and the checkpoint inventory cannot verify the final twelve-target audit and per-fold disjointness.
 
-## 4. Conceptual material
+The July section reports 16.55% TPR and 0.70% empirical FPR for joint MS-CHN. It describes threshold and local-reference calibration using a common non-member pool. The September summary specifies two separate pools. Its values cannot be assigned to that later protocol until the actual runs, labels and scores are aligned. The July section lists Embedding NN as unavailable and provides no acoustic-only ablation row. Historical score archives include different role assignments and counterfactual relabeling. They do not provide training ground truth or reproduce the final comparison. The website reports traceable draft values with this scope and uses no counterfactual results as experimental evidence.
 
-- `assets/figures/stability-schematic.png` is a deterministic explanatory schematic, not a measured sample or digitised experiment. It contains no empirical values and is labelled accordingly.
-- `assets/figures/audit-question-flow.svg` is a deterministic audit-flow diagram. It treats the candidate audio and audited model as joint inputs and presents a continuous statistical evidence direction rather than a categorical verdict.
-- The endpoint-versus-LSA-Probe explanation is delivered as four finished reference-guided raster figures: complete English and Chinese assets for desktop and mobile. The production page selects the appropriate image file; it does not reconstruct this figure from HTML/CSS components.
-- The revised paper-style comparison keeps the source image's recognizable piano-spectrogram visual language while removing repeated imagery, crossing arrows, long conclusion paragraphs and the illustrative values 0.05/0.06. It retains only the audited scientific relationship: overlapping endpoint evidence versus the minimum time-normalized budget required to reach the same degradation target, with `C_adv(member) > C_adv(non-member)` presented as an empirical tendency.
-- `assets/figures/generative-manifold.svg` is a conceptual two-dimensional projection. Both the member and non-member candidate are shown on the same learned support region; the different radii visualize the paper's empirical local-stability interpretation rather than an analytic manifold or universal theorem.
-- Each deterministic explanatory SVG has a high-resolution PNG fallback for sharing and preview. The paper-style comparison itself is pre-rendered as complete high-resolution PNG images in both languages and in separate desktop/mobile compositions so its labels remain legible without runtime diagram assembly.
-- The two-loop walkthrough is deterministic illustrative control flow. It never produces a member/non-member verdict and never presents its symbolic state as an experiment log.
-
-## 4.1 Preserved source explanation
-
-- The user-provided explanation image is preserved byte-for-byte at `assets/legacy/lsa-probe-explanation-original.png`.
-- Its provenance record is stored at `assets/legacy/lsa-probe-explanation-manifest.json`.
-- The preserved image has SHA-256 `779418010af26c1e3b12db0feb2ac626fea96a47f9fcfef773e4baf859ea4fbc` and dimensions 1601×883 pixels.
-- It remains a legacy reference only and is not loaded by the production page.
-
-## 5. Random or mock material removed from production
-
-The legacy generator used seeded NumPy gamma samples and random perturbations to create distributions and ablations. The old page also used JavaScript-generated pseudo-spectrograms, a fixed tau=0.35 reconstruction decision, fabricated per-sample costs, and an unrelated mock AUC around 0.881. These files remain in the hidden archive and Git tag, but the production page does not load them.
-
-## 6. Untraceable or manually entered legacy data
-
-The former `metric_comparison.json`, `baselines.json`, several ROC arrays, budget/timestep series and per-sample member/non-member distributions lacked a provenance manifest or disagreed with Table 1. They are excluded from production evidence.
-
-## 7. Corrected legacy conflicts
-
-- `ICASSP (Under Review)` → `ICASSP 2026 · Oral`.
-- Rewritten subtitle → formal paper title.
-- Incorrect author spellings → paper author list.
-- `+8%` → `+3–8 pp`.
-- Reversed diffusion-time explanation → t≈0 clean, t≈T noisy.
-- Reconstruction-error threshold verdict → two distinct thresholds: perceptual degradation target tau and a separate membership decision cutoff on C_adv.
-- Swapped MusicLDM/DiffWave rows → exact Table 1 ordering and values.
-- Fake MIA Demo / random Explorer → evidence-only Table 1 explorer.
-- Empty paper/download links → verified arXiv, ICASSP programme and repository links.
-
-## 8. Terminology note
-
-Section 2.3 of the paper defines tau as the perceptual degradation threshold used to obtain C_adv, while one sentence in the experimental setup refers to a “decision threshold” using the same symbol. Figure 1 also visually separates “perceptual threshold tau” from the final membership decision. The production page resolves the ambiguity explicitly: tau sets the degradation target; a distinct cutoff on C_adv sets the membership operating point.
-
-## 9. Claims deliberately not made
-
-- LSA-Probe does not recover an analytic data manifold or prove universal smoothness of all members.
-- It is not a remote black-box attack for ordinary users.
-- Its best TPR at 1% FPR is 20%; it does not solve membership auditing outright.
-- Its score is statistical evidence, not standalone legal proof.
-- The public repository does not currently expose a complete implementation, checkpoints or raw per-sample logs.
-- The Agent Safety section is a future methodological transfer, not a completed LSA-Probe experiment.
+The journal manuscript title is *Mitigating Musical-Similarity Confounding in Membership Inference for Music Diffusion Models*. Its public author list, review status and publication details await confirmation. The [ICASSP project repository](https://github.com/kaslim/LSA-Probe) contains a README.

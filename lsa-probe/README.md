@@ -1,25 +1,13 @@
-# LSA-Probe evidence-first research page
+# LSA-Probe / MS-CHN
 
-This directory is the production page at `/lsa-probe/`. It uses only the paper’s aggregate Table 1 results and original paper figures as empirical evidence.
+This page follows music diffusion membership auditing from controlled training through reconstruction baselines, local stability and similarity-conditioned scoring. English is the default. Use `?lang=zh-CN` for Chinese and `?focus=1&step=1` for Focus View.
 
-The former mock-data page is preserved outside the deployment tree at:
+- `index.html` contains the ordinary page and the eight Focus steps. Each step maps to the ordinary section with the same `data-focus-step`.
+- `locales/en.json` and `locales/zh-CN.json` supply visible labels and accessible names. `js/app-v2.js` is the production interaction script.
+- `data/evidence.json` reports the four ICASSP Table 1 rows. `data/journal-evidence.json` describes an earlier journal draft with its own target split, aggregation and evidence status.
+- `audit/FACT_AUDIT.md` records the available sources and their scope. Figure 2 uses the published conference panels and the crop manifest records the original/cropped image hashes.
+- The scoring diagrams and search walkthrough are conceptual.
 
-`/Users/yuxuanliu/Documents/秋招/personal_website/_hidden_archive/lsa-probe-v1-before-interview-redesign/`
+Serve the repository at its root with `python3 -m http.server 8000`. Before publishing, run `node lsa-probe/scripts/validate-page.mjs`, then check the ordinary page and all Focus steps in both languages at 1280 × 720 and 390 × 844. Check the result selectors, image enlargement, citation copy, previous/next, arrow-key and swipe navigation, and exit positioning.
 
-Its recoverable Git reference is:
-
-`archive/lsa-probe-v1-pre-interview`
-
-## Data boundary
-
-- `data/evidence.json` contains the four Table 1 rows only.
-- `assets/figures/figure2-*.png` are embedded images extracted directly from the author-supplied PDF.
-- `assets/figures/framework.png` is the author-supplied framework image, copied without pixel modification.
-- `assets/figures/stability-schematic.png` is explicitly conceptual and contains no measured values.
-- No production code loads the archived random distributions, ROC arrays, budget ablations or per-sample membership scores.
-
-Run the validator from the repository root:
-
-```bash
-node lsa-probe/scripts/validate-page.mjs
-```
+GitHub Pages builds from the root of `main`. Confirm the Pages deployment for the release commit and open the public page after the build succeeds.
