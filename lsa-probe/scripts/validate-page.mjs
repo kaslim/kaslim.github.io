@@ -49,7 +49,7 @@ expected.forEach((values, index) => {
 assert(Math.max(...evidence.records.map((r) => r.lsa_probe.auc)) === .67, "Best AUC must be 0.67.");
 assert(Math.max(...evidence.records.map((r) => r.lsa_probe.tpr)) === .20, "Best TPR@1% FPR must be 0.20.");
 const conferenceBlocks = [...html.matchAll(/<div class="study-evidence" data-conference-results>([\s\S]*?)<\/table>/g)];
-assert(conferenceBlocks.length === 2, "Conference results must appear in both views.");
+assert(conferenceBlocks.length === 1, "Conference results must appear in the shared results section.");
 for (const [block] of conferenceBlocks) {
   assert(block.includes("3–8 percentage points") && block.includes("+8 pp"), "Conference gains must be expressed in percentage points.");
   assert(block.includes("20% (16%–24%) / 0.67 ± 0.02"), "The conference peak and paper-reported intervals must render in both views.");
@@ -81,7 +81,7 @@ for (const methods of Object.values(journal.tables)) {
 }
 assert(JSON.stringify(journal.methods.raw) === JSON.stringify({ auc: 0.6267, tpr: 0.0919, fpr: 0.0056, worst_fpr: 0.0090 }), "Raw MS draft row differs from its source.");
 assert(JSON.stringify(journal.methods.mschn) === JSON.stringify({ auc: 0.7021, tpr: 0.1655, fpr: 0.0070, worst_fpr: 0.0074 }), "MS-CHN draft row differs from its source.");
-assert((html.match(/data-journal-explorer/g) || []).length === 2 && html.includes("7.36 percentage points"), "Journal results and absolute gain must be available in both views.");
+assert((html.match(/data-journal-explorer/g) || []).length === 1 && html.includes("7.36 percentage points"), "Journal results and absolute gain must be available in both views.");
 assert(app.includes("record.auc.toFixed(4)") && app.includes("formatPercent(value, 2)"), "Journal AUC and rate precision must remain visible.");
 
 const productionText = [html, app, i18nSource, JSON.stringify(evidence), JSON.stringify(journal)].join("\n");
@@ -153,13 +153,33 @@ for (const asset of comparisonManifest.assets) {
   assert(comparisonFigures.includes(relative), `Unexpected comparison asset in manifest: ${asset.file}`);
   assert(digest(path.join(root, relative)) === asset.sha256, `Comparison figure hash mismatch: ${asset.file}`);
 }
-assert((html.match(/class="comparison-pair"/g) || []).length === 4, "Both views need both comparison pairs.");
+assert(!/<(?:canvas|svg)\b|class="(?:comparison-pair|study-flow)"/.test(html), "The page must display complete external figures.");
 const manifoldSvg = read("assets/figures/generative-manifold.svg");
 assert(manifoldSvg.includes("svg.manifold.member") && manifoldSvg.includes("svg.manifold.nonmember"), "Archived generative-support figure must show both candidates on the same support region.");
 
 const steps = [...html.matchAll(/data-focus-step="(\d+)"/g)].map((match) => Number(match[1]));
-const slides = [...html.matchAll(/data-focus-slide="(\d+)"/g)].map((match) => Number(match[1]));
-assert(steps.length === 8 && steps.every((step, i) => step === i + 1 && slides[i] === step) && steps.length === slides.length, "Focus steps and ordinary sections must match in order.");
+const plates = JSON.parse(read("assets/figures/visual-v2/manifest.json"));
+const pictures = [...html.matchAll(/<picture data-plate="([^"]+)"/g)].map(m => m[1]);
+assert(steps.length === 8 && steps.every((v,i) => v === i+1), "The eight shared sections must remain in narrative order.");
+assert(pictures.length === 8 && plates.figures.length === 8, "Each section needs its own complete plate.");
+for (const [i, plate] of plates.figures.entries()) {
+  assert(plate.id === i+1 && pictures[i]?.startsWith(String(i+1).padStart(2,"0")+"-"), "Figure order disagrees with the chapters.");
+  const block = html.split('id="'+plate.section+'" data-focus-step="'+plate.id+'"')[1]?.split('</section>')[0] || "";
+  assert(block.indexOf("<picture") >= 0 && block.indexOf("<picture") < block.indexOf("<details"), "Figure must precede chapter details: "+plate.section);
+  for (const language of ["en","zh-CN"]) for (const layout of ["desktop","mobile"]) {
+    const item=plate.files.find(f => f.language === language && f.layout === layout);
+    const expected=pictures[i]+(layout === "mobile" ? "-mobile" : "")+(language === "en" ? "-en.svg" : "-zh.svg");
+    assert(item?.file === expected, "Missing figure variant "+expected);
+    if (!item) continue;
+    const file=path.join(root,"assets/figures/visual-v2",item.file);
+    assert(digest(file) === item.sha256, "Reviewed figure changed: "+item.file);
+    const source=fs.readFileSync(file,"utf8");
+    assert(!/<script|<foreignObject|(?:xlink:href|href)="(?:https?:|\.\/|\.\.\/)/i.test(source), "SVG must be standalone: "+item.file);
+  }
+}
+for (const [source,hash] of Object.entries(plates.data_sha256)) {
+  assert(digest(path.join(root,source)) === hash, "Result figure needs review after source change: "+source);
+}
 for (const step of steps) {
   assert(en[`focus.step${step}`] && zh[`focus.step${step}`], `Missing Focus navigation label for step ${step}.`);
 }
@@ -192,9 +212,9 @@ console.log("- Best AUC: 0.67; best TPR@1% FPR: 0.20");
 console.log("- No production mock/random-data dependencies");
 console.log(`- Translation parity: ${Object.keys(en).length} keys`);
 console.log(`- Local assets: ${localRefs.length} references resolved`);
-console.log(`- Focus View: ${steps.length} matched ordinary sections and slides`);
+console.log(`- Focus View: ${steps.length} shared ordinary and Focus sections`);
 console.log("- Journal: separate draft provenance, main and ablation tables, four-place AUC and two-place percent");
 console.log("- Figure 2: 4/4 preserved originals and verified crop hashes");
-console.log("- Conceptual comparisons in both views and archived explanation assets verified");
+console.log("- Reviewed SVGs: 8 chapters × 2 layouts × 2 languages; traceable results and archival figures verified");
 console.log("- User reference image: preserved with verified SHA-256");
 console.log("- Parameterless URL language: English fallback independent of localStorage");

@@ -1434,3 +1434,87 @@ body.focus-mode .header-actions { grid-column: 2; }
   .site-header .primary-nav { gap: clamp(9px, 1.05vw, 15px); }
   .primary-nav a { font-size: 12px; }
 }
+/* Static research plates shared by ordinary reading and Focus View. */
+.plate-section {
+  width: min(calc(100% - 48px), 1100px);
+  padding: clamp(34px, 5vw, 72px) 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: 78px;
+}
+.plate-section h1, .plate-section h2 {
+  margin: 0 0 19px;
+  max-width: none;
+  font-size: clamp(26px, 3.5vw, 46px);
+  line-height: 1.14;
+  letter-spacing: -.035em;
+}
+.plate-section h1 { font-size: clamp(32px, 4.2vw, 57px); }
+.plate-section h1:focus, .plate-section h2:focus { outline: none; }
+.main-figure { margin: 0; }
+.plate-open {
+  display: block;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #c9d8d3;
+  border-radius: 9px;
+  cursor: zoom-in;
+}
+.plate-open picture, .plate-open img { display: block; width: 100%; height: auto; }
+.main-figure figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 13px 0 2px;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.figure-zoom, .figure-toolbar a {
+  border: 0;
+  padding: 3px 0;
+  background: transparent;
+  color: #006e69;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font: inherit;
+  cursor: pointer;
+  flex: none;
+}
+.plate-section .plate-note { color: var(--muted); margin: 6px 0 12px; font-size: 15px; }
+.plate-section > details { margin: 12px 0 0; }
+body.focus-mode main > .plate-section.is-active {
+  touch-action: pan-y pinch-zoom;
+  display: block;
+  height: 100%;
+  padding: 12px 0 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: none;
+}
+body.focus-mode .plate-section h1, body.focus-mode .plate-section h2 {
+  font-size: clamp(23px, 2.2vw, 32px);
+  margin-bottom: 10px;
+}
+body.focus-mode .plate-section > .eyebrow { display: none; }
+@media (min-width: 681px) {
+  body.focus-mode .plate-open img {
+    max-height: max(310px, calc(100dvh - 270px));
+    object-fit: contain;
+  }
+}
+.image-dialog { max-width: 97vw; width: min(95vw, 1480px); padding: 0; overflow: hidden; }
+.figure-toolbar {
+  display: flex; gap: 14px; align-items: center; justify-content: flex-end;
+  padding: 9px 12px; border-bottom: 1px solid var(--line);
+}
+.figure-toolbar a { margin-right: auto; }
+.figure-pan { max-height: calc(90dvh - 64px); overflow: auto; background: white; overscroll-behavior: contain; }
+.figure-pan img { width: 100%; max-width: none; max-height: none; height: auto; border-radius: 0; display: block; }
+.figure-pan.enlarged img { width: 175%; }
+@media (max-width: 680px) {
+  .plate-section { width: calc(100% - 26px); padding: 32px 0; }
+  .plate-section h1, .plate-section h2 { margin-bottom: 13px; }
+  .main-figure figcaption { display: block; padding-top: 10px; font-size: 15px; }
+  .figure-zoom { margin-inline-start: .6em; }
+}

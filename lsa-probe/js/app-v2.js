@@ -2,8 +2,8 @@
   "use strict";
 
   const i18n = window.LSAI18n;
-  const focusStage = document.querySelector("#focus-stage");
-  const focusSlides = [...document.querySelectorAll("[data-focus-slide]")];
+  const focusStage = document.querySelector("#main");
+  const focusSlides = [...focusStage.querySelectorAll("[data-focus-step]")];
   const focusControls = document.querySelector("#focus-controls");
   const focusToggle = document.querySelector("#focus-toggle");
   const focusCurrent = document.querySelector("#focus-current");
@@ -22,31 +22,14 @@
   let percentageMode = true;
   let journalEvidence;
   let journalLoadFailed = false;
-  let walkIndex = 0;
-  let walkTimer = null;
-
-  const walkthroughStates = [
-    { interval: "[0, ηmax]", pgd: "δ̃(0)", check: "D ≥ τ ?", key: "walkthrough.ready" },
-    { interval: "[0, ηmax]", pgd: "ηm ← (l+u)/2", check: "D ≥ τ ?", key: "walkthrough.state1" },
-    { interval: "[0, ηmax]", pgd: "δ̃(0) → δ̃(K)", check: "D ≥ τ ?", key: "walkthrough.state2" },
-    { interval: "[0, ηmax]", pgd: "δ̃(K)", check: "D(ηm) ≥ τ", key: "walkthrough.state3" },
-    { interval: "[l, ηm] or [ηm, u]", pgd: "reset / restart", check: "update [l,u]", key: "walkthrough.state4" },
-    { interval: "u−l → ε", pgd: "complete", check: "stop", key: "walkthrough.state5" }
-  ];
-
-  const walkthroughTargets = [
-    { interval: "#focus-walk-interval", pgd: "#focus-walk-pgd", check: "#focus-walk-check", status: "#focus-walk-status" }
-  ];
-
-  const focusSections = [...document.querySelectorAll(".focus-section[data-focus-step]")];
   const ordinaryAnchorForStep = new Map(
-    focusSections.map((section) => [Number(section.dataset.focusStep), section])
+    focusSlides.map((section) => [Number(section.dataset.focusStep), section])
   );
 
   function inferFocusStep() {
     const marker = window.scrollY + Math.min(window.innerHeight * 0.38, 280);
     let inferred = 1;
-    for (const section of focusSections) {
+    for (const section of focusSlides) {
       if (section.offsetTop <= marker) inferred = Number(section.dataset.focusStep);
     }
     return inferred;
@@ -70,22 +53,16 @@
     window.history.replaceState({}, "", url);
   }
 
-  function pauseWalkthrough() {
-    if (walkTimer) window.clearInterval(walkTimer);
-    walkTimer = null;
-  }
-
   function renderFocus({ moveFocus = false, setAnchor = false } = {}) {
     document.body.classList.toggle("focus-mode", focusMode);
     focusControls.hidden = !focusMode;
-    focusStage.hidden = !focusMode;
 
     focusSlides.forEach((slide) => {
-      const active = Number(slide.dataset.focusSlide) === focusStep;
-      slide.classList.toggle("is-active", active);
-      slide.hidden = !active;
-      slide.setAttribute("aria-hidden", active ? "false" : "true");
-      if (active) slide.scrollTop = 0;
+      const active = Number(slide.dataset.focusStep) === focusStep;
+      slide.classList.toggle("is-active", focusMode && active);
+      slide.hidden = focusMode && !active;
+
+      if (focusMode && active) slide.scrollTop = 0;
     });
 
     focusCurrent.textContent = String(focusStep);
@@ -95,10 +72,9 @@
     focusToggle.textContent = i18n.t(focusMode ? "controls.exit_focus" : "controls.focus");
     focusToggle.setAttribute("aria-pressed", String(focusMode));
     updateUrlForFocus({ setAnchor });
-    pauseWalkthrough();
 
     if (moveFocus && focusMode) {
-      const heading = document.querySelector(`.focus-slide[data-focus-slide="${focusStep}"] h2`);
+      const heading = ordinaryAnchorForStep.get(focusStep).querySelector("h1, h2");
       window.requestAnimationFrame(() => heading?.focus({ preventScroll: true }));
     }
   }
@@ -120,7 +96,7 @@
       const section = ordinaryAnchorForStep.get(leavingStep);
       window.requestAnimationFrame(() => {
         section.scrollIntoView({ block: "start" });
-        const heading = section.querySelector("h2");
+        const heading = section.querySelector("h1, h2");
         heading.tabIndex = -1;
         heading.focus({ preventScroll: true });
       });
@@ -221,81 +197,59 @@
     journalExplorers.forEach(renderJournal);
   }
 
-  function renderWalkthrough() {
-    const state = walkthroughStates[walkIndex];
-    walkthroughTargets.forEach((target) => {
-      const interval = document.querySelector(target.interval);
-      const pgd = document.querySelector(target.pgd);
-      const check = document.querySelector(target.check);
-      const status = document.querySelector(target.status);
-      if (interval) interval.textContent = state.interval;
-      if (pgd) pgd.textContent = state.pgd;
-      if (check) check.textContent = state.check;
-      if (status) status.textContent = i18n.t(state.key);
-    });
-  }
+  const phoneFigure = window.matchMedia("(max-width: 680px)");
 
-  function advanceWalkthrough() {
-    walkIndex = Math.min(walkIndex + 1, walkthroughStates.length - 1);
-    renderWalkthrough();
-    if (walkIndex === walkthroughStates.length - 1) pauseWalkthrough();
-  }
-
-  function playWalkthrough() {
-    pauseWalkthrough();
-    if (walkIndex === walkthroughStates.length - 1) walkIndex = 0;
-    renderWalkthrough();
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      advanceWalkthrough();
-      return;
+  function refreshFigures() {
+    const language = i18n.language === "zh-CN" ? "zh" : "en";
+    for (const picture of document.querySelectorAll("picture[data-plate]")) {
+      const root = "assets/figures/visual-v2/" + picture.dataset.plate;
+      const desktop = root + "-" + language + ".svg";
+      const mobile = root + "-mobile-" + language + ".svg";
+      picture.querySelector("source").setAttribute("srcset", mobile);
+      picture.querySelector("img").setAttribute("src", desktop);
+      picture.closest("a").href = phoneFigure.matches ? mobile : desktop;
     }
-    walkTimer = window.setInterval(advanceWalkthrough, 1050);
-  }
-
-  function resetWalkthrough() {
-    pauseWalkthrough();
-    walkIndex = 0;
-    renderWalkthrough();
   }
 
   function setupImageDialog() {
     const dialog = document.querySelector("#image-dialog");
-    const dialogImage = document.querySelector("#dialog-image");
-    let returnFocus = null;
-    document.querySelectorAll("[data-dialog-image]").forEach((button) => {
-      button.addEventListener("click", () => {
-        returnFocus = button;
-        dialogImage.src = button.dataset.dialogImage;
-        dialogImage.alt = button.querySelector("img").alt;
-        dialog.showModal();
+    const image = document.querySelector("#dialog-image");
+    const download = document.querySelector("#dialog-download");
+    const zoom = document.querySelector("#dialog-zoom");
+    const pane = dialog.querySelector(".figure-pan");
+    let opener;
+    function setZoom(enlarged) {
+      pane.classList.toggle("enlarged", enlarged);
+      zoom.textContent = i18n.t(enlarged ? "plate.fit" : "plate.detail_zoom");
+      zoom.setAttribute("aria-pressed", String(enlarged));
+      pane.scrollTo(0, 0);
+    }
+    function show(trigger, source) {
+      opener = trigger;
+      const img = source.querySelector("img");
+      image.src = img.currentSrc || img.src;
+      image.alt = img.alt;
+      download.href = image.src;
+      setZoom(phoneFigure.matches);
+      dialog.showModal();
+      document.querySelector("#dialog-close").focus();
+    }
+    document.querySelectorAll(".plate-open, [data-dialog-image]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        show(link, link);
       });
     });
+    document.querySelectorAll(".figure-zoom").forEach((button) => {
+      button.addEventListener("click", () => show(button, button.closest("figure").querySelector(".plate-open")));
+    });
+    zoom.addEventListener("click", () => setZoom(!pane.classList.contains("enlarged")));
     document.querySelector("#dialog-close").addEventListener("click", () => dialog.close());
     dialog.addEventListener("click", (event) => {
       if (event.target === dialog) dialog.close();
     });
-    dialog.addEventListener("close", () => returnFocus?.focus());
-  }
-
-  function setupWalkthroughDialog() {
-    const dialog = document.querySelector("#focus-walkthrough-dialog");
-    const openButton = document.querySelector("#focus-walkthrough-open");
-    const closeButton = document.querySelector("#focus-walkthrough-close");
-    openButton.addEventListener("click", () => dialog.showModal());
-    closeButton.addEventListener("click", () => dialog.close());
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && dialog.open) {
-        event.preventDefault();
-        dialog.close();
-      }
-    });
-    dialog.addEventListener("close", () => {
-      pauseWalkthrough();
-      openButton.focus();
-    });
+    dialog.addEventListener("close", () => opener?.focus({ preventScroll: true }));
   }
 
   function closeSectionsMenu({ restoreFocus = false } = {}) {
@@ -353,7 +307,7 @@
     let touchStart;
     focusStage.addEventListener("touchstart", (event) => {
       touchStart = null;
-      if (!focusMode || event.target.closest(".table-wrap, button, select, a, summary")) return;
+      if (!focusMode || event.target.closest(".table-wrap, button, select, summary")) return;
       const touch = event.changedTouches[0];
       touchStart = { x: touch.clientX, y: touch.clientY };
     }, { passive: true });
@@ -369,13 +323,6 @@
     focusStage.addEventListener("touchcancel", () => { touchStart = null; });
   }
 
-  function bindWalkthroughControls(prefix = "walk") {
-    document.querySelector(`#${prefix}-play`)?.addEventListener("click", playWalkthrough);
-    document.querySelector(`#${prefix}-pause`)?.addEventListener("click", pauseWalkthrough);
-    document.querySelector(`#${prefix}-step`)?.addEventListener("click", advanceWalkthrough);
-    document.querySelector(`#${prefix}-reset`)?.addEventListener("click", resetWalkthrough);
-  }
-
   function setupControls() {
     document.querySelector("#language-toggle").addEventListener("click", () => i18n.toggle());
     modelSelect.addEventListener("change", renderExplorer);
@@ -387,7 +334,7 @@
     journalExplorers.forEach((panel) => {
       panel.querySelector("select").addEventListener("change", () => renderJournal(panel));
     });
-    bindWalkthroughControls("focus-walk");
+    phoneFigure.addEventListener("change", refreshFigures);
     document.querySelectorAll("[data-copy-citation]").forEach((button) => {
       button.addEventListener("click", async () => {
         const citation = button.closest(".citation-card").querySelector("pre");
@@ -410,7 +357,7 @@
   window.addEventListener("lsa-language-change", () => {
     focusLabel.textContent = focusName(focusStep);
     focusToggle.textContent = i18n.t(focusMode ? "controls.exit_focus" : "controls.focus");
-    renderWalkthrough();
+    refreshFigures();
     renderExplorer();
     journalExplorers.forEach(renderJournal);
   });
@@ -421,8 +368,7 @@
     setupSectionsMenu();
     setupFocusInteractions();
     setupImageDialog();
-    setupWalkthroughDialog();
-    renderWalkthrough();
+
     await Promise.all([loadEvidence(), loadJournal()]);
   }
 

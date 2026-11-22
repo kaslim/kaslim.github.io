@@ -1,0 +1,331 @@
+{
+  "figures": [
+    {
+      "section": "audit-question",
+      "id": 1,
+      "tool": "image_gen.imagegen + Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "audit/FACT_AUDIT.md",
+        "source/illustration-prompt.txt",
+        "source/checkpoint-illustration.jpg"
+      ],
+      "files": [
+        {
+          "file": "01-audit-overview-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "b3928e3d752828dc50f327024603c7ef3fb91fbe1d131bec53c28b37410ee622",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "01-audit-overview-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "53b48f464a2b38c114f7b6420831b47337e326e05b08b0a051bdb3d449b24a99",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "01-audit-overview-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "f336cf0eaf20d273f706019971484d8989ef6bbaaebec991e5dc6a29f66c76a2",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "01-audit-overview-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "5c8e090a736a30186a32df100c58bd95c2e7d8c32629fdb10cb6316cba4eb554",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "controlled-training",
+      "id": 2,
+      "tool": "Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "audit/FACT_AUDIT.md",
+        "Six AudioLDM-style training configurations and track manifests as audited on 2026-11-20"
+      ],
+      "files": [
+        {
+          "file": "02-training-and-crops-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "cad302c4995167d220559050a3c601d95facf981cc15806156cceb12ab87b5d5",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "02-training-and-crops-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "3c16fe07cb5cfcbe52a323c2691d88138ae3ab7e7e02f9106580f2fb7b3e6834",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "02-training-and-crops-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "aa7e39b76458016a21e6560f5bea2696d3304016eeebd443dff7cd438a88097e",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "02-training-and-crops-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "4ad93e1b8f662575f168fe5c795a63f970359e91a4d9a85b84e2c8e80be20098",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "endpoint-loss",
+      "id": 3,
+      "tool": "Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "audit/FACT_AUDIT.md",
+        "Located AudioLDM single-step predicted-clean latent MSE baseline; general paired-response schematic"
+      ],
+      "files": [
+        {
+          "file": "03-reconstruction-versus-stability-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "13e956ce230b6cdd1f786d34c4ffa7b56821876e4439ae0e4f367307c3c0a004",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "03-reconstruction-versus-stability-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "8af890398a06b27a3004a20b4612067bbd5ea3829b54c8deeff4c3cd7cd5a110",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "03-reconstruction-versus-stability-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "bc43387e89bfbdfd64ba08ae8eac69405ae0661903685b6b3db946ca590ac295",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "03-reconstruction-versus-stability-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "fb71ee470bc404a4adf7ba205b5b84b115348e0ab6cfb8a2cca0fd1c44ee0c0e",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "method",
+      "id": 4,
+      "tool": "Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "https://arxiv.org/html/2602.01645v1",
+        "assets/figures/framework.png",
+        "audit/FACT_AUDIT.md"
+      ],
+      "files": [
+        {
+          "file": "04-lsa-probe-two-loops-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "8afec50824ce26c1980399fed31c54ef556306d9e046a6a965d0e994a1a0c11b",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "04-lsa-probe-two-loops-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "43378e6502f9ae27b134da62fcca00ace6981fbd502f89d46b141a97752b7b64",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "04-lsa-probe-two-loops-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "f951a684a52371830a1971e01433b04c3132cca0e1503a0a242b2599ad513356",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "04-lsa-probe-two-loops-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "32b00aa5945c56d92fcfc8d9d29f623b0ef1232e75c950e0c14fccf89d26ac92",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "raw-stability",
+      "id": 5,
+      "tool": "Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "results/writing/method_mschn_revision_v1.tex (research workspace)",
+        "audit/FACT_AUDIT.md"
+      ],
+      "files": [
+        {
+          "file": "05-raw-manifold-stability-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "8cb439ace19d738ab445ed5558aa97ade4e51f8a70c2f11e1d37513a9f5ae9a5",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "05-raw-manifold-stability-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "e8f566240da3e6d0795cb23ab9473419ca53b3e4327c7beff7310b9777838364",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "05-raw-manifold-stability-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "d90823d45543e53241667c0c25bb774110ebcd77a0032cac7d82eb99eacb52a5",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "05-raw-manifold-stability-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "f354f973b5bc29c33bfef8823bad24c1696ae439b2057959b955ef27d38ea92b",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "ms-chn",
+      "id": 6,
+      "tool": "Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "results/writing/method_mschn_revision_v1.tex (research workspace)",
+        "audit/FACT_AUDIT.md"
+      ],
+      "files": [
+        {
+          "file": "06-ms-chn-local-reference-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "6d2c7cc6b4bfa024faf273b4095db1326601cd7fa1d0782ddcb168fae911e095",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "06-ms-chn-local-reference-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "ca7bf37a79260cdbd0264ea0598039fe179677eb5ca7c878e4f4e4b3531c938f",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "06-ms-chn-local-reference-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "4025c6ec9f7a5eb924804290733b0c5c8de05d0fc8228b84fa183c63f08793e9",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "06-ms-chn-local-reference-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "0a94b46521447a4af4fe88a55010cd116b3323290b6552ee18d1151eb78bad1c",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "resources",
+      "id": 7,
+      "tool": "Python / Matplotlib SVG",
+      "status": "conceptual",
+      "source": [
+        "September 2026 manuscript design as described in audit/FACT_AUDIT.md"
+      ],
+      "files": [
+        {
+          "file": "07-reference-calibration-evaluation-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "37fcc977864d1570c23c50ad4aedde342d1824e694fd7fe930a29d3f61380e1e",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "07-reference-calibration-evaluation-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "b47bd16992832d527eae3c77d2ec598925b8dc4ee37d65b2258f2d9fc6100232",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "07-reference-calibration-evaluation-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "eb95b2009f233a98bc290aea843971a4260540c91b3a99457a83521658222a4f",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "07-reference-calibration-evaluation-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "7c14bc2de09bf0fe9cb82e6ef07447f450df7293231a9e1b8b0631ff701a52a4",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    },
+    {
+      "section": "evidence",
+      "id": 8,
+      "tool": "Python / Matplotlib SVG",
+      "status": "manuscript-reported; July original-label replay unresolved",
+      "source": [
+        "data/evidence.json",
+        "data/journal-evidence.json",
+        "audit/FACT_AUDIT.md",
+        "https://arxiv.org/html/2602.01645v1#S2.T1"
+      ],
+      "files": [
+        {
+          "file": "08-results-summary-en.svg",
+          "language": "en",
+          "layout": "desktop",
+          "sha256": "f8d1aa812a48013a268fef174cb25f770b93ed9f3532d6b3a44f5325496b660d",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "08-results-summary-mobile-en.svg",
+          "language": "en",
+          "layout": "mobile",
+          "sha256": "22aed42107f56fa3d029f93594a89b1da2e336dc508d8167bd04567bd449d265",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "08-results-summary-mobile-zh.svg",
+          "language": "zh-CN",
+          "layout": "mobile",
+          "sha256": "6cd06fe8d5410b3776345f8e1823b5fa6e7b617d994db2cbf7ef13edc7c762f7",
+          "acceptance": "rendered and visually reviewed"
+        },
+        {
+          "file": "08-results-summary-zh.svg",
+          "language": "zh-CN",
+          "layout": "desktop",
+          "sha256": "203a9434bc577fe3902ef474972ca99dfa695d9f75de73029aecabb6a0503ae2",
+          "acceptance": "rendered and visually reviewed"
+        }
+      ]
+    }
+  ],
+  "data_sha256": {
+    "data/evidence.json": "9d28140915450a3cb6b0016ffce9d78c3cd18a23b3ab5625085895883f973d4f",
+    "data/journal-evidence.json": "4985af29b185d7495c46e6fc7f731c2dc32ad75d878bc09bdb2a47ad4df558e0"
+  }
+}
