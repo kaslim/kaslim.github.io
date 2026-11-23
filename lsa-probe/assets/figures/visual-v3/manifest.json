@@ -1,0 +1,91 @@
+{
+  "updated": "2026-11-23",
+  "language": "en",
+  "display": "Original author-supplied figures shared across languages and viewport sizes; localized captions and alt text remain available.",
+  "figures": [
+    {
+      "file": "01-audit-overview.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "f78003fc7a1e226ab54c3c3ccbd9bd8cd4a5c452e66d74d87df8d15f0f606eaa",
+      "bytes": 1705704,
+      "id": 1,
+      "section": "audit-question",
+      "status": "conceptual"
+    },
+    {
+      "file": "02-training-and-crops.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "5762fe628ad7ad1ef4efac455406e8e0e2f7316fbbb64e6c3c479e6caf03a16f",
+      "bytes": 1458471,
+      "id": 2,
+      "section": "controlled-training",
+      "status": "conceptual"
+    },
+    {
+      "file": "03-reconstruction-versus-stability.png",
+      "width": 1586,
+      "height": 992,
+      "sha256": "5caada9bfdb294f1339f2f44317503c0cea9e2922e1c34e8f0a690a73b572ca9",
+      "bytes": 1429772,
+      "id": 3,
+      "section": "endpoint-loss",
+      "status": "conceptual"
+    },
+    {
+      "file": "04-lsa-probe-two-loops.png",
+      "width": 1586,
+      "height": 992,
+      "sha256": "4cacd3b85bfc2d3c59e80015afbe7688b91c1f334e6615f64c572af9ba0f6e49",
+      "bytes": 1524741,
+      "id": 4,
+      "section": "method",
+      "status": "conceptual"
+    },
+    {
+      "file": "05-raw-manifold-stability.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "eb3e1aba3f7dcc9788dce8a2f8d4b01de6b7bfbcbb7c41c9dc28cfebceb83aa7",
+      "bytes": 1406452,
+      "id": 5,
+      "section": "raw-stability",
+      "status": "conceptual"
+    },
+    {
+      "file": "06-ms-chn-local-reference.png",
+      "width": 1586,
+      "height": 992,
+      "sha256": "3c0136edb5730f949258d1a25f15d9562e4180cfa39de522d0762a5919ab8b97",
+      "bytes": 1316700,
+      "id": 6,
+      "section": "ms-chn",
+      "status": "conceptual"
+    },
+    {
+      "file": "07-reference-calibration-evaluation.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "e040463daf99bfde8b11429d67bb04eb913f96a24c1acd6891fb280acd3417c1",
+      "bytes": 1476021,
+      "id": 7,
+      "section": "resources",
+      "status": "conceptual"
+    },
+    {
+      "file": "08-results-summary.png",
+      "width": 4800,
+      "height": 3000,
+      "sha256": "6f7066d37506212da1af2aaeacc2262e3d3925fd42df15455c0edd7470019c97",
+      "bytes": 457629,
+      "id": 8,
+      "section": "evidence",
+      "status": "reported-results"
+    }
+  ],
+  "data_sha256": {
+    "data/evidence.json": "9d28140915450a3cb6b0016ffce9d78c3cd18a23b3ab5625085895883f973d4f",
+    "data/journal-evidence.json": "4985af29b185d7495c46e6fc7f731c2dc32ad75d878bc09bdb2a47ad4df558e0"
+  }
+}
