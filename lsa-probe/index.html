@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#f6f8fb">
   <title>LSA-Probe / MS-CHN · Membership auditing for music diffusion</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/site.css?v=20261122-r2">
+  <link rel="stylesheet" href="css/site.css?v=20261123-interview">
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
@@ -49,18 +49,26 @@
 
   <main id="main">
 <section class="plate-section study-section section-shell" id="audit-question" data-focus-step="1" aria-labelledby="audit-question-title">
-<p class="eyebrow" id="overview" data-i18n="plate.series">LSA-Probe  /  MS-CHN</p><h1 id="audit-question-title" tabindex="-1" data-i18n="plate.1.title">Was this music used for training?</h1>
+<p class="eyebrow" id="overview" data-i18n="plate.series">LSA-Probe  /  MS-CHN</p><h1 id="audit-question-title" tabindex="-1" data-i18n="plate.1.title">Was my music used to train this model?</h1>
+<p class="plate-lead" data-i18n="plate.1.lead">For a composer or rights holder, licensing a recording for training can carry real financial value. When a music generator releases its model weights without a full training list, how can you check whether it used your recording?</p>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/01-audit-overview.png" aria-haspopup="dialog" aria-describedby="caption-1">
     <picture data-plate="01-audit-overview">
       <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/01-audit-overview.png" width="1536" height="1024">
-      <img src="assets/figures/visual-v3/01-audit-overview.png" width="1536" height="1024" alt="A candidate music file enters a target checkpoint in a white-box audit. Paired internal responses and reference non-members provide membership evidence." data-i18n-alt="plate.1.alt" fetchpriority="high" decoding="async">
+      <img src="assets/figures/visual-v3/01-audit-overview.png" width="1536" height="1024" alt="A candidate recording enters a public target checkpoint. Paired internal responses illustrate where the audit gets its membership evidence." data-i18n-alt="plate.1.alt" fetchpriority="high" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-1"><span data-i18n="plate.1.caption">The question is whether this checkpoint trained on the candidate track. Known non-members give its response a reference level.</span>
+  <figcaption id="caption-1"><span data-i18n="plate.1.caption">The figure shows where the white-box audit gets its evidence, from the checkpoint’s internal responses.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.1.story1">This is a membership inference attack (MIA). The inputs are a recording to check and a specific public model checkpoint with accessible weights. We score the recording and apply a calibrated threshold to predict whether it is a member or a non-member.</p>
+<p class="plate-explanation" data-i18n="plate.1.story2">A member is a recording included in the training stage we are auditing for that checkpoint. A positive prediction gives the rights holder statistical evidence to follow up on.</p>
+<p class="plate-bridge" data-i18n="plate.1.bridge">To test these predictions, we first need to define what counts as a training item.</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.1.details">Access and experimental ground truth</summary>
 <div class="study-details-body">
@@ -73,7 +81,8 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="controlled-training" data-focus-step="2" aria-labelledby="controlled-training-title">
-<h2 id="controlled-training-title" tabindex="-1" data-i18n="plate.2.title">Training views and audit queries</h2>
+<h2 id="controlled-training-title" tabindex="-1" data-i18n="plate.2.title">What counts as one training item?</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/02-training-and-crops.png" aria-haspopup="dialog" aria-describedby="caption-2">
     <picture data-plate="02-training-and-crops">
@@ -81,11 +90,16 @@
       <img src="assets/figures/visual-v3/02-training-and-crops.png" width="1672" height="941" alt="One item ID spans a timeline with variable training windows and one fixed center audit window. The training manifest labels the track." data-i18n-alt="plate.2.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-2"><span data-i18n="plate.2.caption">Membership follows the original track ID. A fixed query crop can carry the track’s label even when training sampled other windows.</span>
+  <figcaption id="caption-2"><span data-i18n="plate.2.caption">Blue marks possible training crops of the same track. Green marks the fixed audit crop.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
-<p class="plate-note" data-i18n="plate.training_note">All six inspected AudioLDM configurations set mixup to zero.</p>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.2.story1">In our journal experiment, the item is the original track. The denoiser sees random 10.24-second crops during training. The audit always uses the middle 10.24 seconds, so we can repeat the same query.</p>
+<p class="plate-explanation" data-i18n="plate.2.story2">This track is a member because it appears in the checkpoint’s training manifest, even if training saw a different crop. We use the manifest to verify predictions and withhold it from the scoring method.</p>
+<p class="plate-bridge" data-i18n="plate.2.bridge">With the ground truth in place, what can we measure in the model to tell members apart?</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.2.details">Training configurations and manifest checks</summary>
 <div class="study-details-body">
@@ -176,7 +190,8 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="endpoint-loss" data-focus-step="3" aria-labelledby="endpoint-loss-title">
-<h2 id="endpoint-loss-title" tabindex="-1" data-i18n="plate.3.title">Reconstruction and stability</h2>
+<h2 id="endpoint-loss-title" tabindex="-1" data-i18n="plate.3.title">From reconstruction error to local stability</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/03-reconstruction-versus-stability.png" aria-haspopup="dialog" aria-describedby="caption-3">
     <picture data-plate="03-reconstruction-versus-stability">
@@ -184,11 +199,16 @@
       <img src="assets/figures/visual-v3/03-reconstruction-versus-stability.png" width="1586" height="992" alt="The upper bracket compares the original latent z₀ with its reconstruction ẑ₀. The lower bracket compares unperturbed and perturbed denoising responses under the same model, conditioning and paired randomness." data-i18n-alt="plate.3.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-3"><span data-i18n="plate.3.caption">Reconstruction compares ẑ₀ with the original latent z₀. Stability compares unperturbed and perturbed responses under paired randomness.</span>
+  <figcaption id="caption-3"><span data-i18n="plate.3.caption">The upper row compares the reconstruction with the original latent. The lower row compares paired responses under the same denoising settings.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
-<p class="plate-note" data-i18n="plate.baseline_note">The located AudioLDM endpoint baseline predicts a clean latent in one step and measures latent MSE.</p>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.3.story1">A natural baseline is to add noise and see how accurately the model can recover the original representation. Reconstruction error also depends on how easy the music is to recover, so an unseen recording can give a low error too.</p>
+<p class="plate-explanation" data-i18n="plate.3.story2">We slightly perturb one noisy intermediate state and measure how much the model’s response changes. Our hypothesis is that responses to training items tend to be more stable under these probes.</p>
+<p class="plate-bridge" data-i18n="plate.3.bridge">Our first study asked how large a perturbation it takes to make that response change by a fixed amount.</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.3.details">Baselines, equations and implementation</summary>
 <div class="study-details-body">
@@ -225,7 +245,8 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="method" data-focus-step="4" aria-labelledby="method-title">
-<h2 id="method-title" tabindex="-1" data-i18n="plate.4.title">LSA-Probe</h2>
+<h2 id="method-title" tabindex="-1" data-i18n="plate.4.title">LSA-Probe measures the cost of destabilizing a response</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/04-lsa-probe-two-loops.png" aria-haspopup="dialog" aria-describedby="caption-4">
     <picture data-plate="04-lsa-probe-two-loops">
@@ -233,10 +254,16 @@
       <img src="assets/figures/visual-v3/04-lsa-probe-two-loops.png" width="1586" height="992" alt="Outer bisection sets η. Inner PGD projects δ to that budget. Paired perceptual degradation relative to τ updates the interval until C_adv is estimated." data-i18n-alt="plate.4.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-4"><span data-i18n="plate.4.caption">To cross a fixed perceptual threshold, PGD searches for a direction and bisection estimates the required budget.</span>
+  <figcaption id="caption-4"><span data-i18n="plate.4.caption">The inner loop searches over perturbation directions. The outer loop changes the allowed budget.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.4.story1">In our ICASSP study, we perturb an intermediate state. At a fixed budget, projected gradient descent searches for a direction that changes the reverse response enough to reach a preset perceptual degradation threshold.</p>
+<p class="plate-explanation" data-i18n="plate.4.story2">The outer loop uses bisection to estimate the smallest normalized budget that succeeds. A larger budget means the response is harder to destabilize under this probe.</p>
+<p class="plate-bridge" data-i18n="plate.4.bridge">The journal study asked a complementary question. With the perturbation size fixed, what does the response look like across diffusion times?</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.4.details">Probe settings and interpretation</summary>
 <div class="study-details-body">
@@ -250,7 +277,8 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="raw-stability" data-focus-step="5" aria-labelledby="raw-stability-title">
-<h2 id="raw-stability-title" tabindex="-1" data-i18n="plate.5.title">Raw Manifold Stability</h2>
+<h2 id="raw-stability-title" tabindex="-1" data-i18n="plate.5.title">Raw Manifold Stability probes across diffusion time</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/05-raw-manifold-stability.png" aria-haspopup="dialog" aria-describedby="caption-5">
     <picture data-plate="05-raw-manifold-stability">
@@ -258,11 +286,16 @@
       <img src="assets/figures/visual-v3/05-raw-manifold-stability.png" width="1672" height="941" alt="Fixed-amplitude directions at several diffusion times yield paired response distances and sensitivities. Transform stability against reference non-members at each time and aggregate to S_MS." data-i18n-alt="plate.5.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-5"><span data-i18n="plate.5.caption">At a fixed perturbation size, a smaller paired response change yields a higher stability coordinate.</span>
+  <figcaption id="caption-5"><span data-i18n="plate.5.caption">The orange directions share a normalized budget. The paired response differences contribute to one stability score.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
-<p class="plate-note" data-i18n="plate.raw_note">The historical scorer and the manuscript differ on whether to retain only positive time coordinates.</p>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.5.story1">At each selected diffusion time, we perturb the same state in several preset directions. We compare paired responses with and without each perturbation. These fixed probes need only forward model evaluations.</p>
+<p class="plate-explanation" data-i18n="plate.5.story2">Smaller changes per unit of perturbation indicate greater stability. We put the readings on a common scale using reference non-members and aggregate them across time into Raw MS.</p>
+<p class="plate-bridge" data-i18n="plate.5.bridge">An unseen recording can also be stable if it is similar to the training music. How unusual is a high score for this kind of recording?</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.5.details">Probe parameters and aggregation versions</summary>
 <div class="study-details-body">
@@ -277,7 +310,8 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="ms-chn" data-focus-step="6" aria-labelledby="ms-chn-title">
-<h2 id="ms-chn-title" tabindex="-1" data-i18n="plate.6.title">MS-CHN</h2>
+<h2 id="ms-chn-title" tabindex="-1" data-i18n="plate.6.title">MS-CHN compares stability with similar non-members</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/06-ms-chn-local-reference.png" aria-haspopup="dialog" aria-describedby="caption-6">
     <picture data-plate="06-ms-chn-local-reference">
@@ -285,10 +319,16 @@
       <img src="assets/figures/visual-v3/06-ms-chn-local-reference.png" width="1586" height="992" alt="Frozen features select similar reference non-members. Subtract their local Raw MS q95 from candidate Raw MS. Two conceptual examples place the candidate near or above this background." data-i18n-alt="plate.6.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-6"><span data-i18n="plate.6.caption">Similarity selects the controls. A positive residual places the candidate above its neighbors’ upper quantile; a separately calibrated cutoff determines the decision.</span>
+  <figcaption id="caption-6"><span data-i18n="plate.6.caption">Candidates A and B have similar Raw MS scores but sit in different musical neighborhoods.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.6.story1">We use frozen CLAP features and acoustic descriptors to find musically similar recordings known to be absent from training. Their stability gives us a local reference for the candidate.</p>
+<p class="plate-explanation" data-i18n="plate.6.story2">MS-CHN subtracts the neighbors’ 95th-percentile Raw MS score from the candidate’s score. The candidate that stands further above its own neighbors carries stronger membership evidence.</p>
+<p class="plate-bridge" data-i18n="plate.6.bridge">That gives us a continuous score. Where should we set the cutoff before calling a track a member?</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.6.details">Neighborhood features and score definition</summary>
 <div class="study-details-body">
@@ -307,18 +347,25 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="resources" data-focus-step="7" aria-labelledby="resources-title">
-<h2 id="resources-title" tabindex="-1" data-i18n="plate.7.title">Reference, calibration and evaluation</h2>
+<h2 id="resources-title" tabindex="-1" data-i18n="plate.7.title">How do we set the cutoff and measure errors?</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/07-reference-calibration-evaluation.png" aria-haspopup="dialog" aria-describedby="caption-7">
     <picture data-plate="07-reference-calibration-evaluation">
       <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/07-reference-calibration-evaluation.png" width="1672" height="941">
-      <img src="assets/figures/visual-v3/07-reference-calibration-evaluation.png" width="1672" height="941" alt="C_ref fits the scoring map and local reference. With this map frozen, C_thr sets a cutoff. Held-out E₀ and E₁ measure FPR and TPR with the frozen rule." data-i18n-alt="plate.7.alt" loading="lazy" decoding="async">
+      <img src="assets/figures/visual-v3/07-reference-calibration-evaluation.png" width="1672" height="941" alt="Reference non-members fit the score. Separate calibration non-members set the threshold. Held-out members and non-members measure detection and false positives." data-i18n-alt="plate.7.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-7"><span data-i18n="plate.7.caption">Independent-reference manuscript protocol. Alignment with the original labels and scores behind the July results remains unresolved.</span>
+  <figcaption id="caption-7"><span data-i18n="plate.7.caption">The diagram shows the three independent data roles in the later journal manuscript protocol.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.7.story1">First, known non-members in the reference set define the score. Once the scoring rule is frozen, a separate set of known non-members sets the decision threshold. We target a 1% false-positive rate, about one false flag per hundred non-members.</p>
+<p class="plate-explanation" data-i18n="plate.7.story2">We then apply that threshold to held-out tracks. Non-members measure the actual false-positive rate (FPR). Members tell us what fraction we detect, the true-positive rate (TPR).</p>
+<p class="plate-bridge" data-i18n="plate.7.bridge">When we keep false positives this low, how many training tracks can the methods detect?</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.7.details">Protocol details, sources and citation</summary>
 <div class="study-details-body">
@@ -369,7 +416,8 @@
 </section>
 
 <section class="plate-section study-section section-shell" id="evidence" data-focus-step="8" aria-labelledby="evidence-title">
-<h2 id="evidence-title" tabindex="-1" data-i18n="plate.8.title">Results by protocol</h2>
+<h2 id="evidence-title" tabindex="-1" data-i18n="plate.8.title">How many members can we detect at low false-positive rates?</h2>
+<div class="plate-layout">
 <figure class="main-figure">
   <a class="plate-open" href="assets/figures/visual-v3/08-results-summary.png" aria-haspopup="dialog" aria-describedby="caption-8">
     <picture data-plate="08-results-summary">
@@ -377,10 +425,16 @@
       <img src="assets/figures/visual-v3/08-results-summary.png" width="4800" height="3000" alt="Conference baseline and LSA-Probe TPR pairs are 10/13, 8/14, 12/20 and 11/18 percent. July Raw MS and MS-CHN TPRs are 9.19% and 16.55%, with empirical FPRs of 0.56% and 0.70%." data-i18n-alt="plate.8.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-8"><span data-i18n="plate.8.caption">Manuscript-reported. ICASSP Table 1 and the July AudioLDM draft use separate protocols. The July values use the earlier calibration pool; replay under the later independent protocol remains unresolved.</span>
+  <figcaption id="caption-8"><span data-i18n="plate.8.caption">The left panel draws on published ICASSP Table 1. The right panel shows the July AudioLDM draft, which used an earlier shared calibration pool.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
+<div class="plate-story">
+<p class="plate-explanation" data-i18n="plate.8.story1">On the left, LSA-Probe improves detection over the best baseline by 3–8 percentage points at 1% FPR across the four ICASSP settings.</p>
+<p class="plate-explanation" data-i18n="plate.8.story2">On the right, the July AudioLDM draft reports a rise in detection from 9.19% with Raw MS to 16.55% with MS-CHN at the same nominal 1% calibration target. The observed false-positive rates were 0.56% and 0.70%.</p>
+<p class="plate-bridge" data-i18n="plate.8.bridge">Together, these studies show how to extract membership evidence from a model’s response and make that evidence more informative by comparing it with similar non-members.</p>
+</div>
+</div>
 <details class="study-details">
 <summary data-i18n="plate.8.details">Result tables, intervals and ablations</summary>
 <div class="study-details-body">
