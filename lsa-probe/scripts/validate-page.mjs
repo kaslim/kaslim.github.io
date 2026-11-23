@@ -158,7 +158,7 @@ const manifoldSvg = read("assets/figures/generative-manifold.svg");
 assert(manifoldSvg.includes("svg.manifold.member") && manifoldSvg.includes("svg.manifold.nonmember"), "Archived generative-support figure must show both candidates on the same support region.");
 
 const steps = [...html.matchAll(/data-focus-step="(\d+)"/g)].map((match) => Number(match[1]));
-const plates = JSON.parse(read("assets/figures/visual-v2/manifest.json"));
+const plates = JSON.parse(read("assets/figures/visual-v3/manifest.json"));
 const pictures = [...html.matchAll(/<picture data-plate="([^"]+)"/g)].map(m => m[1]);
 assert(steps.length === 8 && steps.every((v,i) => v === i+1), "The eight shared sections must remain in narrative order.");
 assert(pictures.length === 8 && plates.figures.length === 8, "Each section needs its own complete plate.");
@@ -166,20 +166,17 @@ for (const [i, plate] of plates.figures.entries()) {
   assert(plate.id === i+1 && pictures[i]?.startsWith(String(i+1).padStart(2,"0")+"-"), "Figure order disagrees with the chapters.");
   const block = html.split('id="'+plate.section+'" data-focus-step="'+plate.id+'"')[1]?.split('</section>')[0] || "";
   assert(block.indexOf("<picture") >= 0 && block.indexOf("<picture") < block.indexOf("<details"), "Figure must precede chapter details: "+plate.section);
-  for (const language of ["en","zh-CN"]) for (const layout of ["desktop","mobile"]) {
-    const item=plate.files.find(f => f.language === language && f.layout === layout);
-    const expected=pictures[i]+(layout === "mobile" ? "-mobile" : "")+(language === "en" ? "-en.svg" : "-zh.svg");
-    assert(item?.file === expected, "Missing figure variant "+expected);
-    if (!item) continue;
-    const file=path.join(root,"assets/figures/visual-v2",item.file);
-    assert(digest(file) === item.sha256, "Reviewed figure changed: "+item.file);
-    const source=fs.readFileSync(file,"utf8");
-    assert(!/<script|<foreignObject|(?:xlink:href|href)="(?:https?:|\.\/|\.\.\/)/i.test(source), "SVG must be standalone: "+item.file);
-  }
+  const item = plate;
+  const expected = pictures[i] + ".png";
+  assert(item.file === expected, "Missing author-supplied figure " + expected);
+  const file = path.join(root, "assets/figures/visual-v3", item.file);
+  const bytes = fs.readFileSync(file);
+  assert(digest(file) === item.sha256, "Author-supplied figure changed: " + item.file);
+  assert(bytes.subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10])), "Invalid PNG: " + item.file);
+  assert(bytes.readUInt32BE(16) === item.width && bytes.readUInt32BE(20) === item.height, "Figure dimensions disagree with manifest: " + item.file);
+  assert(block.includes('src="assets/figures/visual-v3/' + expected + '"'), "Chapter does not use its supplied figure: " + expected);
 }
-for (const [source,hash] of Object.entries(plates.data_sha256)) {
-  assert(digest(path.join(root,source)) === hash, "Result figure needs review after source change: "+source);
-}
+
 for (const step of steps) {
   assert(en[`focus.step${step}`] && zh[`focus.step${step}`], `Missing Focus navigation label for step ${step}.`);
 }
@@ -215,6 +212,7 @@ console.log(`- Local assets: ${localRefs.length} references resolved`);
 console.log(`- Focus View: ${steps.length} shared ordinary and Focus sections`);
 console.log("- Journal: separate draft provenance, main and ablation tables, four-place AUC and two-place percent");
 console.log("- Figure 2: 4/4 preserved originals and verified crop hashes");
-console.log("- Reviewed SVGs: 8 chapters × 2 layouts × 2 languages; traceable results and archival figures verified");
+console.log("- Original author-supplied PNGs: 8 chapters, shared across layouts and site languages; traceable results and archival figures verified");
 console.log("- User reference image: preserved with verified SHA-256");
 console.log("- Parameterless URL language: English fallback independent of localStorage");
+

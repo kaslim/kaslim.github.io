@@ -33,7 +33,7 @@ async function test(width, language) {
     await page.goto(url.href, {waitUntil: "domcontentloaded", timeout: 60000});
     await page.waitForFunction(lang => document.documentElement.lang === lang, language);
     await page.locator("#evidence .journal-table tbody tr").first().waitFor({state:"attached"});
-    const suffix = (mobile ? "-mobile" : "") + (language === "en" ? "-en.svg" : "-zh.svg");
+    const suffix = ".png";
     const shot = async name => {
       if (out) await page.screenshot({path: path.join(out,width+"-"+language+"-"+name+".png")});
     };
@@ -47,7 +47,7 @@ async function test(width, language) {
       await img.evaluate(node => node.decode());
       const url = await img.evaluate(node => node.currentSrc);
       assert.ok(url.endsWith(suffix),url);
-      assert.ok(url.includes("/visual-v2/"+String(i+1).padStart(2,"0")+"-"),url);
+      assert.ok(url.includes("/visual-v3/"+String(i+1).padStart(2,"0")+"-"),url);
       assert.ok((await img.getAttribute("alt")).length > 15);
       assert.equal(await img.evaluate(node => node.closest("details") === null),true);
       assert.ok(await img.evaluate(node => node.naturalWidth > 0 && node.clientWidth >= 300));
@@ -105,10 +105,15 @@ async function test(width, language) {
       assert.equal(await page.locator("#focus-current").innerText(),String(i+1));
       await verifySection(i,"focus");
       if (i===2) {
-        await toggleLang(other);
         const img=sections.nth(i).locator(".plate-open img");
+        const originalSrc=await img.evaluate(node=>node.currentSrc);
+        await toggleLang(other);
         await img.evaluate(node=>node.decode());
-        assert.ok((await img.evaluate(node=>node.currentSrc)).endsWith(other==="en"?"-en.svg":"-zh.svg"));
+        const currentSrc=await img.evaluate(node=>node.currentSrc);
+        assert.equal(currentSrc,originalSrc);
+        assert.ok(currentSrc.endsWith("/visual-v3/03-reconstruction-versus-stability.png"));
+        const locale=JSON.parse(await fs.readFile(path.join(__dirname,"..","locales",other+".json"),"utf8"));
+        assert.equal(await img.getAttribute("alt"),locale["plate.3.alt"]);
         await toggleLang(language);
       }
       if (i<7) await page.locator("#focus-next").click();
@@ -141,3 +146,4 @@ async function test(width, language) {
   if (out) await fs.mkdir(out,{recursive:true});
   for (const width of widths) for (const language of ["en","zh-CN"]) await test(width,language);
 })().catch(error=>{console.error(error);process.exitCode=1;});
+
