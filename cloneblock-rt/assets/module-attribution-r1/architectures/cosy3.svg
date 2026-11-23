@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">CosyVoice 3: tested native architecture and R1 probe boundaries</title><desc id="desc">The reference provides LM prompt codes, Flow reference Mel and a speaker condition. Flow produces target Mel and HiFT reconstructs speech.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">CosyVoice 3</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Zero-shot reference-conditioned TTS · fixed RL / Qwen2 LM view · 24 kHz</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<text x="30" y="171" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">The same reference WAV supplies three native conditions:</text>
+<rect x="230" y="205" width="180" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M231 217V303" stroke="#A86218" stroke-width="4"/>
+<text x="243" y="233" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">LM code embed</text>
+<text x="243" y="258" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">reference speech</text>
+<text x="243" y="279" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">continuous prompt</text>
+<rect x="366" y="190" width="43" height="29" rx="14" fill="#A86218"/><text x="387.5" y="210" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="440" y="205" width="180" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M441 217V303" stroke="#A86218" stroke-width="4"/>
+<text x="453" y="233" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference Mel</text>
+<text x="453" y="258" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">Flow acoustic prompt</text>
+<rect x="576" y="190" width="43" height="29" rx="14" fill="#A86218"/><text x="597.5" y="210" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A3</text>
+<rect x="670" y="205" width="190" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M671 217V303" stroke="#A86218" stroke-width="4"/>
+<text x="683" y="233" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Speaker affine</text>
+<text x="683" y="258" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">192-value speaker</text>
+<text x="683" y="279" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">normalize → affine</text>
+<rect x="816" y="190" width="43" height="29" rx="14" fill="#A86218"/><text x="837.5" y="210" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="30" y="425" width="170" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M31 437V528" stroke="#38658A" stroke-width="4"/>
+<text x="43" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Target text</text>
+<text x="43" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">+ reference text</text>
+<rect x="230" y="425" width="180" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M231 437V528" stroke="#7257A2" stroke-width="4"/>
+<text x="243" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Qwen2 LM</text>
+<text x="243" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">generated discrete</text>
+<text x="243" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">speech codes</text>
+<rect x="440" y="425" width="180" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M441 437V528" stroke="#38658A" stroke-width="4"/>
+<text x="453" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Token encoder</text>
+<text x="453" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">continuous content</text>
+<text x="453" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">80 features; time ×2</text>
+<rect x="576" y="410" width="43" height="29" rx="14" fill="#A86218"/><text x="597.5" y="430" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A4</text>
+<rect x="670" y="425" width="190" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M671 437V528" stroke="#7257A2" stroke-width="4"/>
+<text x="683" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">DiT / CFM</text>
+<text x="683" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">22 layers; cfg .7</text>
+<text x="683" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: generated Mel</text>
+<rect x="816" y="410" width="43" height="29" rx="14" fill="#247A60"/><text x="837.5" y="430" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C5</text>
+<rect x="905" y="425" width="185" height="115" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M906 437V528" stroke="#247A60" stroke-width="4"/>
+<text x="918" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">HiFT</text>
+<text x="918" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">F0 + harmonic + iSTFT</text>
+<text x="918" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: first layer</text>
+<rect x="1046" y="410" width="43" height="29" rx="14" fill="#247A60"/><text x="1067.5" y="430" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C6</text>
+<rect x="905" y="625" width="185" height="80" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M906 637V693" stroke="#247A60" stroke-width="4"/>
+<text x="918" y="653" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Clone output</text>
+<text x="918" y="678" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">24 kHz speech</text>
+<path d="M200 482 L230 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M410 482 L440 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M620 482 L670 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M860 482 L905 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M320 315 L320 425" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M530 315 L530 365 L725 365 L725 425" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M765 315 L765 425" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M997 540 L997 625" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">Configuration indicates 10 Flow steps; this run did not independently log every ODE step.</text>
+</svg>

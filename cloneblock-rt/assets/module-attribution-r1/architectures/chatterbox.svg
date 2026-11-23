@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">Chatterbox Turbo: tested native architecture and R1 probe boundaries</title><desc id="desc">T3 and S3Gen use different reference packages. The T3 intervention targets a joint speaker and speech prefix, not a single speaker vector.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">Chatterbox Turbo</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Reference-conditioned TTS · GPT2-medium + S3Gen MeanFlow · 24 kHz</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<rect x="30" y="190" width="230" height="115" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M31 202V293" stroke="#A86218" stroke-width="4"/>
+<text x="43" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">T3 joint prefix</text>
+<text x="43" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">VoiceEncoder: 256</text>
+<text x="43" y="264" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">+ 173 speech-embed rows</text>
+<rect x="216" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="237.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="335" y="190" width="200" height="115" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M336 202V293" stroke="#A86218" stroke-width="4"/>
+<text x="348" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">S3Gen speaker</text>
+<text x="348" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">CAMPPlus</text>
+<text x="348" y="264" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">normalize → projection</text>
+<rect x="491" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="512.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="585" y="190" width="200" height="115" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M586 202V293" stroke="#A86218" stroke-width="4"/>
+<text x="598" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">S3Gen reference Mel</text>
+<text x="598" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">separate acoustic prompt</text>
+<rect x="741" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="762.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A3</text>
+<rect x="30" y="425" width="170" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M31 437V528" stroke="#38658A" stroke-width="4"/>
+<text x="43" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Target text</text>
+<text x="43" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">fixed sentence</text>
+<rect x="235" y="425" width="180" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M236 437V528" stroke="#7257A2" stroke-width="4"/>
+<text x="248" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">T3 GPT2-medium</text>
+<text x="248" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">autoregressive</text>
+<text x="248" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">S3 speech codes</text>
+<rect x="450" y="425" width="180" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M451 437V528" stroke="#38658A" stroke-width="4"/>
+<text x="463" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">S3 token encoder</text>
+<text x="463" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">Conformer → μ</text>
+<text x="463" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">generated + reference</text>
+<rect x="586" y="410" width="43" height="29" rx="14" fill="#A86218"/><text x="607.5" y="430" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A4</text>
+<rect x="665" y="425" width="180" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M666 437V528" stroke="#7257A2" stroke-width="4"/>
+<text x="678" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">S3Gen MeanFlow</text>
+<text x="678" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">native 2-step path</text>
+<text x="678" y="499" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: target Mel</text>
+<rect x="801" y="410" width="43" height="29" rx="14" fill="#247A60"/><text x="822.5" y="430" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C5</text>
+<rect x="900" y="425" width="190" height="115" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M901 437V528" stroke="#247A60" stroke-width="4"/>
+<text x="913" y="453" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">HiFT</text>
+<text x="913" y="478" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: first layer</text>
+<rect x="1046" y="410" width="43" height="29" rx="14" fill="#247A60"/><text x="1067.5" y="430" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C6</text>
+<rect x="900" y="625" width="190" height="80" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M901 637V693" stroke="#247A60" stroke-width="4"/>
+<text x="913" y="653" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Perth watermark</text>
+<text x="913" y="678" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">24 kHz speech</text>
+<path d="M200 482 L235 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M415 482 L450 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M630 482 L665 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M845 482 L900 482" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M145 305 L145 360 L325 360 L325 425" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M435 305 L435 385 L735 385 L735 425" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M685 305 L685 350 L785 350 L785 425" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M995 540 L995 625" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">A1 is the complete joint prefix. It must not be interpreted as a pure 256-value speaker-vector probe.</text>
+</svg>

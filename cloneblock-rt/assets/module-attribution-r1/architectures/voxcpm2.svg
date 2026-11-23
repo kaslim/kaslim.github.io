@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">VoxCPM2: tested native architecture and R1 probe boundaries</title><desc id="desc">Isolated and continuation reference latents have different context and padding. Semantic and residual language-model projections feed a local DiT that generates audio patches.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">VoxCPM2</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Reference-continuation TTS · continuous AudioVAE latents · 16 kHz input / 48 kHz output</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<rect x="30" y="190" width="220" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M31 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="43" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Isolated reference</text>
+<text x="43" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">AudioVAE [time,4,64]</text>
+<text x="43" y="264" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">right padding</text>
+<rect x="206" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="227.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="300" y="190" width="230" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M301 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="313" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Continuation reference</text>
+<text x="313" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">AudioVAE [time,4,64]</text>
+<text x="313" y="264" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">left padding + text</text>
+<rect x="486" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="507.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="30" y="380" width="170" height="105" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M31 392V473" stroke="#38658A" stroke-width="4"/>
+<text x="43" y="408" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Target text</text>
+<text x="43" y="433" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">text / audio masks</text>
+<rect x="235" y="380" width="170" height="105" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M236 392V473" stroke="#38658A" stroke-width="4"/>
+<text x="248" y="408" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">LocEnc</text>
+<text x="248" y="433" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">12 layers</text>
+<text x="248" y="454" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">encoder → LM</text>
+<rect x="455" y="380" width="170" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M456 392V473" stroke="#7257A2" stroke-width="4"/>
+<text x="468" y="408" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Base LM + FSQ</text>
+<text x="468" y="433" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">28 layers</text>
+<text x="468" y="454" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">semantic context</text>
+<rect x="455" y="570" width="170" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M456 582V663" stroke="#7257A2" stroke-width="4"/>
+<text x="468" y="598" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Residual LM</text>
+<text x="468" y="623" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">8 layers</text>
+<text x="468" y="644" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">acoustic context</text>
+<rect x="685" y="380" width="170" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M686 392V473" stroke="#7257A2" stroke-width="4"/>
+<text x="698" y="408" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Semantic → DiT</text>
+<text x="698" y="433" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">lm_to_dit projection</text>
+<rect x="811" y="365" width="43" height="29" rx="14" fill="#7257A2"/><text x="832.5" y="385" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B3</text>
+<rect x="685" y="570" width="170" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M686 582V663" stroke="#7257A2" stroke-width="4"/>
+<text x="698" y="598" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Residual → DiT</text>
+<text x="698" y="623" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">res_to_dit projection</text>
+<rect x="811" y="555" width="43" height="29" rx="14" fill="#7257A2"/><text x="832.5" y="575" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B4</text>
+<rect x="905" y="380" width="185" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M906 392V473" stroke="#7257A2" stroke-width="4"/>
+<text x="918" y="408" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Local DiT / CFM</text>
+<text x="918" y="433" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">12 layers</text>
+<text x="918" y="454" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">9 evals / patch</text>
+<rect x="1046" y="365" width="43" height="29" rx="14" fill="#7257A2"/><text x="1067.5" y="385" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B5</text>
+<rect x="905" y="570" width="185" height="105" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M906 582V663" stroke="#247A60" stroke-width="4"/>
+<text x="918" y="598" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">AudioVAE decoder</text>
+<text x="918" y="623" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">first: 64→64 depthwise</text>
+<text x="918" y="644" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">then: 64→2048</text>
+<rect x="1046" y="555" width="43" height="29" rx="14" fill="#247A60"/><text x="1067.5" y="575" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C6</text>
+<path d="M200 432 L235 432" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M405 432 L455 432" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M625 432 L685 432" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M855 432 L905 432" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M540 485 L540 570" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M625 622 L685 622" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M855 622 L880 622 L880 520 L995 520 L995 485" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M140 300 L140 330 L280 330 L280 380" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M415 300 L415 340 L365 340 L365 380" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M995 485 L995 570" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1090 432 L1103 432 L1103 714 L215 714 L215 470 L235 470" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="480" y="707" class="edge-label" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">generated patches feed back into LocEnc</text>
+<text x="1000" y="700" class="edge-label" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">48 kHz speech</text>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">Only one seed passed repeatability controls. C6 is a depthwise filter, not the later 64→2048 projection.</text>
+</svg>

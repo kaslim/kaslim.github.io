@@ -20,6 +20,7 @@
       a.href = target.href;
     });
     refreshControls();
+    document.dispatchEvent(new CustomEvent('cloneblock:languagechange',{detail:{language}}));
   }
   languageButton.addEventListener('click',()=>{language=language==='en'?'zh-CN':'en';applyLanguage();});
   document.querySelectorAll('audio,video').forEach(media => {

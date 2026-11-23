@@ -1,0 +1,73 @@
+{
+  "source_scope": "Fixed R1 local code/configuration, not current online main",
+  "probe_groups": {
+    "A": "single reference / content / continuous condition boundary",
+    "B": "repeated autoregressive / ODE boundary",
+    "C": "Mel / decoder / waveform reconstruction boundary"
+  },
+  "models": {
+    "f5": {
+      "title": "F5-TTS v1 Base",
+      "report_page": 10,
+      "en": "Identity information can enter through reference Mel, text conditioning and the joint DiT input.",
+      "zh": "没有独立说话人向量；参考Mel、文本与当前状态共同进入DiT。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "qwen3": {
+      "title": "Qwen3-TTS 1.7B Base",
+      "report_page": 13,
+      "en": "A 2048-value speaker vector, reference codec embeddings and text projection jointly enter the full ICL prompt. Reference codes also enter final decoding.",
+      "zh": "2048维说话人向量、参考语音码连续嵌入与文本投影共同组成full ICL提示；参考码也进入最终解码。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "openvoice": {
+      "title": "OpenVoice V2",
+      "report_page": 16,
+      "en": "Source and target timbre vectors modulate different flow directions. With zero_g enabled, target g does not enter the posterior encoder or waveform generator.",
+      "zh": "源与目标音色向量分别调制正向和逆向Flow；zero_g配置下target g不进入后验编码器或波形生成器。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "cosy3": {
+      "title": "CosyVoice 3",
+      "report_page": 19,
+      "en": "The reference provides LM prompt codes, Flow reference Mel and a speaker condition. Flow produces target Mel and HiFT reconstructs speech.",
+      "zh": "参考录音通过LM提示码、Flow参考Mel和说话人条件多路进入生成。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "chatterbox": {
+      "title": "Chatterbox Turbo",
+      "report_page": 22,
+      "en": "T3 and S3Gen use different reference packages. The T3 intervention targets a joint speaker and speech prefix, not a single speaker vector.",
+      "zh": "T3与S3Gen有不同参考包；T3干预点是说话人投影与173行参考码组成的联合前缀。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "seedvc": {
+      "title": "Seed-VC V2",
+      "report_page": 25,
+      "en": "A style vector, reference continuous codes and reference Mel jointly condition CFM. The narrow and AR style-conversion branch is inactive in this configuration.",
+      "zh": "style、参考连续码和参考Mel共同进入CFM；narrow/AR风格分支在本配置中未启用。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "voxcpm2": {
+      "title": "VoxCPM2",
+      "report_page": 28,
+      "en": "Isolated and continuation reference latents have different context and padding. Semantic and residual language-model projections feed a local DiT that generates audio patches.",
+      "zh": "隔离参考与续写参考潜变量具有不同上下文和padding；语义/残差LM投影进入局部DiT逐patch生成。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "fish_s2": {
+      "title": "Fish Speech S2",
+      "report_page": 31,
+      "en": "Reference audio becomes ten discrete code streams. Slow and fast transformers generate new codes; post-transformer and DAC reconstruct the waveform.",
+      "zh": "参考音频量化为10组离散码；慢/快Transformer生成新码，post-Transformer与DAC重建波形。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    },
+    "freevc": {
+      "title": "FreeVC",
+      "report_page": 33,
+      "en": "The target speaker vector conditions both reverse Flow and Generator. R1 could not load the model, so all six intervention sites remain unexecuted.",
+      "zh": "目标g同时调制逆向Flow与Generator；本轮加载失败，6个位置未执行、效应均未知。",
+      "source": "VC_module_attribution_R1_完整实验报告.pdf, fixed local implementation, 2026-11-21"
+    }
+  }
+}

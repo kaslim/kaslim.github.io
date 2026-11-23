@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">FreeVC: tested native architecture and R1 probe boundaries</title><desc id="desc">The target speaker vector conditions both reverse Flow and Generator. R1 could not load the model, so all six intervention sites remain unexecuted.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">FreeVC</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Pure VC · static source mapping verified · all R1 effect measurements unknown</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<rect x="30" y="190" width="170" height="110" rx="10" fill="#F2F5F6" stroke="#596C77" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M31 202V288" stroke="#596C77" stroke-width="4"/>
+<text x="43" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Target reference</text>
+<text x="43" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">trim + native frontend</text>
+<rect x="235" y="190" width="190" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M236 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="248" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Speaker encoder</text>
+<text x="248" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">g: 256 values</text>
+<text x="248" y="264" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">joint two-branch input</text>
+<rect x="381" y="175" width="43" height="29" rx="14" fill="#A86218" stroke-dasharray="7 5"/><text x="402.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="905" y="190" width="185" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M906 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="918" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Generator g proj.</text>
+<text x="918" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">speaker projection</text>
+<rect x="1046" y="175" width="43" height="29" rx="14" fill="#A86218" stroke-dasharray="7 5"/><text x="1067.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A5</text>
+<rect x="30" y="390" width="170" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M31 402V493" stroke="#38658A" stroke-width="4"/>
+<text x="43" y="418" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Source speech</text>
+<text x="43" y="443" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">16 kHz</text>
+<rect x="235" y="390" width="190" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M236 402V493" stroke="#38658A" stroke-width="4"/>
+<text x="248" y="418" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">WavLM-Large</text>
+<text x="248" y="443" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">1024 × time</text>
+<rect x="381" y="375" width="43" height="29" rx="14" fill="#A86218" stroke-dasharray="7 5"/><text x="402.5" y="395" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="460" y="390" width="190" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M461 402V493" stroke="#38658A" stroke-width="4"/>
+<text x="473" y="418" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Prior encoder</text>
+<text x="473" y="443" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">192 × time</text>
+<text x="473" y="464" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">includes sampling</text>
+<rect x="606" y="375" width="43" height="29" rx="14" fill="#A86218" stroke-dasharray="7 5"/><text x="627.5" y="395" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A3</text>
+<rect x="700" y="390" width="190" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M701 402V493" stroke="#7257A2" stroke-width="4"/>
+<text x="713" y="418" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reverse Flow</text>
+<text x="713" y="443" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">g modulation</text>
+<rect x="846" y="375" width="43" height="29" rx="14" fill="#A86218" stroke-dasharray="7 5"/><text x="867.5" y="395" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A4</text>
+<rect x="935" y="390" width="155" height="115" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M936 402V493" stroke="#247A60" stroke-width="4"/>
+<text x="948" y="418" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Generator</text>
+<text x="948" y="443" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">g modulation</text>
+<text x="948" y="464" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: first layer</text>
+<rect x="1046" y="375" width="43" height="29" rx="14" fill="#247A60" stroke-dasharray="7 5"/><text x="1067.5" y="395" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C6</text>
+<rect x="935" y="590" width="155" height="90" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6" stroke-dasharray="7 5"/><path d="M936 602V668" stroke="#247A60" stroke-width="4"/>
+<text x="948" y="618" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Clone output</text>
+<text x="948" y="643" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">16 kHz speech</text>
+<path d="M200 245 L235 245" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M425 245 L905 245" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M795 245 L795 390" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M997 300 L997 365 L1012 365 L1012 390" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M200 448 L235 448" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M425 448 L460 448" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M650 448 L700 448" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M890 448 L935 448" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<path d="M1012 505 L1012 590" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<text x="30" y="614" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">NOT RUN</text>
+<text x="30" y="646" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">0 generated / 54 planned slots. Missing dependencies stopped model loading.</text>
+<text x="30" y="676" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Dashed probes are candidates, not zero-effect findings.</text>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">Static architecture only. No R1 module-effect data; no claim that these sites were tested successfully.</text>
+</svg>

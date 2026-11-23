@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">Seed-VC V2: tested native architecture and R1 probe boundaries</title><desc id="desc">A style vector, reference continuous codes and reference Mel jointly condition CFM. The narrow and AR style-conversion branch is inactive in this configuration.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">Seed-VC V2</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Pure VC · TIMBRE path · convert_style = false · 22.05 kHz</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<rect x="30" y="190" width="190" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M31 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="43" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference style</text>
+<text x="43" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">192-value vector</text>
+<rect x="176" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="197.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="275" y="190" width="190" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M276 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="288" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference codes</text>
+<text x="288" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">wide continuous</text>
+<text x="288" y="264" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">512 features</text>
+<rect x="421" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="442.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="520" y="190" width="190" height="110" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M521 202V288" stroke="#A86218" stroke-width="4"/>
+<text x="533" y="218" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference Mel</text>
+<text x="533" y="243" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">target acoustic prompt</text>
+<rect x="666" y="175" width="43" height="29" rx="14" fill="#A86218"/><text x="687.5" y="195" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A4</text>
+<rect x="30" y="440" width="160" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M31 452V543" stroke="#38658A" stroke-width="4"/>
+<text x="43" y="468" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Source speech</text>
+<text x="43" y="493" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">16 kHz frontend</text>
+<rect x="225" y="440" width="170" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M226 452V543" stroke="#38658A" stroke-width="4"/>
+<text x="238" y="468" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">HuBERT + wide</text>
+<text x="238" y="493" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">2048 code classes</text>
+<rect x="430" y="440" width="190" height="115" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M431 452V543" stroke="#38658A" stroke-width="4"/>
+<text x="443" y="468" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Length regulator</text>
+<text x="443" y="493" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">source continuous</text>
+<text x="443" y="514" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">512 features</text>
+<rect x="576" y="425" width="43" height="29" rx="14" fill="#A86218"/><text x="597.5" y="445" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A3</text>
+<rect x="670" y="440" width="190" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M671 452V543" stroke="#7257A2" stroke-width="4"/>
+<text x="683" y="468" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">CFM / DiT</text>
+<text x="683" y="493" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">13 layers; 30 steps</text>
+<text x="683" y="514" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: target Mel</text>
+<rect x="816" y="425" width="43" height="29" rx="14" fill="#247A60"/><text x="837.5" y="445" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C5</text>
+<rect x="905" y="440" width="185" height="115" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M906 452V543" stroke="#247A60" stroke-width="4"/>
+<text x="918" y="468" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">BigVGAN</text>
+<text x="918" y="493" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">80-feature Mel</text>
+<text x="918" y="514" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: first layer</text>
+<rect x="1046" y="425" width="43" height="29" rx="14" fill="#247A60"/><text x="1067.5" y="445" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C6</text>
+<rect x="905" y="635" width="185" height="70" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M906 647V693" stroke="#247A60" stroke-width="4"/>
+<text x="918" y="663" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Clone output</text>
+<text x="918" y="688" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">22.05 kHz speech</text>
+<path d="M190 498 L225 498" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M395 498 L430 498" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M620 498 L670 498" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M860 498 L905 498" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M125 300 L125 400 L715 400 L715 440" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M370 300 L370 375 L760 375 L760 440" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M615 300 L615 350 L805 350 L805 440" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M997 555 L997 635" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="30" y="680" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Inactive narrow / AR style conversion: not tested, not “zero contribution”.</text>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">One generated-Mel unit failed the content gate: 7/8 eligible there; its raw measurement is retained.</text>
+</svg>

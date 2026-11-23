@@ -1,0 +1,596 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Inside nine voice cloners · R1 architecture and sensitivity atlas</title><meta name="description" content="Nine native inference architectures and controlled module-sensitivity results, with both ECAPA and Resemblyzer. R1, one speaker and one phrase."><link rel="stylesheet" href="style.css?v=20261124-perception"><link rel="stylesheet" href="module-study.css?v=20261124-r1"></head><body><main class="shell r1-gallery"><header><a href="./#module-attribution">Back to the research story</a></header><p class="eyebrow">CloneBlock-RT / Native module study / R1</p><h1>Inside nine voice cloners.</h1><p class="lede">Architecture maps and local module-sensitivity measurements. These are fixed R1 implementations, not claims about every version of each model.</p><p>We change one continuous boundary at a time, using a relative activation norm of 0.10. Two random directions × both signs × two generation seeds give eight planned units per site. Same-seed clean repeats and zero-change controls come first. Integer token IDs are never directly modified by floating-point noise.</p><p><strong>D</strong> measures output embedding movement. <strong>A</strong> measures the drop in similarity to an independent real target recording: positive means less similar, negative means more similar. ECAPA and Resemblyzer remain separate.</p><p>本页完整展示9份架构、8个有实际探针数据的模型。固定一人一句、单一强度，不是模块贡献百分比，也没有人耳或MOS评价。缺失结果保持未知；内部干预不等于真实保护WAV成功。图表横线为观察范围，不是置信区间。</p><nav class="r1-gallery-nav" aria-label="Choose an architecture">
+<a href="#f5">F5-TTS</a>
+<a href="#qwen3">Qwen3-TTS</a>
+<a href="#openvoice">OpenVoice</a>
+<a href="#cosy3">CosyVoice 3</a>
+<a href="#chatterbox">Chatterbox Turbo</a>
+<a href="#seedvc">Seed-VC</a>
+<a href="#voxcpm2">VoxCPM2</a>
+<a href="#fish_s2">Fish Speech S2</a>
+<a href="#freevc">FreeVC</a>
+</nav><p class="small">53 planned sites / 47 probed sites · 376 actual generations · 327 of 328 executed probes automatically eligible. 424 perturbation units were planned. Groups A, B and C have different dose structures and must not become a single contribution ranking.</p>
+<section class="r1-gallery-model" id="f5"><p class="eyebrow">reference-conditioned TTS / R1 fixed implementation</p><h2>F5-TTS</h2><p>The joint DiT input was more sensitive than the DiT backbone output within the repeated-boundary group; both were injected 32 times.</p><p class="small">46/46 generated · 40/40 automatically eligible probes · Report pp. 8–10.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/f5.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/f5.svg" width="1120" height="800" alt="F5-TTS architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/f5-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/f5-a.svg" width="1280" height="640" alt="F5-TTS: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/f5-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/f5-d.svg" width="1280" height="640" alt="F5-TTS: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">Single reference/text boundaries and repeated DiT boundaries are different intervention groups.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Reference Mel condition</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00475</span>
+<span>0.00192</span>
+</td>
+<td>
+<span>-0.00826</span>
+<span>0.00338</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Text condition embedding</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00152</span>
+<span>0.00099</span>
+</td>
+<td>
+<span>-0.00393</span>
+<span>-0.00121</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B3</code>Joint DiT input</th><td>8/8</td><td>32</td>
+<td>
+<span>0.32447</span>
+<span>0.32083</span>
+</td>
+<td>
+<span>0.17240</span>
+<span>0.19569</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B4</code>DiT backbone output</th><td>8/8</td><td>32</td>
+<td>
+<span>0.00189</span>
+<span>0.00063</span>
+</td>
+<td>
+<span>-0.00272</span>
+<span>0.00026</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C5</code>Vocos backbone output</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01762</span>
+<span>0.01443</span>
+</td>
+<td>
+<span>-0.00362</span>
+<span>-0.00082</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="qwen3"><p class="eyebrow">reference-conditioned TTS / R1 fixed implementation</p><h2>Qwen3-TTS</h2><p>Speaker, reference codec and text conditions all moved the output embedding. Yet 28 of 48 probes made it closer to the target under both encoders.</p><p class="small">54/54 generated · 48/48 automatically eligible probes · Report pp. 11–13.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/qwen3.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/qwen3.svg" width="1120" height="800" alt="Qwen3-TTS architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/qwen3-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/qwen3-a.svg" width="1280" height="640" alt="Qwen3-TTS: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/qwen3-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/qwen3-d.svg" width="1280" height="640" alt="Qwen3-TTS: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">Talker and Subtalker receive different numbers of injections; movement is not identity loss.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Target speaker vector</th><td>8/8</td><td>1</td>
+<td>
+<span>0.26509</span>
+<span>0.16757</span>
+</td>
+<td>
+<span>-0.02519</span>
+<span>-0.07650</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Reference codec embedding</th><td>8/8</td><td>1</td>
+<td>
+<span>0.28994</span>
+<span>0.17641</span>
+</td>
+<td>
+<span>-0.06206</span>
+<span>-0.08087</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A3</code>Target text projection</th><td>8/8</td><td>1</td>
+<td>
+<span>0.24774</span>
+<span>0.15399</span>
+</td>
+<td>
+<span>-0.07231</span>
+<span>-0.08627</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B4</code>Talker backbone output</th><td>8/8</td><td>36–53</td>
+<td>
+<span>0.27604</span>
+<span>0.15577</span>
+</td>
+<td>
+<span>-0.05853</span>
+<span>-0.06478</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B5</code>Subtalker backbone output</th><td>8/8</td><td>540–690</td>
+<td>
+<span>0.26000</span>
+<span>0.16704</span>
+</td>
+<td>
+<span>-0.04461</span>
+<span>-0.07559</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>Codec decoder first layer</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00476</span>
+<span>0.00088</span>
+</td>
+<td>
+<span>-0.00453</span>
+<span>-0.00085</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="openvoice"><p class="eyebrow">VC / R1 fixed implementation</p><h2>OpenVoice</h2><p>The source posterior latent also moved the output embedding; output-embedding changes were not confined to the target timbre vector.</p><p class="small">54/54 generated · 48/48 automatically eligible probes · Report pp. 14–16.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/openvoice.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/openvoice.svg" width="1120" height="800" alt="OpenVoice architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/openvoice-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/openvoice-a.svg" width="1280" height="640" alt="OpenVoice: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/openvoice-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/openvoice-d.svg" width="1280" height="640" alt="OpenVoice: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">The two encoders disagreed on the direction of target-similarity change in 24 of 48 probes.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Target timbre vector</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01088</span>
+<span>0.00397</span>
+</td>
+<td>
+<span>0.00168</span>
+<span>0.00528</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Source posterior latent</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01582</span>
+<span>0.00413</span>
+</td>
+<td>
+<span>-0.00000</span>
+<span>0.00611</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A3</code>Forward flow output</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00864</span>
+<span>0.00243</span>
+</td>
+<td>
+<span>0.00017</span>
+<span>0.00306</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A4</code>Target reverse flow output</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01566</span>
+<span>0.00318</span>
+</td>
+<td>
+<span>0.01256</span>
+<span>0.00067</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C5</code>Waveform generator first layer</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01209</span>
+<span>0.00304</span>
+</td>
+<td>
+<span>-0.00351</span>
+<span>-0.00056</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A6</code>Source timbre vector (control branch)</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00796</span>
+<span>0.00332</span>
+</td>
+<td>
+<span>0.00270</span>
+<span>0.00409</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="cosy3"><p class="eyebrow">reference-conditioned TTS / R1 fixed implementation</p><h2>CosyVoice 3</h2><p>Generated Mel and HiFT boundaries reduced mean target similarity under both encoders.</p><p class="small">54/54 generated · 48/48 automatically eligible probes · Report pp. 17–19.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/cosy3.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/cosy3.svg" width="1120" height="800" alt="CosyVoice 3 architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/cosy3-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/cosy3-a.svg" width="1280" height="640" alt="CosyVoice 3: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/cosy3-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/cosy3-d.svg" width="1280" height="640" alt="CosyVoice 3: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">Reconstruction sensitivity can include distortion; the reference-Mel mean A had opposite signs across encoders.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>LM reference codec embedding</th><td>8/8</td><td>1</td>
+<td>
+<span>0.09164</span>
+<span>0.04146</span>
+</td>
+<td>
+<span>0.00098</span>
+<span>0.01813</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Flow speaker projection</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01355</span>
+<span>0.00466</span>
+</td>
+<td>
+<span>-0.01620</span>
+<span>-0.00358</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A3</code>Flow reference Mel</th><td>8/8</td><td>1</td>
+<td>
+<span>0.11232</span>
+<span>0.05349</span>
+</td>
+<td>
+<span>-0.01022</span>
+<span>0.06054</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A4</code>Flow content condition</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00784</span>
+<span>0.00264</span>
+</td>
+<td>
+<span>-0.00942</span>
+<span>-0.00236</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C5</code>Generated target Mel</th><td>8/8</td><td>1</td>
+<td>
+<span>0.40184</span>
+<span>0.23684</span>
+</td>
+<td>
+<span>0.17547</span>
+<span>0.16033</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>HiFT first acoustic layer</th><td>8/8</td><td>1</td>
+<td>
+<span>0.28150</span>
+<span>0.12904</span>
+</td>
+<td>
+<span>0.07146</span>
+<span>0.06130</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="chatterbox"><p class="eyebrow">reference-conditioned TTS / R1 fixed implementation</p><h2>Chatterbox Turbo</h2><p>Generated Mel and HiFT boundaries moved the output; all eight reference-Mel probes had opposite A signs across encoders.</p><p class="small">54/54 generated · 48/48 automatically eligible probes · Report pp. 20–22.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/chatterbox.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/chatterbox.svg" width="1120" height="800" alt="Chatterbox Turbo architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/chatterbox-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/chatterbox-a.svg" width="1280" height="640" alt="Chatterbox Turbo: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/chatterbox-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/chatterbox-d.svg" width="1280" height="640" alt="Chatterbox Turbo: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">The T3 prefix combines speaker and reference-speech embeddings rather than isolating a speaker vector.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>T3 speaker and reference prefix</th><td>8/8</td><td>1</td>
+<td>
+<span>0.19252</span>
+<span>0.07451</span>
+</td>
+<td>
+<span>0.00948</span>
+<span>-0.01691</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>S3Gen speaker projection</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00553</span>
+<span>0.00776</span>
+</td>
+<td>
+<span>-0.00365</span>
+<span>-0.00753</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A3</code>S3Gen reference Mel</th><td>8/8</td><td>1</td>
+<td>
+<span>0.05728</span>
+<span>0.04280</span>
+</td>
+<td>
+<span>0.02894</span>
+<span>-0.02947</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A4</code>S3Gen content condition</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00489</span>
+<span>0.00757</span>
+</td>
+<td>
+<span>-0.00121</span>
+<span>-0.00702</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C5</code>S3Gen generated Mel</th><td>8/8</td><td>1</td>
+<td>
+<span>0.39134</span>
+<span>0.19145</span>
+</td>
+<td>
+<span>0.16440</span>
+<span>0.07395</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>HiFT first layer</th><td>8/8</td><td>1</td>
+<td>
+<span>0.31300</span>
+<span>0.12120</span>
+</td>
+<td>
+<span>0.11885</span>
+<span>0.01878</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="seedvc"><p class="eyebrow">VC / R1 fixed implementation</p><h2>Seed-VC</h2><p>Within the single-use condition group, reference Mel was the clearest consistent result: all eight probes reduced target similarity under both encoders.</p><p class="small">54/54 generated · 47/48 automatically eligible probes · Report pp. 23–25.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/seedvc.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/seedvc.svg" width="1120" height="800" alt="Seed-VC architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/seedvc-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/seedvc-a.svg" width="1280" height="640" alt="Seed-VC: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/seedvc-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/seedvc-d.svg" width="1280" height="640" alt="Seed-VC: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">One generated-Mel probe failed the content gate; inactive style-conversion branches were not tested.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Speaker / style vector</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01229</span>
+<span>0.00334</span>
+</td>
+<td>
+<span>-0.00020</span>
+<span>-0.00195</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Reference codec condition</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00139</span>
+<span>0.00041</span>
+</td>
+<td>
+<span>0.00267</span>
+<span>-0.00006</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A3</code>Source content condition</th><td>8/8</td><td>1</td>
+<td>
+<span>0.00660</span>
+<span>0.00131</span>
+</td>
+<td>
+<span>-0.00197</span>
+<span>-0.00055</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A4</code>Reference Mel prompt</th><td>8/8</td><td>1</td>
+<td>
+<span>0.06395</span>
+<span>0.01581</span>
+</td>
+<td>
+<span>0.06048</span>
+<span>0.02870</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C5</code>Generated target Mel</th><td>7/8</td><td>1</td>
+<td>
+<span>0.37962</span>
+<span>0.22181</span>
+</td>
+<td>
+<span>0.28821</span>
+<span>0.12766</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>BigVGAN first layer</th><td>8/8</td><td>1</td>
+<td>
+<span>0.01980</span>
+<span>0.00489</span>
+</td>
+<td>
+<span>-0.00175</span>
+<span>-0.00405</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="voxcpm2"><p class="eyebrow">reference-conditioned TTS / R1 fixed implementation</p><h2>VoxCPM2</h2><p>Reference latents, semantic/residual LM projections and local DiT responses were probed on the second seed only.</p><p class="small">30/54 generated · 24/48 automatically eligible probes · Report pp. 26–28.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/voxcpm2.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/voxcpm2.svg" width="1120" height="800" alt="VoxCPM2 architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/voxcpm2-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/voxcpm2-a.svg" width="1280" height="640" alt="VoxCPM2: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/voxcpm2-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/voxcpm2-d.svg" width="1280" height="640" alt="VoxCPM2: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">The first seed failed CLEAN repeatability; 24 probes were blocked, and 16 of 24 observed probes had opposite A signs.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Isolated reference latent</th><td>4/8</td><td>1</td>
+<td>
+<span>0.19578</span>
+<span>0.06037</span>
+</td>
+<td>
+<span>-0.00695</span>
+<span>0.04173</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Continuation reference latent</th><td>4/8</td><td>1</td>
+<td>
+<span>0.21040</span>
+<span>0.05748</span>
+</td>
+<td>
+<span>-0.02294</span>
+<span>0.04685</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B3</code>Semantic LM to DiT</th><td>4/8</td><td>26–29</td>
+<td>
+<span>0.07540</span>
+<span>0.02598</span>
+</td>
+<td>
+<span>-0.00472</span>
+<span>0.01634</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B4</code>Residual LM to DiT</th><td>4/8</td><td>27–29</td>
+<td>
+<span>0.09872</span>
+<span>0.04634</span>
+</td>
+<td>
+<span>0.01420</span>
+<span>0.02935</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B5</code>Local DiT velocity (conditional)</th><td>4/8</td><td>225–261</td>
+<td>
+<span>0.13813</span>
+<span>0.04706</span>
+</td>
+<td>
+<span>-0.02590</span>
+<span>0.03282</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>AudioVAE first depthwise filter</th><td>4/8</td><td>1</td>
+<td>
+<span>0.01449</span>
+<span>0.00471</span>
+</td>
+<td>
+<span>0.00113</span>
+<span>0.00288</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="fish_s2"><p class="eyebrow">reference-conditioned TTS / R1 fixed implementation</p><h2>Fish Speech S2</h2><p>Reference-code and language-model boundaries moved the output embedding on the second seed.</p><p class="small">30/54 generated · 24/48 automatically eligible probes · Report pp. 29–31.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/fish_s2.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/fish_s2.svg" width="1120" height="800" alt="Fish Speech S2 architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/fish_s2-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/fish_s2-a.svg" width="1280" height="640" alt="Fish Speech S2: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/fish_s2-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/fish_s2-d.svg" width="1280" height="640" alt="Fish Speech S2: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">The first seed failed CLEAN repeatability; 12 of 24 observed probes had opposite A signs. Some Fast LM hook returns were not used for sampling.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Reference pre-quantization output</th><td>4/8</td><td>1</td>
+<td>
+<span>0.18205</span>
+<span>0.07518</span>
+</td>
+<td>
+<span>0.02882</span>
+<span>-0.01187</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>Reference codebook embedding</th><td>4/8</td><td>10</td>
+<td>
+<span>0.16602</span>
+<span>0.05338</span>
+</td>
+<td>
+<span>0.08681</span>
+<span>0.00308</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B3</code>Slow LM backbone output</th><td>4/8</td><td>54–59</td>
+<td>
+<span>0.20378</span>
+<span>0.07408</span>
+</td>
+<td>
+<span>0.02909</span>
+<span>-0.01997</span>
+</td>
+</tr>
+<tr><th scope="row"><code>B4</code>Fast LM backbone output</th><td>4/8</td><td>530–550</td>
+<td>
+<span>0.21151</span>
+<span>0.06446</span>
+</td>
+<td>
+<span>0.06711</span>
+<span>-0.01215</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C5</code>Codec decoding Transformer output</th><td>4/8</td><td>1</td>
+<td>
+<span>0.00447</span>
+<span>0.00080</span>
+</td>
+<td>
+<span>0.00627</span>
+<span>0.00093</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>Waveform decoder first projection</th><td>4/8</td><td>1</td>
+<td>
+<span>0.00418</span>
+<span>0.00057</span>
+</td>
+<td>
+<span>0.00322</span>
+<span>0.00009</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<section class="r1-gallery-model" id="freevc"><p class="eyebrow">VC / R1 fixed implementation</p><h2>FreeVC</h2><p>Its source architecture was mapped, but loading failed and no module effect was measured.</p><p class="small">0/54 generated · 0/48 automatically eligible probes · Report pp. 32–33.</p>
+<figure class="r1-architecture"><a href="assets/module-attribution-r1/architectures/freevc.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/architectures/freevc.svg" width="1120" height="800" alt="FreeVC architecture and R1 probe codes" loading="lazy"></a><figcaption class="r1-figure-caption">Open to zoom. Probe codes correspond to the result rows below.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/freevc-a.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/freevc-a.svg" width="1280" height="640" alt="FreeVC: Target-similarity drop A, both encoders with observed ranges" loading="lazy"></a><figcaption>Target-similarity drop A. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<figure class="r1-chart"><a href="assets/module-attribution-r1/charts/freevc-d.svg" target="_blank" rel="noopener"><img src="assets/module-attribution-r1/charts/freevc-d.svg" width="1280" height="640" alt="FreeVC: Voice movement D, both encoders with observed ranges" loading="lazy"></a><figcaption>Voice movement D. Points: executed units; squares: eligible means; ranges: observed minima and maxima. An open red diamond is an executed unit excluded by the automatic content gate. These are not confidence intervals.</figcaption></figure>
+<p class="r1-model-caution">No successful generation: all six module results are unknown, not zero.</p><div class="table-wrap"><table class="r1-table"><caption>Eligible means, not human ratings. The source JSON retains full precision and all missing units.</caption><thead><tr><th scope="col">Site / module</th><th scope="col">Eligible / planned</th><th scope="col">Calls / unit</th><th scope="col">D · ECAPA / R</th><th scope="col">A · ECAPA / R</th></tr></thead><tbody>
+<tr><th scope="row"><code>A1</code>Target speaker vector (two branches)</th><td>0/8</td><td>Unknown</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A2</code>WavLM content representation</th><td>0/8</td><td>Unknown</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A3</code>Prior encoder latent</th><td>0/8</td><td>Unknown</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A4</code>Reverse flow output</th><td>0/8</td><td>Unknown</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+</tr>
+<tr><th scope="row"><code>A5</code>Generator speaker projection</th><td>0/8</td><td>Unknown</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+</tr>
+<tr><th scope="row"><code>C6</code>Waveform generator first layer</th><td>0/8</td><td>Unknown</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+<td>
+<span>Unknown</span>
+<span>Unknown</span>
+</td>
+</tr>
+</tbody></table></div><a href="#">Back to the model list</a></section>
+<footer><p><a href="assets/module-attribution-r1/results.json">Exact public scalar data / JSON</a> · <a href="assets/module-attribution-r1/module-summary.csv">Module summary / CSV</a> · <a href="assets/module-attribution-r1/README.txt">Methods and source notes</a></p><p>Source: VC_module_attribution_R1_完整实验报告.pdf, snapshot 21 November 2026. No new generation or evaluation was run to build this atlas.</p></footer></main></body></html>

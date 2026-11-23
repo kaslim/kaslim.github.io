@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">F5-TTS v1 Base: tested native architecture and R1 probe boundaries</title><desc id="desc">Identity information can enter through reference Mel, text conditioning and the joint DiT input.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">F5-TTS v1 Base</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Reference-conditioned TTS · no separate speaker vector · EMA / Euler 32 / CFG 2</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<rect x="30" y="180" width="170" height="92" rx="10" fill="#F2F5F6" stroke="#596C77" stroke-width="1.6"/><path d="M31 192V260" stroke="#596C77" stroke-width="4"/>
+<text x="43" y="208" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference WAV</text>
+<text x="43" y="233" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">24 kHz + RMS</text>
+<rect x="235" y="180" width="190" height="105" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M236 192V273" stroke="#A86218" stroke-width="4"/>
+<text x="248" y="208" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference Mel</text>
+<text x="248" y="233" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">100 features</text>
+<text x="248" y="254" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">valid reference mask</text>
+<rect x="381" y="165" width="43" height="29" rx="14" fill="#A86218"/><text x="402.5" y="185" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="30" y="520" width="170" height="92" rx="10" fill="#F2F5F6" stroke="#596C77" stroke-width="1.6"/><path d="M31 532V600" stroke="#596C77" stroke-width="4"/>
+<text x="43" y="548" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference +</text>
+<text x="43" y="573" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">target text</text>
+<rect x="235" y="520" width="190" height="105" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M236 532V613" stroke="#38658A" stroke-width="4"/>
+<text x="248" y="548" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Text embedding</text>
+<text x="248" y="573" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">pinyin / text</text>
+<text x="248" y="594" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">512 features</text>
+<rect x="381" y="505" width="43" height="29" rx="14" fill="#A86218"/><text x="402.5" y="525" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="475" y="180" width="190" height="92" rx="10" fill="#F2F5F6" stroke="#596C77" stroke-width="1.6"/><path d="M476 192V260" stroke="#596C77" stroke-width="4"/>
+<text x="488" y="208" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Current state yₜ</text>
+<text x="488" y="233" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">native noise / time</text>
+<rect x="475" y="350" width="190" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M476 362V453" stroke="#7257A2" stroke-width="4"/>
+<text x="488" y="378" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Joint input</text>
+<text x="488" y="403" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">state + Mel + text</text>
+<text x="488" y="424" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">InputEmbedding</text>
+<rect x="621" y="335" width="43" height="29" rx="14" fill="#7257A2"/><text x="642.5" y="355" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B3</text>
+<rect x="720" y="350" width="170" height="115" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M721 362V453" stroke="#7257A2" stroke-width="4"/>
+<text x="733" y="378" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">DiT backbone</text>
+<text x="733" y="403" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">22 layers</text>
+<text x="733" y="424" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">32 Euler evaluations</text>
+<rect x="846" y="335" width="43" height="29" rx="14" fill="#7257A2"/><text x="867.5" y="355" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B4</text>
+<rect x="940" y="350" width="150" height="115" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M941 362V453" stroke="#247A60" stroke-width="4"/>
+<text x="953" y="378" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Vocos</text>
+<text x="953" y="403" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">8-layer backbone</text>
+<text x="953" y="424" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe at output</text>
+<rect x="1046" y="335" width="43" height="29" rx="14" fill="#247A60"/><text x="1067.5" y="355" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C5</text>
+<rect x="940" y="550" width="150" height="115" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M941 562V653" stroke="#247A60" stroke-width="4"/>
+<text x="953" y="578" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">iSTFT + RMS</text>
+<text x="953" y="599" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">restoration</text>
+<text x="953" y="624" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">24 kHz speech</text>
+<path d="M200 226 L235 226" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M425 232 L450 232 L450 386 L475 386" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M200 566 L235 566" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M425 571 L450 571 L450 430 L475 430" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M570 272 L570 350" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M665 408 L720 408" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M890 408 L940 408" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="905" y="300" class="edge-label" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">generated Mel</text>
+<text x="905" y="320" class="edge-label" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">crop reference prefix</text>
+<path d="M1015 465 L1015 550" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">Fixed R1 configuration. Probe labels mark continuous output boundaries, not model weights.</text>
+</svg>

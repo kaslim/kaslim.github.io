@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 800" role="img" aria-labelledby="title desc"><title id="title">Qwen3-TTS 1.7B Base: tested native architecture and R1 probe boundaries</title><desc id="desc">A 2048-value speaker vector, reference codec embeddings and text projection jointly enter the full ICL prompt. Reference codes also enter final decoding.. A means a single condition boundary; B means a repeatedly consumed boundary; C means waveform reconstruction. This is a local random intervention study, not a percentage contribution or a protected waveform result.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#60717B"/></marker></defs><style>text{font-family:Arial,Helvetica,sans-serif;fill:#173044} .title{font-size:29px;font-weight:700} .subtitle{font-size:17px;fill:#53646D} .node-title{font-size:18px;font-weight:700} .node-copy{font-size:16px;fill:#334D5C} .edge-label{font-size:15px;fill:#53646D} .badge{font-size:16px;font-weight:700;fill:white} .note{font-size:16px;fill:#53646D}</style><rect width="1120" height="800" fill="#FCFDFC"/><text class="title" x="30" y="46" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" fill="#173044">Qwen3-TTS 1.7B Base</text><text class="subtitle" x="30" y="76" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" fill="#53646D">Full ICL · speaker condition plus reference codec context · 24 kHz</text>
+<rect x="30" y="103" width="15" height="15" rx="3" fill="#E7F0F8" stroke="#38658A"/><text class="note" x="53" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Content</text>
+<rect x="235" y="103" width="15" height="15" rx="3" fill="#FFF0DF" stroke="#A86218"/><text class="note" x="258" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Reference condition</text>
+<rect x="535" y="103" width="15" height="15" rx="3" fill="#EEE9F8" stroke="#7257A2"/><text class="note" x="558" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Generation</text>
+<rect x="765" y="103" width="15" height="15" rx="3" fill="#E2F2EB" stroke="#247A60"/><text class="note" x="788" y="116" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">Waveform reconstruction</text>
+<path d="M30 139H1090" stroke="#D8E1E4"/>
+<rect x="30" y="180" width="170" height="92" rx="10" fill="#F2F5F6" stroke="#596C77" stroke-width="1.6"/><path d="M31 192V260" stroke="#596C77" stroke-width="4"/>
+<text x="43" y="208" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference WAV</text>
+<text x="43" y="233" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">same real recording</text>
+<rect x="230" y="180" width="190" height="105" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M231 192V273" stroke="#A86218" stroke-width="4"/>
+<text x="243" y="208" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Speaker encoder</text>
+<text x="243" y="233" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">g: 2048 values</text>
+<rect x="376" y="165" width="43" height="29" rx="14" fill="#A86218"/><text x="397.5" y="185" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A1</text>
+<rect x="230" y="360" width="190" height="105" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M231 372V453" stroke="#A86218" stroke-width="4"/>
+<text x="243" y="388" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Codec encoder</text>
+<text x="243" y="413" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">RVQ codes Q</text>
+<text x="243" y="434" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">[time, 16]</text>
+<rect x="460" y="360" width="190" height="105" rx="10" fill="#FFF0DF" stroke="#A86218" stroke-width="1.6"/><path d="M461 372V453" stroke="#A86218" stroke-width="4"/>
+<text x="473" y="388" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Reference-code</text>
+<text x="473" y="409" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">embedding</text>
+<text x="473" y="434" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">continuous values</text>
+<rect x="606" y="345" width="43" height="29" rx="14" fill="#A86218"/><text x="627.5" y="365" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A2</text>
+<rect x="230" y="550" width="190" height="105" rx="10" fill="#E7F0F8" stroke="#38658A" stroke-width="1.6"/><path d="M231 562V643" stroke="#38658A" stroke-width="4"/>
+<text x="243" y="578" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Text projection</text>
+<text x="243" y="603" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">correct reference</text>
+<text x="243" y="624" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">+ target text</text>
+<rect x="376" y="535" width="43" height="29" rx="14" fill="#A86218"/><text x="397.5" y="555" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">A3</text>
+<rect x="700" y="360" width="190" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M701 372V453" stroke="#7257A2" stroke-width="4"/>
+<text x="713" y="388" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Full ICL prompt</text>
+<text x="713" y="413" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">g + text + Q context</text>
+<rect x="935" y="180" width="155" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M936 192V273" stroke="#7257A2" stroke-width="4"/>
+<text x="948" y="208" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Talker</text>
+<text x="948" y="233" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">28 layers</text>
+<text x="948" y="254" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">first code group</text>
+<rect x="1046" y="165" width="43" height="29" rx="14" fill="#7257A2"/><text x="1067.5" y="185" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B4</text>
+<rect x="935" y="360" width="155" height="105" rx="10" fill="#EEE9F8" stroke="#7257A2" stroke-width="1.6"/><path d="M936 372V453" stroke="#7257A2" stroke-width="4"/>
+<text x="948" y="388" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Subtalker</text>
+<text x="948" y="413" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">5 layers</text>
+<text x="948" y="434" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">15 other groups</text>
+<rect x="1046" y="345" width="43" height="29" rx="14" fill="#7257A2"/><text x="1067.5" y="365" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">B5</text>
+<rect x="935" y="550" width="155" height="105" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M936 562V643" stroke="#247A60" stroke-width="4"/>
+<text x="948" y="578" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Codec decoder</text>
+<text x="948" y="603" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">Q + new codes</text>
+<text x="948" y="624" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">probe: first layer</text>
+<rect x="1046" y="535" width="43" height="29" rx="14" fill="#247A60"/><text x="1067.5" y="555" text-anchor="middle" class="badge" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">C6</text>
+<rect x="700" y="550" width="190" height="105" rx="10" fill="#E2F2EB" stroke="#247A60" stroke-width="1.6"/><path d="M701 562V643" stroke="#247A60" stroke-width="4"/>
+<text x="713" y="578" class="node-title" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700" fill="#173044">Prefix crop</text>
+<text x="713" y="603" class="node-copy" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#334D5C">24 kHz speech</text>
+<path d="M200 226 L230 226" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M115 272 L115 412 L230 412" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M420 232 L680 232 L680 386 L700 386" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M420 412 L460 412" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M650 412 L700 412" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M420 602 L680 602 L680 438 L700 438" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M890 412 L910 412 L910 232 L935 232" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1012 285 L1012 360" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M1012 465 L1012 550" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M935 602 L890 602" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M420 444 L440 444 L440 697 L1050 697 L1050 655" fill="none" stroke="#60717B" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="580" y="687" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">the same reference codes Q</text>
+<path d="M30 744H1090" stroke="#D8E1E4"/>
+<text x="30" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">A  Single condition</text>
+<text x="300" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">B  Repeated AR / ODE boundary</text>
+<text x="720" y="766" class="note" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" fill="#53646D">C  Reconstruction boundary</text>
+<text x="30" y="790" class="edge-label" text-anchor="start" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="400" fill="#53646D">Fixed full-ICL path. A2 perturbs continuous code embeddings; integer token IDs are not modified.</text>
+</svg>
