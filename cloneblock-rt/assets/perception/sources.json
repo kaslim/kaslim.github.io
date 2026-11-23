@@ -1,0 +1,918 @@
+{
+  "schema": "cloneblock_perception_web_assets_v1",
+  "purpose": "Selected assets for a personal research project page; synthetic capability demos, reproduction counterexamples, method illustrations, and earlier pilot examples are separate evidence categories.",
+  "public_disclosure": "AI-generated imitations and research synthesis are clearly labeled. No authentic statement, endorsement, identity authentication, general protection guarantee, or transfer guarantee is implied.",
+  "license_scope": "Third-party source licenses and retained rights apply separately. No blanket MIT or other site-wide license is asserted for all media.",
+  "synthetic_demos": [
+    {
+      "id": "trump",
+      "label": "Donald Trump",
+      "audio": "trump.mp3",
+      "statement": "I'm Donald Trump. Welcome to Yuxuan's academic exchange.",
+      "model": "Qwen3-TTS-12Hz-1.7B-Base, fixed weights",
+      "generation_mode": "full ICL",
+      "disclosure": "AI-generated voice imitation for research demonstration. Not authentic speech or endorsement.",
+      "reference_source": {
+        "url": "https://www.dvidshub.net/video/964039/trump-speaks-us-military-academy-graduation",
+        "creator": "DVIDS / Department of Defense",
+        "reference_sha256": "99d3d1d405e1b1af4ba0d4701548ed0909ceae04a5f7d2cc732124d7a548108a",
+        "reference_duration_s": 6.7,
+        "license_note": "DVIDS page labels work public domain; official government recording. Original reference excerpt is for conditioning, not the synthetic demo."
+      },
+      "dataset_revision": null,
+      "dataset_reference_id": null,
+      "review_status": "Voice likeness is a listener judgment; ASR content checks do not certify identity."
+    },
+    {
+      "id": "leijun",
+      "label": "Lei Jun",
+      "audio": "leijun.mp3",
+      "statement": "Hello everyone. I'm Lei Jun. Welcome to Yuxuan's academic exchange.",
+      "model": "Qwen3-TTS-12Hz-1.7B-Base, fixed weights",
+      "generation_mode": "full ICL",
+      "disclosure": "AI-generated voice imitation for research demonstration. Not authentic speech or endorsement.",
+      "reference_source": {
+        "url": "https://www.bilibili.com/video/BV1sp4y1q7tF/",
+        "creator": "雷军官方账号",
+        "reference_sha256": "34fe8a0267125ed5dabae8ca4a5659b9f4a17b3fc83ddb5d0f2de3b51eca050b",
+        "reference_duration_s": 8.2,
+        "license_note": "Copyright retained by original source; short conditioning excerpt for an explicitly labelled academic demonstration. Original source is not redistributed in the slide deck."
+      },
+      "dataset_revision": null,
+      "dataset_reference_id": null,
+      "review_status": "Voice likeness is a listener judgment; ASR content checks do not certify identity."
+    },
+    {
+      "id": "nailoong",
+      "label": "Nailoong",
+      "audio": "nailoong.mp3",
+      "statement": "Hello! I'm Nailoong. Let's learn how to protect our voices.",
+      "model": "Qwen3-TTS-12Hz-1.7B-Base, fixed weights",
+      "generation_mode": "full ICL",
+      "disclosure": "AI-generated voice imitation for research demonstration. Not authentic speech or endorsement.",
+      "reference_source": {
+        "url": "https://huggingface.co/datasets/pengyichen/NaiLong-Voice-Clone",
+        "creator": "pengyichen",
+        "reference_sha256": "1757ca55206531d665fb02679b271fc5c00ebe3348465bb4be3b151d67944252",
+        "reference_duration_s": 5.04,
+        "license_note": "CC BY-NC-SA 4.0, as stated by the dataset author."
+      },
+      "dataset_revision": "4d58d142e50d05c2e8a4871c125f97ff70d84e6c",
+      "dataset_reference_id": "nailong_selected/32kHz, 16-bit, Mono (1-channel)/record193.wav",
+      "review_status": "Voice likeness is a listener judgment; ASR content checks do not certify identity."
+    }
+  ],
+  "counterexamples": [
+    {
+      "id": "enkidu",
+      "method": "Enkidu official Python-example configuration",
+      "speaker_id": "p260",
+      "backend": "F5-TTS v1 Base",
+      "seed": 2026,
+      "target_text": "Emily placed the green envelope beside the lamp before she went outside.",
+      "audio": {
+        "original": "enkidu-original.wav",
+        "clean-clone": "enkidu-clean-clone.wav",
+        "protected-clone": "enkidu-protected-clone.wav"
+      },
+      "metric": {
+        "name": "ECAPA cosine to an independent three-utterance enrollment prototype",
+        "higher_means": "More similar under this encoder",
+        "clean_clone": 0.7722264528274536,
+        "protected_clone": 0.2913554906845093,
+        "not_the_paper_direct_SIM": true
+      },
+      "perceptual_summary": "One exploratory developer listener judged both clones the same person, natural and usable.",
+      "scope": "Selected post-hoc example, not a method-wide failure rate or population result.",
+      "limitations": [
+        "One exploratory developer listener, one selected counterexample; not population evidence or a failure rate.",
+        "The original 104-item listening session identified only 2/4 hidden different-speaker controls; this limits identity reliability.",
+        "The protected input itself was rated severe noise, naturalness 1/5, quality unacceptable; this is not a successful input-preserving defense.",
+        "Official Python-example reproduction: VCTK adaptation, final epoch, mask_ratio=0.3; not full paper benchmark or deployment replication.",
+        "ECAPA shares the model family used in optimization. WeSpeaker accepts this protected clone (0.495).",
+        "Post-hoc illustrative selection, not a prospectively selected evaluation."
+      ],
+      "source_corpus": {
+        "name": "CSTR VCTK Corpus 0.92",
+        "url": "https://datashare.ed.ac.uk/handle/10283/3443",
+        "license": "CC BY 4.0"
+      }
+    },
+    {
+      "id": "safespeech",
+      "method": "SafeSpeech official SafeSpeech mode",
+      "speaker_id": "LibriTTS 5339",
+      "backend": "F5-TTS v1 Base EMA / Vocos / 32-step Euler",
+      "seed": 2026101503,
+      "target_text": "The train leaves at nine tomorrow, so please arrive fifteen minutes early.",
+      "audio": {
+        "original": "safespeech-original.wav",
+        "clean-clone": "safespeech-clean-clone.wav",
+        "protected-clone": "safespeech-protected-clone.wav"
+      },
+      "metric": {
+        "name": "ECAPA cosine to an independent three-utterance enrollment prototype",
+        "higher_means": "More similar under this encoder",
+        "clean_clone": 0.5553967356681824,
+        "protected_clone": 0.292018860578537,
+        "not_the_paper_direct_SIM": true
+      },
+      "perceptual_summary": "One exploratory developer listener judged the protected clone probably the same person, usable, correct in content, and without an audible anomaly.",
+      "scope": "Selected post-hoc example, not a method-wide failure rate or population result.",
+      "limitations": [
+        "One exploratory developer listener, one selected counterexample; not a population estimate or method-wide failure rate.",
+        "The protected input was rated probably the same speaker but communication unacceptable, with impairing noise; this is not input-preserving success.",
+        "The original reference is only 1.24 seconds.",
+        "Protected-clone original FLOAT WAV has peak 1.39898 and 13 of 114944 samples above absolute 1. Preserve the exact original and disclose any gain/transcoding for presentation.",
+        "Historical acceptance thresholds came from VCTK and were not recalibrated on LibriTTS. Use paired continuous scores, not rejection as calibrated evidence.",
+        "Official upstream G checkpoint lacked emb_g.weight; official loader kept seed=42 initialization. Activation checkpointing was used to retain official batch=27 on A100.",
+        "The paper-style direct SIM uses actual references and is a different metric: 0.68169→0.40843, both >0.25; do not substitute enrollment cosines into the paper threshold.",
+        "Later 100-item review found mixed SafeSpeech outcomes: G001 protected output was unacceptable, G004 probably different. Do not say every sample remained normal.",
+        "Post-hoc illustrative selection, not a prospectively selected evaluation."
+      ],
+      "source_corpus": {
+        "name": "LibriTTS",
+        "url": "https://www.openslr.org/60/",
+        "license": "CC BY 4.0"
+      }
+    }
+  ],
+  "openvoice_pilots": [
+    {
+      "id": "pilot-a",
+      "experiment": "v41",
+      "unit_id": "p257/reference_1",
+      "audio": {
+        "original": "pilot-a-original.wav",
+        "protected": "pilot-a-protected.wav",
+        "clean-clone": "pilot-a-clean-clone.wav",
+        "protected-clone": "pilot-a-protected-clone.wav"
+      },
+      "model": "OpenVoice V2 converter, fixed native entry point",
+      "construction": "v41: 64-step full-waveform Adam, native donor condition matching plus .1 energy regularization, BEST_D selection. These examples were not generated by the later v46 six-coefficient joint search.",
+      "source_sentence": "The main concern is that it could interfere with air traffic.",
+      "seed": 3701,
+      "ratings": {
+        "original_input": {
+          "identity": "5",
+          "content": "yes",
+          "use": "5"
+        },
+        "protected_input": {
+          "identity": "5",
+          "content": "yes",
+          "use": "5"
+        },
+        "clean_clone": {
+          "identity": "4",
+          "quality": "5",
+          "content": "yes",
+          "believability": "5"
+        },
+        "protected_clone": {
+          "identity": "1",
+          "quality": "5",
+          "content": "yes",
+          "believability": "1"
+        }
+      },
+      "input_snr_db": 31.446129200695534,
+      "scope": "One non-blind developer listener, one matched source/seed context.",
+      "evaluation_status": "Two selected completed developmental examples, one non-blind listener; no population-level rate, ABX equivalence, or transfer claim."
+    },
+    {
+      "id": "pilot-b",
+      "experiment": "v41",
+      "unit_id": "p264/reference_0",
+      "audio": {
+        "original": "pilot-b-original.wav",
+        "protected": "pilot-b-protected.wav",
+        "clean-clone": "pilot-b-clean-clone.wav",
+        "protected-clone": "pilot-b-protected-clone.wav"
+      },
+      "model": "OpenVoice V2 converter, fixed native entry point",
+      "construction": "v41: 64-step full-waveform Adam, native donor condition matching plus .1 energy regularization, BEST_D selection. These examples were not generated by the later v46 six-coefficient joint search.",
+      "source_sentence": "The main concern is that it could interfere with air traffic.",
+      "seed": 3701,
+      "ratings": {
+        "original_input": {
+          "identity": "5",
+          "content": "yes",
+          "use": "5"
+        },
+        "protected_input": {
+          "identity": "5",
+          "content": "yes",
+          "use": "5"
+        },
+        "clean_clone": {
+          "identity": "5",
+          "quality": "5",
+          "content": "yes",
+          "believability": "5"
+        },
+        "protected_clone": {
+          "identity": "1",
+          "quality": "5",
+          "content": "yes",
+          "believability": "1"
+        }
+      },
+      "input_snr_db": 30.889644295572918,
+      "scope": "One non-blind developer listener, one matched source/seed context.",
+      "evaluation_status": "Two selected completed developmental examples, one non-blind listener; no population-level rate, ABX equivalence, or transfer claim."
+    }
+  ],
+  "method_visualization": {
+    "experiment": "v46",
+    "unit_id": "p257/reference_1",
+    "sample_count": 176784,
+    "sample_rate_hz": 22050,
+    "duration_s": 8.017414965986395,
+    "B_shape": [
+      176784,
+      6
+    ],
+    "condition_shape": {
+      "openvoice": [
+        1,
+        256,
+        1
+      ],
+      "freevc_wrapper": [
+        1,
+        256
+      ],
+      "freevc_generator": [
+        1,
+        256,
+        1
+      ]
+    },
+    "not_the_v41_pilot_construction": true,
+    "native_distances": {
+      "openvoice": 0.21329938595482284,
+      "freevc": 0.2149202341470848
+    },
+    "limitations": [
+      "16x16 condition heatmaps are display reshapes, not spatial feature maps.",
+      "OpenVoice and FreeVC native spaces are distinct even though both have 256 values.",
+      "The perturbation x10 display is magnified for visibility.",
+      "The six dictionary columns are low/mid/high components of two earlier perturbations; these are not six independent non-overlapping frequency bands.",
+      "The sampled JSON and plots illustrate the representation; they do not establish perceptual success or transfer."
+    ]
+  },
+  "evidence_scope": {
+    "listener_summary": "One exploratory developer listener. Non-blind for the earlier OpenVoice pilots.",
+    "paper_streaming_scope": "The earlier streaming manuscript and the later per-recording native-condition optimization pilots are separate methods and evidence. The latter is not a real-time streaming-protection result.",
+    "pilot_limitations": [
+      "Selected from four planned v41 construction units; two completed and two stopped at numerical checks. Do not present 2/2 as a general success rate.",
+      "The two examples cover two target speakers, not independent listeners or an unseen test set.",
+      "No claim of perceptual identity equivalence or inaudibility follows from subjective input identity/use ratings.",
+      "The change is output identity, not a destroyed, noisy or unintelligible output: all selected protected output quality ratings are 5 and content is correct.",
+      "The p264 donor internal diagnostic was excluded at the user request due contradictory answers. This does not remove its independently complete real-P chain. Do not use that diagnostic as a demonstrated donor-control positive.",
+      "v39 supports three finite contexts for an older p257/reference_0 WAV, not three repetitions of either selected v41 WAV.",
+      "The selected original-reference files are the rated 24kHz originals; the VC uses canonical 22.05kHz equivalents according to the frozen native frontend. Keep this origin linkage in notes.",
+      "Present-day audience playback against only original x is illustrative, not a replacement for the original three independent enrollment anchors.",
+      "Latest v51r1 Qwen hidden repeat retained protected-output identity shift but input had audible noise and affected_usable ratings. Strict normal-input joint success remains unconfirmed for Qwen; no other-model or general transfer success is supported by these OpenVoice samples."
+    ]
+  },
+  "attribution_sources": [
+    {
+      "name": "CSTR VCTK Corpus 0.92",
+      "creators": "Junichi Yamagishi; Christophe Veaux; Kirsten MacDonald",
+      "year": 2019,
+      "url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "doi": "10.7488/ds/2645",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "LibriTTS",
+      "creators": "Heiga Zen et al.",
+      "year": 2019,
+      "url": "https://www.openslr.org/60/",
+      "license": "CC BY 4.0"
+    },
+    {
+      "name": "NaiLong-Voice-Clone",
+      "creator": "pengyichen",
+      "url": "https://huggingface.co/datasets/pengyichen/NaiLong-Voice-Clone",
+      "revision": "4d58d142e50d05c2e8a4871c125f97ff70d84e6c",
+      "license": "CC BY-NC-SA 4.0 as stated by dataset author; original character rights remain with their rightsholders"
+    }
+  ],
+  "files": [
+    {
+      "path": "trump.mp3",
+      "sha256": "b0e73f2aaca95c443bc3c39f8780fb3f44dd9c49f68ad3750e18f15db812dd7b",
+      "size_bytes": 78377,
+      "kind": "synthetic_voice_demo",
+      "mime_type": "audio/mpeg",
+      "source_wav_sha256": "d4bbbe466e9bd404c7d2381569b14c5e8694a7578ed20c48034eb480df1fa4b2",
+      "source_and_playback_relation": "Synthetic WAV encoded as MP3 for web playback."
+    },
+    {
+      "path": "leijun.mp3",
+      "sha256": "8b65c9f46c854b7b4ac4e66b062ca5474e1c69058e297b8460879523cf578cee",
+      "size_bytes": 120524,
+      "kind": "synthetic_voice_demo",
+      "mime_type": "audio/mpeg",
+      "source_wav_sha256": "548753d0d1eb15a39f810a2a7afdfe12d4a7c1f30539329e4b7df66f20e8f6af",
+      "source_and_playback_relation": "Synthetic WAV encoded as MP3 for web playback; Lei Jun retained English excerpt removes an unintended leading reference-language fragment."
+    },
+    {
+      "path": "nailoong.mp3",
+      "sha256": "aa4565737c3de804fb202d53ce4ec9878f419477f4a47f9f8b59d669a97c096c",
+      "size_bytes": 110597,
+      "kind": "synthetic_voice_demo",
+      "mime_type": "audio/mpeg",
+      "source_wav_sha256": "a42537061784f4b449ed6af0e83371be1ead286f9ec4910bff9c4668d0696707",
+      "source_and_playback_relation": "Synthetic WAV encoded as MP3 for web playback."
+    },
+    {
+      "path": "portraits/trump.jpg",
+      "sha256": "2fec25c53d94185441fffdbc8b2b1fe98f8948ef7f4617c45c35a8d41a380303",
+      "size_bytes": 260041,
+      "kind": "portrait",
+      "mime_type": "image/jpeg",
+      "source_sha256": "2fec25c53d94185441fffdbc8b2b1fe98f8948ef7f4617c45c35a8d41a380303",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg",
+      "asset_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/960px-Donald_Trump_official_portrait.jpg",
+      "creator": "Shealah Craighead / The White House",
+      "license": "Public domain: U.S. federal government work, per Wikimedia Commons file page",
+      "credit": "Photo: Shealah Craighead / The White House (public domain).",
+      "changes": "Unmodified copy of the existing presentation portrait; no local resize or crop."
+    },
+    {
+      "path": "portraits/leijun.png",
+      "sha256": "1de7c29ccc7cb73756ba9d93643afa2f074f53b91e1ea7b5534c5adcd2e9211b",
+      "size_bytes": 751043,
+      "kind": "portrait",
+      "mime_type": "image/png",
+      "source_sha256": "1de7c29ccc7cb73756ba9d93643afa2f074f53b91e1ea7b5534c5adcd2e9211b",
+      "source_url": "https://www.mi.com/about/founder?stat=true",
+      "asset_url": "https://img.youpin.mi-img.com/shopcenter/7a9796b0_60ce_4d49_a411_7fd70a63cf6d.png",
+      "creator": "Xiaomi official management page",
+      "license": "Copyright retained by Xiaomi / respective owner; no open license claimed",
+      "credit": "Photo: Xiaomi, official management page.",
+      "changes": "Unmodified copy of the existing presentation portrait; no local resize or crop."
+    },
+    {
+      "path": "portraits/nailoong.png",
+      "sha256": "e7efd32883b7319f1af0f08af4ffc6cba96e5a5955c6524a2649fa8fb5adbb5c",
+      "size_bytes": 68606,
+      "kind": "portrait",
+      "mime_type": "image/png",
+      "source_sha256": "e7efd32883b7319f1af0f08af4ffc6cba96e5a5955c6524a2649fa8fb5adbb5c",
+      "source_url": "https://www.nailoong.com/business/ipIncubation/",
+      "asset_url": "https://www.nailoong.com/_ipx/q_85/img/business/nl_base_3d.png",
+      "creator": "Seventh Impression / Nailoong official website",
+      "license": "Copyright retained by 第七印象文化传媒（深圳）有限公司; no open license claimed",
+      "credit": "Character image: Nailoong / Seventh Impression, official website.",
+      "changes": "Unmodified copy of the existing presentation portrait; no local resize or crop."
+    },
+    {
+      "path": "enkidu-original.wav",
+      "sha256": "63a00f36e040d9d039f12bd30c0eebfe792a4723d26c79aa97e181d9730cded8",
+      "size_bytes": 403066,
+      "kind": "counterexample_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "1caa00e29587077c12ac8528c7d31cf021c5f9065305a413f0cb2d2e558dd4f5",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain_for_example": 0.8714891605050512,
+        "encoding": "PCM16",
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true
+      }
+    },
+    {
+      "path": "enkidu-clean-clone.wav",
+      "sha256": "dd81c7757e627cefac44cd84cf72a63c4aa1cabf8d30eb2cadb3ee41588fda7b",
+      "size_bytes": 262734,
+      "kind": "counterexample_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "5134bcfc5c2996c9ca79689dacd3e16e1134dc1967397eacbc9b7059bfdbe3aa",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain_for_example": 0.8714891605050512,
+        "encoding": "PCM16",
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true
+      }
+    },
+    {
+      "path": "enkidu-protected-clone.wav",
+      "sha256": "dcf5bed1021364bc6e4d4790a316489d952f72e8e4f6e5d5f1fa2a9912740e39",
+      "size_bytes": 262734,
+      "kind": "counterexample_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "f0b066797fd170f6f560a134cba413d2a5e67809cc93eb9abeecb381280429c9",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain_for_example": 0.8714891605050512,
+        "encoding": "PCM16",
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true
+      }
+    },
+    {
+      "path": "safespeech-original.wav",
+      "sha256": "7e859f0a79939ae89a8f2e1c5466fc1980a954524c243e9c25a075ef1fe5f088",
+      "size_bytes": 59598,
+      "kind": "counterexample_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "25ee4e618fa24790e90ed3791c87a2c5f7676c7a133796019367d7484fd368de",
+      "source_corpus": "LibriTTS",
+      "source_url": "https://www.openslr.org/60/",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain_for_example": 0.6433242520743002,
+        "encoding": "PCM16",
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true
+      }
+    },
+    {
+      "path": "safespeech-clean-clone.wav",
+      "sha256": "d24f2a96a3f5aa0b3d97e7d02a33682fb46440ece1fa9ff31f0f0e19a51d9a30",
+      "size_bytes": 229966,
+      "kind": "counterexample_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "21ca7594ea4f276d1b739e8a74cb363e1df49b1121751791df3686c3a0bb18ec",
+      "source_corpus": "LibriTTS",
+      "source_url": "https://www.openslr.org/60/",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain_for_example": 0.6433242520743002,
+        "encoding": "PCM16",
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true
+      }
+    },
+    {
+      "path": "safespeech-protected-clone.wav",
+      "sha256": "71628a0d16fa73ff0b871631721dc15376c13699393daefb185e74365309de00",
+      "size_bytes": 229966,
+      "kind": "counterexample_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "0b46438877b798654f14a175d05572055e6fc088cccc814644e7af7e2cef22d0",
+      "source_corpus": "LibriTTS",
+      "source_url": "https://www.openslr.org/60/",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain_for_example": 0.6433242520743002,
+        "encoding": "PCM16",
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true
+      }
+    },
+    {
+      "path": "pilot-a-original.wav",
+      "sha256": "16657b6256614c5067e8e18cff4d00ff2037377118003a6d13f35babc592fc99",
+      "size_bytes": 384912,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "d3f4f7ab169f7befa006c7204fb0415ce0b49ab58530b2b2c8d6436d5cd33689",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 24000,
+        "sample_count": 192417,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-a-protected.wav",
+      "sha256": "6f9082ce015e74a6f9f513acd01730a359861de19c171f27faa576ad288254f8",
+      "size_bytes": 353646,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "d27b5fabaf40fd4f891f3c43a7a82f6a4eb16ca9ff4c39fa5d8ff83b6738bf91",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 22050,
+        "sample_count": 176784,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-a-clean-clone.wav",
+      "sha256": "8f20b1b0f2c0a28236c3e82f288b91a53bb6caf2c6d419cc5402aa0b5d3389e9",
+      "size_bytes": 190542,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "d711b951b91c80c980c9c1d44dd9715353f39a4d58f92363651f2bd7a4be4e2e",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 22050,
+        "sample_count": 95232,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-a-protected-clone.wav",
+      "sha256": "1d7290a18b4b72781cf6e95ce0fb1e46d3f942f37cbda117f7190e383f8827b8",
+      "size_bytes": 190542,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "ee355b799209a40e29e3314a43405da6117269943f78d2fd18dbdb54b59adf23",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 22050,
+        "sample_count": 95232,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-b-original.wav",
+      "sha256": "b82d68cbc3620596e641b1899ca3e276ca93a8423982cd8f676130abaa5d2317",
+      "size_bytes": 470952,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "65a780550bf19dd1ea0fa055259c13ecf630a174bfb2a854faa30944c08d4159",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 24000,
+        "sample_count": 235437,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-b-protected.wav",
+      "sha256": "1bfa730faf275b7287f0ef07bb9b5294482fda1bcd16d5e5ea3ead5592992348",
+      "size_bytes": 432694,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "97c4d6035d3b282422ccff90accaeb45e8d6c498746b182ccd423b16e05a8b2b",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 22050,
+        "sample_count": 216308,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-b-clean-clone.wav",
+      "sha256": "bd4178fe32015dc36757b58f5dac9d282141ca3f104f1c54ceb79c6cf7917e1a",
+      "size_bytes": 190542,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "c15737d29692b6c703597f61dda1787eb571b4a27ed7c88dd404b07483a364a4",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 22050,
+        "sample_count": 95232,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "pilot-b-protected-clone.wav",
+      "sha256": "ca3fd09c09c9d1d8e3935bca17531951e048f86efe353d03635c78d7ff31db8d",
+      "size_bytes": 190542,
+      "kind": "openvoice_pilot_audio",
+      "mime_type": "audio/wav",
+      "source_sha256": "befcfa959b70d309a831a343bc8da77f06cc4715926a1a8104ec3d65e1edb10f",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "playback_processing": {
+        "common_gain": 1,
+        "encoding": "PCM16",
+        "sample_rate_hz": 22050,
+        "sample_count": 95232,
+        "no_trim": true,
+        "no_resampling": true,
+        "no_filtering": true,
+        "no_new_synthesis": true,
+        "max_absolute_quantization_error": 1.52587890625e-05
+      }
+    },
+    {
+      "path": "figures/basis_T_by_6.png",
+      "sha256": "6a352ca3baca7e2833a6f5a5685df01c88ad6e99143a8053d00ab77f4ddf908e",
+      "size_bytes": 14570,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "6a352ca3baca7e2833a6f5a5685df01c88ad6e99143a8053d00ab77f4ddf908e",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "Actual dictionary shape 176784 by 6. Time rows compressed for display; colors clipped at the 99.5th percentile. Three smooth bands from each of two existing perturbations.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/delta_actual_wave.png",
+      "sha256": "4e2032e36cd32a78946fc155e414f746b9cd05d7986a607261292af288e56fad",
+      "size_bytes": 18277,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "4e2032e36cd32a78946fc155e414f746b9cd05d7986a607261292af288e56fad",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "Real waveform data from the v46 illustrative candidate, not a human-success certificate.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/delta_sample_strip.png",
+      "sha256": "3da0e8953b98b625bff407586b5c0773e8785557876a173a0bb6da714a8f6f8d",
+      "size_bytes": 4163,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "3da0e8953b98b625bff407586b5c0773e8785557876a173a0bb6da714a8f6f8d",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "Ordered waveform-sample strip, not a native time-frequency noise matrix.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/freevc_candidate_256.png",
+      "sha256": "af3bf0765f0f997e04812e440427485cf38719421c8575a6cfc851ceeac32bf6",
+      "size_bytes": 2265,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "af3bf0765f0f997e04812e440427485cf38719421c8575a6cfc851ceeac32bf6",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "256 model-specific coordinates reshaped to 16 by 16 for display; no native spatial or semantic axes and no shared-space alignment implied.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/freevc_clean_256.png",
+      "sha256": "8cdacc877c535dccaacf219bf49f2028afc812e92afe7316b54fc44f6e3768dd",
+      "size_bytes": 2220,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "8cdacc877c535dccaacf219bf49f2028afc812e92afe7316b54fc44f6e3768dd",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "256 model-specific coordinates reshaped to 16 by 16 for display; no native spatial or semantic axes and no shared-space alignment implied.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/freevc_donor_256.png",
+      "sha256": "bcf6227befc175a3b1017fce838b7e60ace57ae2db1943541a81cc21e57d4cbe",
+      "size_bytes": 2222,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "bcf6227befc175a3b1017fce838b7e60ace57ae2db1943541a81cc21e57d4cbe",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "256 model-specific coordinates reshaped to 16 by 16 for display; no native spatial or semantic axes and no shared-space alignment implied.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/openvoice_candidate_256.png",
+      "sha256": "c533fab44d05937bbf6775a986ecb948dbd727876d473cd463a9ac6b5d6b26c5",
+      "size_bytes": 2251,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "c533fab44d05937bbf6775a986ecb948dbd727876d473cd463a9ac6b5d6b26c5",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "256 model-specific coordinates reshaped to 16 by 16 for display; no native spatial or semantic axes and no shared-space alignment implied.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/openvoice_clean_256.png",
+      "sha256": "fa835d64fd537670fde706de588a2264cdef9b9b6d90761b39249a2069deac05",
+      "size_bytes": 2287,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "fa835d64fd537670fde706de588a2264cdef9b9b6d90761b39249a2069deac05",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "256 model-specific coordinates reshaped to 16 by 16 for display; no native spatial or semantic axes and no shared-space alignment implied.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/openvoice_donor_256.png",
+      "sha256": "9e230dfeb08ad23bf2e79726858783a17d564f8e0416395176ded04c23afcb87",
+      "size_bytes": 2294,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "9e230dfeb08ad23bf2e79726858783a17d564f8e0416395176ded04c23afcb87",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "256 model-specific coordinates reshaped to 16 by 16 for display; no native spatial or semantic axes and no shared-space alignment implied.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/original_wave.png",
+      "sha256": "e3f6508e628f94c4303b33a8d97bb87e58682b82c705a025bd03167b44ac32f9",
+      "size_bytes": 15829,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "e3f6508e628f94c4303b33a8d97bb87e58682b82c705a025bd03167b44ac32f9",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "Real waveform data from the v46 illustrative candidate, not a human-success certificate.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/perturbation_x10_wave.png",
+      "sha256": "6ca111b4f46d683bb119da25203e7ed65370f1ed827a881fd7b2b63e3ee2b6ec",
+      "size_bytes": 15762,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "6ca111b4f46d683bb119da25203e7ed65370f1ed827a881fd7b2b63e3ee2b6ec",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "Actual perturbation, magnified 10 times for visibility; this does not establish inaudibility.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "figures/protected_wave.png",
+      "sha256": "26d083e65c76bdf77bbe8e9a8a35e104f5ea44459913c94a073eaef37fae3683",
+      "size_bytes": 14620,
+      "kind": "research_visualization",
+      "mime_type": "image/png",
+      "source_sha256": "26d083e65c76bdf77bbe8e9a8a35e104f5ea44459913c94a073eaef37fae3683",
+      "experiment": "v46",
+      "unit_id": "p257/reference_1",
+      "caption": "Real waveform data from the v46 illustrative candidate, not a human-success certificate.",
+      "source_corpus": "CSTR VCTK Corpus 0.92",
+      "source_url": "https://datashare.ed.ac.uk/handle/10283/3443",
+      "source_license": "CC BY 4.0",
+      "figure_credit": "Visualization prepared for Yuxuan Liu’s research presentation; data derived from the stated corpus and frozen experiment."
+    },
+    {
+      "path": "news/abc-family.jpg",
+      "sha256": "82a6503d48d39c646d1afd769984151562ba6e275daf8fe9de33147dff3c3e72",
+      "size_bytes": 330544,
+      "kind": "news_image",
+      "mime_type": "image/jpeg"
+    },
+    {
+      "path": "news/cnn-hongkong.jpg",
+      "sha256": "986b3297ec4513d4b7c9f241f7e1736c9f5eada2de7add12928c49409b1f963e",
+      "size_bytes": 40544,
+      "kind": "news_image",
+      "mime_type": "image/jpeg"
+    },
+    {
+      "path": "news/cbs-biden.jpg",
+      "sha256": "3e1acd5cc874d26a222b87900b2d9543043c7d2e36fbab0f0baa39508c49ec6e",
+      "size_bytes": 48542,
+      "kind": "news_image",
+      "mime_type": "image/jpeg"
+    },
+    {
+      "path": "cover.svg",
+      "sha256": "e1bc07db64327ebc14df833e25d773addbc4ed03069c82d5b3753750af7ab1ee",
+      "size_bytes": 2642,
+      "kind": "original_web_diagram",
+      "mime_type": "image/svg+xml"
+    }
+  ],
+  "visual_data": {
+    "path": "smalldata.json",
+    "sha256": "fccda8b1228ad25275c9648f155c65c483fa78fe386ed29220a98c4f593f3b92",
+    "size_bytes": 63273,
+    "purpose": "320-position display samples only"
+  },
+  "news": [
+    {
+      "path": "news/abc-family.jpg",
+      "publisher": "ABC News / Good Morning America",
+      "article_url": "https://abcnews.com/GMA/Family/mom-warns-hoax-ai-clone-daughters-voice/story?id=98551351",
+      "asset_url": "https://i.abcnewsfe.com/a/50f2fd1d-6682-4e4b-af1c-cf90beb0bd31/230413_gma_reshe5_0736_hpMain_9x16.jpg",
+      "published_date": "2023-04-13",
+      "credit": "ABC News / Good Morning America",
+      "description": "Original broadcaster video poster, not a recording of the scam.",
+      "sha256": "82a6503d48d39c646d1afd769984151562ba6e275daf8fe9de33147dff3c3e72",
+      "license": "Copyright retained by the publisher and/or credited rightsholder. No open license claimed.",
+      "display": "Original local file unchanged; CSS fits the complete image inside a portrait frame."
+    },
+    {
+      "path": "news/cnn-hongkong.jpg",
+      "publisher": "CNN",
+      "article_url": "https://edition.cnn.com/2024/02/04/asia/deepfake-cfo-scam-hong-kong-intl-hnk/index.html",
+      "asset_url": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-1437811938.jpg?c=16x9&q=w_800,c_fill",
+      "published_date": "2024-02-04",
+      "credit": "boonchai wedmakawand / Moment RF / Getty Images",
+      "description": "Article stock illustration, not footage of the fraudulent meeting.",
+      "sha256": "986b3297ec4513d4b7c9f241f7e1736c9f5eada2de7add12928c49409b1f963e",
+      "license": "Copyright retained by the publisher and/or credited rightsholder. No open license claimed.",
+      "display": "Original local file unchanged; CSS fits the complete image inside a portrait frame."
+    },
+    {
+      "path": "news/cbs-biden.jpg",
+      "publisher": "CBS News",
+      "article_url": "https://www.cbsnews.com/news/fake-biden-robocall-new-hampshire-primary/",
+      "published_date": "2024-01-22",
+      "updated_date": "2024-01-23",
+      "credit": "Getty Images / CBS News; asset ID 1945380707",
+      "description": "Original article Open Graph image, not footage of the robocall.",
+      "sha256": "3e1acd5cc874d26a222b87900b2d9543043c7d2e36fbab0f0baa39508c49ec6e",
+      "license": "Copyright retained by the publisher and/or credited rightsholder. No open license claimed.",
+      "display": "Original local file unchanged; CSS fits the complete image inside a portrait frame.",
+      "asset_url": "https://assets2.cbsnewsstatic.com/hub/i/r/2024/01/22/b1fd1c6a-3c9b-47dc-8d7b-ac49a0fabcaf/thumbnail/1200x630g2/672c0b2651df89e4f38dfba4e49d642a/gettyimages-1945380707.jpg"
+    }
+  ]
+}

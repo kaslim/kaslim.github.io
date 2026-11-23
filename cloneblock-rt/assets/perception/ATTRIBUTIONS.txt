@@ -1,0 +1,58 @@
+SELECTED RESEARCH MEDIA — ATTRIBUTION AND SCOPE
+
+These assets support a noncommercial academic research demonstration. Synthetic voice imitations are AI-generated, not authentic statements or endorsements. The dataset and image source terms below apply separately; the website code license does not relicense every media asset.
+
+SYNTHETIC CAPABILITY DEMOS
+All three use fixed Qwen3-TTS-12Hz-1.7B-Base weights. They illustrate synthesis capability, not successful voice protection or identity verification.
+Donald Trump: reference from DVIDS / U.S. Department of Defense, “Trump speaks at US Military Academy graduation” (video 964039). The original source page labels the government recording public domain. Only our synthetic output is included here.
+https://www.dvidshub.net/video/964039/trump-speaks-us-military-academy-graduation
+Lei Jun: reference from the official Lei Jun Bilibili account, BV1sp4y1q7tF. Copyright remains with the source/rightsholder; no open redistribution license is claimed. The included synthetic English excerpt removes an unintended leading reference-language fragment; retained English PCM is unchanged before MP3 encoding. Original conditioning audio is not included.
+https://www.bilibili.com/video/BV1sp4y1q7tF/
+Nailoong: reference from pengyichen, NaiLong-Voice-Clone, revision 4d58d142e50d05c2e8a4871c125f97ff70d84e6c, nailong_selected/32kHz, 16-bit, Mono (1-channel)/record193.wav. Dataset card: CC BY-NC-SA 4.0. Retain this attribution and the noncommercial/share-alike notice with this demo. The dataset author's license label is not an independent clearance of original character rights. Original character rights remain with their respective rightsholders. The included audio is AI-generated English synthesis, not original character dialogue.
+https://huggingface.co/datasets/pengyichen/NaiLong-Voice-Clone
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+PORTRAITS
+Trump: Shealah Craighead / The White House, official portrait (2017), public domain per the Wikimedia Commons source. Existing 960px source thumbnail copied unchanged.
+https://commons.wikimedia.org/wiki/File:Donald_Trump_official_portrait.jpg
+Lei Jun: Xiaomi official management page. Copyright retained by Xiaomi / respective owner; no open license claimed. Image copied unchanged.
+https://www.mi.com/about/founder?stat=true
+Nailoong: official Nailoong / Seventh Impression website. Copyright retained by 第七印象文化传媒（深圳）有限公司 / respective owner; no open license claimed. Image copied unchanged.
+https://www.nailoong.com/business/ipIncubation/
+
+SPEECH CORPORA AND RESEARCH EXAMPLES
+VCTK: Junichi Yamagishi, Christophe Veaux, Kirsten MacDonald (2019), CSTR VCTK Corpus version 0.92, University of Edinburgh CSTR. DOI:10.7488/ds/2645. CC BY 4.0. Used in the Enkidu reproduction, OpenVoice pilot cases, and v46 visualizations. Corpus recordings were resampled/canonicalized for the experiments; protected references contain constructed perturbations; cloned outputs are synthetic. These are research examples, not genuine new speech by corpus speakers.
+https://datashare.ed.ac.uk/handle/10283/3443
+LibriTTS: Heiga Zen et al. (2019), LibriTTS: A Corpus Derived from LibriSpeech for Text-to-Speech. OpenSLR SLR60, CC BY 4.0. Used for SafeSpeech G003, speaker5339, utterance5339_14134_000004_000000. Cloned outputs are synthetic.
+https://www.openslr.org/60/
+https://creativecommons.org/licenses/by/4.0/
+
+PLAYBACK DERIVATIVES
+Counterexample triples: common gain per example, Enkidu0.8714891605050512 and SafeSpeech0.6433242520743002, followed by PCM16 encoding. No trimming, resampling, filtering, or new synthesis. Common gain avoids clipping while preserving relative levels within each triple.
+OpenVoice pilot clips: common gain1 and PCM16 encoding; original sample rates, sample counts, duration and relative levels retained. No trimming, resampling, filtering, normalization, or new synthesis. Historical ratings refer to the unchanged experimental source WAVs. Original and playback SHA256s are listed separately in sources.json.
+
+SCIENTIFIC SCOPE
+The two ECAPA counterexamples were selected after reproduction. Scores are ECAPA cosine to independent enrollment prototypes, not the papers' direct reference-to-clone SIM. A score decrease is not a calibrated probability of human identity failure. Both selected protected inputs had audible noise costs; they are not input-preserving protection successes. One exploratory developer listener does not establish a population estimate or method-wide failure.
+The two OpenVoice examples are v41 per-recording, 64-step waveform optimization pilots with fixed model weights and native donor-condition matching. They were rated by one non-blind developer listener. They are not results of the later v46 six-coefficient joint search, not streaming real-time protection results, not ABX inaudibility, and not cross-model protection guarantees.
+Method plots are our visualizations of v46 p257/reference_1, JOINT_WORST30. The 256-coordinate heatmaps are16x16 display reshapes, not native spatial maps. The two models' spaces are not aligned merely because they have the same dimension. The x10 perturbation view is magnified. The B image compresses time rows and clips color at the99.5th percentile for visibility. smalldata.json contains only320 sampled positions for display and cannot reconstruct the complete WAV or reproduce the constrained search.
+
+NEWS CONTEXT
+The three publisher images are used for linked, noncommercial scholarly discussion. They do not depict recordings of the actual scams. Copyright remains with their publishers and credited rightsholders; no open license is claimed. Local files are unchanged and are fitted into portrait display areas.
+
+ABC News / Good Morning America / 2023-04-13
+Credit: ABC News / Good Morning America
+Original broadcaster video poster, not a recording of the scam.
+https://abcnews.com/GMA/Family/mom-warns-hoax-ai-clone-daughters-voice/story?id=98551351
+Image source: https://i.abcnewsfe.com/a/50f2fd1d-6682-4e4b-af1c-cf90beb0bd31/230413_gma_reshe5_0736_hpMain_9x16.jpg
+
+CNN / 2024-02-04
+Credit: boonchai wedmakawand / Moment RF / Getty Images
+Article stock illustration, not footage of the fraudulent meeting.
+https://edition.cnn.com/2024/02/04/asia/deepfake-cfo-scam-hong-kong-intl-hnk/index.html
+Image source: https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-1437811938.jpg?c=16x9&q=w_800,c_fill
+
+CBS News / 2024-01-22
+Credit: Getty Images / CBS News; asset ID 1945380707
+Original article Open Graph image, not footage of the robocall.
+https://www.cbsnews.com/news/fake-biden-robocall-new-hampshire-primary/
+Image source: https://assets2.cbsnewsstatic.com/hub/i/r/2024/01/22/b1fd1c6a-3c9b-47dc-8d7b-ac49a0fabcaf/thumbnail/1200x630g2/672c0b2651df89e4f38dfba4e49d642a/gettyimages-1945380707.jpg
