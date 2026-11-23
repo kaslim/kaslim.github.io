@@ -204,11 +204,24 @@
   </figcaption>
 </figure>
 <div class="plate-story">
-<p class="plate-explanation" data-i18n="plate.3.story1">A natural baseline is to add noise and see how accurately the model can recover the original representation. Reconstruction error also depends on how easy the music is to recover, so an unseen recording can give a low error too.</p>
-<p class="plate-explanation" data-i18n="plate.3.story2">We slightly perturb one noisy intermediate state and measure how much the model’s response changes. Our hypothesis is that responses to training items tend to be more stable under these probes.</p>
-<p class="plate-bridge" data-i18n="plate.3.bridge">Our first study asked how large a perturbation it takes to make that response change by a fixed amount.</p>
+<p class="plate-explanation" data-i18n="plate.3.story1">Reconstruction error asks how closely the denoised result matches the original. A training track may be easier to recover. But the noisy state still carries information about the original, and the model’s learned denoising ability extends to unseen tracks. Both groups can yield low errors, making membership harder to infer.</p>
+<p class="plate-explanation" data-i18n="plate.3.story2">That led us to a tougher test. Start from the same noisy state and denoise it twice. On the second pass, nudge the state in the direction most likely to change the output. Do the two denoised results still agree?</p>
+<p class="plate-bridge" data-i18n="plate.3.bridge">LSA-Probe measures how much perturbation it takes to make the two denoised results noticeably different.</p>
 </div>
 </div>
+<details class="study-details">
+<summary data-i18n="portrait.summary">See the comparison with one photo</summary>
+<div class="study-details-body">
+<figure class="main-figure">
+  <a class="image-button" href="assets/figures/reconstruction-portrait-example.png" data-dialog-image="assets/figures/reconstruction-portrait-example.png" aria-haspopup="dialog" aria-describedby="portrait-caption">
+    <img src="assets/figures/reconstruction-portrait-example.png" width="3200" height="2000" alt="The upper bracket connects the original portrait to its reconstruction. The lower bracket connects two reconstructions from the same noisy portrait, with a perturbation applied to one branch." data-i18n-alt="portrait.alt" loading="lazy" decoding="async">
+  </a>
+  <figcaption id="portrait-caption">
+    <span data-i18n="portrait.caption">The upper panel compares the original photo with its reconstruction after noising and denoising. The lower panel perturbs one branch from the same noisy photo and compares the two reconstructions on the right. This is a conceptual illustration.</span>
+  </figcaption>
+</figure>
+</div>
+</details>
 <details class="study-details">
 <summary data-i18n="plate.3.details">Baselines, equations and implementation</summary>
 <div class="study-details-body">
@@ -259,8 +272,8 @@
   </figcaption>
 </figure>
 <div class="plate-story">
-<p class="plate-explanation" data-i18n="plate.4.story1">In our ICASSP study, we perturb an intermediate state. At a fixed budget, projected gradient descent searches for a direction that changes the reverse response enough to reach a preset perceptual degradation threshold.</p>
-<p class="plate-explanation" data-i18n="plate.4.story2">The outer loop uses bisection to estimate the smallest normalized budget that succeeds. A larger budget means the response is harder to destabilize under this probe.</p>
+<p class="plate-explanation" data-i18n="plate.4.story1">We denoise the same intermediate state with and without a perturbation δₜ, using the same model and settings. At a fixed normalized budget η, projected gradient descent (PGD) searches for a direction that pushes the two results as far apart as possible.</p>
+<p class="plate-explanation" data-i18n="plate.4.story2">The outer loop uses bisection to estimate the smallest budget that makes the perceptual difference reach a fixed threshold τ. A larger budget means the result is harder to change. We test whether training members tend to require larger budgets.</p>
 <p class="plate-bridge" data-i18n="plate.4.bridge">The journal study asked a complementary question. With the perturbation size fixed, what does the response look like across diffusion times?</p>
 </div>
 </div>
