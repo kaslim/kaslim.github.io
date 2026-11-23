@@ -200,14 +200,13 @@
   const phoneFigure = window.matchMedia("(max-width: 680px)");
 
   function refreshFigures() {
-    const language = i18n.language === "zh-CN" ? "zh" : "en";
+    // Display the author's original English artwork in both site languages.
+    // Localized captions and alt text are supplied by i18n.
     for (const picture of document.querySelectorAll("picture[data-plate]")) {
-      const root = "assets/figures/visual-v2/" + picture.dataset.plate;
-      const desktop = root + "-" + language + ".svg";
-      const mobile = root + "-mobile-" + language + ".svg";
-      picture.querySelector("source").setAttribute("srcset", mobile);
-      picture.querySelector("img").setAttribute("src", desktop);
-      picture.closest("a").href = phoneFigure.matches ? mobile : desktop;
+      const original = "assets/figures/visual-v3/" + picture.dataset.plate + ".png";
+      picture.querySelector("source").setAttribute("srcset", original);
+      picture.querySelector("img").setAttribute("src", original);
+      picture.closest("a").href = original;
     }
   }
 
@@ -374,3 +373,4 @@
 
   initialize().catch((error) => console.error("[LSA-Probe initialize]", error));
 })();
+
