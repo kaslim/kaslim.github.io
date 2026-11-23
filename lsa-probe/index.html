@@ -51,10 +51,10 @@
 <section class="plate-section study-section section-shell" id="audit-question" data-focus-step="1" aria-labelledby="audit-question-title">
 <p class="eyebrow" id="overview" data-i18n="plate.series">LSA-Probe  /  MS-CHN</p><h1 id="audit-question-title" tabindex="-1" data-i18n="plate.1.title">Was this music used for training?</h1>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/01-audit-overview-en.svg" aria-haspopup="dialog" aria-describedby="caption-1">
+  <a class="plate-open" href="assets/figures/visual-v3/01-audit-overview.png" aria-haspopup="dialog" aria-describedby="caption-1">
     <picture data-plate="01-audit-overview">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/01-audit-overview-mobile-en.svg" width="400" height="633">
-      <img src="assets/figures/visual-v2/01-audit-overview-en.svg" width="1000" height="510" alt="A cassette and an open model illustrate querying one candidate, reading internal denoising states at a fixed checkpoint, and interpreting the score with reference non-members." data-i18n-alt="plate.1.alt" fetchpriority="high" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/01-audit-overview.png" width="1536" height="1024">
+      <img src="assets/figures/visual-v3/01-audit-overview.png" width="1536" height="1024" alt="A candidate music file enters a target checkpoint in a white-box audit. Paired internal responses and reference non-members provide membership evidence." data-i18n-alt="plate.1.alt" fetchpriority="high" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-1"><span data-i18n="plate.1.caption">The question is whether this checkpoint trained on the candidate track. Known non-members give its response a reference level.</span>
@@ -75,10 +75,10 @@
 <section class="plate-section study-section section-shell" id="controlled-training" data-focus-step="2" aria-labelledby="controlled-training-title">
 <h2 id="controlled-training-title" tabindex="-1" data-i18n="plate.2.title">Training views and audit queries</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/02-training-and-crops-en.svg" aria-haspopup="dialog" aria-describedby="caption-2">
+  <a class="plate-open" href="assets/figures/visual-v3/02-training-and-crops.png" aria-haspopup="dialog" aria-describedby="caption-2">
     <picture data-plate="02-training-and-crops">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/02-training-and-crops-mobile-en.svg" width="400" height="765">
-      <img src="assets/figures/visual-v2/02-training-and-crops-en.svg" width="1000" height="532" alt="One item ID spans a timeline with variable training windows and one fixed center audit window. The training manifest labels the track." data-i18n-alt="plate.2.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/02-training-and-crops.png" width="1672" height="941">
+      <img src="assets/figures/visual-v3/02-training-and-crops.png" width="1672" height="941" alt="One item ID spans a timeline with variable training windows and one fixed center audit window. The training manifest labels the track." data-i18n-alt="plate.2.alt" loading="lazy" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-2"><span data-i18n="plate.2.caption">Membership follows the original track ID. A fixed query crop can carry the track’s label even when training sampled other windows.</span>
@@ -178,13 +178,13 @@
 <section class="plate-section study-section section-shell" id="endpoint-loss" data-focus-step="3" aria-labelledby="endpoint-loss-title">
 <h2 id="endpoint-loss-title" tabindex="-1" data-i18n="plate.3.title">Reconstruction and stability</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/03-reconstruction-versus-stability-en.svg" aria-haspopup="dialog" aria-describedby="caption-3">
+  <a class="plate-open" href="assets/figures/visual-v3/03-reconstruction-versus-stability.png" aria-haspopup="dialog" aria-describedby="caption-3">
     <picture data-plate="03-reconstruction-versus-stability">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/03-reconstruction-versus-stability-mobile-en.svg" width="400" height="606">
-      <img src="assets/figures/visual-v2/03-reconstruction-versus-stability-en.svg" width="1000" height="535" alt="The upper bracket joins x₀ and its clean estimate. The lower bracket joins Rₜ(zₜ) and Rₜ(zₜ+δₜ), sharing model, conditioning and randomness." data-i18n-alt="plate.3.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/03-reconstruction-versus-stability.png" width="1586" height="992">
+      <img src="assets/figures/visual-v3/03-reconstruction-versus-stability.png" width="1586" height="992" alt="The upper bracket compares the original latent z₀ with its reconstruction ẑ₀. The lower bracket compares unperturbed and perturbed denoising responses under the same model, conditioning and paired randomness." data-i18n-alt="plate.3.alt" loading="lazy" decoding="async">
     </picture>
   </a>
-  <figcaption id="caption-3"><span data-i18n="plate.3.caption">Reconstruction compares a clean estimate with its input. Stability compares two responses under paired randomness.</span>
+  <figcaption id="caption-3"><span data-i18n="plate.3.caption">Reconstruction compares ẑ₀ with the original latent z₀. Stability compares unperturbed and perturbed responses under paired randomness.</span>
     <button type="button" class="figure-zoom" data-i18n="plate.zoom">Enlarge figure</button>
   </figcaption>
 </figure>
@@ -227,10 +227,10 @@
 <section class="plate-section study-section section-shell" id="method" data-focus-step="4" aria-labelledby="method-title">
 <h2 id="method-title" tabindex="-1" data-i18n="plate.4.title">LSA-Probe</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/04-lsa-probe-two-loops-en.svg" aria-haspopup="dialog" aria-describedby="caption-4">
+  <a class="plate-open" href="assets/figures/visual-v3/04-lsa-probe-two-loops.png" aria-haspopup="dialog" aria-describedby="caption-4">
     <picture data-plate="04-lsa-probe-two-loops">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/04-lsa-probe-two-loops-mobile-en.svg" width="400" height="693">
-      <img src="assets/figures/visual-v2/04-lsa-probe-two-loops-en.svg" width="1000" height="530" alt="Outer bisection sets η. Inner PGD projects δ to that budget. Paired perceptual degradation relative to τ updates the interval until C_adv is estimated." data-i18n-alt="plate.4.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/04-lsa-probe-two-loops.png" width="1586" height="992">
+      <img src="assets/figures/visual-v3/04-lsa-probe-two-loops.png" width="1586" height="992" alt="Outer bisection sets η. Inner PGD projects δ to that budget. Paired perceptual degradation relative to τ updates the interval until C_adv is estimated." data-i18n-alt="plate.4.alt" loading="lazy" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-4"><span data-i18n="plate.4.caption">To cross a fixed perceptual threshold, PGD searches for a direction and bisection estimates the required budget.</span>
@@ -252,10 +252,10 @@
 <section class="plate-section study-section section-shell" id="raw-stability" data-focus-step="5" aria-labelledby="raw-stability-title">
 <h2 id="raw-stability-title" tabindex="-1" data-i18n="plate.5.title">Raw Manifold Stability</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/05-raw-manifold-stability-en.svg" aria-haspopup="dialog" aria-describedby="caption-5">
+  <a class="plate-open" href="assets/figures/visual-v3/05-raw-manifold-stability.png" aria-haspopup="dialog" aria-describedby="caption-5">
     <picture data-plate="05-raw-manifold-stability">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/05-raw-manifold-stability-mobile-en.svg" width="400" height="747">
-      <img src="assets/figures/visual-v2/05-raw-manifold-stability-en.svg" width="1000" height="511" alt="Fixed-amplitude directions at several diffusion times yield paired response distances and sensitivities. Transform stability against reference non-members at each time and aggregate to S_MS." data-i18n-alt="plate.5.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/05-raw-manifold-stability.png" width="1672" height="941">
+      <img src="assets/figures/visual-v3/05-raw-manifold-stability.png" width="1672" height="941" alt="Fixed-amplitude directions at several diffusion times yield paired response distances and sensitivities. Transform stability against reference non-members at each time and aggregate to S_MS." data-i18n-alt="plate.5.alt" loading="lazy" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-5"><span data-i18n="plate.5.caption">At a fixed perturbation size, a smaller paired response change yields a higher stability coordinate.</span>
@@ -279,10 +279,10 @@
 <section class="plate-section study-section section-shell" id="ms-chn" data-focus-step="6" aria-labelledby="ms-chn-title">
 <h2 id="ms-chn-title" tabindex="-1" data-i18n="plate.6.title">MS-CHN</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/06-ms-chn-local-reference-en.svg" aria-haspopup="dialog" aria-describedby="caption-6">
+  <a class="plate-open" href="assets/figures/visual-v3/06-ms-chn-local-reference.png" aria-haspopup="dialog" aria-describedby="caption-6">
     <picture data-plate="06-ms-chn-local-reference">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/06-ms-chn-local-reference-mobile-en.svg" width="400" height="749">
-      <img src="assets/figures/visual-v2/06-ms-chn-local-reference-en.svg" width="1000" height="562" alt="Frozen features select similar reference non-members. Subtract their local Raw MS q95 from candidate Raw MS. Two conceptual examples place the candidate near or above this background." data-i18n-alt="plate.6.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/06-ms-chn-local-reference.png" width="1586" height="992">
+      <img src="assets/figures/visual-v3/06-ms-chn-local-reference.png" width="1586" height="992" alt="Frozen features select similar reference non-members. Subtract their local Raw MS q95 from candidate Raw MS. Two conceptual examples place the candidate near or above this background." data-i18n-alt="plate.6.alt" loading="lazy" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-6"><span data-i18n="plate.6.caption">Similarity selects the controls. A positive residual places the candidate above its neighbors’ upper quantile; a separately calibrated cutoff determines the decision.</span>
@@ -309,10 +309,10 @@
 <section class="plate-section study-section section-shell" id="resources" data-focus-step="7" aria-labelledby="resources-title">
 <h2 id="resources-title" tabindex="-1" data-i18n="plate.7.title">Reference, calibration and evaluation</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/07-reference-calibration-evaluation-en.svg" aria-haspopup="dialog" aria-describedby="caption-7">
+  <a class="plate-open" href="assets/figures/visual-v3/07-reference-calibration-evaluation.png" aria-haspopup="dialog" aria-describedby="caption-7">
     <picture data-plate="07-reference-calibration-evaluation">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/07-reference-calibration-evaluation-mobile-en.svg" width="400" height="711">
-      <img src="assets/figures/visual-v2/07-reference-calibration-evaluation-en.svg" width="1000" height="512" alt="C_ref fits the scoring map and local reference. With this map frozen, C_thr sets a cutoff. Held-out E₀ and E₁ measure FPR and TPR with the frozen rule." data-i18n-alt="plate.7.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/07-reference-calibration-evaluation.png" width="1672" height="941">
+      <img src="assets/figures/visual-v3/07-reference-calibration-evaluation.png" width="1672" height="941" alt="C_ref fits the scoring map and local reference. With this map frozen, C_thr sets a cutoff. Held-out E₀ and E₁ measure FPR and TPR with the frozen rule." data-i18n-alt="plate.7.alt" loading="lazy" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-7"><span data-i18n="plate.7.caption">Independent-reference manuscript protocol. Alignment with the original labels and scores behind the July results remains unresolved.</span>
@@ -371,10 +371,10 @@
 <section class="plate-section study-section section-shell" id="evidence" data-focus-step="8" aria-labelledby="evidence-title">
 <h2 id="evidence-title" tabindex="-1" data-i18n="plate.8.title">Results by protocol</h2>
 <figure class="main-figure">
-  <a class="plate-open" href="assets/figures/visual-v2/08-results-summary-en.svg" aria-haspopup="dialog" aria-describedby="caption-8">
+  <a class="plate-open" href="assets/figures/visual-v3/08-results-summary.png" aria-haspopup="dialog" aria-describedby="caption-8">
     <picture data-plate="08-results-summary">
-      <source media="(max-width: 680px)" srcset="assets/figures/visual-v2/08-results-summary-mobile-en.svg" width="400" height="913">
-      <img src="assets/figures/visual-v2/08-results-summary-en.svg" width="1000" height="542" alt="Conference baseline and LSA-Probe TPR pairs are 10/13, 8/14, 12/20 and 11/18 percent. July Raw MS and MS-CHN TPRs are 9.19% and 16.55%, with empirical FPRs of 0.56% and 0.70%." data-i18n-alt="plate.8.alt" loading="lazy" decoding="async">
+      <source media="(max-width: 680px)" srcset="assets/figures/visual-v3/08-results-summary.png" width="4800" height="3000">
+      <img src="assets/figures/visual-v3/08-results-summary.png" width="4800" height="3000" alt="Conference baseline and LSA-Probe TPR pairs are 10/13, 8/14, 12/20 and 11/18 percent. July Raw MS and MS-CHN TPRs are 9.19% and 16.55%, with empirical FPRs of 0.56% and 0.70%." data-i18n-alt="plate.8.alt" loading="lazy" decoding="async">
     </picture>
   </a>
   <figcaption id="caption-8"><span data-i18n="plate.8.caption">Manuscript-reported. ICASSP Table 1 and the July AudioLDM draft use separate protocols. The July values use the earlier calibration pool; replay under the later independent protocol remains unresolved.</span>
@@ -513,7 +513,7 @@
 </div>
 </details>
 
-<a href="https://github.com/kaslim/kaslim.github.io/tree/main/lsa-probe/assets/figures/visual-v2" data-i18n="plate.artifacts">Figure sources and production record</a>
+<a href="https://github.com/kaslim/kaslim.github.io/tree/main/lsa-probe/assets/figures/visual-v3" data-i18n="plate.artifacts">Figure sources and production record</a>
 </section>
 </main>
 
@@ -537,6 +537,7 @@
     <div class="figure-pan" tabindex="0"><img id="dialog-image" alt=""></div>
   </dialog>
   <script src="js/i18n.js?v=20261122-r2" defer></script>
-  <script src="js/app-v2.js?v=20261122-r2" defer></script>
+  <script src="js/app-v2.js?v=20261123-figures-v3" defer></script>
 </body>
 </html>
+
