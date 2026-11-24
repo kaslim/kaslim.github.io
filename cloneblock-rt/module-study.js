@@ -59,6 +59,7 @@
     buildTable(model);
     const pages=model.report_pages;
     el('r1-data-status').textContent=zh?`来源：R1 完整实验报告，第 ${pages.results}–${pages.architecture} 页，2026-11-21。此轮未做人耳 / MOS；并非下方旧 OpenVoice 试听的同一实验。`:`Source: R1 complete report, pp. ${pages.results}–${pages.architecture}, 21 Nov 2026. No listening or MOS in this study; separate from the earlier OpenVoice audio below.`;
+    document.dispatchEvent(new CustomEvent('cloneblock:modelchange',{detail:{model:selected}}));
   }
   root.querySelectorAll('[data-r1-model]').forEach(button=>button.addEventListener('click',()=>{
     selected=button.dataset.r1Model;render();
