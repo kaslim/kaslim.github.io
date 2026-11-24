@@ -1,0 +1,378 @@
+{
+  "schema": "cloneblock_qwen_frozen_pilot_public_evidence_v1",
+  "study": "qwen_p1_frozen_confirmation_20261110_224219",
+  "result_label_en": "Partial single-developer nonblind joint witness: 7 of 8 contexts for one frozen WAV",
+  "result_label_zh": "同一冻结WAV的单开发者非盲部分联合见证：8个情境中7个",
+  "generation_date": "2026-11-10",
+  "rating_exported_at_utc": "2026-11-10T16:26:32.560Z",
+  "rating_date_utc_plus_8": "2026-11-11",
+  "n_speakers": 1,
+  "n_unique_protected_inputs": 1,
+  "n_listeners": 1,
+  "listener_type": "single developer",
+  "nonblind": true,
+  "independent_listeners": false,
+  "reviewer_identity_collected": false,
+  "n_new_texts": 4,
+  "n_actual_frozen_start_states": 2,
+  "n_contexts": 8,
+  "n_clean_outputs": 8,
+  "n_protected_outputs": 8,
+  "n_distinct_input_judgments": 1,
+  "model": {
+    "name": "Qwen3-TTS 1.7B Base",
+    "mode": "full ICL",
+    "dtype": "torch.bfloat16",
+    "attention": "sdpa",
+    "generation_config": {
+      "language": "English",
+      "x_vector_only_mode": false,
+      "non_streaming_mode": true,
+      "do_sample": true,
+      "repetition_penalty": 1.05,
+      "temperature": 0.9,
+      "top_p": 1.0,
+      "top_k": 50,
+      "subtalker_dosample": true,
+      "subtalker_temperature": 0.9,
+      "subtalker_top_p": 1.0,
+      "subtalker_top_k": 50,
+      "max_new_tokens": 2048
+    },
+    "weights_changed": false,
+    "normal_public_wav_entry": true,
+    "manual_prompt_or_internal_condition_injection_in_confirmation": false,
+    "confirmation_waveform_updates": 0,
+    "confirmation_training": 0,
+    "model_source_sha256": [
+      "e1da450732857c1f5fe3e36ebab85db2f6dc6a48caaff6973f463384e30275e4",
+      "25c42656bcf810f06ef6bc1839bd7083f3c8cfedac3a147c4060b4262b1c96a0",
+      "ac2d855022a1bd21d33ab7b267ec952eef71f81d3f8d969a306139ff1a929515"
+    ]
+  },
+  "assets": {
+    "original_input_sha256": "0e5d2be138a5be3f66e2d03a2585be89c6d383b0535c294055afde6de7ad8d93",
+    "protected_input_sha256": "0cb3288b7ea7d166eeec53b55dc287188e754a6e5fea8341b0996f4458af3c31",
+    "independent_same_speaker_anchor_sha256": "35b2a1e8c90e5a12809e3dd35ee92a43f7a12e311312dff147a22d0dbba3ea19",
+    "sample_rate_hz": 24000,
+    "samples": 141778,
+    "duration_seconds": 5.907416666666666,
+    "format": "mono FLOAT WAV",
+    "snr_db": 30.000868607010794,
+    "max_abs_delta": 0.011611799709498882,
+    "engineering_constraints_pass": true
+  },
+  "frozen_design": {
+    "candidate_fixed_before_new_confirmation_outputs": true,
+    "candidate_selected_after_previous_exposed_development_ratings": true,
+    "preoutput_freeze_record_sha256": "2e41dbb8da7951a2348f5b823da506f7f7819ea6b291b27fe3e249816dfa407d",
+    "same_two_actual_start_states_reused_across_all_four_texts": true,
+    "eight_contexts_are_not_eight_independent_rng_books": true,
+    "paired_clean_protected_use_same_text_and_frozen_start": true,
+    "actual_model_generate_four_rng_boundary_matches_recorded_book_count": 16,
+    "full_ICL_qualification_count": 16,
+    "public_WAV_not_manual_prompt_count": 16,
+    "actual_reference_PCM_read_exact_count": 16,
+    "official_crop_exact_count": 16,
+    "state_records": [
+      {
+        "state_index": 8612011,
+        "state_book_sha256": "2d4e3d70e35952b2ca85a5063e72c85067576a132f46707a1febf083e319eafc",
+        "state_signature_sha256": "994586c88d15a8baa99a1377245b499ac667d3aec9a3f8889f1ba354bea953de"
+      },
+      {
+        "state_index": 8612012,
+        "state_book_sha256": "7d2bfa0229f1352d19cad684568a84151c0f1884e243978d8c9dd0c740c1d4eb",
+        "state_signature_sha256": "ad87741777a85f7f83809e707749f005d45c8ddf97e24600a8565740586cedcc"
+      }
+    ],
+    "text_hashes": [
+      {
+        "text_id": "T1",
+        "sha256": "8c4098d665e54a2da4f8bf4b079c213627a541700681b3fa943ee7f8f05ae67a"
+      },
+      {
+        "text_id": "T2",
+        "sha256": "81ba3eb0db18afc2839da459219621e6fd7d3923f89d987748142a37a4915ee5"
+      },
+      {
+        "text_id": "T3",
+        "sha256": "35db2953253f128e394267367cfdd45ff2c8d54940145934a6910f19f0e9c080"
+      },
+      {
+        "text_id": "T4",
+        "sha256": "cc93071369fe503c9c692fd94c624f7a8a39bc402704b970e3e616a5a4076397"
+      }
+    ],
+    "novelty_scope": "New relative to the enumerated prior public context list; additional development exposure outside that list was unknown. This panel is now exposed."
+  },
+  "input_judgment": {
+    "identity": "clearly same person",
+    "normality": "strictly normal",
+    "content": "correct",
+    "I": true,
+    "measured_once_not_eight_independent_input_ratings": true,
+    "playback_gain": 0.25,
+    "same_fixed_playback_gain_for_media": true,
+    "playback_events": "not collected",
+    "claim_scope": "Explicit judgment of same speaker, normal use and preserved content; not a formal inaudibility or equivalence test."
+  },
+  "endpoint": {
+    "I_en": "Protected input judged clearly same person, strictly normal and content correct.",
+    "B_en": "Matched clean clone judged clearly same person, natural, clear, content correct and normally usable.",
+    "O_en": "Protected clone judged clearly different from target, while natural, clear, content correct and normally usable.",
+    "J": "I AND B AND O, with the predeclared strict three-state rule; baseline failure marked inapplicable.",
+    "quality_failure_is_not_relabeled_as_natural_identity_success": true,
+    "same_criterion_for_all_eight_contexts": true
+  },
+  "counts": {
+    "planned_contexts": 8,
+    "generated_pairs": 8,
+    "baseline_qualified": 8,
+    "joint_positive": 7,
+    "joint_false": 1,
+    "joint_unknown": 0,
+    "baseline_inapplicable": 0,
+    "protected_identity_clearly_different": 7,
+    "protected_identity_same": 0,
+    "protected_identity_uncertain": 1,
+    "protected_clarity_failed": 1,
+    "protected_naturalness_normal": 8,
+    "protected_content_correct": 8,
+    "protected_use_normal": 8,
+    "full_preregistered_8_of_8_endpoint_met": false
+  },
+  "contexts": [
+    {
+      "context_id": "T1_R1",
+      "text_id": "T1",
+      "text_sha256": "8c4098d665e54a2da4f8bf4b079c213627a541700681b3fa943ee7f8f05ae67a",
+      "state_index": 8612011,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "f6f1d33a26e395f8c6be65b4f553d724ef647ff3716cbfdf83ebaee2d9caa403",
+      "protected_output_sha256": "4b9e2285ca1e66ab8b81f78c48ee95413b5a77119d8fbb8b48eb6a3b936ca804"
+    },
+    {
+      "context_id": "T1_R2",
+      "text_id": "T1",
+      "text_sha256": "8c4098d665e54a2da4f8bf4b079c213627a541700681b3fa943ee7f8f05ae67a",
+      "state_index": 8612012,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "8ccd1c59ca416cf9bc79caaddaa463c87d8156c45d6f0c90870c194c3bb63e3e",
+      "protected_output_sha256": "e7b739edee524260ae467d3379f75fb7a6f2a1f50c264beaf3c1bc91c5b3c0ff"
+    },
+    {
+      "context_id": "T2_R1",
+      "text_id": "T2",
+      "text_sha256": "81ba3eb0db18afc2839da459219621e6fd7d3923f89d987748142a37a4915ee5",
+      "state_index": 8612011,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "37b5009a2c9dd215accdc5d201ce3f8a417cf5cda537b16acb4fc71fddad6d27",
+      "protected_output_sha256": "7e50f9a8a5efee6f298f54f313bb66467096c3f30d1e4520b6c35aa4610eee26"
+    },
+    {
+      "context_id": "T2_R2",
+      "text_id": "T2",
+      "text_sha256": "81ba3eb0db18afc2839da459219621e6fd7d3923f89d987748142a37a4915ee5",
+      "state_index": 8612012,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "c6d6dd8673684ed5d06bca0a08bdc98d8a860cc4f5d0cbc009c568dc4e4eed97",
+      "protected_output_sha256": "adc9b6adfc33026b344fd5526e1aca6be5cca9d6386b64f9a4dc72e84d02c852"
+    },
+    {
+      "context_id": "T3_R1",
+      "text_id": "T3",
+      "text_sha256": "35db2953253f128e394267367cfdd45ff2c8d54940145934a6910f19f0e9c080",
+      "state_index": 8612011,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "f36606d4c6958ee1115642276baa0fe64a71dafc2a2ece9f509180865ef31927",
+      "protected_output_sha256": "c5ce2d202ae4f6d29f5139032cabe5aa0d7558482789b95992857373d6cc7036"
+    },
+    {
+      "context_id": "T3_R2",
+      "text_id": "T3",
+      "text_sha256": "35db2953253f128e394267367cfdd45ff2c8d54940145934a6910f19f0e9c080",
+      "state_index": 8612012,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "afb0bbf4e0ae64b5dfe7966f069eafcf023125fec33efeaa6e8dca140660f7e8",
+      "protected_output_sha256": "8507ec7f3176eaee76209081b4c76d6f9721d7858f028a4de30973c8742e9308"
+    },
+    {
+      "context_id": "T4_R1",
+      "text_id": "T4",
+      "text_sha256": "cc93071369fe503c9c692fd94c624f7a8a39bc402704b970e3e616a5a4076397",
+      "state_index": 8612011,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": false,
+      "joint_J": false,
+      "protected_identity": "uncertain",
+      "protected_clarity": "unclear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "d679c20d423f734885b67284c576f69a3eb367fec0dec9987cde18e509c4ba0d",
+      "protected_output_sha256": "7fc684ae1bc94fe52ff7becc5c9db15a0265fd3c18366d95680c31ab47cdba9d"
+    },
+    {
+      "context_id": "T4_R2",
+      "text_id": "T4",
+      "text_sha256": "cc93071369fe503c9c692fd94c624f7a8a39bc402704b970e3e616a5a4076397",
+      "state_index": 8612012,
+      "same_frozen_start_for_clean_and_protected": true,
+      "input_gate_I": true,
+      "clean_baseline_B": true,
+      "protected_natural_identity_endpoint_O": true,
+      "joint_J": true,
+      "protected_identity": "different",
+      "protected_clarity": "clear",
+      "protected_naturalness_normal": true,
+      "protected_content_correct": true,
+      "protected_use_normal": true,
+      "clean_output_sha256": "659eadf7a21663eac307f224b2017585c6b39001b9cfe1fe52f1104524d3e9bb",
+      "protected_output_sha256": "5fc23c5157f68aab6426b61ab41c1d5f143af3360484d5e815e419fc09173b55"
+    }
+  ],
+  "unfavorable_context": {
+    "context_id": "T4_R1",
+    "protected_identity": "uncertain",
+    "protected_clarity": "unclear",
+    "joint_J": false,
+    "reason": "Explicit clarity failure makes the strict natural-identity conjunction false. Normal usability does not override that gate. This row was retained, not replaced or retried into a pass."
+  },
+  "historical_v51r1_separate": {
+    "candidate_id": "C_L075__lambda0.1__P24",
+    "protected_reference_sha256": "e48492ffcdaa83c2a95fe0cc7cf4f0e2bfcebb60a6ad58fa56f56299dad6bc92",
+    "different_from_this_frozen_candidate": true,
+    "hidden_repeat_input_status": "audibly affected but usable; strict input normality not replicated",
+    "strict_repeat_joint_success": false,
+    "promotion_withheld": true,
+    "old_ratings_not_rewritten_or_backfilled": true,
+    "old_confirmation_not_released": true
+  },
+  "limits_en": [
+    "One speaker, one optimized recording, one model and one single developer listener. The 7/8 count describes these contexts, not a population success rate.",
+    "Nonblind developer judgment, not independent listener replication or a blinded listening result.",
+    "The same two actual start states were reused for four texts. Contexts are dependent and are not eight independent speakers, inputs or RNG draws.",
+    "The candidate was selected after previous development listening. New contexts are only new relative to the recorded exposure list.",
+    "The predeclared complete 8/8 repeatability endpoint was not met. The unfavorable T4_R1 remains a false conjunction.",
+    "The input was rated strictly normal in this listening setup with fixed 0.25 playback gain; this is not a formal inaudibility or cross-device guarantee.",
+    "This is model-specific evidence. No cross-generator transfer, stable multi-speaker construction, or general voice-protection success is established by this panel.",
+    "The R1 module-attribution experiment is a different study, with a different target and no human assessment. Its machine sensitivities cannot be pooled with these judgments.",
+    "The earlier v51r1 hidden-repeat limitation belongs to a different protected WAV and remains part of the history."
+  ],
+  "limits_zh": [
+    "一名说话人、一份优化录音、一个模型、一名开发听者；7/8只是本面板情境计数，不是总体成功率。",
+    "非盲开发判断，不是独立听者复现或盲评。",
+    "四文本共用两份实际随机初态，情境相互依赖，不是八名说话人、八份输入或八次独立随机抽样。",
+    "候选在旧开发听评后选择；新情境仅相对于已登记曝光清单而言。",
+    "未达到预定完整8/8重复标准；T4_R1的不利结果仍为false。",
+    "输入严格正常限于固定0.25播放增益的本次判断，不构成正式不可察觉或跨设备保证。",
+    "该面板仅是单模型证据，未证明跨生成器迁移、稳定跨人构造或普遍保护。",
+    "R1模块敏感度是不同研究、不同目标且无人耳评价，不能与此处听评合并计算。",
+    "旧v51r1隐藏重复的输入代价限制属于另一份保护WAV，保留历史，不回填。"
+  ],
+  "source_records": [
+    {
+      "kind": "human-result report",
+      "filename": "REPORT.md",
+      "sha256": "1d5e398430acb78bd7ea0e39d0633c53f2cec04c44aa8fab3d75c33f6558779d"
+    },
+    {
+      "kind": "machine recomputation of submitted labels",
+      "filename": "machine_recomputed_summary.json",
+      "sha256": "1c5939cf06d497b1c892d3eb32323896eb409824a4f8676b5c6d74552e42b275"
+    },
+    {
+      "kind": "per-context strict conjunction",
+      "filename": "context_results.json",
+      "sha256": "457ec847e234d531f59bed1f97595db3c77b17a13c6a77b7528a3c5aefd8415a"
+    },
+    {
+      "kind": "original submitted ratings; raw file not published here",
+      "filename": "original_submission.json",
+      "sha256": "b2b3276c10e423d80e3e1d3b92f819c54b2fd784fa3d54d36441c65aaca7e4a5"
+    },
+    {
+      "kind": "candidate and engineering binding",
+      "filename": "candidate_freeze_manifest.json",
+      "sha256": "888047a0d5278e5c4f268ec25eeeeb904afca3ebb393ee6c962953406a5172b5"
+    },
+    {
+      "kind": "fixed model mode and configuration",
+      "filename": "normal_backend_r1.json",
+      "sha256": "9263b9b7b3e8c24ec86a65f83469f80a25e0128bb72d17c662bfeee2067d2f95"
+    },
+    {
+      "kind": "normal entry and RNG execution proof",
+      "filename": "machine_summary.json",
+      "sha256": "ba392d33a0dbe0f86e3c6275c2db483942be02e111e7c47a0c1056978cd694ba"
+    },
+    {
+      "kind": "binding and conjunction audit, not an independent listener",
+      "filename": "independent_binding_and_J_audit_r1.json",
+      "sha256": "7bbce31980c59358d9bd2ed53d3eb7d89e6edcdf333a8bb78d277370f215f525"
+    },
+    {
+      "kind": "separate earlier v51r1 promotion decision",
+      "filename": "promotion_decision.json",
+      "sha256": "4b5ce0102de9e01ae466d8aa3eb7d30ff63cc7cf29756ace06604a84507433e7"
+    }
+  ],
+  "audit_method": "Read-only local records; current audit independently recomputed the 7/8 count from original explicit rating fields and checked paired context/RNG identifiers. No model, audio playback, re-scoring or remote experiment was run."
+}
