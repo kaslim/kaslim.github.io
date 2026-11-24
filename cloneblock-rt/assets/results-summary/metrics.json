@@ -1,0 +1,162 @@
+{
+  "schema": "cloneblock_user_supplied_results_summary_v1",
+  "source": "Table supplied by the user in this conversation on 2026-11-24",
+  "independent_audit": false,
+  "models": [
+    "Qwen3-TTS",
+    "Seed-VC v2",
+    "F5-TTS",
+    "CosyVoice3 RL",
+    "Chatterbox Turbo",
+    "OpenVoice"
+  ],
+  "rows": [
+    {
+      "metric": "clean_ecapa",
+      "label_zh": "历史 CLEAN 相似度，ECAPA",
+      "label_en": "Historical CLEAN similarity, ECAPA",
+      "values": [
+        0.6116,
+        0.6084,
+        0.7046,
+        0.7095,
+        0.6881,
+        0.5432
+      ],
+      "display_precision": 4
+    },
+    {
+      "metric": "clean_resemblyzer",
+      "label_zh": "历史 CLEAN 相似度，Resemblyzer",
+      "label_en": "Historical CLEAN similarity, Resemblyzer",
+      "values": [
+        0.7994,
+        0.8017,
+        0.8324,
+        0.8942,
+        0.7373,
+        0.7773
+      ],
+      "display_precision": 4
+    },
+    {
+      "metric": "protected_ecapa",
+      "label_zh": "保护后 ECAPA 相似度",
+      "label_en": "Protected ECAPA similarity",
+      "values": [
+        0.4812,
+        0.4492,
+        0.5715,
+        0.3996,
+        0.5713,
+        0.3356
+      ],
+      "display_precision": 4
+    },
+    {
+      "metric": "protected_resemblyzer",
+      "label_zh": "保护后 Resemblyzer 相似度",
+      "label_en": "Protected Resemblyzer similarity",
+      "values": [
+        0.6465,
+        0.6334,
+        0.5437,
+        0.6641,
+        0.4997,
+        0.5231
+      ],
+      "display_precision": 4
+    },
+    {
+      "metric": "sim_mos",
+      "label_zh": "主观身份评分 SIM-MOS ↑",
+      "label_en": "Subjective identity score SIM-MOS ↑",
+      "values": [
+        0.3861,
+        0.5575,
+        0.5768,
+        0.5217,
+        0.5785,
+        0.6266
+      ],
+      "display_precision": 4
+    },
+    {
+      "metric": "protection_success",
+      "label_zh": "保护后成功率",
+      "label_en": "Protection success rate",
+      "values": [
+        0.39,
+        0.56,
+        0.61,
+        0.69,
+        0.62,
+        0.71
+      ],
+      "display_precision": 2
+    },
+    {
+      "metric": "realtime_success",
+      "label_zh": "实时保护后成功率",
+      "label_en": "Real-time protection success rate",
+      "values": [
+        0.31,
+        0.42,
+        0.46,
+        0.47,
+        0.36,
+        0.49
+      ],
+      "display_precision": 2
+    },
+    {
+      "metric": "scene_success",
+      "label_zh": "CloneBlock-SceneGuard 成功率",
+      "label_en": "CloneBlock-SceneGuard success rate",
+      "values": [
+        0.4,
+        0.46,
+        0.62,
+        0.66,
+        0.55,
+        0.63
+      ],
+      "display_precision": 2
+    },
+    {
+      "metric": "conditional_transfer",
+      "label_zh": "条件迁移成功率 ↑",
+      "label_en": "Conditional transfer success ↑",
+      "values": [
+        0.28,
+        0.33,
+        0.31,
+        0.4,
+        0.34,
+        0.36
+      ],
+      "display_precision": 2
+    }
+  ],
+  "definitions": {
+    "sim_mos": "User-defined 0–1 subjective score: 1 means more unlike the original speaker; not a 1–5 MOS conversion.",
+    "success": "User wording: 50% of listeners consider the output unlike the original speaker.",
+    "transfer": "Fraction successful on this receiving model among samples successful on other models.",
+    "rates": "Fractions, not percentages."
+  },
+  "confirmed_column_split": {
+    "Chatterbox Turbo": {
+      "protected_ecapa": 0.5713,
+      "protected_resemblyzer": 0.4997
+    },
+    "OpenVoice": {
+      "protected_ecapa": 0.3356,
+      "protected_resemblyzer": 0.5231
+    },
+    "confirmed_by_user": true
+  },
+  "sample_counts": null,
+  "listener_counts": null,
+  "confidence_intervals": null,
+  "study_binding": "Separate user-supplied summary; not pooled with R1 module probes or single-WAV witnesses."
+}
